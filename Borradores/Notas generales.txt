@@ -1,4 +1,9 @@
-Requerimiento: 
+Requerimiento 1: 
 	Crear un único archivo de scripts que genere todos los triggers, contstraints, tablas, vistas, stored procedures, etc.
 Nota: 
 	Se puede crear una base de datos desde cero para probar este script. Total, lo único que se agregó por afuera a la base de datos original es el esquema 'gd'
+
+Requerimiento 2:
+	Todas los objetos creados deben estar en el esquema que posee el nombre del grupo.
+Nota:
+	Para crear una tabla en un esquema determinado, revisar: http://stackoverflow.com/a/1489881
