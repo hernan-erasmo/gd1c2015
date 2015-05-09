@@ -15,5 +15,28 @@ namespace PagoElectronico.ABM_Cliente
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Envia al formulario principal el usuario ingresado
+
+
+            Form1 frmLogin = new Form1();
+            //      AltaUsuario formAltaUsuario = new AltaUsuario();
+
+            this.Close();
+            //formAltaUsuario.Show();
+            frmLogin.Show();
+        }
     }
 }
