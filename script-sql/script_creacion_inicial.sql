@@ -59,3 +59,41 @@ GO
 
 CREATE SCHEMA SARASA AUTHORIZATION gd
 GO
+
+/*
+	Creamos las tablas
+*/
+
+CREATE TABLE SARASA.Cliente (
+	Cliente_Id					integer			identity(1,1) PRIMARY KEY,
+	Cliente_Pais_Id				numeric(18,0),	--Cli_Pais_Codigo en gd_esquema.Maestra
+	Cliente_Nombre				nvarchar(255),
+	Cliente_Apellido			nvarchar(255),	
+	Cliente_Tipodoc_Id			numeric(18,0),  --Cli_Tipo_Doc_Cod en gd_esquema.Maestra
+	Cliente_Doc_Nro				numeric(18,0),	--Cli_Nro_Doc en gd_esquema.Maestra
+	Cliente_Dom_Calle			nvarchar(255),
+	Cliente_Dom_Numero			numeric(18,0),
+	Cliente_Dom_Piso			numeric(18,0),
+	Cliente_Dom_Depto			nvarchar(10),
+	Cliente_Fecha_Nacimiento	datetime,		--Cli_Fecha_Nac en gd_esquema.Maestra
+	Cliente_Mail				nvarchar(255),
+	Cliente_Habilitado			bit DEFAULT 1	-- 1: Habilitado, 0: No habilitado
+)
+
+CREATE TABLE SARASA.Pais (
+	Pais_Id 		numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Pais_Nombre		nvarchar(255),
+	Pais_Cant_Ope	numeric(18,0)
+)
+
+CREATE TABLE SARASA.Tipodoc (
+	Tipodoc_Id 				numeric(18,0)			identity(1,1) PRIMARY KEY,
+	Tipodoc_Descripcion		nvarchar(255)
+)
+
+/*
+	Creamos claves primarias y foráneas
+*/
+
+ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Pais_Id) REFERENCES SARASA.Pais (Pais_Id)
+ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARASA.Tipodoc (Tipodoc_Id)
