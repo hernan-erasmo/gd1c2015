@@ -1,0 +1,15 @@
+Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo que dice el enunciado:
+
+0- (Cargar los datos de la tabla maestra en la base de datos)
+
+1- Hay que generar un nuevo esquema con el nombre del grupo, en mayúsculas y sin espacios.
+	Un schema de sql server es parecido a un package en java o C#, o a un modulo en python. Un schema permite agrupar los objetos de la db de manera lógica. También permite asignar permisos a los usuarios para que sólo tengan accesos a determinados schemas. Más info en: 
+		* http://stackoverflow.com/q/529142
+		* http://stackoverflow.com/q/5323740
+		* https://msdn.microsoft.com/en-US/library/ms190387.aspx
+
+	1.1 - Antes que nada revisamos a ver si el schema ya existe, y en ese caso borramos todos los objetos(FKs, funciones, SPs, etc) del mismo antes de borrarlo. (http://stackoverflow.com/a/5323750)
+	
+	1.2 - Creamos el schema nuevamente.
+
+2- 
