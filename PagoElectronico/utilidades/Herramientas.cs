@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using FrbaHotel.Entidades;
+//using PagoElectronico.Utilidades;
 using System.Data;
 using System.Configuration;
 using System.Web;
 using System.Xml.Linq;
+using PagoElectronico.Utilidades;
 
 namespace PagoElectronico.Entidades
 {
@@ -49,7 +50,6 @@ namespace PagoElectronico.Entidades
             catch (Exception ex)
             {
                 MessageBox.Show("No se pudo cargar el combo Box " + ex.ToString());
-
             }
         }
 
@@ -72,7 +72,5 @@ namespace PagoElectronico.Entidades
                 return null;
             }
         }
-
-
     }
 }
