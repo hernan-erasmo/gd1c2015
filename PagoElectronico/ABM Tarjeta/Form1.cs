@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PagoElectronico.Depositos
+namespace PagoElectronico.ABM_Tarjeta
 {
     public partial class Form1 : Form
     {
@@ -16,22 +16,20 @@ namespace PagoElectronico.Depositos
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        //  Vuelve al menu principal
         private void button1_Click(object sender, EventArgs e)
         {
-            PagoElectronico.Form1 frmMenu = new PagoElectronico.Form1();
-            this.Hide();
-            frmMenu.Show();
+            FormAsociar frmAsociar = new FormAsociar();
+            //this.Hide();
+            this.Close();
+            frmAsociar.Show();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        //  Volver
+        private void button4_Click(object sender, EventArgs e)
         {
-
+            PagoElectronico.Form1 frmMenu = new PagoElectronico.Form1();
+            this.Close();
+            frmMenu.Show();
         }
     }
 }
