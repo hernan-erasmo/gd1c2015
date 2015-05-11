@@ -7,3 +7,39 @@ Requerimiento 2:
 	Todas los objetos creados deben estar en el esquema que posee el nombre del grupo.
 Nota:
 	Para crear una tabla en un esquema determinado, revisar: http://stackoverflow.com/a/1489881
+
+Estrategia para crear los listados estadísticos:
+	1- Clientes que alguna de sus cuentas fueron inhabilitadas por no pagar los costos de transacción
+		Crear una tabla llamada inhabilitaciones_por_cliente, que contenga 3 columnas: ipc_id(PK), ipc_fecha, ipc_cliente_id(FK Cliente_Id)
+		Cada vez que se inhabilita una cuenta a un cliente, se genera un nuevo registro en esta tabla con la fecha y el id del cliente al que se le inhabilitó la cuenta. Luego al hacer la consulta histórica:
+		1- Seleccionamos todos los registros de la tabla que caigan dentro del rango deseado
+		2- Por cada cliente distinto, contamos la cantidad de veces que se le inhabilitó una cuenta. Volcamos esos resultados en una tabla temporal donde hay un registro por cada cliente, junto con la cantidad de veces que se le inhabilitó una cuenta.
+		3- Hacemos un query a esa tabla temporal, eligiendo el TOP 5 de clientes con mayor número de veces que se le inhabilitó una cuenta.
+
+	2- Clientes con mayor cantidad de comisiones facturadas en todas sus cuentas
+		Crear una tabla llamada comisiones_por_cliente, que tenga 4 columnas: cpc_id(PK), cpc_fecha, cpc_cliente_id(FK Cliente_Id) y cpc_monto.
+		Cada vez que se le factura una comisión a un cliente, se crea un nuevo registro en esta tabla que contiene la fecha, el id del cliente y el monto de la comisión facturada. Al realizar la consulta histórica:
+			1- Seleccionamos todos los registros de la tabla que caigan dentro del rango de fechas elegido
+			2- Por cada cliente, calculamos el monto total de las comisiones facturadas, y volcamos esta información en una tabla temporal, un registro por cada cliente junto con el monto total de comisiones facturadas
+			3- Hacemos un query a esa tabla temporal, eligiendo el TOP 5 de clientes con mayor monto de comisiones facturadas.
+
+	3- Clientes con mayor cantidad de transacciones realizadas entre cuentas propias
+		Crear una tabla llamada transacciones_entre_cuentas_propias, que tenga 3 columnas: tecc_id(PK), tecc_fecha, tecc_cliente_id(FK Cliente_Id)
+		Cada vez que un cliente hace una transacción entre cuentas propias, se genera un nuevo registro en esta tabla y se guarda la fecha y el id del cliente. A la hora de solicitar el histórico, se procede así:
+			1- Seleccionamos todos los registros que estén dentro del rango de fecha solicitado.
+			2- Calculamos la cantidad de registros que hay para cada cliente (ya que cada registro representa un movimiento entre cuentas propias) e insertamos un registro por cada cliente distinto en una tabla temporal, junto con ése número calculado.
+			3- Hacemos un query a esa tabla temporal eligiendo el TOP 5 de clientes con mayor número de transacciones entre cuentas propias.
+
+	4- Países con mayor cantidad de movimientos tanto ingresos como egresos
+		Crear una tabla llamada movimientos_por_pais, que tenga 4 columnas: mpp_id(PK), mpp_fecha, mpp_pais_id(FK Pais_id), mpp_monto
+		Cada vez que un cliente hace un movimiento de dinero (depósito, transferencia, retiro), se genera un nuevo registro en ésta tabla con la fecha, el país del cliente y el monto. A la hora de solicitar el histórico, el proceso sería algo así:
+			1- Seleccionamos todos los registros que estén dentro del rango de fecha solicitado.
+			2- Por cada país, calculamos el monto total de las operaciones y generamos un registro por cada país en una tabla temporal, guardando el id de país (o el nombre) junto con el monto calculado.
+			3- Hacemos un query a esa tabla temporal eligiendo el TOP 5 de países con mayor cantidad de monto operado.
+
+	5- Total facturado para los distintos tipos de cuenta:
+		Crear una tabla llamada facturado_por_cuenta, que tenga 4 columnas: fpc_id(PK), fpc_fecha, fpc_tipo_cuenta(FK TipoCta_id), fpc_monto
+		Cada vez que se factura a un cliente, se genera un registro en esta tabla con la fecha, el tipo de cuenta que se factura, el monto y la fecha de la facturación. Luego a la hora de hacer la consulta histórica:
+			1- Seleccionamos todos los registros que estén dentro del rango de fecha solicitado.
+			2- Por cada tipo de cuenta, calculamos el monto total de lo facturado y generamos un registro por cada tipo de cuenta en una tabla temporal, guardando el id del tipo de cuenta (o el nombre) junto con el monto facturado total.
+			3- Hacemos un query a esa tabla temporal eligiendo el TOP 5 de cuentas con mayor facturación.
