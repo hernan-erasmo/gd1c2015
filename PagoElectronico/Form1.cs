@@ -189,5 +189,15 @@ namespace PagoElectronico
             this.Hide();
             frmListados.Show();
         }
+
+        //  Ir a ABM Tarjeta
+        private void button9_Click_1(object sender, EventArgs e)
+        {
+            ABM_Tarjeta.Form1 frmTarjeta = new ABM_Tarjeta.Form1();
+            frmTarjeta.Show();
+            this.Hide();
+//            this.Close();
+
+        }
     }
 }
