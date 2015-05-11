@@ -66,10 +66,10 @@ GO
 
 CREATE TABLE SARASA.Cliente (
 	Cliente_Id					integer			identity(1,1) PRIMARY KEY,
-	Cliente_Pais_Id				numeric(18,0),	--Cli_Pais_Codigo en gd_esquema.Maestra
+	Cliente_Pais_Id				integer,		--Cli_Pais_Codigo en gd_esquema.Maestra
 	Cliente_Nombre				nvarchar(255),
 	Cliente_Apellido			nvarchar(255),	
-	Cliente_Tipodoc_Id			numeric(18,0),  --Cli_Tipo_Doc_Cod en gd_esquema.Maestra
+	Cliente_Tipodoc_Id			integer,		--Cli_Tipo_Doc_Cod en gd_esquema.Maestra
 	Cliente_Doc_Nro				numeric(18,0),	--Cli_Nro_Doc en gd_esquema.Maestra
 	Cliente_Dom_Calle			nvarchar(255),
 	Cliente_Dom_Numero			numeric(18,0),
@@ -81,12 +81,12 @@ CREATE TABLE SARASA.Cliente (
 )
 
 CREATE TABLE SARASA.Pais (
-	Pais_Id 		numeric(18,0)	identity(1,1) PRIMARY KEY,
-	Pais_Nombre		nvarchar(255),
+	Pais_Id 		integer			identity(1,1) PRIMARY KEY,
+	Pais_Nombre		nvarchar(255)
 )
 
 CREATE TABLE SARASA.Tipodoc (
-	Tipodoc_Id 				numeric(18,0)			identity(1,1) PRIMARY KEY,
+	Tipodoc_Id 				integer			identity(1,1) PRIMARY KEY,
 	Tipodoc_Descripcion		nvarchar(255)
 )
 
