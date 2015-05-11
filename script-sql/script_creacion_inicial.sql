@@ -83,7 +83,6 @@ CREATE TABLE SARASA.Cliente (
 CREATE TABLE SARASA.Pais (
 	Pais_Id 		numeric(18,0)	identity(1,1) PRIMARY KEY,
 	Pais_Nombre		nvarchar(255),
-	Pais_Cant_Ope	numeric(18,0)
 )
 
 CREATE TABLE SARASA.Tipodoc (
@@ -97,3 +96,17 @@ CREATE TABLE SARASA.Tipodoc (
 
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Pais_Id) REFERENCES SARASA.Pais (Pais_Id)
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARASA.Tipodoc (Tipodoc_Id)
+
+/*
+	Migramos los datos desde la tabla maestra a nuestro esquema
+*/
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Pais
+SET IDENTITY_INSERT SARASA.Pais ON
+
+INSERT INTO SARASA.Pais (Pais_Id, Pais_Nombre)
+SELECT DISTINCT maestra.Cli_Pais_Codigo, maestra.Cli_Pais_Desc
+FROM gd_esquema.Maestra maestra
+
+SET IDENTITY_INSERT SARASA.Pais OFF
+

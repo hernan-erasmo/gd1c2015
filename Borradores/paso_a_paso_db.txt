@@ -1,6 +1,6 @@
 Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo que dice el enunciado:
 
-0- (Cargar los datos de la tabla maestra en la base de datos)
+0- (Cargar los datos de la tabla maestra en la base de datos, previo a ejecutar este script)
 
 1- Hay que generar un nuevo esquema con el nombre del grupo, en mayúsculas y sin espacios.
 	Un schema de sql server es parecido a un package en java o C#, o a un modulo en python. Un schema permite agrupar los objetos de la db de manera lógica. También permite asignar permisos a los usuarios para que sólo tengan accesos a determinados schemas. Más info en: 
@@ -12,4 +12,10 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	
 	1.2 - Creamos el schema nuevamente.
 
-2- 
+2- Creamos las tablas dentro de nuestro esquema recientemente creado.
+
+3- Agregamos las claves primarias y foráneas a las tablas.
+
+4- Migramos los datos que se encuentran en la tabla maestra a nuestras tablas.
+	Tabla SARASA.Pais:
+		Ya tenemos datos de paises (ids y nombres), y hemos decidido que el id debe ser PK. Por motivos de compatibilidad con el sistema viejo, no vamos a cambiar los IDs asignados a los países existentes. Vamos a dar al sistema la habilidad de crear nuevos países, pero no vamos a darle la flexibilidad de elegir el ID para el mismo. Consideramos que no tiene sentido que el administrador que carga un país deba elegir un número de ID para el mismo sin que esté ya en uso. Es por ese motivo que en lugar de usar una PK de tipo numeric(18,0) usaremos identity(1,1), para que el motor maneje la generación de nuevas claves automáticamente. Esto nos obliga a activar IDENTITY INSERT para poder migrar los datos desde la tabla maestra, al menos durante la carga de esta tabla.
