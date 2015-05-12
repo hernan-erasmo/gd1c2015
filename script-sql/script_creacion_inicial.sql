@@ -110,3 +110,12 @@ FROM gd_esquema.Maestra maestra
 
 SET IDENTITY_INSERT SARASA.Pais OFF
 
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Tipodoc
+SET IDENTITY_INSERT SARASA.Tipodoc ON
+
+INSERT INTO SARASA.Tipodoc (Tipodoc_Id, Tipodoc_Descripcion)
+SELECT DISTINCT maestra.Cli_Tipo_Doc_Cod, maestra.Cli_Tipo_Doc_Desc
+FROM gd_esquema.Maestra maestra
+
+SET IDENTITY_INSERT SARASA.Pais OFF
