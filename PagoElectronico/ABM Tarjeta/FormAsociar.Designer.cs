@@ -32,22 +32,24 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.btnAsociar = new System.Windows.Forms.Button();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(325, 241);
+            this.btnVolver.Location = new System.Drawing.Point(325, 275);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(80, 28);
             this.btnVolver.TabIndex = 0;
@@ -73,6 +75,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.textBox5);
+            this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBox4);
             this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.comboBox1);
@@ -83,37 +87,40 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(5, 45);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(400, 175);
+            this.groupBox1.Size = new System.Drawing.Size(400, 204);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tarjeta";
             // 
-            // label2
+            // textBox4
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(44, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Numero";
+            this.textBox4.Location = new System.Drawing.Point(112, 134);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(275, 20);
+            this.textBox4.TabIndex = 8;
             // 
-            // label3
+            // textBox3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(38, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Emisor";
+            this.textBox3.Location = new System.Drawing.Point(112, 96);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(275, 20);
+            this.textBox3.TabIndex = 7;
             // 
-            // label4
+            // comboBox1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 103);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Fecha Emision";
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(112, 60);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(275, 21);
+            this.comboBox1.TabIndex = 6;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(112, 27);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(275, 20);
+            this.textBox2.TabIndex = 5;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label5
             // 
@@ -124,39 +131,36 @@
             this.label5.TabIndex = 3;
             this.label5.Text = "Fecha Vencimiento";
             // 
-            // textBox2
+            // label4
             // 
-            this.textBox2.Location = new System.Drawing.Point(112, 27);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(275, 20);
-            this.textBox2.TabIndex = 5;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(9, 103);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(76, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Fecha Emision";
             // 
-            // comboBox1
+            // label3
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(112, 60);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(275, 21);
-            this.comboBox1.TabIndex = 6;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(8, 68);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Emisor";
             // 
-            // textBox3
+            // label2
             // 
-            this.textBox3.Location = new System.Drawing.Point(112, 96);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(275, 20);
-            this.textBox3.TabIndex = 7;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(112, 134);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(275, 20);
-            this.textBox4.TabIndex = 8;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(44, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Numero";
             // 
             // btnAsociar
             // 
-            this.btnAsociar.Location = new System.Drawing.Point(239, 241);
+            this.btnAsociar.Location = new System.Drawing.Point(239, 275);
             this.btnAsociar.Name = "btnAsociar";
             this.btnAsociar.Size = new System.Drawing.Size(80, 28);
             this.btnAsociar.TabIndex = 4;
@@ -173,11 +177,27 @@
             this.btnBuscar.UseVisualStyleBackColor = true;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 175);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(91, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Codigo Seguridad";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(113, 172);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(275, 20);
+            this.textBox5.TabIndex = 10;
+            // 
             // FormAsociar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(416, 281);
+            this.ClientSize = new System.Drawing.Size(416, 325);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnAsociar);
             this.Controls.Add(this.groupBox1);
@@ -185,7 +205,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnVolver);
             this.Name = "FormAsociar";
-            this.Text = "FormAsociar";
+            this.Text = "Tarjeta - Asociar";
             this.Load += new System.EventHandler(this.FormAsociar_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -210,5 +230,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button btnAsociar;
         private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label6;
     }
 }
