@@ -110,7 +110,6 @@ FROM gd_esquema.Maestra maestra
 
 SET IDENTITY_INSERT SARASA.Pais OFF
 
-
 -- Desde tabla gd_esquema.Maestra a SARASA.Tipodoc
 SET IDENTITY_INSERT SARASA.Tipodoc ON
 
@@ -119,3 +118,30 @@ SELECT DISTINCT maestra.Cli_Tipo_Doc_Cod, maestra.Cli_Tipo_Doc_Desc
 FROM gd_esquema.Maestra maestra
 
 SET IDENTITY_INSERT SARASA.Pais OFF
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Cliente
+INSERT INTO SARASA.Cliente (Cliente_Pais_Id, 
+							Cliente_Nombre,
+							Cliente_Apellido,
+							Cliente_Tipodoc_Id,
+							Cliente_Doc_Nro,
+							Cliente_Dom_Calle,
+							Cliente_Dom_Numero,
+							Cliente_Dom_Piso,
+							Cliente_Dom_Depto,
+							Cliente_Fecha_Nacimiento,
+							Cliente_Mail,
+							Cliente_Habilitado)
+SELECT DISTINCT maestra.Cli_Pais_Codigo,
+				maestra.Cli_Nombre,
+				maestra.Cli_Apellido,
+				maestra.Cli_Tipo_Doc_Cod,
+				maestra.Cli_Nro_Doc,
+				maestra.Cli_Dom_Calle,
+				maestra.Cli_Dom_Nro,
+				maestra.Cli_Dom_Piso,
+				maestra.Cli_Dom_Depto,
+				maestra.Cli_Fecha_Nac,
+				maestra.Cli_Mail,
+				1		-- 1: Habilitado, 0: No habilitado
+FROM gd_esquema.Maestra maestra

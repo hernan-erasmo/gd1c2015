@@ -22,3 +22,7 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 
 	Tabla SARASA.TipoDoc:
 		Mismo criterio que para SARASA.Pais. Se pueden crear nuevos tipos de documento, pero el usuario administrador que los crea no tiene control sobre el id de ese nuevo tipo. La PK de esta tabla se genera automáticamente, es un integer con IDENTITY(1,1).
+
+
+	Tabla SARASA.Cliente:
+		La columna 'Cliente_habilitado', que indica si el cliente está o no habilitado para operar, comienza por defecto en 1 (habilitado). El otro estado posible es 0 (deshabilitado)
