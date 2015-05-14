@@ -27,7 +27,7 @@ namespace PagoElectronico.ABM_Tarjeta
         //  Volver
         private void button4_Click(object sender, EventArgs e)
         {
-            PagoElectronico.Form1 frmMenu = new PagoElectronico.Form1();
+            PagoElectronico.MenuPrincipal frmMenu = new PagoElectronico.MenuPrincipal();
             this.Close();
             frmMenu.Show();
         }
