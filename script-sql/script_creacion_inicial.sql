@@ -2,10 +2,10 @@ USE GD1C2015
 
 GO
 
-/*
+/**************************************************************************************************************
 	Borramos todas las dependencias del schema SARASA, antes de borrarlo. Para esto vamos concatenando
 	queries dentro de la variable @drop_schema_dependencies y luego la ejecutamos de una al final de todo.
-*/
+***************************************************************************************************************/
 
 DECLARE @schema_name				varchar(max)	= 'SARASA';
 DECLARE @schema_id					int				= schema_id(@schema_name),
@@ -45,24 +45,24 @@ FROM sys.types WHERE schema_id = @schema_id
 -- Ahora si, ejecutamos el query que borra todas las dependencias del schema
 EXEC (@drop_schema_dependencies)
 
-/*
+/************************************************
 	Borramos el schema SARASA, si es que existe
-*/
+*************************************************/
 
 IF EXISTS (SELECT * FROM sys.schemas WHERE	name = 'SARASA')
 DROP SCHEMA [SARASA]
 GO
 
-/*
+/*****************************
 	Creamos el schema SARASA
-*/
+******************************/
 
 CREATE SCHEMA SARASA AUTHORIZATION gd
 GO
 
-/*
+/***********************
 	Creamos las tablas
-*/
+************************/
 
 CREATE TABLE SARASA.Cliente (
 	Cliente_Id					integer			identity(1,1) PRIMARY KEY,
@@ -99,16 +99,21 @@ CREATE TABLE SARASA.Tc (
 	Tc_Emisor_Desc			nvarchar(255)
 )
 
-/*
+CREATE TABLE SARASA.Moneda (
+	Moneda_Id				integer			identity(1,1) PRIMARY KEY,
+	Moneda_Descripcion		varchar(255)	NOT NULL
+)
+
+/****************************************
 	Creamos claves primarias y foráneas
-*/
+*****************************************/
 
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Pais_Id) REFERENCES SARASA.Pais (Pais_Id)
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARASA.Tipodoc (Tipodoc_Id)
 
-/*
-	Migramos los datos desde la tabla maestra a nuestro esquema
-*/
+/**********************************************************************
+	Migramos los datos ubicados en la tabla maestra a nuestro esquema
+***********************************************************************/
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Pais
 SET IDENTITY_INSERT SARASA.Pais ON
@@ -156,7 +161,7 @@ SELECT DISTINCT maestra.Cli_Pais_Codigo,
 FROM gd_esquema.Maestra maestra
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Tc
-INSERT INTO SARASA.Tc(	Tc_Num_Tarjeta, 
+INSERT INTO SARASA.Tc (	Tc_Num_Tarjeta, 
 						Tc_Cliente_Id,
 						Tc_Fecha_Emision,
 						Tc_Fecha_Vencimiento,
@@ -174,3 +179,11 @@ SELECT DISTINCT tm.Tarjeta_Numero,
 				
 FROM gd_esquema.Maestra tm
 WHERE tm.Tarjeta_Numero IS NOT NULL
+
+
+/************************************************************************
+	Insertamos los datos que no estan disponibles en la tabla maestra.
+*************************************************************************/
+
+INSERT INTO SARASA.Moneda (Moneda_Descripcion)
+VALUES ('Dólar Estadounidense')
