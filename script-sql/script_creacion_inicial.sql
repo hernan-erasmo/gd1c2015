@@ -90,6 +90,15 @@ CREATE TABLE SARASA.Tipodoc (
 	Tipodoc_Descripcion		nvarchar(255)
 )
 
+CREATE TABLE SARASA.Tc (
+	Tc_Num_Tarjeta			varchar(64)		PRIMARY KEY,	--64 bytes ya que el hash de sha256 tiene 256 bits de longitud
+	Tc_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL,
+	Tc_Fecha_Emision		datetime,
+	Tc_Fecha_Vencimiento	datetime,
+	Tc_Codigo_Seg			nvarchar(4),
+	Tc_Emisor_Desc			nvarchar(255)
+)
+
 /*
 	Creamos claves primarias y foráneas
 */
@@ -145,3 +154,23 @@ SELECT DISTINCT maestra.Cli_Pais_Codigo,
 				maestra.Cli_Mail,
 				1		-- 1: Habilitado, 0: No habilitado
 FROM gd_esquema.Maestra maestra
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Tc
+INSERT INTO SARASA.Tc(	Tc_Num_Tarjeta, 
+						Tc_Cliente_Id,
+						Tc_Fecha_Emision,
+						Tc_Fecha_Vencimiento,
+						Tc_Codigo_Seg,
+						Tc_Emisor_Desc)
+						
+SELECT DISTINCT tm.Tarjeta_Numero,
+				(	SELECT cli.Cliente_Id
+					FROM SARASA.Cliente cli
+					WHERE tm.Tarjeta_Numero IS NOT NULL AND tm.Cli_Nro_Doc = cli.Cliente_Doc_Nro),
+				tm.Tarjeta_Fecha_Emision,
+				tm.Tarjeta_Fecha_Vencimiento,
+				tm.Tarjeta_Codigo_Seg,
+				tm.Tarjeta_Emisor_Descripcion
+				
+FROM gd_esquema.Maestra tm
+WHERE tm.Tarjeta_Numero IS NOT NULL
