@@ -26,3 +26,16 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 
 	Tabla SARASA.Cliente:
 		La columna 'Cliente_habilitado', que indica si el cliente está o no habilitado para operar, comienza por defecto en 1 (habilitado). El otro estado posible es 0 (deshabilitado)
+
+	Tabla SARASA.Tipocta:
+		De acuerdo a varios comentarios por parte de los alumnos y los ayudantes en el grupo de google, la información del tipo de cuenta no está disponible en la tabla maestra ya que es una funcionalidad nueva y, por lo tanto, queda a criterio de cada grupo asignar los tipos de cuenta a las cuentas existentes.
+
+		Independientemente de la decisión que tomemos con respecto a qué tipo vamos a asignarle a las cuentas existentes, hay que definir cómo vamos a caracterizar las cuentas 'gratuitas', ya que los otros tipos ('oro', 'plata' y 'bronce') comparten características similares con respecto a que los tres tienen costos asociados a transferencias, aperturas, cambios de categoría, etc. y sí tiene sentido que se inhabiliten.
+
+		¿Por qué digo que tiene sentido que se inhabiliten? ¿Por qué no tendría sentido que una cuenta 'gratuita' esté en el estado 'inhabilitada'? Porque, según el enunciado, una cuenta 'inhabilitada' es aquella que "puede recibir dinero de otras cuentas, pero el cliente no puede realizar depósitos y/o retiro de dinero hasta que se le hayan facturado los costos por las transacciones realizadas y que aún no fueron rendidas" (página 9). Volviendo a citar al enunciado "Cada una de las categorías tiene asociado un costo [...] salvo la categoría gratuita, que no genera costo alguno" (página 9). Suponiendo entonces que inhabilitamos una cuenta gratuita, ¿en qué situación deja de estar inhabilitada?, si es imposible facturarle al no tener costos de transacción.
+
+		Si asumimos entonces que es imposible inhabilitar una cuenta gratuita, entonces nos encontramos con una contradicción. Los tipos de cuenta tienen asociada una cantidad de días de suscripción que, una vez transcurridos, inhabilitan la cuenta. De acuerdo a lo dicho más arriba, este dato no figura en la tabla maestra y debe ser inventado por nosotros, pero ¿qué cantidad de días debe permanecer habilitada una cuenta gratuita? Dicho de otra manera, ¿cuándo vence la suscripción de una cuenta gratuita?
+
+		Es por eso que, siendo un campo cuyo valor representa la cantidad de días de duración de una suscripción que nunca va a vencer (estamos hablando del caso de cuenta 'gratuita') parece lo más adecuado poner este valor en 2147483647 (el máximo disponible para el tipo de dato 'integer' en t-sql)
+
+		El resto de los tipos de cuenta tendrán un valor para la columna tipocta_vencimiento_dias mayor a cero elegido de manera aleatoria.
