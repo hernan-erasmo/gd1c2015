@@ -104,6 +104,11 @@ CREATE TABLE SARASA.Moneda (
 	Moneda_Descripcion		varchar(255)	NOT NULL
 )
 
+CREATE TABLE SARASA.Estado (
+	Estado_Id				integer			identity(1,1) PRIMARY KEY,
+	Estado_Descripcion		nvarchar(255)	NOT NULL
+)
+
 /****************************************
 	Creamos claves primarias y foráneas
 *****************************************/
@@ -187,3 +192,6 @@ WHERE tm.Tarjeta_Numero IS NOT NULL
 
 INSERT INTO SARASA.Moneda (Moneda_Descripcion)
 VALUES ('Dólar Estadounidense')
+
+INSERT INTO SARASA.Estado (Estado_Descripcion)
+VALUES ('Pendiente de activación'), ('Cerrada'), ('Inhabilitada'), ('Habilitada')
