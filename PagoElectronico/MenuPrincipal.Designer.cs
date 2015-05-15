@@ -121,7 +121,7 @@
             this.button9.TabIndex = 32;
             this.button9.Text = "ABM Tarjeta";
             this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click_1);
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // linkLabel1
             // 
@@ -132,6 +132,7 @@
             this.linkLabel1.TabIndex = 33;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Cerrar Sesion";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // button10
             // 
@@ -161,6 +162,7 @@
             this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 34;
             this.label1.Text = "nombreUsuario";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -170,6 +172,7 @@
             this.label2.Size = new System.Drawing.Size(74, 13);
             this.label2.TabIndex = 35;
             this.label2.Text = "nombreCliente";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // MenuPrincipal
             // 
@@ -191,7 +194,6 @@
             this.Controls.Add(this.button5);
             this.Name = "MenuPrincipal";
             this.Text = "Menu_Principal";
-            this.Load += new System.EventHandler(this.Form1_Load_1);
             this.ResumeLayout(false);
             this.PerformLayout();
 
