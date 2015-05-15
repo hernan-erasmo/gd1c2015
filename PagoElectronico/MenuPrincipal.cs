@@ -32,7 +32,9 @@ namespace PagoElectronico
 
         private void button5_Click(object sender, EventArgs e)
         {
-
+            abmCliente.asignarPadre(this);
+            this.Hide();
+            abmCliente.Show();
         }
 
         private void button12_Click(object sender, EventArgs e)

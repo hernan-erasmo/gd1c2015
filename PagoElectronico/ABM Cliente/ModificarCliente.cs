@@ -11,6 +11,13 @@ namespace PagoElectronico.ABM_Cliente
 {
     public partial class ModificarCliente : Form
     {
+        Form formPadre;
+
+        public void asignarPadre(Form padre)
+        {
+            this.formPadre = padre;
+        }
+
         public ModificarCliente()
         {
             InitializeComponent();
@@ -19,6 +26,17 @@ namespace PagoElectronico.ABM_Cliente
         private void label6_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void ModificarCliente_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.formPadre.Show();
         }
     }
 }
