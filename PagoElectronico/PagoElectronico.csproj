@@ -78,11 +78,11 @@
     <Compile Include="ABM Cliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Cliente\AsociarNuevaTarjeta.cs">
+    <Compile Include="ABM Tarjeta\ABM_Tarjetas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Cliente\AsociarNuevaTarjeta.Designer.cs">
-      <DependentUpon>AsociarNuevaTarjeta.cs</DependentUpon>
+    <Compile Include="ABM Tarjeta\ABM_Tarjetas.Designer.cs">
+      <DependentUpon>ABM_Tarjetas.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Cliente\Buscar Cliente.cs">
       <SubType>Form</SubType>
@@ -90,23 +90,17 @@
     <Compile Include="ABM Cliente\Buscar Cliente.Designer.cs">
       <DependentUpon>Buscar Cliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Cliente\GestionTarjetas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Cliente\GestionTarjetas.Designer.cs">
-      <DependentUpon>GestionTarjetas.cs</DependentUpon>
-    </Compile>
     <Compile Include="ABM Cliente\ModificarCliente.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ABM Cliente\ModificarCliente.Designer.cs">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Cliente\ModificarTarjeta.cs">
+    <Compile Include="ABM Tarjeta\AsociarNuevaTarjeta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Cliente\ModificarTarjeta.Designer.cs">
-      <DependentUpon>ModificarTarjeta.cs</DependentUpon>
+    <Compile Include="ABM Tarjeta\AsociarNuevaTarjeta.Designer.cs">
+      <DependentUpon>AsociarNuevaTarjeta.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Cuenta\Form1.cs">
       <SubType>Form</SubType>
@@ -144,35 +138,11 @@
     <Compile Include="ABM Rol\ModificarEliminarRol.Designer.cs">
       <DependentUpon>ModificarEliminarRol.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Tarjeta\Form1.cs">
+    <Compile Include="ABM Tarjeta\ModificarTarjeta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Tarjeta\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormAsociar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormAsociar.Designer.cs">
-      <DependentUpon>FormAsociar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormBuscar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormBuscar.Designer.cs">
-      <DependentUpon>FormBuscar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormDesasociar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormDesasociar.Designer.cs">
-      <DependentUpon>FormDesasociar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormModificar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormModificar.Designer.cs">
-      <DependentUpon>FormModificar.cs</DependentUpon>
+    <Compile Include="ABM Tarjeta\ModificarTarjeta.Designer.cs">
+      <DependentUpon>ModificarTarjeta.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilidades\conexion.cs" />
     <Compile Include="Consulta Saldos\Form1.cs">
@@ -220,20 +190,17 @@
     <EmbeddedResource Include="ABM Cliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Cliente\AsociarNuevaTarjeta.resx">
-      <DependentUpon>AsociarNuevaTarjeta.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Tarjeta\ABM_Tarjetas.resx">
+      <DependentUpon>ABM_Tarjetas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\Buscar Cliente.resx">
       <DependentUpon>Buscar Cliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Cliente\GestionTarjetas.resx">
-      <DependentUpon>GestionTarjetas.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\ModificarCliente.resx">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Cliente\ModificarTarjeta.resx">
-      <DependentUpon>ModificarTarjeta.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Tarjeta\AsociarNuevaTarjeta.resx">
+      <DependentUpon>AsociarNuevaTarjeta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Rol\ABM Rol.resx">
       <DependentUpon>ABM Rol.cs</DependentUpon>
@@ -247,14 +214,8 @@
     <EmbeddedResource Include="ABM Rol\ModificarEliminarRol.resx">
       <DependentUpon>ModificarEliminarRol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Tarjeta\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ABM Tarjeta\FormAsociar.resx">
-      <DependentUpon>FormAsociar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ABM Tarjeta\FormBuscar.resx">
-      <DependentUpon>FormBuscar.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Tarjeta\ModificarTarjeta.resx">
+      <DependentUpon>ModificarTarjeta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Depositos\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

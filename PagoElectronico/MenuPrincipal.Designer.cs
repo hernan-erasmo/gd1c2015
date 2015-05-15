@@ -119,7 +119,7 @@
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(111, 34);
             this.button9.TabIndex = 32;
-            this.button9.Text = "ABM Tarjeta";
+            this.button9.Text = "ABM Tarjetas";
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
@@ -194,6 +194,7 @@
             this.Controls.Add(this.button5);
             this.Name = "MenuPrincipal";
             this.Text = "Menu_Principal";
+            this.Load += new System.EventHandler(this.MenuPrincipal_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -16,6 +16,8 @@ namespace PagoElectronico
         Form formPadre;
         ABM_Cliente.ABM_Cliente abmCliente = new PagoElectronico.ABM_Cliente.ABM_Cliente();
         ABM_Rol.ABM_Rol abmRol = new PagoElectronico.ABM_Rol.ABM_Rol();
+        ABM_Tarjeta.ABM_Tarjetas abmTarjetas = new PagoElectronico.ABM_Tarjeta.ABM_Tarjetas();
+        
 
 
         public MenuPrincipal()
@@ -70,7 +72,9 @@ namespace PagoElectronico
 
         private void button9_Click(object sender, EventArgs e)
         {
-
+            abmTarjetas.asignarPadre(this);
+            this.Hide();
+            abmTarjetas.Show();
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -94,6 +98,11 @@ namespace PagoElectronico
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void MenuPrincipal_Load(object sender, EventArgs e)
+        {
+        
         }
     }
 }
