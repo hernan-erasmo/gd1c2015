@@ -109,6 +109,20 @@ CREATE TABLE SARASA.Estado (
 	Estado_Descripcion		nvarchar(255)	NOT NULL
 )
 
+CREATE TABLE SARASA.Tipocta (
+	Tipocta_Id					integer			identity(1,1) PRIMARY KEY,
+	Tipocta_Descripcion			nvarchar(255)	NOT NULL,
+	Tipocta_Vencimiento_Dias	integer			NOT NULL,
+	Tipocta_Costo_Crea			numeric(18,2)	NOT NULL,
+	Tipocta_Costo_Mod			numeric(18,2)	NOT NULL,
+	Tipocta_Costo_Trans			numeric(18,2)	NOT NULL,
+
+	CHECK (Tipocta_Vencimiento_Dias >= 1),
+	CHECK (Tipocta_Costo_Crea >= 0),
+	CHECK (Tipocta_Costo_Mod >= 0),
+	CHECK (Tipocta_Costo_Trans >= 0)
+)
+
 /****************************************
 	Creamos claves primarias y foráneas
 *****************************************/
@@ -195,3 +209,9 @@ VALUES ('Dólar Estadounidense')
 
 INSERT INTO SARASA.Estado (Estado_Descripcion)
 VALUES ('Pendiente de activación'), ('Cerrada'), ('Inhabilitada'), ('Habilitada')
+
+INSERT INTO SARASA.Tipocta (Tipocta_Descripcion, Tipocta_Vencimiento_Dias, Tipocta_Costo_Crea, Tipocta_Costo_Mod, Tipocta_Costo_Trans)
+VALUES 	('Gratuita', 2147483647, 0, 0, 0),
+		('Bronce', 30, 5, 1, 3),
+		('Plata', 60, 10, 1, 2),
+		('Oro', 90, 15, 1, 1)
