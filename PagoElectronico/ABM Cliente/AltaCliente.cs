@@ -11,6 +11,13 @@ namespace PagoElectronico.ABM_Cliente
 {
     public partial class AltaCliente : Form
     {
+        Form formPadre;
+
+        public void asignarPadre(Form padre)
+        {
+            this.formPadre = padre;
+        }
+
         public AltaCliente()
         {
             InitializeComponent();
@@ -29,6 +36,12 @@ namespace PagoElectronico.ABM_Cliente
         private void AltaCliente_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.formPadre.Show();
         }
     }
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using FrbaHotel.Entidades;
 using System.Data;
 using System.Configuration;
 using System.Web;

@@ -11,6 +11,8 @@ namespace PagoElectronico.Login
 {
     public partial class Login : Form
     {
+        MenuPrincipal menuPrincipal = new PagoElectronico.MenuPrincipal();
+
         public Login()
         {
             InitializeComponent();
@@ -29,6 +31,20 @@ namespace PagoElectronico.Login
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //Login
+
+            //if (loginCorrecto) then {
+            
+            menuPrincipal.asignarPadre(this);
+            this.Hide();
+            menuPrincipal.Show();
+            //}
+            //else
+            //{(devolver un mensaje)}
         }
 
     }
