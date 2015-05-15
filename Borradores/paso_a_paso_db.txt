@@ -39,3 +39,30 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		Es por eso que, siendo un campo cuyo valor representa la cantidad de días de duración de una suscripción que nunca va a vencer (estamos hablando del caso de cuenta 'gratuita') parece lo más adecuado poner este valor en 2147483647 (el máximo disponible para el tipo de dato 'integer' en t-sql)
 
 		El resto de los tipos de cuenta tendrán un valor para la columna tipocta_vencimiento_dias mayor a cero elegido de manera aleatoria.
+
+		Los valores elegidos son:
+			Para las cuentas de tipo GRATUITA
+				- Costo de creación:			$0,00
+				- Costo de modificación:		$0,00
+				- Costo de transferencia:		$0,00
+				- Vencimiento en dias: 			2147483647
+
+			Para las cuentas de tipo BRONCE
+				- Costo de creación:			$5,00
+				- Costo de modificación:		$1,00
+				- Costo de transferencia:		$3,00
+				- Vencimiento en dias:			30
+
+			Para las cuentas de tipo PLATA
+				- Costo de creación:			$10,00
+				- Costo de modificación:		$1,00
+				- Costo de transferencia:		$2,00
+				- Vencimiento en dias:			60
+
+			Para las cuentas de tipo ORO
+				- Costo de creación:			$15,00
+				- Costo de modificación:		$1,00
+				- Costo de transferencia:		$1,00
+				- Vencimiento en dias:			90
+
+		
