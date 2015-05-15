@@ -11,7 +11,7 @@ namespace PagoElectronico.ABM_Tarjeta
 {
     public partial class AsociarNuevaTarjeta : Form
     {
-        Form formPadre;
+        public Form formPadre;
 
         public AsociarNuevaTarjeta()
         {

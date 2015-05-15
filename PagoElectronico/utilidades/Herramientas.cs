@@ -12,7 +12,7 @@ using System.Xml.Linq;
 namespace PagoElectronico.Utilidades
 {
     class Herramientas
-    {
+    {/*
 
         public Herramientas()
         {
@@ -31,7 +31,7 @@ namespace PagoElectronico.Utilidades
             MessageBox.Show(texto, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
         }
 
-/*
+
         public static void HabilitarControles(List<String> funcionalidades)
         {
 
@@ -119,7 +119,7 @@ namespace PagoElectronico.Utilidades
                 Entidades.Funcionalidades.Instance.listados = 1;
             else Entidades.Funcionalidades.Instance.listados = 0;
         }
-*/
+
 
         //  Carga el combo box con el resultado de la consulta
         public static void llenarComboBox(ComboBox cb, string consulta)
@@ -127,7 +127,7 @@ namespace PagoElectronico.Utilidades
             SqlDataReader dReader;
             try
             {
-                conexion cn = new conexion();
+                Conexion cn = new Conexion();
                 //cn.abrir_conexion();
 
                 SqlCommand query = new SqlCommand(consulta, cn.abrir_conexion());
@@ -457,5 +457,6 @@ namespace PagoElectronico.Utilidades
             combo.Items.AddRange(lista.ToArray());
         }
         //Llave de la clase
+    */
     }
 }

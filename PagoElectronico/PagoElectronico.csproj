@@ -78,6 +78,7 @@
     <Compile Include="ABM Cliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM de Usuario\Usuario.cs" />
     <Compile Include="ABM Tarjeta\ABM_Tarjetas.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,7 +145,7 @@
     <Compile Include="ABM Tarjeta\ModificarTarjeta.Designer.cs">
       <DependentUpon>ModificarTarjeta.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilidades\conexion.cs" />
+    <Compile Include="Utilidades\Conexion.cs" />
     <Compile Include="Consulta Saldos\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

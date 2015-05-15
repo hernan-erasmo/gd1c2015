@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.Login
 {
@@ -37,14 +38,29 @@ namespace PagoElectronico.Login
         {
             //Login
 
-            //if (loginCorrecto) then {
-            
-            menuPrincipal.asignarPadre(this);
-            this.Hide();
-            menuPrincipal.Show();
-            //}
-            //else
-            //{(devolver un mensaje)}
+            ABM_de_Usuario.Usuario usuario = new PagoElectronico.ABM_de_Usuario.Usuario();
+
+            if (string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))
+            {
+                MessageBox.Show("Debe completar la informacion", "Iniciar sesion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                usuario.Username = this.textBox1.Text;
+                usuario.Password = this.textBox2.Text;
+                if (usuario.Buscar() == true)
+                {
+                    menuPrincipal.asignarPadre(this);
+                    this.Hide();
+                    menuPrincipal.Show();
+                    MessageBox.Show(usuario.Mensaje, "Iniciar sesion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(usuario.Mensaje, "Iniciar sesion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        
         }
 
     }

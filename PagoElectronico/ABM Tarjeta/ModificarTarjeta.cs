@@ -11,7 +11,7 @@ namespace PagoElectronico.ABM_Tarjeta
 {
     public partial class ModificarTarjeta : Form
     {
-        Form formPadre;
+        public Form formPadre;
         
         public ModificarTarjeta()
         {
