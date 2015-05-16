@@ -136,6 +136,17 @@ CREATE TABLE SARASA.Cuenta (
 	Cuenta_Deudora				bit DEFAULT 0,	-- 1: Tiene deuda (valor < 0.00), 0: No tiene deuda (valor >= 0.00)
 	Cuenta_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL
 )
+
+CREATE TABLE SARASA.Deposito (
+	Deposito_Id					numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Deposito_Fecha				datetime		NOT NULL,
+	Deposito_Importe			numeric(18,2)	NOT NULL,
+	Deposito_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
+	Deposito_Tc_Num_Tarjeta		varchar(64)		FOREIGN KEY REFERENCES SARASA.Tc (Tc_Num_Tarjeta) NOT NULL,
+	Deposito_Cuenta_Numero		numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
+
+	CHECK (Deposito_Importe >= 0)
+)
 GO
 
 /****************************************
@@ -265,4 +276,24 @@ SELECT DISTINCT tm.Cuenta_Numero,
 FROM gd_esquema.Maestra tm, SARASA.Estado e, SARASA.Tipocta t, SARASA.Moneda m
 WHERE e.Estado_Descripcion = 'Habilitada' AND t.Tipocta_Descripcion = 'Oro' AND m.Moneda_Descripcion = 'Dólar Estadounidense'
 SET IDENTITY_INSERT SARASA.Cuenta OFF
+GO
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Deposito
+SET IDENTITY_INSERT SARASA.Deposito ON
+INSERT INTO SARASA.Deposito (	Deposito_Id,
+								Deposito_Fecha,
+								Deposito_Importe,
+								Deposito_Moneda_Id,
+								Deposito_Tc_Num_Tarjeta,
+								Deposito_Cuenta_Numero)
+SELECT DISTINCT tm.Deposito_Codigo,
+				tm.Deposito_Fecha,
+				tm.Deposito_Importe,
+				m.Moneda_Id,
+				tm.Tarjeta_Numero,
+				tm.Cuenta_Numero
+FROM gd_esquema.Maestra tm, SARASA.Moneda m
+WHERE tm.Deposito_Codigo IS NOT NULL
+AND m.Moneda_Descripcion = 'Dólar Estadounidense'
+SET IDENTITY_INSERT SARASA.Deposito OFF
 GO
