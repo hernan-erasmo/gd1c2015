@@ -145,6 +145,7 @@
     <Compile Include="ABM Tarjeta\ModificarTarjeta.Designer.cs">
       <DependentUpon>ModificarTarjeta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilidades\LlenarCombos.cs" />
     <Compile Include="Utilidades\Conexion.cs" />
     <Compile Include="Consulta Saldos\Form1.cs">
       <SubType>Form</SubType>
