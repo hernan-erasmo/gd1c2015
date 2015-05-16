@@ -1,40 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Sql;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Data.SqlClient;
 using System.Windows.Forms;
-using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Xml.Linq;
 
 namespace PagoElectronico.Utilidades
 {
-    class conexion
+    public abstract class Conexion
     {
-//        public static SqlConnection cn = null;
-//        public static SqlCommand cmd;
-//        public static SqlDataReader reader;
-//        public static SqlDataAdapter adapter;
+        public string cadenaConexion;
+        protected string sentenciaSql;
+        protected int resultado;
+        protected SqlConnection conSql;
+        protected SqlCommand comandoSql;
+        protected string mensaje;
+        protected SqlDataReader Reg;
 
 
-        public SqlConnection abrir_conexion()
+        public Conexion()
         {
-            try
-            {
-                string string_connection = ConfigurationManager.ConnectionStrings["PagoElectronico.Properties.Settings.ConnectionString"].ConnectionString;
-                SqlConnection cn = new SqlConnection(string_connection);
-                cn.Open();
+            this.cadenaConexion = (@"Data Source=JUAN-PC\SQLSERVER2008; Initial Catalog=SARASA; Integrated Security=True");
+            this.conSql = new SqlConnection(this.cadenaConexion);
+            this.Reg = null;
+            this.sentenciaSql = string.Empty;
+        }
 
-                return cn;
-            }
-            catch (Exception ex)
+        public string Mensaje
+        {
+            get
             {
-                MessageBox.Show("No se conecto: " + ex.ToString());
-                return null;
+                return this.mensaje;
             }
         }
+
     }
 }
