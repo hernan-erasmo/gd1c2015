@@ -20,6 +20,8 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	Tabla SARASA.Pais:
 		Ya tenemos datos de paises (ids y nombres), y hemos decidido que el id debe ser PK. Por motivos de compatibilidad con el sistema viejo, no vamos a cambiar los IDs asignados a los países existentes. Vamos a dar al sistema la habilidad de crear nuevos países, pero no vamos a darle la flexibilidad de elegir el ID para el mismo. Consideramos que no tiene sentido que el administrador que carga un país deba elegir un número de ID para el mismo sin que esté ya en uso. Es por ese motivo que usaremos un integer con identity(1,1), para que el motor maneje la generación de nuevas claves automáticamente. Esto nos obliga a activar IDENTITY INSERT para poder migrar los datos desde la tabla maestra, al menos durante la carga de esta tabla.
 
+		Para completar esta tabla se utilizaron los países que se encuentran en la tabla maestra en forma de atributos de clientes y de cuentas. Si bien no necesariamente los clientes y las cuentas deben tener asociado el mismo país, los países de los clientes y de las cuentas comparten los mismos IDs para países iguales, por lo que los datos que conforman esta tabla son simplemente una unión de aquellos que corresponden a países asociados a cuentas con aquellos países asociados a clientes.
+
 	Tabla SARASA.TipoDoc:
 		Mismo criterio que para SARASA.Pais. Se pueden crear nuevos tipos de documento, pero el usuario administrador que los crea no tiene control sobre el id de ese nuevo tipo. La PK de esta tabla se genera automáticamente, es un integer con IDENTITY(1,1).
 
@@ -38,7 +40,7 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 
 		Es por eso que, siendo un campo cuyo valor representa la cantidad de días de duración de una suscripción que nunca va a vencer (estamos hablando del caso de cuenta 'gratuita') parece lo más adecuado poner este valor en 2147483647 (el máximo disponible para el tipo de dato 'integer' en t-sql)
 
-		El resto de los tipos de cuenta tendrán un valor para la columna tipocta_vencimiento_dias mayor a cero elegido de manera aleatoria.
+		El resto de los tipos de cuenta tendrán un valor para la columna 'tipocta_vencimiento_dias' mayor a cero elegido de manera aleatoria.
 
 		Los valores elegidos son:
 			Para las cuentas de tipo GRATUITA
@@ -65,4 +67,3 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 				- Costo de transferencia:		$1,00
 				- Vencimiento en dias:			90
 
-		

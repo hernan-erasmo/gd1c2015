@@ -138,9 +138,11 @@ ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARAS
 SET IDENTITY_INSERT SARASA.Pais ON
 
 INSERT INTO SARASA.Pais (Pais_Id, Pais_Nombre)
-SELECT DISTINCT maestra.Cli_Pais_Codigo, maestra.Cli_Pais_Desc
+SELECT DISTINCT maestra.Cli_Pais_Codigo, maestra.Cli_Pais_Desc			-- Países que figuran como atributos de clientes.
 FROM gd_esquema.Maestra maestra
-
+UNION	
+SELECT DISTINCT maestra.Cuenta_Pais_Codigo, maestra.Cuenta_Pais_Desc	-- Países que figuran como atributos de cuentas.
+FROM gd_esquema.Maestra maestra
 SET IDENTITY_INSERT SARASA.Pais OFF
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Tipodoc
@@ -150,7 +152,7 @@ INSERT INTO SARASA.Tipodoc (Tipodoc_Id, Tipodoc_Descripcion)
 SELECT DISTINCT maestra.Cli_Tipo_Doc_Cod, maestra.Cli_Tipo_Doc_Desc
 FROM gd_esquema.Maestra maestra
 
-SET IDENTITY_INSERT SARASA.Pais OFF
+SET IDENTITY_INSERT SARASA.Tipodoc OFF
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Cliente
 INSERT INTO SARASA.Cliente (Cliente_Pais_Id, 
@@ -198,7 +200,6 @@ SELECT DISTINCT tm.Tarjeta_Numero,
 				
 FROM gd_esquema.Maestra tm
 WHERE tm.Tarjeta_Numero IS NOT NULL
-
 
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
