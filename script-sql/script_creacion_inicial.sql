@@ -44,6 +44,7 @@ FROM sys.types WHERE schema_id = @schema_id
 
 -- Ahora si, ejecutamos el query que borra todas las dependencias del schema
 EXEC (@drop_schema_dependencies)
+GO
 
 /************************************************
 	Borramos el schema SARASA, si es que existe
@@ -123,12 +124,31 @@ CREATE TABLE SARASA.Tipocta (
 	CHECK (Tipocta_Costo_Trans >= 0)
 )
 
+GO
+
 /****************************************
 	Creamos claves primarias y foráneas
 *****************************************/
 
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Pais_Id) REFERENCES SARASA.Pais (Pais_Id)
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARASA.Tipodoc (Tipodoc_Id)
+
+/************************************************************************
+	Insertamos los datos que no estan disponibles en la tabla maestra.
+*************************************************************************/
+
+INSERT INTO SARASA.Moneda (Moneda_Descripcion)
+VALUES ('Dólar Estadounidense')
+
+INSERT INTO SARASA.Estado (Estado_Descripcion)
+VALUES ('Pendiente de activación'), ('Cerrada'), ('Inhabilitada'), ('Habilitada')
+
+INSERT INTO SARASA.Tipocta (Tipocta_Descripcion, Tipocta_Vencimiento_Dias, Tipocta_Costo_Crea, Tipocta_Costo_Mod, Tipocta_Costo_Trans)
+VALUES 	('Gratuita', 2147483647, 0, 0, 0),
+		('Bronce', 30, 5, 1, 3),
+		('Plata', 60, 10, 1, 2),
+		('Oro', 90, 15, 1, 1)
+GO
 
 /**********************************************************************
 	Migramos los datos ubicados en la tabla maestra a nuestro esquema
@@ -143,7 +163,9 @@ FROM gd_esquema.Maestra maestra
 UNION	
 SELECT DISTINCT maestra.Cuenta_Pais_Codigo, maestra.Cuenta_Pais_Desc	-- Países que figuran como atributos de cuentas.
 FROM gd_esquema.Maestra maestra
+
 SET IDENTITY_INSERT SARASA.Pais OFF
+GO
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Tipodoc
 SET IDENTITY_INSERT SARASA.Tipodoc ON
@@ -153,6 +175,7 @@ SELECT DISTINCT maestra.Cli_Tipo_Doc_Cod, maestra.Cli_Tipo_Doc_Desc
 FROM gd_esquema.Maestra maestra
 
 SET IDENTITY_INSERT SARASA.Tipodoc OFF
+GO
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Cliente
 INSERT INTO SARASA.Cliente (Cliente_Pais_Id, 
@@ -180,6 +203,7 @@ SELECT DISTINCT maestra.Cli_Pais_Codigo,
 				maestra.Cli_Mail,
 				1		-- 1: Habilitado, 0: No habilitado
 FROM gd_esquema.Maestra maestra
+GO
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Tc
 INSERT INTO SARASA.Tc (	Tc_Num_Tarjeta, 
@@ -188,7 +212,6 @@ INSERT INTO SARASA.Tc (	Tc_Num_Tarjeta,
 						Tc_Fecha_Vencimiento,
 						Tc_Codigo_Seg,
 						Tc_Emisor_Desc)
-						
 SELECT DISTINCT tm.Tarjeta_Numero,
 				(	SELECT cli.Cliente_Id
 					FROM SARASA.Cliente cli
@@ -200,19 +223,4 @@ SELECT DISTINCT tm.Tarjeta_Numero,
 				
 FROM gd_esquema.Maestra tm
 WHERE tm.Tarjeta_Numero IS NOT NULL
-
-/************************************************************************
-	Insertamos los datos que no estan disponibles en la tabla maestra.
-*************************************************************************/
-
-INSERT INTO SARASA.Moneda (Moneda_Descripcion)
-VALUES ('Dólar Estadounidense')
-
-INSERT INTO SARASA.Estado (Estado_Descripcion)
-VALUES ('Pendiente de activación'), ('Cerrada'), ('Inhabilitada'), ('Habilitada')
-
-INSERT INTO SARASA.Tipocta (Tipocta_Descripcion, Tipocta_Vencimiento_Dias, Tipocta_Costo_Crea, Tipocta_Costo_Mod, Tipocta_Costo_Trans)
-VALUES 	('Gratuita', 2147483647, 0, 0, 0),
-		('Bronce', 30, 5, 1, 3),
-		('Plata', 60, 10, 1, 2),
-		('Oro', 90, 15, 1, 1)
+GO
