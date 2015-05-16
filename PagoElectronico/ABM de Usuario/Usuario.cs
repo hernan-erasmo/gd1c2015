@@ -10,18 +10,14 @@ namespace PagoElectronico.ABM_de_Usuario
     {
         private string username;
         private string password;
-        private string rol;
 
-        //Constructor
         public Usuario()
         {
             this.username = string.Empty;
             this.password = string.Empty;
             this.sentenciaSql = string.Empty;
-            this.rol = string.Empty;
         }
 
-        //Propiedades
         public string Username
         {
             get { return this.username; }
@@ -33,17 +29,10 @@ namespace PagoElectronico.ABM_de_Usuario
             set { this.password = value; }
         }
 
-        public string Rol
-        {
-            get { return this.rol; }
-            set { this.rol = value; }
-        }
-
-        //Metodos
         public bool Buscar()
         {
             bool Resultado = false;
-            this.sentenciaSql = string.Format(@"SELECT usuario_id, rol_id FROM Usuario, Rol, RolXUsuario WHERE usuario_username='{0}' AND usuario_password='{1}' AND rol_nombre='{2}' AND usuario_id=ru_usuario_id AND ru_rol_id=rol_id", this.username, this.password, this.rol);
+            this.sentenciaSql = string.Format(@"SELECT usuario_id FROM Usuario WHERE usuario_username='{0}' AND usuario_password='{1}'", this.username, this.password);
             this.comandoSql = new SqlCommand(this.sentenciaSql, this.conSql);
             this.conSql.Open();
             Reg = null;
@@ -55,7 +44,7 @@ namespace PagoElectronico.ABM_de_Usuario
             }
             else
             {
-                this.mensaje = "Error en los datos. Por favor verificar";
+                this.mensaje = "Usuario/Contraseña Incorrectas";
             }
             this.conSql.Close();
             return Resultado;
