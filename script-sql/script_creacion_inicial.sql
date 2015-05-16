@@ -124,6 +124,18 @@ CREATE TABLE SARASA.Tipocta (
 	CHECK (Tipocta_Costo_Trans >= 0)
 )
 
+CREATE TABLE SARASA.Cuenta (
+	Cuenta_Numero				numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Cuenta_Fecha_Creacion		datetime,
+	Cuenta_Fecha_Cierre			datetime,
+	Cuenta_Estado_Id			integer			FOREIGN KEY REFERENCES SARASA.Estado (Estado_Id) NOT NULL,
+	Cuenta_Tipocta_Id			integer			FOREIGN KEY REFERENCES SARASA.Tipocta (Tipocta_Id) NOT NULL,
+	Cuenta_Pais_Id				integer			FOREIGN KEY REFERENCES SARASA.Pais (Pais_Id) NOT NULL,
+	Cuenta_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
+	Cuenta_Saldo				numeric(18,0),
+	Cuenta_Deudora				bit DEFAULT 0,	-- 1: Tiene deuda (valor < 0.00), 0: No tiene deuda (valor >= 0.00)
+	Cuenta_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL
+)
 GO
 
 /****************************************
@@ -223,4 +235,34 @@ SELECT DISTINCT tm.Tarjeta_Numero,
 				
 FROM gd_esquema.Maestra tm
 WHERE tm.Tarjeta_Numero IS NOT NULL
+GO
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Cuenta
+SET IDENTITY_INSERT SARASA.Cuenta ON
+INSERT INTO SARASA.Cuenta (	Cuenta_Numero,
+							Cuenta_Fecha_Creacion,
+							Cuenta_Fecha_Cierre,
+							Cuenta_Estado_Id,
+							Cuenta_Tipocta_Id,
+							Cuenta_Pais_Id,
+							Cuenta_Moneda_Id,
+							Cuenta_Saldo,
+							Cuenta_Deudora,
+							Cuenta_Cliente_Id)
+SELECT DISTINCT tm.Cuenta_Numero,
+				tm.Cuenta_Fecha_Creacion,
+				tm.Cuenta_Fecha_Cierre,
+				e.Estado_Id,
+				t.Tipocta_Id,
+				tm.Cuenta_Pais_Codigo,
+				m.Moneda_Id,
+				0.00,
+				0,
+				(SELECT cli.Cliente_Id
+					FROM SARASA.Cliente cli
+					WHERE tm.Cuenta_Numero IS NOT NULL AND tm.Cli_Nro_Doc = cli.Cliente_Doc_Nro)
+
+FROM gd_esquema.Maestra tm, SARASA.Estado e, SARASA.Tipocta t, SARASA.Moneda m
+WHERE e.Estado_Descripcion = 'Habilitada' AND t.Tipocta_Descripcion = 'Oro' AND m.Moneda_Descripcion = 'Dólar Estadounidense'
+SET IDENTITY_INSERT SARASA.Cuenta OFF
 GO

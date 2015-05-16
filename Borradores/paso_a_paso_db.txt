@@ -67,3 +67,7 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 				- Costo de transferencia:		$1,00
 				- Vencimiento en dias:			90
 
+	Tabla SARASA.Cuenta:
+		Usaremos como PK al valor del numero de cuenta. Asumimos que no hay valores duplicados, cada número de cuenta es único en el sistema.
+		
+		En un principio se evaluó la posibilidad de cargar todas las cuentas con el tipo 'gratuito'. Sin embargo, al analizar que a todas se les ha facturado en algún momento un costo por transferencia (lo que contradice la definición de cuenta de tipo gratuito) es más lógico asignarle un tipo que tenga gastos. Por lo tanto, al migrar los datos de las cuentas desde la tabla maestra, se le asignará por defecto el tipo ORO a cada una.
