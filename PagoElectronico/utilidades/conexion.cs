@@ -20,7 +20,7 @@ namespace PagoElectronico.Utilidades
 
         public Conexion()
         {
-            this.cadenaConexion = (@"Data Source=JUAN-PC\SQLSERVER2008; Initial Catalog=SARASA; Integrated Security=True");
+            this.cadenaConexion = (@"Data Source=JUAN-PC\SQLSERVER2008; Initial Catalog=GD1C2015; Integrated Security=True");
             this.conSql = new SqlConnection(this.cadenaConexion);
             this.Reg = null;
             this.sentenciaSql = string.Empty;
