@@ -71,3 +71,8 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		Usaremos como PK al valor del numero de cuenta. Asumimos que no hay valores duplicados, cada número de cuenta es único en el sistema.
 		
 		En un principio se evaluó la posibilidad de cargar todas las cuentas con el tipo 'gratuito'. Sin embargo, al analizar que a todas se les ha facturado en algún momento un costo por transferencia (lo que contradice la definición de cuenta de tipo gratuito) es más lógico asignarle un tipo que tenga gastos. Por lo tanto, al migrar los datos de las cuentas desde la tabla maestra, se le asignará por defecto el tipo ORO a cada una.
+
+	Tabla SARASA.Banco:
+		Los datos de los bancos en la tabla maestra se distribuyen en 3 columnas, siendo estos datos el código del banco (columna banco_cogido, debe ser un error de tipeo), el nombre y la dirección.
+
+		Vamos a utilizar como PK el código del banco, entonces durante la migración insertaremos el mismo en la tabla SARASA.Banco como PK.
