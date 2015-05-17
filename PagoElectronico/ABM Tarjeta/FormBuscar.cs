@@ -49,6 +49,14 @@ namespace PagoElectronico.ABM_Tarjeta
                 btnAsociar.Enabled = true;
             }
 
+            //  Inicializa estado de fecha del Filtro
+                dtpFechaEmisionDesde.Enabled = false;
+                dtpFechaEmisionHasta.Enabled = false;
+
+                dtpFechaVencimientoDesde.Enabled = false;
+                dtpFechaVencimientoHasta.Enabled = false;
+
+
             //  Llena el combo de emisor
             cbxEmisor.Text = "";
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
@@ -126,6 +134,16 @@ namespace PagoElectronico.ABM_Tarjeta
             btnDesasociar.Enabled = false;
             btnModificar.Enabled = false;
 
+            //  Limpia las fechas de los filtros
+            chkFechaEmision.Checked = false;
+            dtpFechaEmisionDesde.Enabled = false;
+            dtpFechaEmisionHasta.Enabled = false;
+
+            chkFechaVencimiento.Checked = false;
+            dtpFechaVencimientoDesde.Enabled = false;
+            dtpFechaVencimientoHasta.Enabled = false;
+
+
             //  Limpiar la tabla de resultados
             dataGridView1.DataSource = null;
         }
@@ -173,6 +191,44 @@ namespace PagoElectronico.ABM_Tarjeta
             FormAsociar formAsociar = new FormAsociar(this,txtCliente.Text);
             formAsociar.Show();
             this.Hide();
+        }
+
+        //  Aceptar:
+        //  Se usa para buscar tarjetas desde otros formularios
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void chkFechaEmision_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkFechaEmision.Checked == true)
+            {
+                dtpFechaEmisionDesde.Enabled = true;
+                dtpFechaEmisionHasta.Enabled = true;
+
+            }
+            else 
+            {
+                dtpFechaEmisionDesde.Enabled = false;
+                dtpFechaEmisionHasta.Enabled = false;
+            }
+        }
+
+        private void chkFechaVencimiento_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkFechaVencimiento.Checked == true)
+            {
+                dtpFechaVencimientoDesde.Enabled = true;
+                dtpFechaVencimientoHasta.Enabled = true;
+
+            }
+            else
+            {
+                dtpFechaVencimientoDesde.Enabled = false;
+                dtpFechaVencimientoHasta.Enabled = false;
+            }
         }
 
 
