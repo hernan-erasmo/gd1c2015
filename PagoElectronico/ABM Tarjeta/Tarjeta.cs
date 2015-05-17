@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PagoElectronico.ABM_Tarjeta
 {
-    class Tarjeta
+    public class Tarjeta
     {
         private string numero;
         public string Numero

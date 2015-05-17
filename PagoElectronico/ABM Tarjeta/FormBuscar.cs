@@ -16,6 +16,7 @@ namespace PagoElectronico.ABM_Tarjeta
         Form formPadre;
         FormAsociar asociarTarjeta;
         FormBuscar modificarTarjeta;
+        Tarjeta tarjeta = new Tarjeta();
 
         public FormBuscar()
         {
@@ -119,12 +120,21 @@ namespace PagoElectronico.ABM_Tarjeta
             this.Close();       //  Cierra el formulario
         }
 
-        //  Modificar
+        //  Modificar: Recupera los valores del dataGridView1
         private void btnModificar_Click(object sender, EventArgs e)
         {
+
+            //  tarjeta = new Tarjeta();
+            tarjeta.Numero = dataGridView1.SelectedCells[0].Value.ToString();
+            tarjeta.FechaEmision = dataGridView1.SelectedCells[1].Value.ToString();
+            tarjeta.FechaVencimiento = dataGridView1.SelectedCells[2].Value.ToString();
+            tarjeta.CodigoSeguridad = dataGridView1.SelectedCells[3].Value.ToString();
+            tarjeta.Emisor = dataGridView1.SelectedCells[4].Value.ToString();
+           // txtCliente.Text = dataGridView1.SelectedRows[0].Index.ToString();
+
             //  Con la tarjeta seleccionada
             //  Abrir un formulario con los datos de la tarjeta
-            FormModificar formModificar = new FormModificar(this, txtCliente.Text);
+            FormModificar formModificar = new FormModificar(this, txtCliente.Text, tarjeta);
             formModificar.Show();
             this.Hide();
         }

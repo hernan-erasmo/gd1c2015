@@ -78,6 +78,7 @@
             // txtCodSeguridad
             // 
             this.txtCodSeguridad.Location = new System.Drawing.Point(113, 172);
+            this.txtCodSeguridad.MaxLength = 4;
             this.txtCodSeguridad.Name = "txtCodSeguridad";
             this.txtCodSeguridad.Size = new System.Drawing.Size(275, 20);
             this.txtCodSeguridad.TabIndex = 10;
@@ -116,6 +117,7 @@
             // txtNumero
             // 
             this.txtNumero.Location = new System.Drawing.Point(112, 27);
+            this.txtNumero.MaxLength = 16;
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(275, 20);
             this.txtNumero.TabIndex = 5;

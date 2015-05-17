@@ -57,7 +57,7 @@
             this.groupBox1.Controls.Add(this.groupBox2);
             this.groupBox1.Location = new System.Drawing.Point(17, 22);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(372, 208);
+            this.groupBox1.Size = new System.Drawing.Size(577, 175);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
@@ -70,7 +70,7 @@
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Location = new System.Drawing.Point(6, 98);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(359, 98);
+            this.groupBox3.Size = new System.Drawing.Size(565, 66);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tarjeta";
@@ -78,7 +78,7 @@
             // cbxEmisor
             // 
             this.cbxEmisor.FormattingEnabled = true;
-            this.cbxEmisor.Location = new System.Drawing.Point(60, 58);
+            this.cbxEmisor.Location = new System.Drawing.Point(357, 25);
             this.cbxEmisor.Name = "cbxEmisor";
             this.cbxEmisor.Size = new System.Drawing.Size(202, 21);
             this.cbxEmisor.TabIndex = 10;
@@ -86,15 +86,15 @@
             // txtNumero
             // 
             this.txtNumero.Location = new System.Drawing.Point(60, 25);
+            this.txtNumero.MaxLength = 16;
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(202, 20);
             this.txtNumero.TabIndex = 9;
-            this.txtNumero.Text = "1234567890123456";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 62);
+            this.label3.Location = new System.Drawing.Point(310, 28);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 8;
@@ -116,14 +116,14 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(6, 19);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(359, 73);
+            this.groupBox2.Size = new System.Drawing.Size(565, 73);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Cliente";
             // 
             // btnBuscarClie
             // 
-            this.btnBuscarClie.Location = new System.Drawing.Point(268, 23);
+            this.btnBuscarClie.Location = new System.Drawing.Point(479, 23);
             this.btnBuscarClie.Name = "btnBuscarClie";
             this.btnBuscarClie.Size = new System.Drawing.Size(80, 28);
             this.btnBuscarClie.TabIndex = 8;
@@ -135,7 +135,7 @@
             // 
             this.txtCliente.Location = new System.Drawing.Point(60, 28);
             this.txtCliente.Name = "txtCliente";
-            this.txtCliente.Size = new System.Drawing.Size(202, 20);
+            this.txtCliente.Size = new System.Drawing.Size(397, 20);
             this.txtCliente.TabIndex = 7;
             this.txtCliente.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
             // 
@@ -150,7 +150,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(23, 236);
+            this.btnLimpiar.Location = new System.Drawing.Point(23, 203);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(80, 28);
             this.btnLimpiar.TabIndex = 1;
@@ -160,7 +160,7 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(302, 236);
+            this.btnBuscar.Location = new System.Drawing.Point(514, 203);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(80, 28);
             this.btnBuscar.TabIndex = 2;
@@ -170,7 +170,7 @@
             // 
             // btnDesasociar
             // 
-            this.btnDesasociar.Location = new System.Drawing.Point(216, 527);
+            this.btnDesasociar.Location = new System.Drawing.Point(428, 433);
             this.btnDesasociar.Name = "btnDesasociar";
             this.btnDesasociar.Size = new System.Drawing.Size(80, 28);
             this.btnDesasociar.TabIndex = 3;
@@ -180,7 +180,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(302, 527);
+            this.btnModificar.Location = new System.Drawing.Point(514, 433);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(80, 28);
             this.btnModificar.TabIndex = 4;
@@ -190,7 +190,7 @@
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(23, 527);
+            this.btnVolver.Location = new System.Drawing.Point(23, 433);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(80, 28);
             this.btnVolver.TabIndex = 5;
@@ -200,15 +200,20 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(17, 270);
+            this.dataGridView1.Location = new System.Drawing.Point(17, 251);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(371, 241);
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(577, 164);
             this.dataGridView1.TabIndex = 6;
             // 
             // btnAsociar
             // 
-            this.btnAsociar.Location = new System.Drawing.Point(131, 527);
+            this.btnAsociar.Location = new System.Drawing.Point(343, 433);
             this.btnAsociar.Name = "btnAsociar";
             this.btnAsociar.Size = new System.Drawing.Size(79, 28);
             this.btnAsociar.TabIndex = 7;
@@ -220,7 +225,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(406, 575);
+            this.ClientSize = new System.Drawing.Size(606, 476);
             this.Controls.Add(this.btnAsociar);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnBuscar);

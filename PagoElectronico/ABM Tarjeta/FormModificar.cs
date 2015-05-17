@@ -12,17 +12,37 @@ namespace PagoElectronico.ABM_Tarjeta
     public partial class FormModificar : Form
     {
         Form padre;
+        Tarjeta tarjeta = new Tarjeta();
 
         public FormModificar()
         {
             InitializeComponent();
         }
 
-        public FormModificar(Form f, string cliente)
+        public FormModificar(Form f, string cliente, Tarjeta t)
         {
             InitializeComponent();
             padre = f;
             txtCliente.Text = cliente;
+
+            tarjeta = t;
+
+            txtCodSeguridad.Text = tarjeta.CodigoSeguridad;
+            txtFechaEmision.Text = tarjeta.FechaEmision;
+            txtFechaVencimiento.Text = tarjeta.FechaVencimiento;
+            txtNumero.Text = tarjeta.Numero;
+            cbxEmisor.Text = tarjeta.Emisor;
+
+
+            //tarjeta.Numero = t.Numero;
+            //tarjeta.CodigoSeguridad = t.CodigoSeguridad;
+            //tarjeta.Emisor = t.Emisor;
+            //tarjeta.FechaEmision = t.FechaEmision;
+            //tarjeta.FechaVencimiento = t.FechaVencimiento;
+
+
+
+            
         }
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
@@ -40,7 +60,6 @@ namespace PagoElectronico.ABM_Tarjeta
             txtCliente.Enabled = false;
 
             //  Llena el combo de emisor
-            cbxEmisor.Text = "";
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
             Utils.Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC");
 
