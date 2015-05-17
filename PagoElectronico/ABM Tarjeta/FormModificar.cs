@@ -28,11 +28,13 @@ namespace PagoElectronico.ABM_Tarjeta
             tarjeta = t;
 
             txtCodSeguridad.Text = tarjeta.CodigoSeguridad;
-            txtFechaEmision.Text = tarjeta.FechaEmision;
-            txtFechaVencimiento.Text = tarjeta.FechaVencimiento;
+//            txtFechaEmision.Text = tarjeta.FechaEmision;
+//            txtFechaVencimiento.Text = tarjeta.FechaVencimiento;
             txtNumero.Text = tarjeta.Numero;
             cbxEmisor.Text = tarjeta.Emisor;
 
+            dtpFechaEmision.Value = DateTime.Parse(tarjeta.FechaEmision);
+            dtpFechaVencimiento.Value = DateTime.Parse(tarjeta.FechaVencimiento);
 
             //tarjeta.Numero = t.Numero;
             //tarjeta.CodigoSeguridad = t.CodigoSeguridad;
@@ -87,6 +89,16 @@ namespace PagoElectronico.ABM_Tarjeta
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCodSeguridad_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dtpFechaEmision_ValueChanged(object sender, EventArgs e)
         {
 
         }

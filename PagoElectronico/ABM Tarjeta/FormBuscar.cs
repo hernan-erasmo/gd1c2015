@@ -30,34 +30,7 @@ namespace PagoElectronico.ABM_Tarjeta
 
         }
 
-        //  Metodos publicos
-        //  Ingresar texto en el txtCliente
-        public void setClienteTexto(string sCliente)
-        {
-            this.txtCliente.Text = sCliente;
-
-        }
-
-        //  BUSCAR: Ejecuta el SP para buscar todas las tarjetas de credito
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-            DataTable resultados;
-            try
-            {
-                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-//                    "@cliente", txtCliente.Text,
-//                    "@numeroTarjeta", txtNumero.Text,
-                    "@emisorTarjeta", cbxEmisor.Text);
-
-                resultados = Herramientas.EjecutarStoredProcedure("test.Buscar_Tarjetas", lista);
-                dataGridView1.DataSource = resultados;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.ToString());
-            }
-        }
-
+        //  Carga el formulario
         private void FormBuscar_Load(object sender, EventArgs e)
         {
             //  Si es administrador el txtCliente es igual a ""
@@ -81,7 +54,47 @@ namespace PagoElectronico.ABM_Tarjeta
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
             Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC");
 
+            btnDesasociar.Enabled = false;
+            btnModificar.Enabled = false;
 
+        }
+
+        
+        
+        
+        
+        //  Metodos publicos
+        //  Ingresar texto en el txtCliente
+        public void setClienteTexto(string sCliente)
+        {
+            this.txtCliente.Text = sCliente;
+
+        }
+
+        //  BUSCAR: Ejecuta el SP para buscar todas las tarjetas de credito
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            DataTable resultados;
+            try
+            {
+                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+//                    "@cliente", txtCliente.Text,
+//                    "@numeroTarjeta", txtNumero.Text,
+                    "@emisorTarjeta", cbxEmisor.Text);
+
+                resultados = Herramientas.EjecutarStoredProcedure("test.Buscar_Tarjetas", lista);
+                dataGridView1.DataSource = resultados;
+
+                if(dataGridView1.RowCount > 0){ // Hay resultados habilita Desasociar y Modificar
+                    btnDesasociar.Enabled = true;
+                    btnModificar.Enabled = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
         }
 
         //  Desasociar
@@ -110,7 +123,11 @@ namespace PagoElectronico.ABM_Tarjeta
             txtNumero.Text = "";
             cbxEmisor.Text = "";
 
+            btnDesasociar.Enabled = false;
+            btnModificar.Enabled = false;
+
             //  Limpiar la tabla de resultados
+            dataGridView1.DataSource = null;
         }
 
         //  Volver (OK)

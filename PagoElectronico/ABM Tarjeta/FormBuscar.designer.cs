@@ -234,6 +234,8 @@
             this.Controls.Add(this.btnModificar);
             this.Controls.Add(this.btnDesasociar);
             this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormBuscar";
             this.Text = "Tarjeta - Buscar";
             this.Load += new System.EventHandler(this.FormBuscar_Load);
