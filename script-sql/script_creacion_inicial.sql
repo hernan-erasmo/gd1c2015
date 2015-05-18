@@ -147,6 +147,12 @@ CREATE TABLE SARASA.Deposito (
 
 	CHECK (Deposito_Importe >= 0)
 )
+
+CREATE TABLE SARASA.Banco (
+	Banco_Codigo				numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Banco_Nombre				nvarchar(255)	NOT NULL,
+	Banco_Direccion				nvarchar(255)
+)
 GO
 
 /****************************************
@@ -296,4 +302,17 @@ FROM gd_esquema.Maestra tm, SARASA.Moneda m
 WHERE tm.Deposito_Codigo IS NOT NULL
 AND m.Moneda_Descripcion = 'Dólar Estadounidense'
 SET IDENTITY_INSERT SARASA.Deposito OFF
+GO
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Banco
+SET IDENTITY_INSERT SARASA.Banco ON
+INSERT INTO SARASA.Banco (	Banco_Codigo,
+							Banco_Nombre,
+							Banco_Direccion)
+SELECT DISTINCT tm.Banco_Cogido,
+				tm.Banco_Nombre,
+				tm.Banco_Direccion
+FROM gd_esquema.Maestra tm
+WHERE tm.Banco_Cogido IS NOT NULL
+SET IDENTITY_INSERT SARASA.Banco OFF
 GO
