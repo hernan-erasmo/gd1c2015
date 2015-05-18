@@ -25,7 +25,6 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	Tabla SARASA.TipoDoc:
 		Mismo criterio que para SARASA.Pais. Se pueden crear nuevos tipos de documento, pero el usuario administrador que los crea no tiene control sobre el id de ese nuevo tipo. La PK de esta tabla se genera automáticamente, es un integer con IDENTITY(1,1).
 
-
 	Tabla SARASA.Cliente:
 		La columna 'Cliente_habilitado', que indica si el cliente está o no habilitado para operar, comienza por defecto en 1 (habilitado). El otro estado posible es 0 (deshabilitado)
 
@@ -71,6 +70,9 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		Usaremos como PK al valor del numero de cuenta. Asumimos que no hay valores duplicados, cada número de cuenta es único en el sistema.
 		
 		En un principio se evaluó la posibilidad de cargar todas las cuentas con el tipo 'gratuito'. Sin embargo, al analizar que a todas se les ha facturado en algún momento un costo por transferencia (lo que contradice la definición de cuenta de tipo gratuito) es más lógico asignarle un tipo que tenga gastos. Por lo tanto, al migrar los datos de las cuentas desde la tabla maestra, se le asignará por defecto el tipo ORO a cada una.
+
+	Tabla. SARASA.Deposito:
+		Usaremos como id el valor de la columna 'Deposito_Codigo' de la tabla maestra y lo incrementaremos de a 1. El código de ingreso (que debe ser distinto al de egreso y al de transacción) será el hash del valor de la clave del depósito con el algoritmo 'MD2' empleando la función HASHBYTES.
 
 	Tabla SARASA.Banco:
 		Los datos de los bancos en la tabla maestra se distribuyen en 3 columnas, siendo estos datos el código del banco (columna banco_cogido, debe ser un error de tipeo), el nombre y la dirección.
