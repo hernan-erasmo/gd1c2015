@@ -154,6 +154,15 @@ CREATE TABLE SARASA.Banco (
 	Banco_Nombre				nvarchar(255)	NOT NULL,
 	Banco_Direccion				nvarchar(255)
 )
+
+CREATE TABLE SARASA.Cheque (
+	Cheque_Id					numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Cheque_Importe				numeric(18,2)	NOT NULL,
+	Cheque_Fecha				datetime,
+	Cheque_Banco_Id				numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Banco (Banco_Codigo) NOT NULL,
+	Cheque_Cliente_Nombre		nvarchar(510)	NOT NULL,
+	Cheque_Numero				numeric(18,0)	NOT NULL
+)
 GO
 
 /****************************************
@@ -348,4 +357,19 @@ SELECT DISTINCT tm.Banco_Cogido,
 FROM gd_esquema.Maestra tm
 WHERE tm.Banco_Cogido IS NOT NULL
 SET IDENTITY_INSERT SARASA.Banco OFF
+GO
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Cheque
+INSERT INTO SARASA.Cheque (	Cheque_Numero,
+							Cheque_Fecha,
+							Cheque_Importe,
+							Cheque_Cliente_Nombre,
+							Cheque_Banco_Id)
+SELECT DISTINCT tm.Cheque_Numero,
+				tm.Cheque_Fecha,
+				tm.Cheque_Importe,
+				[tm].Cli_Apellido + ', ' + [tm].[Cli_Nombre],
+				tm.Banco_Cogido
+FROM gd_esquema.Maestra tm
+WHERE tm.Cheque_Numero IS NOT NULL
 GO
