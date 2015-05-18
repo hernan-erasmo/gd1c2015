@@ -82,16 +82,52 @@ namespace PagoElectronico.ABM_Tarjeta
         //  BUSCAR: Ejecuta el SP para buscar todas las tarjetas de credito
         private void btnBuscar_Click(object sender, EventArgs e)
         {
+            lblEstadoBusqueda.Text = "Ejecutando busqueda...";
+
+            string fechaEmisionDesde, fechaEmisionHasta;
+            string fechaVencimientoDesde, fechaVencimientoHasta;
+
+            string cliente = txtCliente.Text;
+            string numero = txtNumero.Text;
+            string emisor = cbxEmisor.Text;
+
+            if (chkFechaEmision.Checked)
+            {
+                fechaEmisionDesde = dtpFechaEmisionDesde.Value.ToShortDateString();
+                fechaEmisionHasta = dtpFechaEmisionHasta.Value.ToShortDateString();
+            }
+            else 
+            {
+                fechaEmisionDesde = fechaEmisionHasta = "";
+            }
+
+            if(chkFechaVencimiento.Checked)
+            {
+                fechaVencimientoDesde = dtpFechaVencimientoDesde.Value.ToShortDateString();
+                fechaVencimientoHasta = dtpFechaVencimientoHasta.Value.ToShortDateString();
+            }
+            else
+            {
+                fechaVencimientoDesde = fechaVencimientoHasta = "";
+            }
+
+
+
+            //  ARMA LA QUERY A EJECUTAR BASADO EN LOS FILTROS
+            string queryConsulta = Utils.Filtros.filtroBuscarTarjeta(cliente,numero,emisor,
+            fechaEmisionDesde,fechaEmisionHasta,fechaVencimientoDesde,fechaVencimientoHasta);
+
+            Herramientas.msebox_informacion(queryConsulta);
+
+
+
             DataTable resultados;
             try
             {
-                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-//                    "@cliente", txtCliente.Text,
-//                    "@numeroTarjeta", txtNumero.Text,
-                    "@emisorTarjeta", cbxEmisor.Text);
-
-                resultados = Herramientas.EjecutarStoredProcedure("test.Buscar_Tarjetas", lista);
+                resultados = Herramientas.ejecutarConsultaTabla(queryConsulta);
                 dataGridView1.DataSource = resultados;
+
+                lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
 
                 if(dataGridView1.RowCount > 0){ // Hay resultados habilita Desasociar y Modificar
                     btnDesasociar.Enabled = true;
@@ -102,7 +138,9 @@ namespace PagoElectronico.ABM_Tarjeta
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.ToString());
+                lblEstadoBusqueda.Text = "Error al realizar la busqueda";
             }
+
         }
 
         //  Desasociar
@@ -124,6 +162,8 @@ namespace PagoElectronico.ABM_Tarjeta
         //  Limpiar filtros de busqueda (OK)
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            lblEstadoBusqueda.Text = "";    //  Indica estado de la busqueda
+
             //  Si es administrador tambien limpia el campo de cliente
             if(btnBuscarClie.Enabled == true)
                 txtCliente.Text = "";
