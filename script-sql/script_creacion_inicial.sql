@@ -92,12 +92,13 @@ CREATE TABLE SARASA.Tipodoc (
 )
 
 CREATE TABLE SARASA.Tc (
-	Tc_Num_Tarjeta			varchar(64)		PRIMARY KEY,	--64 bytes ya que el hash de sha256 tiene 256 bits de longitud
+	Tc_Num_Tarjeta			varchar(64)		PRIMARY KEY,	--64 bytes ya que el hash de sha256 tiene 64 caracteres
 	Tc_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL,
-	Tc_Fecha_Emision		datetime,
-	Tc_Fecha_Vencimiento	datetime,
-	Tc_Codigo_Seg			nvarchar(4),
-	Tc_Emisor_Desc			nvarchar(255)
+	Tc_Fecha_Emision		datetime		NOT NULL,
+	Tc_Fecha_Vencimiento	datetime		NOT NULL,
+	Tc_Codigo_Seg			nvarchar(64)	NOT NULL,	--64 bytes ya que el hash de sha256 tiene 64 caracteres
+	Tc_Emisor_Desc			nvarchar(255)	NOT NULL,
+	Tc_Ultimos_Cuatro		nvarchar(4)		NOT NULL
 )
 
 CREATE TABLE SARASA.Moneda (
@@ -282,7 +283,8 @@ INSERT INTO SARASA.Tc (	Tc_Num_Tarjeta,
 						Tc_Fecha_Emision,
 						Tc_Fecha_Vencimiento,
 						Tc_Codigo_Seg,
-						Tc_Emisor_Desc)
+						Tc_Emisor_Desc,
+						Tc_Ultimos_Cuatro)
 SELECT DISTINCT tm.Tarjeta_Numero,
 				(	SELECT cli.Cliente_Id
 					FROM SARASA.Cliente cli
@@ -290,8 +292,8 @@ SELECT DISTINCT tm.Tarjeta_Numero,
 				tm.Tarjeta_Fecha_Emision,
 				tm.Tarjeta_Fecha_Vencimiento,
 				tm.Tarjeta_Codigo_Seg,
-				tm.Tarjeta_Emisor_Descripcion
-				
+				tm.Tarjeta_Emisor_Descripcion,
+				SUBSTRING(tm.Tarjeta_Numero,13,16)				
 FROM gd_esquema.Maestra tm
 WHERE tm.Tarjeta_Numero IS NOT NULL
 GO
