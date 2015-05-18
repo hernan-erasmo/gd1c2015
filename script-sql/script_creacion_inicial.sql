@@ -162,6 +162,38 @@ GO
 
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Pais_Id) REFERENCES SARASA.Pais (Pais_Id)
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARASA.Tipodoc (Tipodoc_Id)
+GO
+
+/*******************************
+	Creamos funciones y SPs
+********************************/
+
+CREATE FUNCTION SARASA.generar_codigo_ingreso(@deposito_id numeric(18,0))
+RETURNS varchar(32)
+AS
+BEGIN
+	DECLARE @resultado_hash_binario varbinary(max)
+	DECLARE	@hash_string varchar(32)
+	SET @resultado_hash_binario = HASHBYTES('MD2',CAST(@deposito_id as varchar(18)))
+	SET @hash_string = CONVERT(varchar(32),@resultado_hash_binario,2)
+	RETURN @hash_string
+END
+GO
+
+/***********************
+	Creamos triggers
+************************/
+
+CREATE TRIGGER SARASA.tr_deposito_aff_ins_generar_codigo
+ON SARASA.Deposito
+AFTER INSERT
+AS
+BEGIN
+	UPDATE SARASA.Deposito
+	SET Deposito_Codigo_Ingreso = SARASA.generar_codigo_ingreso(Deposito_Id)
+	WHERE Deposito_Codigo_Ingreso IS NULL
+END
+GO
 
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
