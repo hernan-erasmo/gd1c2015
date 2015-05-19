@@ -164,6 +164,16 @@ CREATE TABLE SARASA.Cheque (
 	Cheque_Cliente_Nombre		nvarchar(510)	NOT NULL,
 	Cheque_Numero				numeric(18,0)	NOT NULL
 )
+
+
+CREATE TABLE SARASA.Retiro (
+	Retiro_Id					numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Retiro_Cuenta_Id			numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
+	Retiro_Cheque_Id			numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cheque (Cheque_Id) NOT NULL,
+	Retiro_Importe				numeric(18,2)	NOT NULL,
+	Retiro_Fecha				datetime,
+	Retiro_Codigo_Egreso		varchar(32)		--Es NULL hasta que se dispara el trigger after insert para generarlo.
+)
 GO
 
 /****************************************
@@ -374,4 +384,23 @@ SELECT DISTINCT tm.Cheque_Numero,
 				tm.Banco_Cogido
 FROM gd_esquema.Maestra tm
 WHERE tm.Cheque_Numero IS NOT NULL
+GO
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Retiro
+SET IDENTITY_INSERT SARASA.Retiro ON
+INSERT INTO SARASA.Retiro (	Retiro_Id,
+							Retiro_Cuenta_Id,
+							Retiro_Cheque_Id,
+							Retiro_Importe,
+							Retiro_Fecha)
+SELECT DISTINCT tm.Retiro_Codigo,
+				tm.Cuenta_Numero,
+				(	SELECT che.Cheque_Id
+					FROM SARASA.Cheque che
+					WHERE tm.Retiro_Codigo IS NOT NULL AND tm.Cheque_Numero = che.Cheque_Numero),
+				tm.Retiro_Importe,
+				tm.Retiro_Fecha
+FROM gd_esquema.Maestra tm
+WHERE tm.Retiro_Codigo IS NOT NULL
+SET IDENTITY_INSERT SARASA.Retiro OFF
 GO

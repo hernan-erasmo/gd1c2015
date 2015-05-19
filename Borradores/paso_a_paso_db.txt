@@ -82,3 +82,6 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	Tabla SARASA.Cheque:
 		Entendemos que cuando el enunciado dice que hay que registrar en un cheque el 'nombre a quien se le libra', se refiere al nombre y apellido, que es lo que se necesita para emitir el cheque. En este campo hacemos un merge de Cliente.Cliente_Nombre y Cliente.Cliente_Apellido. 
 		Vamos a usar como PK un numero entero que se autoincrementa comenzando a partir de 1.
+
+	Tabla SARASA.Retiro:
+		Usaremos como id el valor de la columna 'Retiro_Codigo' de la tabla maestra y lo incrementaremos de a 1. El código de egreso (que debe ser distinto al de ingreso y al de transacción) será el hash del valor de la clave del retiro con el algoritmo 'MD4' empleando la función HASHBYTES.
