@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.ABM_Tarjeta
 {
@@ -57,19 +58,41 @@ namespace PagoElectronico.ABM_Tarjeta
         private void btnAsociar_Click(object sender, EventArgs e)
         {
 
-
-            if (dtpFechaEmision.Value.ToShortTimeString().Equals(dtpFechaVencimiento.Value.ToShortTimeString()))
+            if (dtpFechaEmision.Value.ToShortDateString().Equals(dtpFechaVencimiento.Value.ToShortDateString()))
             {// EMISION Y VENCIMIENTO IGUALES, ERROR AL GUARDAR
-                Utils.Herramientas.msebox_informacion("Existen valores inválidos");
+                Utils.Herramientas.msebox_informacion("Existen valores inválidos: " + dtpFechaEmision.Value.ToShortTimeString() + "=" + dtpFechaVencimiento.Value.ToShortTimeString());
             }
             else
             {   //  Se pudo grabar la tarjeta
 
-                String msj = "";
-                msj += "Numero: " + txtNumero.Text + ", ";
-                msj += "Emisor: " + cbxEmisor.Text + ", ";
-                msj += "Emision: " + dtpFechaEmision.Value.ToShortDateString() + ", ";
-                msj += "Vencimiento: " + dtpFechaVencimiento.Value.ToShortDateString();
+                //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
+                string nombreSP = "Test.Asociar_Tarjeta";    //  Nombre del StoreProcedure
+
+                try
+                {
+                    List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                        "@clienteId", "PRUEBA",
+                        "@tarjetaNumero", txtNumero.Text,
+                        "@tarjetaFechaEmision", dtpFechaEmision.Value.ToShortDateString(),
+                        "@tarjetaFechaVencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
+                        "@tarjetaCodigoSeg", txtCodSeguridad.Text,
+                        "@tarjetaEmisorDescripcion", cbxEmisor.Text);
+
+                       Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                    
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.ToString());
+                }
+
+                String msj = "EXEC " + nombreSP + " ";
+                msj += "@clienteId = 'PRUEBA', ";
+                msj += "@tarjetaNumero = '" + txtNumero.Text + "', ";
+                msj += "@tarjetaFechaEmision = '" + dtpFechaEmision.Value.ToShortDateString() + "', ";
+                msj += "@tarjetaFechaVencimiento = '" + dtpFechaVencimiento.Value.ToShortDateString() + "', ";
+                msj += "@tarjetaCodigoSeg = '" + txtCodSeguridad.Text + "', ";
+                msj += "@tarjetaEmisorDescripcion = '" + cbxEmisor.Text + "'";
 
                 Utils.Herramientas.msebox_informacion(msj);
 

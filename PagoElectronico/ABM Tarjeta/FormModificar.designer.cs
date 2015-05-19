@@ -30,6 +30,8 @@
         {
             this.btnVolver = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.dtpFechaVencimiento = new System.Windows.Forms.DateTimePicker();
+            this.dtpFechaEmision = new System.Windows.Forms.DateTimePicker();
             this.txtCodSeguridad = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cbxEmisor = new System.Windows.Forms.ComboBox();
@@ -41,8 +43,6 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
-            this.dtpFechaVencimiento = new System.Windows.Forms.DateTimePicker();
-            this.dtpFechaEmision = new System.Windows.Forms.DateTimePicker();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +75,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Tarjeta";
             // 
+            // dtpFechaVencimiento
+            // 
+            this.dtpFechaVencimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaVencimiento.Location = new System.Drawing.Point(121, 152);
+            this.dtpFechaVencimiento.Name = "dtpFechaVencimiento";
+            this.dtpFechaVencimiento.Size = new System.Drawing.Size(86, 20);
+            this.dtpFechaVencimiento.TabIndex = 12;
+            // 
+            // dtpFechaEmision
+            // 
+            this.dtpFechaEmision.CustomFormat = "";
+            this.dtpFechaEmision.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFechaEmision.Location = new System.Drawing.Point(121, 121);
+            this.dtpFechaEmision.Name = "dtpFechaEmision";
+            this.dtpFechaEmision.Size = new System.Drawing.Size(86, 20);
+            this.dtpFechaEmision.TabIndex = 11;
+            this.dtpFechaEmision.Value = new System.DateTime(2015, 5, 17, 0, 0, 0, 0);
+            this.dtpFechaEmision.ValueChanged += new System.EventHandler(this.dtpFechaEmision_ValueChanged);
+            // 
             // txtCodSeguridad
             // 
             this.txtCodSeguridad.Location = new System.Drawing.Point(121, 58);
@@ -89,9 +108,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(13, 61);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(91, 13);
+            this.label6.Size = new System.Drawing.Size(80, 13);
             this.label6.TabIndex = 9;
-            this.label6.Text = "Codigo Seguridad";
+            this.label6.Text = "Cod. Seguridad";
             // 
             // cbxEmisor
             // 
@@ -172,25 +191,6 @@
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(162, 20);
             this.txtCliente.TabIndex = 2;
-            // 
-            // dtpFechaVencimiento
-            // 
-            this.dtpFechaVencimiento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaVencimiento.Location = new System.Drawing.Point(121, 152);
-            this.dtpFechaVencimiento.Name = "dtpFechaVencimiento";
-            this.dtpFechaVencimiento.Size = new System.Drawing.Size(86, 20);
-            this.dtpFechaVencimiento.TabIndex = 12;
-            // 
-            // dtpFechaEmision
-            // 
-            this.dtpFechaEmision.CustomFormat = "";
-            this.dtpFechaEmision.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpFechaEmision.Location = new System.Drawing.Point(121, 121);
-            this.dtpFechaEmision.Name = "dtpFechaEmision";
-            this.dtpFechaEmision.Size = new System.Drawing.Size(86, 20);
-            this.dtpFechaEmision.TabIndex = 11;
-            this.dtpFechaEmision.Value = new System.DateTime(2015, 5, 17, 0, 0, 0, 0);
-            this.dtpFechaEmision.ValueChanged += new System.EventHandler(this.dtpFechaEmision_ValueChanged);
             // 
             // FormModificar
             // 
