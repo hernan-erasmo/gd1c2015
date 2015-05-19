@@ -200,6 +200,18 @@ BEGIN
 END
 GO
 
+CREATE FUNCTION SARASA.generar_codigo_egreso(@retiro_id numeric(18,0))
+RETURNS varchar(32)
+AS
+BEGIN
+	DECLARE @resultado_hash_binario varbinary(max)
+	DECLARE	@hash_string varchar(32)
+	SET @resultado_hash_binario = HASHBYTES('MD4',CAST(@retiro_id as varchar(18)))
+	SET @hash_string = CONVERT(varchar(32),@resultado_hash_binario,2)
+	RETURN @hash_string
+END
+GO
+
 /***********************
 	Creamos triggers
 ************************/
@@ -212,6 +224,17 @@ BEGIN
 	UPDATE SARASA.Deposito
 	SET Deposito_Codigo_Ingreso = SARASA.generar_codigo_ingreso(Deposito_Id)
 	WHERE Deposito_Codigo_Ingreso IS NULL
+END
+GO
+
+CREATE TRIGGER SARASA.tr_retiro_aff_ins_generar_codigo
+ON SARASA.Retiro
+AFTER INSERT
+AS
+BEGIN
+	UPDATE SARASA.Retiro
+	SET Retiro_Codigo_Egreso = SARASA.generar_codigo_egreso(Retiro_Id)
+	WHERE Retiro_Codigo_Egreso IS NULL
 END
 GO
 
