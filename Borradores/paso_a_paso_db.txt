@@ -85,3 +85,6 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 
 	Tabla SARASA.Retiro:
 		Usaremos como id el valor de la columna 'Retiro_Codigo' de la tabla maestra y lo incrementaremos de a 1. El código de egreso (que debe ser distinto al de ingreso y al de transacción) será el hash del valor de la clave del retiro con el algoritmo 'MD4' empleando la función HASHBYTES.
+
+	Tabla SARASA.Transferencia:
+		Usaremos un valor entero autoincremental como PK.

@@ -165,7 +165,6 @@ CREATE TABLE SARASA.Cheque (
 	Cheque_Numero				numeric(18,0)	NOT NULL
 )
 
-
 CREATE TABLE SARASA.Retiro (
 	Retiro_Id					numeric(18,0)	identity(1,1) PRIMARY KEY,
 	Retiro_Cuenta_Id			numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
@@ -173,6 +172,15 @@ CREATE TABLE SARASA.Retiro (
 	Retiro_Importe				numeric(18,2)	NOT NULL,
 	Retiro_Fecha				datetime,
 	Retiro_Codigo_Egreso		varchar(32)		--Es NULL hasta que se dispara el trigger after insert para generarlo.
+)
+
+CREATE TABLE SARASA.Transferencia (
+	Transferencia_Id				numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Transferencia_Cuenta_Origen_Id	numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
+	Transferencia_Cuenta_Destino_Id	numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
+	Transferencia_Importe			numeric(18,2)	NOT NULL,
+	Transferencia_Fecha				datetime		NOT NULL,
+	Transferencia_Costo				numeric(18,2)	NOT NULL
 )
 GO
 
@@ -426,4 +434,19 @@ SELECT DISTINCT tm.Retiro_Codigo,
 FROM gd_esquema.Maestra tm
 WHERE tm.Retiro_Codigo IS NOT NULL
 SET IDENTITY_INSERT SARASA.Retiro OFF
+GO
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Transferencia
+INSERT INTO SARASA.Transferencia (	Transferencia_Cuenta_Origen_Id,
+									Transferencia_Cuenta_Destino_Id,
+									Transferencia_Importe,
+									Transferencia_Fecha,
+									Transferencia_Costo)
+SELECT 	tm.Cuenta_Numero,
+		tm.Cuenta_Dest_Numero,
+		tm.Trans_Importe,
+		tm.Transf_Fecha
+		tm.Trans_Costo_Trans
+FROM gd_esquema.Maestra tm
+WHERE tm.Transf_Fecha IS NOT NULL
 GO
