@@ -12,6 +12,9 @@
     <AssemblyName>PagoElectronico</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <StartupObject>
+    </StartupObject>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,11 +27,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <StartupObject>
-    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -79,12 +79,6 @@
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Usuario\Usuario.cs" />
-    <Compile Include="ABM Tarjeta\ABM_Tarjetas.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Tarjeta\ABM_Tarjetas.Designer.cs">
-      <DependentUpon>ABM_Tarjetas.cs</DependentUpon>
-    </Compile>
     <Compile Include="ABM Cliente\Buscar Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,12 +90,6 @@
     </Compile>
     <Compile Include="ABM Cliente\ModificarCliente.Designer.cs">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ABM Tarjeta\AsociarNuevaTarjeta.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Tarjeta\AsociarNuevaTarjeta.Designer.cs">
-      <DependentUpon>AsociarNuevaTarjeta.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Cuenta\Form1.cs">
       <SubType>Form</SubType>
@@ -139,13 +127,37 @@
     <Compile Include="ABM Rol\ModificarEliminarRol.Designer.cs">
       <DependentUpon>ModificarEliminarRol.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Tarjeta\ModificarTarjeta.cs">
+    <Compile Include="ABM Tarjeta\FormModificar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Tarjeta\ModificarTarjeta.Designer.cs">
-      <DependentUpon>ModificarTarjeta.cs</DependentUpon>
+    <Compile Include="ABM Tarjeta\FormModificar.designer.cs">
+      <DependentUpon>FormModificar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilidades\Conexion.cs" />
+    <Compile Include="ABM Tarjeta\FormAsociar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Tarjeta\FormAsociar.designer.cs">
+      <DependentUpon>FormAsociar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Tarjeta\FormBuscar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Tarjeta\FormBuscar.designer.cs">
+      <DependentUpon>FormBuscar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Tarjeta\FormBuscarClie.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Tarjeta\FormBuscarClie.Designer.cs">
+      <DependentUpon>FormBuscarClie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Tarjeta\Tarjeta.cs" />
+    <Compile Include="Utilidades\conexion.cs" />
+    <Compile Include="Utilidades\Herramientas.cs" />
+    <Compile Include="Utilidades\LlenarCombos.cs" />
+    <Compile Include="Utils\conexion.cs" />
+    <Compile Include="Utils\Filtros.cs" />
+    <Compile Include="Utils\Herramientas.cs" />
     <Compile Include="Consulta Saldos\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,7 +182,6 @@
     <Compile Include="MenuPrincipal.Designer.cs">
       <DependentUpon>MenuPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilidades\Herramientas.cs" />
     <Compile Include="Listados\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,17 +202,14 @@
     <EmbeddedResource Include="ABM Cliente\AltaCliente.resx">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Tarjeta\ABM_Tarjetas.resx">
-      <DependentUpon>ABM_Tarjetas.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\Buscar Cliente.resx">
       <DependentUpon>Buscar Cliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\ModificarCliente.resx">
       <DependentUpon>ModificarCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Tarjeta\AsociarNuevaTarjeta.resx">
-      <DependentUpon>AsociarNuevaTarjeta.cs</DependentUpon>
+    <EmbeddedResource Include="ABM de Usuario\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Rol\ABM Rol.resx">
       <DependentUpon>ABM Rol.cs</DependentUpon>
@@ -215,8 +223,17 @@
     <EmbeddedResource Include="ABM Rol\ModificarEliminarRol.resx">
       <DependentUpon>ModificarEliminarRol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Tarjeta\ModificarTarjeta.resx">
-      <DependentUpon>ModificarTarjeta.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Tarjeta\FormModificar.resx">
+      <DependentUpon>FormModificar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Tarjeta\FormAsociar.resx">
+      <DependentUpon>FormAsociar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Tarjeta\FormBuscar.resx">
+      <DependentUpon>FormBuscar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Tarjeta\FormBuscarClie.resx">
+      <DependentUpon>FormBuscarClie.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Depositos\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -231,6 +248,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transferencias\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

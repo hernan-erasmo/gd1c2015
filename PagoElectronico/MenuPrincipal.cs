@@ -52,9 +52,12 @@ namespace PagoElectronico
 
         }
 
+        //  Realizar depositos
         private void button11_Click(object sender, EventArgs e)
         {
-
+            Depositos.Form1 formDeposito = new Depositos.Form1();
+            formDeposito.Show();
+            this.Hide();
         }
 
         private void button16_Click(object sender, EventArgs e)

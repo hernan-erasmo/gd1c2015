@@ -15,5 +15,10 @@ namespace PagoElectronico.ABM_de_Usuario
         {
             InitializeComponent();
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

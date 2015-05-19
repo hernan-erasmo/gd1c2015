@@ -95,14 +95,14 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(132, 51);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(268, 21);
+            this.comboBox1.Size = new System.Drawing.Size(186, 21);
             this.comboBox1.TabIndex = 5;
             // 
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(132, 90);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(268, 20);
+            this.textBox1.Size = new System.Drawing.Size(186, 20);
             this.textBox1.TabIndex = 6;
             // 
             // comboBox2
@@ -110,7 +110,7 @@
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Location = new System.Drawing.Point(132, 128);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(268, 21);
+            this.comboBox2.Size = new System.Drawing.Size(186, 21);
             this.comboBox2.TabIndex = 7;
             // 
             // comboBox3
@@ -118,7 +118,7 @@
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Location = new System.Drawing.Point(132, 165);
             this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(268, 21);
+            this.comboBox3.Size = new System.Drawing.Size(186, 21);
             this.comboBox3.TabIndex = 8;
             // 
             // textBox2
@@ -126,12 +126,12 @@
             this.textBox2.Enabled = false;
             this.textBox2.Location = new System.Drawing.Point(132, 205);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(268, 20);
+            this.textBox2.Size = new System.Drawing.Size(186, 20);
             this.textBox2.TabIndex = 9;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(339, 240);
+            this.button1.Location = new System.Drawing.Point(27, 240);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(61, 31);
             this.button1.TabIndex = 10;
@@ -153,7 +153,7 @@
             // 
             this.textBox3.Location = new System.Drawing.Point(132, 12);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(268, 20);
+            this.textBox3.Size = new System.Drawing.Size(186, 20);
             this.textBox3.TabIndex = 13;
             // 
             // label6
@@ -169,7 +169,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 303);
+            this.ClientSize = new System.Drawing.Size(337, 303);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button2);
@@ -184,8 +184,11 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Deposito";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
