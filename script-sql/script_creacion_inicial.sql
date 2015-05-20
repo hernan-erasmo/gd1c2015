@@ -182,6 +182,12 @@ CREATE TABLE SARASA.Transferencia (
 	Transferencia_Fecha				datetime		NOT NULL,
 	Transferencia_Costo				numeric(18,2)	NOT NULL
 )
+
+CREATE TABLE SARASA.Factura (
+	Factura_Numero					numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Factura_Fecha					datetime		NOT NULL,
+	Factura_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id) NOT NULL
+)
 GO
 
 /****************************************
@@ -449,4 +455,19 @@ SELECT 	tm.Cuenta_Numero,
 		tm.Trans_Costo_Trans
 FROM gd_esquema.Maestra tm
 WHERE tm.Transf_Fecha IS NOT NULL
+GO
+
+--Desde tabla gd_esquema.Maestra a SARASA.Factura
+SET IDENTITY_INSERT SARASA.Factura ON
+INSERT INTO SARASA.Factura (	Factura_Numero,
+								Factura_Fecha,
+								Factura_Cliente_Id)
+SELECT 	tm.Factura_Numero,
+		tm.Factura_Fecha,
+		(	SELECT cli.Cliente_Id
+			FROM SARASA.Cliente cli
+			WHERE tm.Factura_Numero IS NOT NULL AND tm.Cli_Nro_Doc = cli.Cliente_Doc_Nro)
+FROM gd_esquema.Maestra tm
+WHERE tm.Factura_Numero IS NOT NULL
+SET IDENTITY_INSERT SARASA.Factura OFF
 GO
