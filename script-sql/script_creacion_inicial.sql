@@ -188,6 +188,16 @@ CREATE TABLE SARASA.Factura (
 	Factura_Fecha					datetime		NOT NULL,
 	Factura_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id) NOT NULL
 )
+
+CREATE TABLE SARASA.Itemfact (
+	Itemfact_Id						numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Itemfact_Cuenta_Numero			numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta(Cuenta_Numero) NOT NULL,
+	Itemfact_Descripcion			nvarchar(255),
+	Itemfact_Importe				numeric(18,2)	NOT NULL,
+	Itemfact_Fecha					datetime		NOT NULL,
+	Itemfact_Factura_Numero			numeric(18,0)	NOT NULL,
+	Itemfact_Pagado					bit DEFAULT 1,	--1: Pagado, 0: No pagado
+)
 GO
 
 /****************************************
@@ -470,4 +480,19 @@ SELECT 	tm.Factura_Numero,
 FROM gd_esquema.Maestra tm
 WHERE tm.Factura_Numero IS NOT NULL
 SET IDENTITY_INSERT SARASA.Factura OFF
+GO
+
+--Desde tabla gd_esquema.Maestra a SARASA.Itemfact
+INSERT INTO SARASA.Itemfact (	Itemfact_Cuenta_Numero,
+								Itemfact_Descripcion,
+								Itemfact_Importe,
+								Itemfact_Fecha,
+								Itemfact_Factura_Numero)
+SELECT 	tm.Cuenta_Numero,
+		tm.Item_Factura_Descr,
+		tm.Item_Factura_Importe,
+		tm.Factura_Fecha,
+		tm.Factura_Numero
+FROM gd_esquema.Maestra tm
+WHERE tm.Item_Factura_Importe IS NOT NULL
 GO
