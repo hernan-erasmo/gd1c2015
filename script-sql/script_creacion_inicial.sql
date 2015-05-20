@@ -445,7 +445,7 @@ INSERT INTO SARASA.Transferencia (	Transferencia_Cuenta_Origen_Id,
 SELECT 	tm.Cuenta_Numero,
 		tm.Cuenta_Dest_Numero,
 		tm.Trans_Importe,
-		tm.Transf_Fecha
+		tm.Transf_Fecha,
 		tm.Trans_Costo_Trans
 FROM gd_esquema.Maestra tm
 WHERE tm.Transf_Fecha IS NOT NULL
