@@ -1,0 +1,34 @@
+Informacion
+
+Base de datos:
+1) Crear un esquema llamado "test"
+
+2) Ejecutar el escript "Test Login.sql"
+
+3) Ejecutar los demas scripts para crear los procedimientos
+
+
+
+Probar la aplicacion:
+
+Cuando se incia ir a Cerrar Sesion del menu principal para mostrar el formulario de login.
+Usuarios validos para el login:
+
+Usuario:	userAdmin	
+Pass:		1111
+Rol:		Administrador
+
+Usuario:	userCliente (usuario inhabilitado)
+Pass:		2222
+Rol:		Cliente
+
+Usuario:	userOperador
+Pass:		3333
+Rol:		Operador
+
+
+Funciones:
+	Login
+	ABM Rol
+	ABM Tarjeta
+
