@@ -32,6 +32,15 @@ namespace PagoElectronico.Utils
         }
 
 
+        //  Recupera los ultimos caracteres de un String
+        public static string stringRight(string param, int length)
+        {
+            int value = param.Length - length;
+            string result = param.Substring(value, length);
+            return result;
+        }
+
+
         //  Ejecuta la auteticacion del usuario y carga la lista de funciones
         public static void ejecutarAutenticacion(Usuario user)
         {

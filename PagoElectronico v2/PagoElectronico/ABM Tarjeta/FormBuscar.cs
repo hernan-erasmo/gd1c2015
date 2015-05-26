@@ -185,13 +185,30 @@ namespace PagoElectronico.ABM_Tarjeta
             }
         }
 
-        //  Desasociar
+
+        //  Desasociar (LO ELIMINA DE LA BASE)
         private void btnDesasociar_Click(object sender, EventArgs e)
         {
-            //  La tarjeta:
 
+            //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
+            string nombreSP = "Test.Desasociar_Tarjeta";
+            string idTarjeta = dataGridView1.SelectedCells[0].Value.ToString();
+
+            try
+            {
+                List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                    "@tarjetaId", idTarjeta);
+
+                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
+
+            Utils.Herramientas.msebox_informacion("Tarjeta (ID:"+ idTarjeta+") desasociada");
         }
-
 
         //  Buscar Cliente (solo para administrador)
         private void btnBuscarClie_Click(object sender, EventArgs e)

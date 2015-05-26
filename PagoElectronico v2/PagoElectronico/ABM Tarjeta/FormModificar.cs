@@ -6,13 +6,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.ABM_Tarjeta
 {
     public partial class FormModificar : Form
     {
         Form padre;
-        Tarjeta tarjeta = new Tarjeta();
+        Tarjeta tarjeta;
 
         public FormModificar()
         {
@@ -81,12 +82,10 @@ namespace PagoElectronico.ABM_Tarjeta
             this.padre.Show();
         }
 
-/*
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            //  RECUPERA LOS VALORES Y LOS PASA COMO PARAMETROS
             if (dtpFechaEmision.Value.ToShortDateString().Equals(dtpFechaVencimiento.Value.ToShortDateString()))
-            {
+            {// EMISION Y VENCIMIENTO IGUALES, ERROR AL GUARDAR
                 Utils.Herramientas.msebox_informacion("Existen valores inválidos: " + dtpFechaEmision.Value.ToShortTimeString() + "=" + dtpFechaVencimiento.Value.ToShortTimeString());
             }
             else
@@ -98,12 +97,13 @@ namespace PagoElectronico.ABM_Tarjeta
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@tarjetaId", "PRUEBA",     //Numero de tarjeta
+                        "@tarjetaId", tarjeta.Numero,
                         "@tarjetaNumero", txtNumero.Text,
                         "@tarjetaFechaEmision", dtpFechaEmision.Value.ToShortDateString(),
                         "@tarjetaFechaVencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
                         "@tarjetaCodigoSeg", txtCodSeguridad.Text,
-                        "@tarjetaEmisorDescripcion", cbxEmisor.Text);
+                        "@tarjetaEmisorDescripcion", cbxEmisor.Text,
+                        "@tarjetaUltimosCuatro", Utils.Herramientas.stringRight(txtNumero.Text, 4));
 
                     Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
 
@@ -113,15 +113,7 @@ namespace PagoElectronico.ABM_Tarjeta
                     MessageBox.Show("Error: " + ex.ToString());
                 }
 
-                String msj = "EXEC " + nombreSP + " ";
-                msj += "@tarjetaId = nnnn, ";
-                msj += "@tarjetaNumero = '" + txtNumero.Text + "', ";
-                msj += "@tarjetaFechaEmision = '" + dtpFechaEmision.Value.ToShortDateString() + "', ";
-                msj += "@tarjetaFechaVencimiento = '" + dtpFechaVencimiento.Value.ToShortDateString() + "', ";
-                msj += "@tarjetaCodigoSeg = '" + txtCodSeguridad.Text + "', ";
-                msj += "@tarjetaEmisorDescripcion = '" + cbxEmisor.Text + "'";
-
-                Utils.Herramientas.msebox_informacion(msj);
+                Utils.Herramientas.msebox_informacion("Datos Guardados");
 
                 txtCodSeguridad.Text = "";
                 txtNumero.Text = "";
@@ -129,18 +121,6 @@ namespace PagoElectronico.ABM_Tarjeta
                 dtpFechaEmision.Value = DateTime.Now;
                 dtpFechaVencimiento.Value = DateTime.Now;
             }
-
-
-
-
-            //            dtpFechaEmision.Value = DateTime.Parse("12/05/1988");
-            //            dtpFechaVencimiento.Value = DateTime.Parse("2015-12-05 00:00:00.000");
-            //  Se recuperan todos los valores de formulario
-            //  Se envian los parametros juntos co
-            Utils.Herramientas.msebox_informacion("Se modificaron los datos de la tarjeta del cliente " + txtCliente.Text);
-            this.Close();
-            this.padre.Show();
         }
-
-*/    }
+    }
 }

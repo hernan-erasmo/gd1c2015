@@ -1,6 +1,6 @@
 USE [GD1C2015]
 GO
-/****** Object:  StoredProcedure [test].[Asociar_Tarjeta]    Script Date: 05/26/2015 14:17:38 ******/
+/****** Object:  StoredProcedure [test].[Asociar_Tarjeta]    Script Date: 05/26/2015 19:25:37 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -11,16 +11,27 @@ CREATE PROCEDURE [test].[Asociar_Tarjeta] (
 	@tarjetaFechaEmision datetime,
 	@tarjetaFechaVencimiento datetime,
 	@tarjetaCodigoSeg varchar(3),
-	@tarjetaEmisorDescripcion varchar(255)) As
+	@tarjetaEmisorDescripcion varchar(255),
+	@tarjetaUltimosCuatro nvarchar(4)) As
 	BEGIN
 
-		-- PARA BORRAR LOS REGISTROS QUE SE GENEREN CON ESTE PROCEDURE HAY QUE EJECUTAR:
-		-- DELETE FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Cli_Nombre] = 'PRUEBA'		
-
-		INSERT INTO [GD1C2015].[gd_esquema].[Maestra] 
-			([Cli_Nombre],[Tarjeta_Numero],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento],
-			[Tarjeta_Codigo_Seg],[Tarjeta_Emisor_Descripcion])
-		VALUES('PRUEBA',@tarjetaNumero,@tarjetaFechaEmision,@tarjetaFechaVencimiento,
-		@tarjetaCodigoSeg,@tarjetaEmisorDescripcion)
-
-	END
+	INSERT INTO [test].[Tc] (
+			Tc_Num_Tarjeta,--		varchar(64),
+			Tc_Cliente_Id,--		integer,
+			Tc_Fecha_Emision,--		datetime	NOT NULL,
+			Tc_Fecha_Vencimiento,--	datetime	NOT NULL,
+			Tc_Codigo_Seg,--		nvarchar(64)	NOT NULL,
+			Tc_Emisor_Desc,--		nvarchar(255)	NOT NULL,
+			Tc_Ultimos_Cuatro)--	nvarchar(4)	NOT NULL
+		VALUES (
+			@tarjetaNumero,
+			@clienteId,
+			@tarjetaFechaEmision,
+			@tarjetaFechaVencimiento,
+			@tarjetaCodigoSeg,
+			@tarjetaEmisorDescripcion,
+			@tarjetaUltimosCuatro);
+			
+			
+			
+END

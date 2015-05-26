@@ -120,6 +120,7 @@
             // 
             // txtNumero
             // 
+            this.txtNumero.Enabled = false;
             this.txtNumero.Location = new System.Drawing.Point(121, 26);
             this.txtNumero.MaxLength = 16;
             this.txtNumero.Name = "txtNumero";
@@ -171,7 +172,7 @@
             this.btnModificar.TabIndex = 4;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
-           // this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // label1
             // 
@@ -184,6 +185,7 @@
             // 
             // txtCliente
             // 
+            this.txtCliente.Enabled = false;
             this.txtCliente.Location = new System.Drawing.Point(126, 12);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(162, 20);

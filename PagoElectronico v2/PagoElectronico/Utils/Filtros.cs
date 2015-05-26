@@ -16,15 +16,20 @@ namespace PagoElectronico.Utils
             string q = "";
             bool primero = true;
 
-            q += "SELECT [Tarjeta_Numero] 'Numero',[Tarjeta_Fecha_Emision] 'Fecha Emision',[Tarjeta_Fecha_Vencimiento] 'Fecha Vencimiento',[Tarjeta_Codigo_Seg] 'Codigo',[Tarjeta_Emisor_Descripcion] 'Emisor' ";
-            q += "FROM [GD1C2015].[gd_esquema].[Maestra] ";
+            q += "SELECT [Tc_Num_Tarjeta] 'Numero',"
+                + "[Tc_Fecha_Emision] 'Fecha Emision',"
+                + "[Tc_Fecha_Vencimiento] 'Fecha Vencimiento',"
+                + "[Tc_Codigo_Seg] 'Codigo',"
+                + "[Tc_Emisor_Desc] 'Emisor' ";
+//                + "[Tc_Ultimos_Cuatro] 'Ultimos Cuatro'";
+            q += "FROM [test].[Tc] ";
 
             if (cliente != "")
             {
                 if (primero)
                     q += "WHERE ";
 
-                q += "[Cli_Nro_Doc] = '" + cliente + "'";
+                q += "[Tc_Cliente_Id] = " + cliente;
                 primero = false;
             }
 
@@ -35,7 +40,7 @@ namespace PagoElectronico.Utils
                 else
                     q += " and ";
 
-                q += "[Tarjeta_Numero] = '" + numero + "'";
+                q += "[Tc_Num_Tarjeta] = '" + numero + "'";
                 primero = false;
             }
 
@@ -46,7 +51,7 @@ namespace PagoElectronico.Utils
                 else
                     q += " and ";
 
-                q += "[Tarjeta_Emisor_Descripcion] = '" + emisor + "'";
+                q += "[Tc_Emisor_Desc] = '" + emisor + "'";
                 primero = false;
             }
 
@@ -57,7 +62,7 @@ namespace PagoElectronico.Utils
                 else
                     q += " and ";
 
-                q += "([Tarjeta_Fecha_Emision] between '" + fechaEmisionDesde + "' and '" + fechaEmisionHasta + "')";
+                q += "([Tc_Fecha_Emision] between '" + fechaEmisionDesde + "' and '" + fechaEmisionHasta + "')";
                 primero = false;
             }
 
@@ -68,7 +73,7 @@ namespace PagoElectronico.Utils
                 else
                     q += " and ";
 
-                q += "([Tarjeta_Fecha_Vencimiento] between '" + fechaVencimientoDesde + "' and '" + fechaVencimientoHasta + "')";
+                q += "([Tc_Fecha_Vencimiento] between '" + fechaVencimientoDesde + "' and '" + fechaVencimientoHasta + "')";
                 primero = false;
             }
 

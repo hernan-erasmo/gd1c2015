@@ -65,12 +65,13 @@ namespace PagoElectronico.ABM_Tarjeta
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@clienteId", "PRUEBA",
+                        "@clienteId", txtCliente,
                         "@tarjetaNumero", txtNumero.Text,
                         "@tarjetaFechaEmision", dtpFechaEmision.Value.ToShortDateString(),
                         "@tarjetaFechaVencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
                         "@tarjetaCodigoSeg", txtCodSeguridad.Text,
-                        "@tarjetaEmisorDescripcion", cbxEmisor.Text);
+                        "@tarjetaEmisorDescripcion", cbxEmisor.Text,
+                        "@tarjetaUltimosCuatro", Utils.Herramientas.stringRight(txtNumero.Text, 4));
 
                        Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
                     
@@ -79,14 +80,14 @@ namespace PagoElectronico.ABM_Tarjeta
                 {
                     MessageBox.Show("Error: " + ex.ToString());
                 }
-
-                String msj = "EXEC " + nombreSP + " ";
-                msj += "@clienteId = 'PRUEBA', ";
-                msj += "@tarjetaNumero = '" + txtNumero.Text + "', ";
-                msj += "@tarjetaFechaEmision = '" + dtpFechaEmision.Value.ToShortDateString() + "', ";
-                msj += "@tarjetaFechaVencimiento = '" + dtpFechaVencimiento.Value.ToShortDateString() + "', ";
-                msj += "@tarjetaCodigoSeg = '" + txtCodSeguridad.Text + "', ";
-                msj += "@tarjetaEmisorDescripcion = '" + cbxEmisor.Text + "'";
+                
+                String msj = "Nueva Tarjetan\n";
+                msj += "@clienteId = 'PRUEBA'\n";
+                msj += "@tarjetaNumero = '" + txtNumero.Text + "'\n";
+                msj += "@tarjetaFechaEmision = '" + dtpFechaEmision.Value.ToShortDateString() + "'\n";
+                msj += "@tarjetaFechaVencimiento = '" + dtpFechaVencimiento.Value.ToShortDateString() + "'\n";
+                msj += "@tarjetaCodigoSeg = '" + txtCodSeguridad.Text + "'\n";
+                msj += "@tarjetaEmisorDescripcion = '" + cbxEmisor.Text + "'\n";
 
                 Utils.Herramientas.msebox_informacion(msj);
 
