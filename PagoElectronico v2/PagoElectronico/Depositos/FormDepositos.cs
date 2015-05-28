@@ -64,5 +64,49 @@ namespace PagoElectronico.Depositos
             this.Hide();
             frmMenu.Show();
         }
+
+        private void FormDepositos_Load(object sender, EventArgs e)
+        {
+            string cbxCuentaQuery = "SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'"
+                                    + "FROM test.Cuenta , test.Tipocta "
+                                    + "WHERE Tipocta_Id = Cuenta_Tipocta_Id AND Cuenta_Cliente_Id = 20";
+
+            string cbxTarjetaQuery = "SELECT Tc_Num_Tarjeta 'Valor', 'XXXX XXXX XXXX ' + Tc_Ultimos_Cuatro + ' (' + Tc_Emisor_Desc+ ')' 'Etiqueta' "
+                                    + "FROM test.Tc WHERE Tc_Cliente_Id = 20";
+
+            Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery);
+            Herramientas.llenarComboBox(cbxTarjeta, cbxTarjetaQuery);
+            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda");
+
+        }
+
+        private void btnDepositar_Click(object sender, EventArgs e)
+        {
+            Utils.Herramientas.GenerarListaDeParametros(
+                "@clienteId",usuario.ClienteId,
+                "@depositoFecha",dtpFecha.Value.ToShortDateString(),
+                "@depositoImporte",txtImporte.Text,
+                "@depositoMoneda",((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
+                "@depositoTarjeta", ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key,
+                "@depositoCuenta", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key
+                );
+
+                
+    /*            	[Deposito_Id] [numeric](18, 0) NULL,
+    	    [Deposito_Fecha] [datetime] NULL,
+    	    [Deposito_Importe] [numeric](18, 2) NULL,
+    	    [Deposito_Moneda_Id] [int] NULL,
+    	    [Deposito_Tc_Num_Tarjeta] [varchar](64) NULL,
+    	    [Deposito_Cuenta_Numero] [numeric](18, 0) NULL,
+	    [Deposito_Codigo_Ingreso] [varchar](32) NULL
+    */
+
+
+    // UPDATE DE LA TABLA [test].[Cuenta] (ID: Cuenta_Numero)
+    //  Sumar el saldo en el campo [Cuenta_Saldo]
+//
+
+
+        }
     }
 }

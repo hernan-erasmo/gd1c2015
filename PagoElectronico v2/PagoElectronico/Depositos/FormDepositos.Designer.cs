@@ -33,15 +33,15 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.cbxCuenta = new System.Windows.Forms.ComboBox();
+            this.txtImporte = new System.Windows.Forms.TextBox();
+            this.cbxMoneda = new System.Windows.Forms.ComboBox();
+            this.cbxTarjeta = new System.Windows.Forms.ComboBox();
+            this.btnVolver = new System.Windows.Forms.Button();
+            this.btnDepositar = new System.Windows.Forms.Button();
+            this.txtCliente = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // label1
@@ -89,70 +89,63 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "Fecha";
             // 
-            // comboBox1
+            // cbxCuenta
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(132, 51);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(186, 21);
-            this.comboBox1.TabIndex = 5;
+            this.cbxCuenta.FormattingEnabled = true;
+            this.cbxCuenta.Location = new System.Drawing.Point(132, 51);
+            this.cbxCuenta.Name = "cbxCuenta";
+            this.cbxCuenta.Size = new System.Drawing.Size(269, 21);
+            this.cbxCuenta.TabIndex = 5;
             // 
-            // textBox1
+            // txtImporte
             // 
-            this.textBox1.Location = new System.Drawing.Point(132, 90);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(186, 20);
-            this.textBox1.TabIndex = 6;
+            this.txtImporte.Location = new System.Drawing.Point(132, 90);
+            this.txtImporte.Name = "txtImporte";
+            this.txtImporte.Size = new System.Drawing.Size(269, 20);
+            this.txtImporte.TabIndex = 6;
             // 
-            // comboBox2
+            // cbxMoneda
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(132, 128);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(186, 21);
-            this.comboBox2.TabIndex = 7;
+            this.cbxMoneda.FormattingEnabled = true;
+            this.cbxMoneda.Location = new System.Drawing.Point(132, 128);
+            this.cbxMoneda.Name = "cbxMoneda";
+            this.cbxMoneda.Size = new System.Drawing.Size(269, 21);
+            this.cbxMoneda.TabIndex = 7;
             // 
-            // comboBox3
+            // cbxTarjeta
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(132, 165);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(186, 21);
-            this.comboBox3.TabIndex = 8;
+            this.cbxTarjeta.FormattingEnabled = true;
+            this.cbxTarjeta.Location = new System.Drawing.Point(132, 165);
+            this.cbxTarjeta.Name = "cbxTarjeta";
+            this.cbxTarjeta.Size = new System.Drawing.Size(269, 21);
+            this.cbxTarjeta.TabIndex = 8;
             // 
-            // textBox2
+            // btnVolver
             // 
-            this.textBox2.Enabled = false;
-            this.textBox2.Location = new System.Drawing.Point(132, 205);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(186, 20);
-            this.textBox2.TabIndex = 9;
+            this.btnVolver.Location = new System.Drawing.Point(27, 240);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(61, 31);
+            this.btnVolver.TabIndex = 10;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button1
+            // btnDepositar
             // 
-            this.button1.Location = new System.Drawing.Point(27, 240);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(61, 31);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Volver";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnDepositar.Location = new System.Drawing.Point(352, 240);
+            this.btnDepositar.Name = "btnDepositar";
+            this.btnDepositar.Size = new System.Drawing.Size(61, 31);
+            this.btnDepositar.TabIndex = 11;
+            this.btnDepositar.Text = "Depositar";
+            this.btnDepositar.UseVisualStyleBackColor = true;
+            this.btnDepositar.Click += new System.EventHandler(this.btnDepositar_Click);
             // 
-            // button2
+            // txtCliente
             // 
-            this.button2.Location = new System.Drawing.Point(257, 240);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(61, 31);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Depositar";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(132, 12);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(186, 20);
-            this.textBox3.TabIndex = 13;
+            this.txtCliente.Location = new System.Drawing.Point(132, 12);
+            this.txtCliente.Name = "txtCliente";
+            this.txtCliente.Size = new System.Drawing.Size(269, 20);
+            this.txtCliente.TabIndex = 13;
             // 
             // label6
             // 
@@ -163,20 +156,28 @@
             this.label6.TabIndex = 12;
             this.label6.Text = "Cliente";
             // 
-            // Form1
+            // dtpFecha
+            // 
+            this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpFecha.Location = new System.Drawing.Point(132, 208);
+            this.dtpFecha.Name = "dtpFecha";
+            this.dtpFecha.Size = new System.Drawing.Size(91, 20);
+            this.dtpFecha.TabIndex = 14;
+            // 
+            // FormDepositos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 283);
-            this.Controls.Add(this.textBox3);
+            this.ClientSize = new System.Drawing.Size(425, 283);
+            this.Controls.Add(this.dtpFecha);
+            this.Controls.Add(this.txtCliente);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.btnDepositar);
+            this.Controls.Add(this.btnVolver);
+            this.Controls.Add(this.cbxTarjeta);
+            this.Controls.Add(this.cbxMoneda);
+            this.Controls.Add(this.txtImporte);
+            this.Controls.Add(this.cbxCuenta);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -184,8 +185,9 @@
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "FormDepositos";
             this.Text = "Deposito";
+            this.Load += new System.EventHandler(this.FormDepositos_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,14 +200,14 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.ComboBox cbxCuenta;
+        private System.Windows.Forms.TextBox txtImporte;
+        private System.Windows.Forms.ComboBox cbxMoneda;
+        private System.Windows.Forms.ComboBox cbxTarjeta;
+        private System.Windows.Forms.Button btnVolver;
+        private System.Windows.Forms.Button btnDepositar;
+        private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DateTimePicker dtpFecha;
     }
 }
