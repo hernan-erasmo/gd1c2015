@@ -106,6 +106,22 @@ CREATE TABLE test.Deposito (
 
 --	CHECK (Deposito_Importe >= 0)
 )
+
+CREATE TABLE test.Pais (
+	Pais_Id 		integer			identity(1,1) PRIMARY KEY,
+	Pais_Nombre		nvarchar(255)
+)
+--Migra los paises desde tabla maestra
+SET IDENTITY_INSERT test.Pais ON
+INSERT INTO test.Pais (Pais_Id, Pais_Nombre)
+SELECT DISTINCT maestra.Cli_Pais_Codigo, maestra.Cli_Pais_Desc			-- Países que figuran como atributos de clientes.
+FROM gd_esquema.Maestra maestra
+UNION	
+SELECT DISTINCT maestra.Cuenta_Pais_Codigo, maestra.Cuenta_Pais_Desc	-- Países que figuran como atributos de cuentas.
+FROM gd_esquema.Maestra maestra
+SET IDENTITY_INSERT test.Pais OFF
+
+
 --------------------------------------------------------------------------------------------------
 INSERT INTO test.Cliente (
 	Cliente_Id					integer,

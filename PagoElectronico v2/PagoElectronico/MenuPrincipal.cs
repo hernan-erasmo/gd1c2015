@@ -126,7 +126,9 @@ namespace PagoElectronico
 
         private void btnABMCuenta_Click(object sender, EventArgs e)
         {
-
+            ABM_Cuenta.FormBuscar abmCuenta = new ABM_Cuenta.FormBuscar(this, usuario);
+            this.Hide();    //  Oculta el menu
+            abmCuenta.Show();
         }
     }
 }
