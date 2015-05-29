@@ -60,19 +60,20 @@ namespace PagoElectronico.Depositos
         //  Vuelve al menu principal
         private void button1_Click(object sender, EventArgs e)
         {
-            PagoElectronico.MenuPrincipal frmMenu = new PagoElectronico.MenuPrincipal();
-            this.Hide();
-            frmMenu.Show();
+            this.Close();
+            formPadre.Show();
         }
 
         private void FormDepositos_Load(object sender, EventArgs e)
         {
+
+            txtCliente.Text = usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")";
             string cbxCuentaQuery = "SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'"
                                     + "FROM test.Cuenta , test.Tipocta "
-                                    + "WHERE Tipocta_Id = Cuenta_Tipocta_Id AND Cuenta_Cliente_Id = 20";
+                                    + "WHERE Tipocta_Id = Cuenta_Tipocta_Id AND Cuenta_Cliente_Id = " + usuario.ClienteId;
 
             string cbxTarjetaQuery = "SELECT Tc_Num_Tarjeta 'Valor', 'XXXX XXXX XXXX ' + Tc_Ultimos_Cuatro + ' (' + Tc_Emisor_Desc+ ')' 'Etiqueta' "
-                                    + "FROM test.Tc WHERE Tc_Cliente_Id = 20";
+                                    + "FROM test.Tc WHERE Tc_Cliente_Id = " + usuario.ClienteId;
 
             Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery);
             Herramientas.llenarComboBox(cbxTarjeta, cbxTarjetaQuery);
@@ -91,7 +92,14 @@ namespace PagoElectronico.Depositos
                 "@depositoCuenta", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key
                 );
 
-                
+            string msj = "DEPOSITO:\n"
+                    + "Id Cliente: " + usuario.ClienteId + "\n"
+                    + "Cuenta: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
+                    + "Tarjeta: " + ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key + "\n"
+                    + "Importe: " + txtImporte.Text + "\n";
+            Utils.Herramientas.msebox_informacion(msj);
+
+
     /*            	[Deposito_Id] [numeric](18, 0) NULL,
     	    [Deposito_Fecha] [datetime] NULL,
     	    [Deposito_Importe] [numeric](18, 2) NULL,

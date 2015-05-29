@@ -78,6 +78,7 @@
             this.lklLogin.TabIndex = 41;
             this.lklLogin.TabStop = true;
             this.lklLogin.Text = "nombreCliente";
+            this.lklLogin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lklLogin_LinkClicked);
             // 
             // flowLayoutPanel2
             // 
@@ -124,6 +125,7 @@
             this.btnABMCuenta.TabIndex = 39;
             this.btnABMCuenta.Text = "ABM Cuenta";
             this.btnABMCuenta.UseVisualStyleBackColor = true;
+            this.btnABMCuenta.Click += new System.EventHandler(this.btnABMCuenta_Click);
             // 
             // btnABMTarjeta
             // 
@@ -153,6 +155,7 @@
             this.btnRetiros.TabIndex = 45;
             this.btnRetiros.Text = "Retiros";
             this.btnRetiros.UseVisualStyleBackColor = true;
+            this.btnRetiros.Click += new System.EventHandler(this.btnRetiros_Click);
             // 
             // btnTransferencias
             // 
@@ -162,6 +165,7 @@
             this.btnTransferencias.TabIndex = 46;
             this.btnTransferencias.Text = "Transferencias";
             this.btnTransferencias.UseVisualStyleBackColor = true;
+            this.btnTransferencias.Click += new System.EventHandler(this.btnTransferencias_Click);
             // 
             // btnConsultaSaldos
             // 

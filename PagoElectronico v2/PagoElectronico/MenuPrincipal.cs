@@ -88,7 +88,6 @@ namespace PagoElectronico
 
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
-
         }
 
         //  Depositos
@@ -104,6 +103,29 @@ namespace PagoElectronico
             ABM_Rol.FormBuscar frmBuscar = new ABM_Rol.FormBuscar(this,usuario);
             frmBuscar.Show();
             this.Hide();
+
+        }
+
+        private void lklLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Utils.Herramientas.msebox_informacion("" + usuario.Funciones.Count);
+
+        }
+
+        private void btnRetiros_Click(object sender, EventArgs e)
+        {
+            Retiros.FormRetiros frmRetiro = new Retiros.FormRetiros(this, usuario);
+            this.Hide();    //  Oculta el menu
+            frmRetiro.Show();
+        }
+
+        private void btnTransferencias_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnABMCuenta_Click(object sender, EventArgs e)
+        {
 
         }
     }

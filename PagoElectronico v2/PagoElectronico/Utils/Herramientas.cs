@@ -362,17 +362,18 @@ namespace PagoElectronico.Utils
                 
                 //*************************************************
 
-                while (dReader.Read())
+                if (dReader.HasRows) 
                 {
-                    //dReader[0];
-                    comboSource.Add(dReader[0].ToString(),dReader[1].ToString());
-//                  cb.Items.Add(dReader[1]);
-                }
+                    while (dReader.Read())
+                    {
+                        comboSource.Add(dReader[0].ToString(), dReader[1].ToString());
+                    }
 
-                //	Bind the source Dictionary object to Combobox
-                cb.DataSource = new BindingSource(comboSource, null);
-                cb.DisplayMember = "Value";
-                cb.ValueMember = "Key";
+                    //	Bind the source Dictionary object to Combobox
+                    cb.DataSource = new BindingSource(comboSource, null);
+                    cb.DisplayMember = "Value";
+                    cb.ValueMember = "Key";
+                }
 
                 dReader.Close();
             }

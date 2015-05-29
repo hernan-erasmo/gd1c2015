@@ -251,6 +251,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Retiros\FormRetiros.resx">
+      <DependentUpon>FormRetiros.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transferencias\FormTransferencias.resx">
       <DependentUpon>FormTransferencias.cs</DependentUpon>
     </EmbeddedResource>
@@ -268,11 +271,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Retiros\Form1.cs">
+    <Compile Include="Retiros\FormRetiros.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Retiros\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Retiros\FormRetiros.Designer.cs">
+      <DependentUpon>FormRetiros.cs</DependentUpon>
     </Compile>
     <Compile Include="Transferencias\FormTransferencias.cs">
       <SubType>Form</SubType>
