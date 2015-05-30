@@ -364,6 +364,8 @@ namespace PagoElectronico.Utils
 
                 if (dReader.HasRows) 
                 {
+                    comboSource.Add("0", "<Ninguno>");
+
                     while (dReader.Read())
                     {
                         comboSource.Add(dReader[0].ToString(), dReader[1].ToString());
