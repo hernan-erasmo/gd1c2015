@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PagoElectronico.Utils;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.ABM_Cuenta
 {
@@ -34,6 +35,33 @@ namespace PagoElectronico.ABM_Cuenta
         {
             formPadre.Show();   //  Muestra el formulario padre
             this.Close();       //  Cierra el formulario
+        }
+
+        private void btnCrear_Click(object sender, EventArgs e)
+        {
+
+            //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
+            string nombreSP = "Test.Crear_Cuenta";    //  Nombre del StoreProcedure
+
+            try
+            {
+                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                                            "@clienteId", usuario.ClienteId,
+                                            "@cuentaNumero", txtNumero.Text,
+                                            "@fechaApertura", dtpFechaApertura.Value.ToShortDateString(),
+                                            "@paisId", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
+                                            "@tipoctaId", ((KeyValuePair<string, string>)cbxTipoCta.SelectedItem).Key,
+                                            "@monedaId", ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key);
+
+
+                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+
+                Utils.Herramientas.msebox_informacion("Cuenta nueva creada");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
         }
     }
 }

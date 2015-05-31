@@ -31,6 +31,9 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxPais = new System.Windows.Forms.ComboBox();
+            this.cbxMoneda = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.dtpFechaApertura = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.cbxTipoCta = new System.Windows.Forms.ComboBox();
@@ -40,9 +43,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.cbxMoneda = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cbxPais = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,6 +64,7 @@
             this.btnCrear.TabIndex = 9;
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
             // groupBox1
             // 
@@ -83,6 +84,31 @@
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Informacion de la Cuenta";
+            // 
+            // cbxPais
+            // 
+            this.cbxPais.FormattingEnabled = true;
+            this.cbxPais.Location = new System.Drawing.Point(121, 58);
+            this.cbxPais.Name = "cbxPais";
+            this.cbxPais.Size = new System.Drawing.Size(159, 21);
+            this.cbxPais.TabIndex = 31;
+            // 
+            // cbxMoneda
+            // 
+            this.cbxMoneda.FormattingEnabled = true;
+            this.cbxMoneda.Location = new System.Drawing.Point(121, 127);
+            this.cbxMoneda.Name = "cbxMoneda";
+            this.cbxMoneda.Size = new System.Drawing.Size(159, 21);
+            this.cbxMoneda.TabIndex = 30;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 130);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(46, 13);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Moneda";
             // 
             // dtpFechaApertura
             // 
@@ -161,31 +187,6 @@
             this.label1.Size = new System.Drawing.Size(39, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Cliente";
-            // 
-            // cbxMoneda
-            // 
-            this.cbxMoneda.FormattingEnabled = true;
-            this.cbxMoneda.Location = new System.Drawing.Point(121, 127);
-            this.cbxMoneda.Name = "cbxMoneda";
-            this.cbxMoneda.Size = new System.Drawing.Size(159, 21);
-            this.cbxMoneda.TabIndex = 30;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 130);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(46, 13);
-            this.label5.TabIndex = 29;
-            this.label5.Text = "Moneda";
-            // 
-            // cbxPais
-            // 
-            this.cbxPais.FormattingEnabled = true;
-            this.cbxPais.Location = new System.Drawing.Point(121, 58);
-            this.cbxPais.Name = "cbxPais";
-            this.cbxPais.Size = new System.Drawing.Size(159, 21);
-            this.cbxPais.TabIndex = 31;
             // 
             // FormCrear
             // 
