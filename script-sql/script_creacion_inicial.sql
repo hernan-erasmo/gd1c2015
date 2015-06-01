@@ -221,6 +221,11 @@ CREATE TABLE SARASA.Rol_x_Usuario (
 	Rol_Id 							integer			FOREIGN KEY REFERENCES SARASA.Rol(Rol_Id) NOT NULL,
 	Usuario_Id 						integer			FOREIGN KEY REFERENCES SARASA.Usuario(Usuario_Id) NOT NULL
 )
+
+CREATE TABLE SARASA.Funcion (
+	Funcion_Id						integer			identity(1,1) PRIMARY KEY,
+	Funcion_Descripcion				nvarchar(20)	NOT NULL
+)
 GO
 
 /****************************************
