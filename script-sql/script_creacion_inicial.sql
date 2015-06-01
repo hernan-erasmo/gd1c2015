@@ -210,6 +210,12 @@ CREATE TABLE SARASA.Usuario (
 	Usuario_Habilitado				bit DEFAULT 1, 	--1: Habilitado, 0: No habilitado
 	Usuario_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id)
 )
+
+CREATE TABLE SARASA.Rol (
+	Rol_Id							integer			identity(1,1) PRIMARY KEY,
+	Rol_Descripcion					nvarchar(20)	NOT NULL,
+	Rol_Estado						bit DEFAULT 1 	--1: Activo, 0: No activo
+)
 GO
 
 /****************************************
