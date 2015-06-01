@@ -198,6 +198,18 @@ CREATE TABLE SARASA.Itemfact (
 	Itemfact_Factura_Numero			numeric(18,0)	NOT NULL,
 	Itemfact_Pagado					bit DEFAULT 1,	--1: Pagado, 0: No pagado
 )
+
+CREATE TABLE SARASA.Usuario (
+	Usuario_Id						integer			identity(1,1) PRIMARY KEY,
+	Usuario_Username				nvarchar(12)	NOT NULL,
+	Usuario_Password				nvarchar(64)	NOT NULL,
+	Usuario_Fecha_Creacion			datetime		NOT NULL,
+	Usuario_Fecha_Modificacion		datetime,
+	Usuario_Pregunta_Sec			nvarchar(255)	NOT NULL,
+	Usuario_Respuesta_Sec			nvarchar(64)	NOT NULL,
+	Usuario_Habilitado				bit DEFAULT 1, 	--1: Habilitado, 0: No habilitado
+	Usuario_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id)
+)
 GO
 
 /****************************************
