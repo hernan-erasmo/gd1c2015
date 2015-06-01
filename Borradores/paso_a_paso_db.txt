@@ -103,7 +103,10 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		Vamos a usar como PK un número entero que se autoincrementará. Gustavo le puso a la columna 'Rol_Descripcion' un tipo nvarchar(20), y no veo ninguna restricción a ese valor en el tp, así que se mantiene. Le cambio el nombre a la columna 'Rol_Habilitado' por 'Rol_Activo' para que esté de acuerdo a lo que indica el tp ("ABM de Rol", pág. 5)
 
 	Tabla SARASA.Rol_x_Usuario:
-		La PK de este mapeo será compuesta entre Rol_Id y Usuario_Id
+		La PK de este mapeo será compuesta entre Rol_Id y Usuario_Id.
 
 	Tabla SARASA.Funcion:
 		Vamos a usar como PK un número entero que se autoincrementará. Gustavo le puso a la columna 'Funcion_Descripcion' un tipo nvarchar(20), y no veo ninguna restricción a ese valor en el tp, así que se mantiene.
+
+	Tabla SARASA.Rol_x_Funcion:
+		La PK de este mapeo será compuesta entre Rol_Id y Funcion_Id. 

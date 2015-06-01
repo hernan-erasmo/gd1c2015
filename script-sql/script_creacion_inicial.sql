@@ -226,6 +226,11 @@ CREATE TABLE SARASA.Funcion (
 	Funcion_Id						integer			identity(1,1) PRIMARY KEY,
 	Funcion_Descripcion				nvarchar(20)	NOT NULL
 )
+
+CREATE TABLE SARASA.Rol_x_Funcion (
+	Rol_Id 							integer			FOREIGN KEY REFERENCES SARASA.Rol(Rol_Id) NOT NULL,
+	Funcion_Id 						integer			FOREIGN KEY REFERENCES SARASA.Funcion(Funcion_Id) NOT NULL
+)
 GO
 
 /****************************************
@@ -236,6 +241,7 @@ ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Pais_Id) REFERENCES SARASA.P
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARASA.Tipodoc (Tipodoc_Id)
 
 ALTER TABLE SARASA.Rol_x_Usuario ADD PRIMARY KEY (Rol_Id, Usuario_Id)
+ALTER TABLE SARASA.Rol_x_Funcion ADD PRIMARY KEY (Rol_Id, Funcion_Id)
 GO
 
 /*******************************
