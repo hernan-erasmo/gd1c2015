@@ -216,6 +216,11 @@ CREATE TABLE SARASA.Rol (
 	Rol_Descripcion					nvarchar(20)	NOT NULL,
 	Rol_Estado						bit DEFAULT 1 	--1: Activo, 0: No activo
 )
+
+CREATE TABLE SARASA.Rol_x_Usuario (
+	Rol_Id 							integer			FOREIGN KEY REFERENCES SARASA.Rol(Rol_Id) NOT NULL,
+	Usuario_Id 						integer			FOREIGN KEY REFERENCES SARASA.Usuario(Usuario_Id) NOT NULL
+)
 GO
 
 /****************************************
@@ -224,6 +229,8 @@ GO
 
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Pais_Id) REFERENCES SARASA.Pais (Pais_Id)
 ALTER TABLE SARASA.Cliente ADD FOREIGN KEY (Cliente_Tipodoc_Id) REFERENCES SARASA.Tipodoc (Tipodoc_Id)
+
+ALTER TABLE SARASA.Rol_x_Usuario ADD PRIMARY KEY (Rol_Id, Usuario_Id)
 GO
 
 /*******************************
