@@ -23,7 +23,7 @@ namespace PagoElectronico.Login
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Utils.Herramientas.llenarComboBox(comboBox1, "SELECT * FROM test.Rol");
+            Utils.Herramientas.llenarComboBox(comboBox1, "SELECT * FROM test.Rol",true);
         }
 
         //  Login

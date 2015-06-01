@@ -46,7 +46,7 @@ namespace PagoElectronico.ABM_Tarjeta
             //  Llena el combo de emisor
             cbxEmisor.Text = "";
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
-            Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC");
+            Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC",false);
 
             btnDesasociar.Enabled = false;
             btnModificar.Enabled = false;

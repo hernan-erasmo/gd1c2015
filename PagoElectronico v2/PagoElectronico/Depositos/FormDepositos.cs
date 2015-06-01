@@ -75,9 +75,9 @@ namespace PagoElectronico.Depositos
             string cbxTarjetaQuery = "SELECT Tc_Num_Tarjeta 'Valor', 'XXXX XXXX XXXX ' + Tc_Ultimos_Cuatro + ' (' + Tc_Emisor_Desc+ ')' 'Etiqueta' "
                                     + "FROM test.Tc WHERE Tc_Cliente_Id = " + usuario.ClienteId;
 
-            Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery);
-            Herramientas.llenarComboBox(cbxTarjeta, cbxTarjetaQuery);
-            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda");
+            Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery,true);
+            Herramientas.llenarComboBox(cbxTarjeta, cbxTarjetaQuery,true);
+            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda",true);
 
         }
 

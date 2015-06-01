@@ -78,11 +78,18 @@
     <Compile Include="ABM Cliente\AltaCliente.Designer.cs">
       <DependentUpon>AltaCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM Cuenta\Cuenta.cs" />
     <Compile Include="ABM Cuenta\FormCrear.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ABM Cuenta\FormCrear.Designer.cs">
       <DependentUpon>FormCrear.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Cuenta\FormModificar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cuenta\FormModificar.Designer.cs">
+      <DependentUpon>FormModificar.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Usuario\Usuario.cs" />
     <Compile Include="ABM Cliente\Buscar Cliente.cs">
@@ -221,6 +228,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cuenta\FormCrear.resx">
       <DependentUpon>FormCrear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cuenta\FormModificar.resx">
+      <DependentUpon>FormModificar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Usuario\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -28,8 +28,8 @@ namespace PagoElectronico.Retiros
             string cbxCuentaQuery = "SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'"
                                     + "FROM test.Cuenta , test.Tipocta "
                                     + "WHERE Tipocta_Id = Cuenta_Tipocta_Id AND Cuenta_Cliente_Id = " + usuario.ClienteId;
-            Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery);
-            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda");
+            Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery,true);
+            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda",true);
 
         }
 

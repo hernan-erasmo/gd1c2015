@@ -41,6 +41,8 @@
             this.btnBuscar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbxPais = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.cbxTipoCta = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -58,8 +60,6 @@
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.cbxPais = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -116,6 +116,7 @@
             this.btnModificar.TabIndex = 9;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
+            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
             // 
             // btnBaja
             // 
@@ -208,6 +209,23 @@
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Cuenta";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(310, 32);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(27, 13);
+            this.label7.TabIndex = 25;
+            this.label7.Text = "Pais";
+            // 
+            // cbxPais
+            // 
+            this.cbxPais.FormattingEnabled = true;
+            this.cbxPais.Location = new System.Drawing.Point(357, 29);
+            this.cbxPais.Name = "cbxPais";
+            this.cbxPais.Size = new System.Drawing.Size(202, 21);
+            this.cbxPais.TabIndex = 24;
             // 
             // label6
             // 
@@ -365,23 +383,6 @@
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
-            // 
-            // cbxPais
-            // 
-            this.cbxPais.FormattingEnabled = true;
-            this.cbxPais.Location = new System.Drawing.Point(357, 29);
-            this.cbxPais.Name = "cbxPais";
-            this.cbxPais.Size = new System.Drawing.Size(202, 21);
-            this.cbxPais.TabIndex = 24;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(310, 32);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(27, 13);
-            this.label7.TabIndex = 25;
-            this.label7.Text = "Pais";
             // 
             // FormBuscar
             // 

@@ -85,7 +85,8 @@ namespace PagoElectronico.Utils
         public static string filtroBuscarCuenta(string clienteId, string numero, string tipoCuentaId,
             string monedaId, string paisId, string fechaAperturaDesde, string fechaAperturaHasta)
         {
-            string q = "SELECT [Cuenta_Numero] 'Cuenta',[Estado_Descripcion] 'Estado',[Tipocta_Descripcion] 'Tipo',[Pais_Nombre] 'Pais',[Moneda_Descripcion] 'Moneda'"
+            string q = "SELECT [Cuenta_Numero] 'Cuenta', [Cuenta_Cliente_Id] 'idCliente', [Cuenta_Estado_Id] 'idEstado', [Cuenta_Pais_Id] 'idPais', [Cuenta_Moneda_Id] 'idMoneda', [Cuenta_Tipocta_Id] 'idTipo'"
+            + ",[Estado_Descripcion] 'Estado',[Tipocta_Descripcion] 'Tipo',[Pais_Nombre] 'Pais',[Moneda_Descripcion] 'Moneda'"
 	        + ",[Cuenta_Saldo] 'Saldo',[Cuenta_Deudora] 'Deudora',[Cuenta_Fecha_Creacion] 'F.Creacion',[Cuenta_Fecha_Cierre] 'F.Cierre' "
             + "FROM [test].[Cuenta], [test].[Estado], [test].[Pais], [test].[Moneda], [test].[Tipocta] "
             + "WHERE [Cuenta_Estado_Id] = [Estado_Id] AND [Cuenta_Pais_Id] = [Pais_Id] AND [Cuenta_Moneda_Id] = [Moneda_Id] AND [Cuenta_Tipocta_Id] = [Tipocta_Id]";

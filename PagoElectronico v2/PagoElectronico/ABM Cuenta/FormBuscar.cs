@@ -14,6 +14,7 @@ namespace PagoElectronico.ABM_Cuenta
     {
         Utils.Usuario usuario;
         Form formPadre;
+        Cuenta cuenta = new Cuenta();
 
         public FormBuscar(Form f, Utils.Usuario user)
         {
@@ -27,9 +28,9 @@ namespace PagoElectronico.ABM_Cuenta
             dtpFechaAperturaDesde.Enabled = false;
             dtpFechaAperturaHasta.Enabled = false;
 
-            Herramientas.llenarComboBox(cbxPais, "SELECT Pais_Id 'Valor', Pais_Nombre 'Etiqueta' FROM test.pais ORDER BY Pais_Nombre");
-            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda");
-            Herramientas.llenarComboBox(cbxTipoCta, "SELECT Tipocta_Id 'Valor', Tipocta_Descripcion 'Etiqueta' FROM test.Tipocta");
+            Herramientas.llenarComboBox(cbxPais, "SELECT Pais_Id 'Valor', Pais_Nombre 'Etiqueta' FROM test.pais ORDER BY Pais_Nombre",false);
+            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda",false);
+            Herramientas.llenarComboBox(cbxTipoCta, "SELECT Tipocta_Id 'Valor', Tipocta_Descripcion 'Etiqueta' FROM test.Tipocta",false);
 
         }
 
@@ -94,6 +95,12 @@ namespace PagoElectronico.ABM_Cuenta
                 resultados = Herramientas.ejecutarConsultaTabla(queryConsulta);
                 dataGridView1.DataSource = resultados;
 
+                dataGridView1.Columns["idCliente"].Visible = false;
+                dataGridView1.Columns["idEstado"].Visible = false;
+                dataGridView1.Columns["idPais"].Visible = false;
+                dataGridView1.Columns["idMoneda"].Visible = false;
+                dataGridView1.Columns["idTipo"].Visible = false;
+
                 lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
 
                 if (dataGridView1.RowCount > 0)
@@ -139,6 +146,26 @@ namespace PagoElectronico.ABM_Cuenta
 
             //  Limpiar la tabla de resultados
             dataGridView1.DataSource = null;
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            cuenta = new Cuenta();
+
+            cuenta.DesCliente = txtCliente.Text;
+            cuenta.Numero = dataGridView1.SelectedCells[0].Value.ToString();
+            cuenta.IdCliente = int.Parse(dataGridView1.SelectedCells[1].Value.ToString());
+            cuenta.IdEstado = int.Parse(dataGridView1.SelectedCells[2].Value.ToString());
+            cuenta.IdPais = int.Parse(dataGridView1.SelectedCells[3].Value.ToString());
+            cuenta.IdMoneda = int.Parse(dataGridView1.SelectedCells[4].Value.ToString());
+            cuenta.IdTipo = int.Parse(dataGridView1.SelectedCells[5].Value.ToString());
+            cuenta.Deudora = Boolean.Parse(dataGridView1.SelectedCells[11].Value.ToString());
+            cuenta.FechaApertura = dataGridView1.SelectedCells[12].Value.ToString();
+            cuenta.FechaCierre = dataGridView1.SelectedCells[13].Value.ToString();
+
+            ABM_Cuenta.FormModificar frmModificar = new ABM_Cuenta.FormModificar(this,cuenta);
+            frmModificar.Show();
+            this.Hide();
         }
     }
 }

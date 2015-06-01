@@ -346,7 +346,7 @@ namespace PagoElectronico.Utils
 */
 
         //  Carga el combo box con el resultado de la consulta
-        public static void llenarComboBox(ComboBox cb, string consulta)
+        public static void llenarComboBox(ComboBox cb, string consulta, bool obligatorio)
         {
             SqlDataReader dReader;
             try
@@ -361,11 +361,12 @@ namespace PagoElectronico.Utils
                 Dictionary<string,string> comboSource = new Dictionary<string, string>();
                 
                 //*************************************************
+                if (!obligatorio)
+                    comboSource.Add("0", "<Ninguno>");
 
                 if (dReader.HasRows) 
                 {
-                    comboSource.Add("0", "<Ninguno>");
-
+//                    comboSource.Add("0", "<Ninguno>");
                     while (dReader.Read())
                     {
                         comboSource.Add(dReader[0].ToString(), dReader[1].ToString());
@@ -386,6 +387,52 @@ namespace PagoElectronico.Utils
             }
         }
 
+        //  Carga el combo box con el resultado de la consulta
+        public static void llenarComboBoxConSeleccion(ComboBox cb, string consulta, string valor, bool obligatorio)
+        {
+            SqlDataReader dReader;
+            int indice =0;
+            try
+            {
+                conexion cn = new conexion();
+                //cn.abrir_conexion();
+
+                SqlCommand query = new SqlCommand(consulta, cn.abrir_conexion());
+                dReader = query.ExecuteReader();
+
+                //	Add keys and values in a Dictionary Object
+                Dictionary<string, string> comboSource = new Dictionary<string, string>();
+
+                //*************************************************
+
+                if(!obligatorio)
+                    comboSource.Add("0", "<Ninguno>");
+
+                if (dReader.HasRows)
+                {
+
+
+                    while (dReader.Read())
+                    {
+                        comboSource.Add(dReader[0].ToString(), dReader[1].ToString());
+                        if (valor.Equals(dReader[0].ToString()))
+                            indice = comboSource.Count -1;
+                    }
+
+                    //	Bind the source Dictionary object to Combobox
+                    cb.DataSource = new BindingSource(comboSource, null);
+                    cb.DisplayMember = "Value";
+                    cb.ValueMember = "Key";
+                    cb.SelectedIndex = indice;
+                }
+
+                dReader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo cargar el combo Box " + ex.ToString());
+            }
+        }
 
         //  Ejecuta un Store Procedure sin parametros, devuelve DataTable
         public static DataTable EjecutarStoredProcedureSinParametros(string nombreSP)

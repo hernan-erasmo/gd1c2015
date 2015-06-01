@@ -45,7 +45,7 @@ namespace PagoElectronico.ABM_Tarjeta
 
             //  Llena el combo de emisor
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
-            Utils.Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC");
+            Utils.Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC",true);
         }
 
         //  Asociar: Ejecutar SP asociarTarjeta(idcliente, demas_parametros)
