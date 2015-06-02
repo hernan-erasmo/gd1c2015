@@ -313,6 +313,12 @@ VALUES 	('Gratuita', 2147483647, 0, 0, 0),
 		('Bronce', 30, 5, 1, 3),
 		('Plata', 60, 10, 1, 2),
 		('Oro', 90, 15, 1, 1)
+
+SET IDENTITY_INSERT SARASA.Rol ON
+INSERT INTO SARASA.Rol (Rol_Id, Rol_Descripcion)
+VALUES 	(1, 'Administrador'),
+		(2, 'Cliente')
+SET IDENTITY_INSERT SARASA.Rol OFF
 GO
 
 /**********************************************************************
