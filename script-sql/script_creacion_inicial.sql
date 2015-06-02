@@ -248,7 +248,8 @@ GO
 	Creamos funciones y SPs
 ********************************/
 
-CREATE FUNCTION SARASA.generar_codigo_ingreso(@deposito_id numeric(18,0))
+CREATE FUNCTION SARASA.generar_codigo_ingreso(
+	@deposito_id numeric(18,0))
 RETURNS varchar(32)
 AS
 BEGIN
@@ -260,7 +261,8 @@ BEGIN
 END
 GO
 
-CREATE FUNCTION SARASA.generar_codigo_egreso(@retiro_id numeric(18,0))
+CREATE FUNCTION SARASA.generar_codigo_egreso(
+	@retiro_id numeric(18,0))
 RETURNS varchar(32)
 AS
 BEGIN
@@ -269,6 +271,66 @@ BEGIN
 	SET @resultado_hash_binario = HASHBYTES('MD4',CAST(@retiro_id as varchar(18)))
 	SET @hash_string = CONVERT(varchar(32),@resultado_hash_binario,2)
 	RETURN @hash_string
+END
+GO
+
+CREATE PROCEDURE SARASA.crear_rol(
+	@rol_desc				varchar(20),
+	@rol_estado				bit,
+	@funciones_asociadas	varchar(200)) --Contiene un listado de ids de funciones separadas por comas, por ej: 1,6,20,4,12
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN
+	BEGIN TRY
+		SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+		IF @starttrancount = 0
+			BEGIN TRANSACTION
+				DECLARE @rol_insertado int;
+				DECLARE @funcion_id varchar(3) = NULL;
+
+				-- Inserta el nuevo Rol en la tabla SARASA.Rol
+				INSERT INTO SARASA.Rol (Rol_Descripcion, Rol_Estado)
+				VALUES (@rol_desc, @rol_estado);
+
+				-- Obtenemos el valor de id para el rol insertado recien
+				SELECT @rol_insertado = IDENT_CURRENT('SARASA.Rol');
+
+				-- Relacionamos ese rol con las funciones que vienen seleccionadas desde la app
+				WHILE LEN(@funciones_asociadas) > 0
+				BEGIN
+					IF PATINDEX('%,%', @funciones_asociadas) > 0
+					BEGIN
+						SET @funcion_id = SUBSTRING(@funciones_asociadas, 0, PATINDEX('%,%', @funciones_asociadas));
+						SET @funciones_asociadas = SUBSTRING(@funciones_asociadas, LEN(@funcion_id + ',') + 1, LEN(@funciones_asociadas));
+
+						INSERT INTO SARASA.Rol_x_Funcion (Rol_Id, Funcion_Id)
+						VALUES (@rol_insertado, @funcion_id);
+					END
+					ELSE
+					BEGIN
+						SET @funcion_id = @funciones_asociadas;
+						SET @funciones_asociadas = NULL;
+						INSERT INTO SARASA.Rol_x_Funcion (Rol_Id, Funcion_Id)
+						VALUES (@rol_insertado, @funcion_id)
+					END
+				END
+
+		IF @starttrancount = 0
+			COMMIT TRANSACTION
+	END TRY
+	BEGIN CATCH
+		IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+			ROLLBACK TRANSACTION
+		SELECT @error_message = ERROR_MESSAGE()
+		RAISERROR('Error en la transacción al crear el Rol %s: %s',16,1, @rol_desc, @error_message)
+	END CATCH
 END
 GO
 
