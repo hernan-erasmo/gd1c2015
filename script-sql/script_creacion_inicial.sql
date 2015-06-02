@@ -334,6 +334,66 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE SARASA.modificar_rol (
+	@rol_id					integer,
+	@rol_desc				varchar(20),
+	@rol_estado				bit,
+	@funciones_asociadas	varchar(200)) --Contiene un listado de ids de funciones separadas por comas, por ej: 1,6,20,4,12
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+			DECLARE @funcion_id varchar(3) = null;
+
+			-- Actualizamos la tabla SARASA.Rol
+			UPDATE	SARASA.Rol
+			SET Rol_Descripcion = @rol_desc, Rol_Estado = @rol_estado
+			WHERE Rol_Id = @rol_id;
+
+			-- Eliminamos de la tabla SARASA.Rol_x_Funcion todas las relaciones con éste Rol
+			DELETE FROM SARASA.Rol_x_Funcion WHERE SARASA.Rol_x_Funcion.Rol_Id = @rol_id;
+
+			-- Relacionamos éste Rol con las funciones que vienen en @funciones_asociadas
+			WHILE LEN(@funciones_asociadas) > 0
+			BEGIN
+				IF PATINDEX('%,%', @funciones_asociadas) > 0
+				BEGIN
+					SET @funcion_id = SUBSTRING(@funciones_asociadas, 0, PATINDEX('%,%', @funciones_asociadas))
+					SET @funciones_asociadas = SUBSTRING(@funciones_asociadas, LEN(@funcion_id + ',') + 1, LEN(@funciones_asociadas))
+
+					INSERT INTO SARASA.Rol_x_Funcion (Rol_Id, Funcion_Id)
+					VALUES (@rol_id, @funcion_id);
+				END
+				ELSE
+				BEGIN
+					SET @funcion_id = @funciones_asociadas
+					SET @funciones_asociadas = NULL
+
+					INSERT INTO SARASA.Rol_x_Funcion (Rol_Id, Funcion_Id)
+					VALUES (@rol_id, @funcion_id);
+				END
+			END
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/

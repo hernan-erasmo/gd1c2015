@@ -109,6 +109,12 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 				@rol_estado de tipo	bit, es el estado del rol (1: Activo, 0: No activo)
 				@funciones_asociadas es un varchar(200) que contiene números separados por comas, por ejemplo: "1,2,6,34,22" donde cada número es el id de la función que se quiere asociar a éste rol. Estos valores deben representar funciones existentes en la tabla SARASA.Funcion, de otra manera se generará un error al querer crear el rol.
 
+		El procedure SARASA.modificar_rol recibe 4 parametros:
+				@rol_id de tipo int, que es el id del rol a modificar.
+				@rol_desc de tipo varchar(20), es el nuevo nombre que se le quiere dar al rol.
+				@rol_estado de tipo	bit, es el estado en el que se quiere setear el rol (1: Activo, 0: No activo)
+				@funciones_asociadas es un varchar(200) que contiene números separados por comas, por ejemplo: "1,2,6,34,22" donde cada número es el id de la función que se quiere asociar a éste rol. Estos valores deben representar funciones existentes en la tabla SARASA.Funcion, de otra manera se generará un error al querer crear el rol.
+
 	Tabla SARASA.Rol_x_Usuario:
 		La PK de este mapeo será compuesta entre Rol_Id y Usuario_Id.
 
