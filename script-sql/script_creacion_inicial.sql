@@ -201,7 +201,7 @@ CREATE TABLE SARASA.Itemfact (
 
 CREATE TABLE SARASA.Usuario (
 	Usuario_Id						integer			identity(1,1) PRIMARY KEY,
-	Usuario_Username				nvarchar(12)	NOT NULL,
+	Usuario_Username				nvarchar(12)	NOT NULL UNIQUE,
 	Usuario_Password				nvarchar(64)	NOT NULL,
 	Usuario_Fecha_Creacion			datetime		NOT NULL,
 	Usuario_Fecha_Modificacion		datetime,
@@ -424,23 +424,71 @@ GO
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
 
+SET IDENTITY_INSERT SARASA.Rol ON
+INSERT INTO SARASA.Rol (Rol_Id, Rol_Descripcion)
+VALUES 	(1, 'Administrador'),
+		(2, 'Cliente')
+SET IDENTITY_INSERT SARASA.Rol OFF
+
+INSERT INTO SARASA.Usuario (Usuario_Username,
+							Usuario_Password,
+							Usuario_Fecha_Creacion,
+							Usuario_Fecha_Modificacion,
+							Usuario_Pregunta_Sec,
+							Usuario_Respuesta_Sec,
+							Usuario_Habilitado,
+							Usuario_Cliente_Id)
+VALUES	(	'admin1', 
+			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			GETDATE(),
+			GETDATE(),
+			'¿Cual es el nombre de este grupo?',
+			'8364183f24415b77bf25304c9f3c7f1f0f998f80d3b903db49a9605d44c1ce92', --hash sha256 para SARASA
+			1,	--Habilitado
+			NULL),
+		(	'admin2', 
+			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			GETDATE(),
+			GETDATE(),
+			'¿Cual es el nombre de este grupo?',
+			'8364183f24415b77bf25304c9f3c7f1f0f998f80d3b903db49a9605d44c1ce92', --hash sha256 para SARASA
+			1,	--Habilitado
+			NULL),
+		(	'admin3', 
+			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			GETDATE(),
+			GETDATE(),
+			'¿Cual es el nombre de este grupo?',
+			'8364183f24415b77bf25304c9f3c7f1f0f998f80d3b903db49a9605d44c1ce92', --hash sha256 para SARASA
+			1,	--Habilitado
+			NULL),
+		(	'admin4', 
+			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			GETDATE(),
+			GETDATE(),
+			'¿Cual es el nombre de este grupo?',
+			'8364183f24415b77bf25304c9f3c7f1f0f998f80d3b903db49a9605d44c1ce92', --hash sha256 para SARASA
+			1,	--Habilitado
+			NULL)
+
+INSERT INTO SARASA.Rol_x_Usuario (Rol_Id, Usuario_Id)
+VALUES (1,1), (1,2), (1,3), (1,4)
+
 INSERT INTO SARASA.Moneda (Moneda_Descripcion)
 VALUES ('Dólar Estadounidense')
 
 INSERT INTO SARASA.Estado (Estado_Descripcion)
 VALUES ('Pendiente de activación'), ('Cerrada'), ('Inhabilitada'), ('Habilitada')
 
-INSERT INTO SARASA.Tipocta (Tipocta_Descripcion, Tipocta_Vencimiento_Dias, Tipocta_Costo_Crea, Tipocta_Costo_Mod, Tipocta_Costo_Trans)
+INSERT INTO SARASA.Tipocta (Tipocta_Descripcion,
+							Tipocta_Vencimiento_Dias,
+							Tipocta_Costo_Crea,
+							Tipocta_Costo_Mod,
+							Tipocta_Costo_Trans)
 VALUES 	('Gratuita', 2147483647, 0, 0, 0),
 		('Bronce', 30, 5, 1, 3),
 		('Plata', 60, 10, 1, 2),
 		('Oro', 90, 15, 1, 1)
-
-SET IDENTITY_INSERT SARASA.Rol ON
-INSERT INTO SARASA.Rol (Rol_Id, Rol_Descripcion)
-VALUES 	(1, 'Administrador'),
-		(2, 'Cliente')
-SET IDENTITY_INSERT SARASA.Rol OFF
 GO
 
 /**********************************************************************
