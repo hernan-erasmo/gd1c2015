@@ -133,7 +133,7 @@ CREATE TABLE SARASA.Cuenta (
 	Cuenta_Tipocta_Id			integer			FOREIGN KEY REFERENCES SARASA.Tipocta (Tipocta_Id) NOT NULL,
 	Cuenta_Pais_Id				integer			FOREIGN KEY REFERENCES SARASA.Pais (Pais_Id) NOT NULL,
 	Cuenta_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
-	Cuenta_Saldo				numeric(18,0),
+	Cuenta_Saldo				numeric(18,2),
 	Cuenta_Deudora				bit DEFAULT 0,	-- 1: Tiene deuda (valor < 0.00), 0: No tiene deuda (valor >= 0.00)
 	Cuenta_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL
 )
@@ -407,6 +407,18 @@ BEGIN
 	SET Deposito_Codigo_Ingreso = SARASA.generar_codigo_ingreso(i.Deposito_Id)
 	FROM INSERTED i
 	WHERE SARASA.Deposito.Deposito_Id = i.Deposito_Id
+END
+GO
+
+CREATE TRIGGER SARASA.tr_deposito_aff_ins_modificar_saldo_cuenta
+ON SARASA.Deposito
+AFTER INSERT
+AS
+BEGIN
+	UPDATE SARASA.Cuenta
+	SET Cuenta_Saldo = Cuenta_Saldo + i.Deposito_Importe
+	FROM INSERTED i
+	WHERE SARASA.Cuenta.Cuenta_Numero = i.Deposito_Cuenta_Numero
 END
 GO
 
