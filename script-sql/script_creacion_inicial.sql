@@ -201,7 +201,7 @@ CREATE TABLE SARASA.Itemfact (
 
 CREATE TABLE SARASA.Usuario (
 	Usuario_Id						integer			identity(1,1) PRIMARY KEY,
-	Usuario_Username				nvarchar(12)	NOT NULL UNIQUE,
+	Usuario_Username				nvarchar(20)	NOT NULL UNIQUE,
 	Usuario_Password				nvarchar(64)	NOT NULL,
 	Usuario_Fecha_Creacion			datetime		NOT NULL,
 	Usuario_Fecha_Modificacion		datetime,
@@ -450,7 +450,7 @@ VALUES 	(1, 'Administrador'),
 		(2, 'Cliente')
 SET IDENTITY_INSERT SARASA.Rol OFF
 
--- Usuarios
+-- Usuarios administradores
 INSERT INTO SARASA.Usuario (Usuario_Username,
 							Usuario_Password,
 							Usuario_Fecha_Creacion,
@@ -460,7 +460,6 @@ INSERT INTO SARASA.Usuario (Usuario_Username,
 							Usuario_Habilitado,
 							Usuario_Cliente_Id)
 VALUES	
-		-- Administradores
 		(	'admin1', 
 			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
 			GETDATE(),
