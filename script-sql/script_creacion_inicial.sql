@@ -390,7 +390,7 @@ BEGIN CATCH
 	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
-	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+	RAISERROR('Error en la transacción al modificar el Rol %s: %s',16,1, @rol_desc, @error_message)
 END CATCH
 GO
 
@@ -434,7 +434,7 @@ BEGIN CATCH
 	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
-	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+	RAISERROR('Error al realizar el depósito en la cuenta nro %d: %s',16,1, @deposito_cuenta_num, @error_message)
 END CATCH
 GO
 
