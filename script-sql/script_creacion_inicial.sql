@@ -394,6 +394,50 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.realizar_deposito (
+	@cliente_id				integer,
+	@deposito_fecha			datetime,
+	@deposito_importe		numeric(18,2),
+	@deposito_moneda_id		integer,
+	@deposito_tarjeta_num	varchar(64),
+	@deposito_cuenta_num	numeric(18,0)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			INSERT INTO SARASA.Deposito (	Deposito_Fecha,
+											Deposito_Importe,
+											Deposito_Moneda_Id,
+											Deposito_Tc_Num_Tarjeta,
+											Deposito_Cuenta_Numero)
+			VALUES (@deposito_fecha,
+					@deposito_importe,
+					@deposito_moneda_id,
+					@deposito_tarjeta_num,
+					@deposito_cuenta_num)
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
