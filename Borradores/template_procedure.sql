@@ -5,7 +5,11 @@
 		http://stackoverflow.com/a/2074139/1603080 (respuesta)
 ******************************************************************/
 
-CREATE PROCEDURE [Nombre]
+CREATE PROCEDURE [Nombre] (
+	-- agregar acá los parámetros que recibe
+	@parametro_ejemplo1		integer,
+	@parametro_ejemplo2		varchar(29)
+)
 AS
 
 SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
