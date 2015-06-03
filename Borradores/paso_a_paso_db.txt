@@ -99,6 +99,8 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		Vamos a usar como PK un número entero que se autoincrementará. Gustavo le puso al username un tipo nvarchar(12), lo cambio a 20 para tener más margen para generar los username distintos entre sí. Cambia también el tipo de dato para la password, que pasa de nvarchar(8) a nvarchar(64) ya que 64 es la longitud en bytes del hash producido por sha256. Mismo caso para el campo 'Usuario_Respuesta_Sec'. En ambos casos es responsabilidad de la aplicación generar el hash y enviarlo a la DB.
 		Le cambio el nombre a la columna 'Usuario_Nombre' por 'Usuario_Username' para que esté de acuerdo a lo que indica el tp ("ABM de Usuario", pág. 7)
 
+		El enunciado pide que se creen los usuarios para todos los clientes existentes. Agregamos al script de carga un listado con 165 usuarios con datos generados de forma aleatoria (usernames y passwords), que luego se asignarán a los clientes.
+
 	Tabla SARASA.Rol:
 		Vamos a usar como PK un número entero que se autoincrementará. Gustavo le puso a la columna 'Rol_Descripcion' un tipo nvarchar(20), y no veo ninguna restricción a ese valor en el tp, así que se mantiene. Le cambio el nombre a la columna 'Rol_Habilitado' por 'Rol_Activo' para que esté de acuerdo a lo que indica el tp ("ABM de Rol", pág. 5)
 
