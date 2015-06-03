@@ -2049,6 +2049,14 @@ SELECT DISTINCT maestra.Cli_Pais_Codigo,
 FROM gd_esquema.Maestra maestra
 GO
 
+-- Ahora que cargamos los clientes, les asignamos un usuario.
+UPDATE SARASA.Usuario
+SET Usuario_Cliente_Id = cli.Cliente_Id
+FROM SARASA.Cliente cli
+WHERE Usuario_Id > 4 AND
+cli.Cliente_Id = Usuario_Id - 4		-- Hay 4 administradores a los que no queremos asignarle ningún cliente (aquellos con Usuario_Id=1,2,3,4)
+GO
+
 -- Desde tabla gd_esquema.Maestra a SARASA.Tc
 INSERT INTO SARASA.Tc (	Tc_Num_Tarjeta, 
 						Tc_Cliente_Id,
