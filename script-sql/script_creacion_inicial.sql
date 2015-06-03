@@ -424,12 +424,33 @@ GO
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
 
+-- Monedas
+INSERT INTO SARASA.Moneda (Moneda_Descripcion)
+VALUES ('Dólar Estadounidense')
+
+-- Estados
+INSERT INTO SARASA.Estado (Estado_Descripcion)
+VALUES ('Pendiente de activación'), ('Cerrada'), ('Inhabilitada'), ('Habilitada')
+
+-- Tipos de cuenta
+INSERT INTO SARASA.Tipocta (Tipocta_Descripcion,
+							Tipocta_Vencimiento_Dias,
+							Tipocta_Costo_Crea,
+							Tipocta_Costo_Mod,
+							Tipocta_Costo_Trans)
+VALUES 	('Gratuita', 2147483647, 0, 0, 0),
+		('Bronce', 30, 5, 1, 3),
+		('Plata', 60, 10, 1, 2),
+		('Oro', 90, 15, 1, 1)
+
+-- Roles
 SET IDENTITY_INSERT SARASA.Rol ON
 INSERT INTO SARASA.Rol (Rol_Id, Rol_Descripcion)
 VALUES 	(1, 'Administrador'),
 		(2, 'Cliente')
 SET IDENTITY_INSERT SARASA.Rol OFF
 
+-- Usuarios
 INSERT INTO SARASA.Usuario (Usuario_Username,
 							Usuario_Password,
 							Usuario_Fecha_Creacion,
@@ -438,7 +459,9 @@ INSERT INTO SARASA.Usuario (Usuario_Username,
 							Usuario_Respuesta_Sec,
 							Usuario_Habilitado,
 							Usuario_Cliente_Id)
-VALUES	(	'admin1', 
+VALUES	
+		-- Administradores
+		(	'admin1', 
 			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
 			GETDATE(),
 			GETDATE(),
@@ -471,24 +494,9 @@ VALUES	(	'admin1',
 			1,	--Habilitado
 			NULL)
 
+-- Mapeo entre roles y usuarios
 INSERT INTO SARASA.Rol_x_Usuario (Rol_Id, Usuario_Id)
 VALUES (1,1), (1,2), (1,3), (1,4)
-
-INSERT INTO SARASA.Moneda (Moneda_Descripcion)
-VALUES ('Dólar Estadounidense')
-
-INSERT INTO SARASA.Estado (Estado_Descripcion)
-VALUES ('Pendiente de activación'), ('Cerrada'), ('Inhabilitada'), ('Habilitada')
-
-INSERT INTO SARASA.Tipocta (Tipocta_Descripcion,
-							Tipocta_Vencimiento_Dias,
-							Tipocta_Costo_Crea,
-							Tipocta_Costo_Mod,
-							Tipocta_Costo_Trans)
-VALUES 	('Gratuita', 2147483647, 0, 0, 0),
-		('Bronce', 30, 5, 1, 3),
-		('Plata', 60, 10, 1, 2),
-		('Oro', 90, 15, 1, 1)
 GO
 
 /**********************************************************************
