@@ -404,8 +404,9 @@ AFTER INSERT
 AS
 BEGIN
 	UPDATE SARASA.Deposito
-	SET Deposito_Codigo_Ingreso = SARASA.generar_codigo_ingreso(Deposito_Id)
-	WHERE Deposito_Codigo_Ingreso IS NULL
+	SET Deposito_Codigo_Ingreso = SARASA.generar_codigo_ingreso(i.Deposito_Id)
+	FROM INSERTED i
+	WHERE SARASA.Deposito.Deposito_Id = i.Deposito_Id
 END
 GO
 
