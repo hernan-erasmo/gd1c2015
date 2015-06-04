@@ -438,6 +438,48 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.emitir_cheque (
+	@cliente_id		integer,
+	@banco_codigo	numeric(18,0),
+	@importe		numeric(18,2),
+	@cheque_id		numeric(18,0)	OUTPUT
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			INSERT INTO SARASA.Cheque (Cheque_Cliente_Nombre, Cheque_Banco_Id, Cheque_Importe, Cheque_Numero, Cheque_Fecha)
+			SELECT	(cli.Cliente_Apellido + ', ' + cli.Cliente_Nombre),
+					@banco_codigo,
+					@importe,
+					(SELECT MAX(che.Cheque_Numero) FROM SARASA.Cheque che) + 1,
+					GETDATE()
+			FROM SARASA.Cliente cli
+			WHERE cli.Cliente_Id = @cliente_id
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+
+	SELECT @cheque_id = SCOPE_IDENTITY();
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la emisión del cheque: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
