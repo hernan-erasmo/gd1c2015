@@ -519,6 +519,18 @@ BEGIN
 END
 GO
 
+CREATE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta
+ON SARASA.Retiro
+AFTER INSERT
+AS
+BEGIN
+	UPDATE SARASA.Cuenta
+	SET Cuenta_Saldo = Cuenta_Saldo - i.Retiro_Importe
+	FROM INSERTED i
+	WHERE SARASA.Cuenta.Cuenta_Numero = i.Retiro_Cuenta_Id
+END
+GO
+
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
