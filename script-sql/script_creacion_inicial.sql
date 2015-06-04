@@ -415,6 +415,33 @@ BEGIN TRY
 
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
+			DECLARE @estado_habilitada integer
+			DECLARE @estado_cuenta integer
+			DECLARE @cuenta_numero_string nvarchar(40)
+			DECLARE @tarjeta_vencida nvarchar(2)
+			DECLARE @fecha_hoy datetime
+			DECLARE @fecha_venc_tarjeta datetime
+
+			--Verificamos que la cuenta esté habilitada. Si no, salimos con RAISERROR
+			SELECT @estado_habilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada';
+			SELECT @estado_cuenta = cue.Cuenta_Estado_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @deposito_cuenta_num;
+
+			IF @estado_cuenta != @estado_habilitada
+			BEGIN
+				SET @cuenta_numero_string = CAST(@deposito_cuenta_num AS nvarchar(40))
+				RAISERROR('La cuenta nro. %s no está habilitada. No se puede procesar el depósito.',16,1,@cuenta_numero_string)
+			END
+
+			--Verificamos que la tarjeta no esté vencida. Si está vencida, salimos con RAISERROR
+			SET @fecha_hoy = GETDATE()
+			SELECT @fecha_venc_tarjeta = tar.Tc_Fecha_Vencimiento FROM SARASA.Tc tar WHERE tar.Tc_Num_Tarjeta = @deposito_tarjeta_num
+
+			SELECT @tarjeta_vencida = CASE WHEN CAST(@fecha_venc_tarjeta AS DATE) < CAST(@fecha_hoy AS DATE) THEN 'SI' ELSE 'NO' END
+			
+			IF @tarjeta_vencida = 'SI'
+			BEGIN
+				RAISERROR('La tarjeta de crédito con número %s está vencida.',16,1,@deposito_tarjeta_num)
+			END
 
 			INSERT INTO SARASA.Deposito (	Deposito_Fecha,
 											Deposito_Importe,
@@ -434,7 +461,7 @@ BEGIN CATCH
 	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
-	RAISERROR('Error al realizar el depósito en la cuenta nro %d: %s',16,1, @deposito_cuenta_num, @error_message)
+	RAISERROR('Error al realizar el depósito: %s',16,1, @error_message)
 END CATCH
 GO
 

@@ -82,6 +82,13 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 			@deposito_tarjeta_num de tipo varchar(64), el numero de la tarjeta que realiza el depósito (es el hash cifrado en sha256)
 			@deposito_cuenta_num de tipo numeric(18,0), el número de la cuenta a donde se depositarán los fondos.
 
+		El procedure se encarga de validar las siguientes condiciones antes de realizar el depósito:
+			1- La tarjeta de crédito seleccionada no está vencida
+			2- La cuenta a la que se desea depositar fondos está habilitada.
+
+		La validación de que la cuenta a depositar pertenece al cliente que desea realizar el depósito se hace del lado de la app, ya que le permite elegir únicamente las cuentas que están a su nombre.
+		La validación de que la tarjeta de crédito existe y corresponde al dueño de la cuenta se hace desde la app, ya que le muestra al cliente únicamente las tarjetas que tiene registradas a su nombre.
+
 	Tabla SARASA.Banco:
 		Los datos de los bancos en la tabla maestra se distribuyen en 3 columnas, siendo estos datos el código del banco (columna banco_cogido, debe ser un error de tipeo), el nombre y la dirección.
 
