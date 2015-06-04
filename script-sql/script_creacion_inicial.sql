@@ -480,6 +480,74 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.retirar_efectivo (
+	@cliente_id				integer,
+	@cliente_documento		numeric(18,0),
+	@cuenta_nro				numeric(18,0),
+	@moneda_id				integer,
+	@importe				numeric(18,2),
+	@banco_codigo			numeric(18,0)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+			DECLARE @cheque_id numeric(18,0)
+			DECLARE @estado_cuenta integer
+			DECLARE @estado_habilitada integer
+			DECLARE @saldo_cuenta numeric(18,2)
+			DECLARE @cuenta_numero_string nvarchar(40)	--Sólo para manejo de errores
+			DECLARE @importe_string nvarchar(20)		--Sólo para manejo de errores
+
+			--Verificamos que la cuenta esté habilitada. Si no, salimos con RAISERROR
+			SELECT @estado_habilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada';
+			SELECT @estado_cuenta = cue.Cuenta_Estado_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_nro;
+
+			IF @estado_cuenta != @estado_habilitada
+			BEGIN
+				SET @cuenta_numero_string = CAST(@cuenta_nro AS nvarchar(40))
+				RAISERROR('La cuenta nro. %s no está habilitada. No se puede procesar el retiro.',16,1,@cuenta_numero_string)
+			END
+
+			--Verificamos que haya saldo suficiente para hacer el retiro. Si no, salimos con RAISERROR
+			SELECT @saldo_cuenta = cue.Cuenta_Saldo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_nro
+			
+			IF @importe > @saldo_cuenta
+			BEGIN
+				SET @importe_string = CAST(@importe AS nvarchar(255))
+				SET @cuenta_numero_string = CAST(@cuenta_nro AS nvarchar(40))
+				RAISERROR('La cuenta nro. %s no posee saldo suficiente para hacer un retiro de $%s',16,1,@cuenta_numero_string,@importe_string)
+			END
+
+			--Emitimos el cheque y guardamos el id del mismo
+			EXECUTE SARASA.emitir_cheque @cliente_id, @banco_codigo, @importe, @cheque_id OUTPUT;
+
+			--Registramos el retiro
+			INSERT INTO SARASA.Retiro (Retiro_Cuenta_Id, Retiro_Cheque_Id, Retiro_Importe, Retiro_Fecha)
+			VALUES (@cuenta_nro, @cheque_id, @importe, GETDATE())
+
+			--Luego SARASA.tr_retiro_aff_ins_generar_codigo inserta el código de egreso en SARASA.Retiro
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción de retiro de efectivo: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/

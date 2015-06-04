@@ -103,6 +103,24 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	Tabla SARASA.Retiro:
 		Usaremos como id el valor de la columna 'Retiro_Codigo' de la tabla maestra y lo incrementaremos de a 1. El código de egreso (que debe ser distinto al de ingreso y al de transacción) será el hash del valor de la clave del retiro con el algoritmo 'MD4' empleando la función HASHBYTES.
 
+		El procedure SARASA.retirar_efectivo recibe 6 parámetros:
+				@cliente_id es de tipo integer, es el id del cliente que desea realizar el retiro
+				@cliente_documento es de tipo numeric(18,0), es el documento del cliente que desea realizar el retiro
+				@cuenta_nro de tipo numeric(18,0), es la cuenta de donde se quieren retirar los fondos
+				@moneda_id de tipo integer, es el id de la moneda en que se realizará el retiro
+				@importe de tipo numeric(18,2) es el monto a retirar de la cuenta.
+				@banco_codigo es de tipo numeric(18,0), es el código del banco contra el cual el cliente desea librar el cheque.
+
+				Este procedure se encarga de realizar las validaciones previas al retiro, las cuales incluyen (según el enunciado):
+					1- Que el documento ingresado coincida con el correspondiente al cliente que desea realizar el retiro
+					2- Que la cuenta tenga fondos suficientes para retirar el importe deseado
+					3- Que la cuenta tenga un estado de 'Habilitada'
+
+				Y también se encarga de realizar el retiro en sí, es decir:
+					1- Genera el cheque con la información correspondiente al retiro
+					2- Genera el ingreso en la tabla de Retiro
+					3- Recalcula el nuevo saldo de la cuenta y actualiza la tabla Cuenta.
+
 	Tabla SARASA.Transferencia:
 		Usaremos un valor entero autoincremental como PK.
 
