@@ -700,6 +700,81 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.modificar_cuenta (
+	@cliente_id		integer,
+	@cuenta_numero	numeric(18,0),
+	@tipo_cuenta_id	integer,
+	@cerrar_cuenta	bit
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			DECLARE @cuenta_string nvarchar(40)
+			DECLARE @estado_cerrada integer
+			DECLARE @estado_actual integer
+			DECLARE @fecha_hoy datetime
+			DECLARE @importe numeric(18,2)
+			DECLARE @tipo_cuenta_actual integer
+
+			SET @fecha_hoy = GETDATE()
+			SELECT @tipo_cuenta_actual = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+			SELECT @importe = tipo.Tipocta_Costo_Mod FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_id
+			SELECT @estado_cerrada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Cerrada'
+			SELECT @estado_actual = cue.Cuenta_Estado_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+			SET @cuenta_string = CAST(@cuenta_numero AS nvarchar(40)) --solo en caso de error
+
+			-- Si la cuenta está cerrada, salimos con RAISERROR
+			IF @estado_actual = @estado_cerrada
+			BEGIN
+				RAISERROR('No se puede modificar la cuenta %s porque está cerrada.',16,1,@cuenta_string)
+			END
+
+			-- Si el tipo de cuenta es distinto al actual, generamos un item de factura por el cambio de tipo.
+			IF @tipo_cuenta_actual != @tipo_cuenta_id
+			BEGIN
+				EXEC SARASA.crear_item_factura @cuenta_numero, 'Cambio de tipo de cuenta.',@importe,@fecha_hoy,NULL,0
+			END
+
+			-- Luego modificamos el tipo
+			UPDATE SARASA.Cuenta
+			SET Cuenta_Tipocta_Id = @tipo_cuenta_id
+			WHERE Cuenta_Numero = @cuenta_numero
+
+			-- Si se quiere cerrar la cuenta, validamos que no haya ningún item factura impago para ese nro de cuenta
+			IF @cerrar_cuenta = 1
+			BEGIN
+				IF SARASA.cuenta_al_dia(@cuenta_numero) = 0
+				BEGIN
+					RAISERROR('No se puede cerrar la cuenta %s porque tiene transacciones sin pagar.',16,1,@cuenta_string)
+				END
+
+				-- Si no, modificamos el estado de la cuenta y listo
+				UPDATE SARASA.Cuenta
+				SET Cuenta_Estado_Id = @estado_cerrada
+				WHERE Cuenta_Numero = @cuenta_numero
+			END			
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la modificación de la cuenta: %s',16,1, @error_message)
+END CATCH
+GO
 
 /***********************
 	Creamos triggers
