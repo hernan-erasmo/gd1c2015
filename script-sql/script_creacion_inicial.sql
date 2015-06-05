@@ -622,6 +622,67 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.crear_cuenta (
+	@cliente_id			integer,
+	@fecha_apertura		datetime,
+	@tipo_cuenta_id		integer,
+	@moneda_id			integer,
+	@pais_id			integer
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+			DECLARE @estado_cuenta integer
+			DECLARE @tipo_cuenta_gratuita integer
+
+			SELECT @estado_cuenta = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Pendiente de activación'
+			SELECT @tipo_cuenta_gratuita = tipo.Tipocta_Id FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Descripcion = 'Gratuita'
+
+			-- Si la cuenta es de tipo 'gratuita' se abre directamente como habilitada
+			IF @tipo_cuenta_id = @tipo_cuenta_gratuita
+			BEGIN
+				SELECT @estado_cuenta = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada'
+			END
+
+			-- Creamos la cuenta
+			INSERT INTO SARASA.Cuenta (	Cuenta_Fecha_Creacion,
+										Cuenta_Estado_Id, 
+										Cuenta_Tipocta_Id,
+										Cuenta_Pais_Id,
+										Cuenta_Moneda_Id,
+										Cuenta_Saldo,
+										Cuenta_Cliente_Id)
+			VALUES (	@fecha_apertura,
+						@estado_cuenta,
+						@tipo_cuenta_id,
+						@pais_id,
+						@moneda_id,
+						0.0,
+						@cliente_id)
+
+			-- Luego el trigger SARASA.tr_cuenta_aff_ins_crear_item_factura se encargará de generar el ítem de factura correspondiente al costo de apertura
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la creación de la cuenta: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/

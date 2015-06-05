@@ -71,6 +71,13 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		
 		En un principio se evaluó la posibilidad de cargar todas las cuentas con el tipo 'gratuito'. Sin embargo, al analizar que a todas se les ha facturado en algún momento un costo por transferencia (lo que contradice la definición de cuenta de tipo gratuito) es más lógico asignarle un tipo que tenga gastos. Por lo tanto, al migrar los datos de las cuentas desde la tabla maestra, se le asignará por defecto el tipo ORO a cada una.
 
+		El procedure SARASA.crear_cuenta recibe 5 parámetros:
+			@cliente_id, de tipo integer, es el FK que identifica al cliente que abre la cuenta (id del cliente)
+			@fecha_apertura de tipo datetime, es la fecha en la que se abre la cuenta
+			@tipo_cuenta_id de tipo integer, es el FK para la tabla SARASA.Tipocta que indica el tipo de cuenta que será (ORO, PLATA, etc)
+			@moneda_id, de tipo integer, es el FK para la tabla SARASA.Moneda, que indica el tipo de moneda de la cuenta (siempre dólar según el enunciado, pág 9)
+			@pais_id es de tipo integer y es el FK para la tabla SARASA.Pais, es el país que tiene asignado la cuenta.
+
 	Tabla. SARASA.Deposito:
 		Usaremos como id el valor de la columna 'Deposito_Codigo' de la tabla maestra y lo incrementaremos de a 1. El código de ingreso (que debe ser distinto al de egreso y al de transacción) será el hash del valor de la clave del depósito con el algoritmo 'MD2' empleando la función HASHBYTES.
 
