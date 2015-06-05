@@ -575,6 +575,52 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.crear_item_factura (
+	@cuenta_num		numeric(18,0),
+	@descripcion	nvarchar(255),
+	@importe		numeric(18,2),
+	@fecha			datetime,
+	@factura_nro	numeric(18,0),
+	@pagado			bit
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			INSERT INTO SARASA.Itemfact (	Itemfact_Cuenta_Numero,
+											Itemfact_Descripcion,
+											Itemfact_Importe,
+											Itemfact_Fecha,
+											Itemfact_Factura_Numero,
+											Itemfact_Pagado)
+			VALUES (	@cuenta_num,
+						@descripcion,
+						@importe,
+						@fecha,
+						@factura_nro,
+						@pagado)
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error al generar ítem para factura $s: %s',16,1,@descripcion,@error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
