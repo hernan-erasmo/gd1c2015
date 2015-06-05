@@ -130,5 +130,12 @@ namespace PagoElectronico
             this.Hide();    //  Oculta el menu
             abmCuenta.Show();
         }
+
+        private void btnFacturacion_Click(object sender, EventArgs e)
+        {
+            ABM_de_Usuario.FormCrear frm = new ABM_de_Usuario.FormCrear();
+            this.Hide();
+            frm.Show();
+        }
     }
 }

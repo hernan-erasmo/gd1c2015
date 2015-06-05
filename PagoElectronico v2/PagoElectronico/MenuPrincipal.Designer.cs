@@ -193,6 +193,7 @@
             this.btnFacturacion.TabIndex = 43;
             this.btnFacturacion.Text = "Facturacion";
             this.btnFacturacion.UseVisualStyleBackColor = true;
+            this.btnFacturacion.Click += new System.EventHandler(this.btnFacturacion_Click);
             // 
             // btnSalir
             // 

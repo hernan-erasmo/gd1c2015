@@ -77,6 +77,9 @@ namespace PagoElectronico.Utils
             ParamClienteId.Direction = ParameterDirection.Output;
             query.Parameters.Add(ParamClienteId);
 
+            SqlParameter ParamClienteDocumento = new SqlParameter("@clienteDocumento", 0);
+            ParamClienteDocumento.Direction = ParameterDirection.Output;
+            query.Parameters.Add(ParamClienteDocumento);
 
             query.ExecuteNonQuery();
 
@@ -84,6 +87,7 @@ namespace PagoElectronico.Utils
             user.ClienteId = int.Parse(query.Parameters["@clienteId"].SqlValue.ToString());
             user.Nombre = query.Parameters["@nombre"].SqlValue.ToString();
             user.Apellido = query.Parameters["@apellido"].SqlValue.ToString();
+            user.Documento = query.Parameters["@clienteDocumento"].SqlValue.ToString();
 
             //	Agregar el parametro del tipo OUTPUT
 //            SqlDataAdapter da = new SqlDataAdapter(query);

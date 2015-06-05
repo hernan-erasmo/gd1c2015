@@ -14,6 +14,7 @@ namespace PagoElectronico.Utils
         private string password;
         private string nombre;
         private string apellido;
+        private string documento;
         private string rol;
         private string rolId;
         private ArrayList funciones;
@@ -42,6 +43,11 @@ namespace PagoElectronico.Utils
         {
             get { return this.password; }
             set { this.password = value; }
+        }
+        public string Documento
+        {
+            get { return this.documento; }
+            set { this.documento = value; }
         }
 
         public string Rol

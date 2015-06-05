@@ -83,13 +83,14 @@ namespace PagoElectronico.Depositos
 
         private void btnDepositar_Click(object sender, EventArgs e)
         {
+
             Utils.Herramientas.GenerarListaDeParametros(
-                "@clienteId",usuario.ClienteId,
-                "@depositoFecha",dtpFecha.Value.ToShortDateString(),
-                "@depositoImporte",txtImporte.Text,
-                "@depositoMoneda",((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
-                "@depositoTarjeta", ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key,
-                "@depositoCuenta", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key
+                "@cliente_id",usuario.ClienteId,
+                "@deposito_fecha",dtpFecha.Value.ToShortDateString(),
+                "@deposito_importe",txtImporte.Text,
+                "@deposito_moneda_id",((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
+                "@deposito_tarjeta_num", ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key,
+                "@deposito_cuenta_num", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key
                 );
 
             string msj = "DEPOSITO:\n"
@@ -98,21 +99,6 @@ namespace PagoElectronico.Depositos
                     + "Tarjeta: " + ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key + "\n"
                     + "Importe: " + txtImporte.Text + "\n";
             Utils.Herramientas.msebox_informacion(msj);
-
-
-    /*            	[Deposito_Id] [numeric](18, 0) NULL,
-    	    [Deposito_Fecha] [datetime] NULL,
-    	    [Deposito_Importe] [numeric](18, 2) NULL,
-    	    [Deposito_Moneda_Id] [int] NULL,
-    	    [Deposito_Tc_Num_Tarjeta] [varchar](64) NULL,
-    	    [Deposito_Cuenta_Numero] [numeric](18, 0) NULL,
-	    [Deposito_Codigo_Ingreso] [varchar](32) NULL
-    */
-
-
-    // UPDATE DE LA TABLA [test].[Cuenta] (ID: Cuenta_Numero)
-    //  Sumar el saldo en el campo [Cuenta_Saldo]
-//
 
 
         }

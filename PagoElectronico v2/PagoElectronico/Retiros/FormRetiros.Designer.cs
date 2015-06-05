@@ -38,26 +38,29 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtDocumento = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.cbxBanco = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnRetirar
             // 
-            this.btnRetirar.Location = new System.Drawing.Point(306, 302);
+            this.btnRetirar.Location = new System.Drawing.Point(306, 327);
             this.btnRetirar.Name = "btnRetirar";
             this.btnRetirar.Size = new System.Drawing.Size(61, 31);
             this.btnRetirar.TabIndex = 25;
             this.btnRetirar.Text = "Retirar";
             this.btnRetirar.UseVisualStyleBackColor = true;
+            this.btnRetirar.Click += new System.EventHandler(this.btnRetirar_Click);
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(12, 302);
+            this.btnVolver.Location = new System.Drawing.Point(12, 327);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(61, 31);
             this.btnVolver.TabIndex = 24;
@@ -67,6 +70,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbxBanco);
+            this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.cbxMoneda);
             this.groupBox1.Controls.Add(this.txtImporte);
             this.groupBox1.Controls.Add(this.cbxCuenta);
@@ -75,7 +80,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 121);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(355, 162);
+            this.groupBox1.Size = new System.Drawing.Size(355, 195);
             this.groupBox1.TabIndex = 29;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Informacion del retiro";
@@ -132,7 +137,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.txtDocumento);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.txtCliente);
             this.groupBox2.Controls.Add(this.label6);
@@ -142,6 +147,22 @@
             this.groupBox2.TabIndex = 30;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Informacion del Cliente";
+            // 
+            // txtDocumento
+            // 
+            this.txtDocumento.Location = new System.Drawing.Point(80, 58);
+            this.txtDocumento.Name = "txtDocumento";
+            this.txtDocumento.Size = new System.Drawing.Size(269, 20);
+            this.txtDocumento.TabIndex = 31;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 61);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(62, 13);
+            this.label4.TabIndex = 30;
+            this.label4.Text = "Documento";
             // 
             // txtCliente
             // 
@@ -160,28 +181,29 @@
             this.label6.TabIndex = 28;
             this.label6.Text = "Cliente";
             // 
-            // label4
+            // label5
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(5, 61);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 13);
-            this.label4.TabIndex = 30;
-            this.label4.Text = "Docuemento";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(5, 154);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(38, 13);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Banco";
             // 
-            // textBox1
+            // cbxBanco
             // 
-            this.textBox1.Location = new System.Drawing.Point(80, 58);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(269, 20);
-            this.textBox1.TabIndex = 31;
+            this.cbxBanco.FormattingEnabled = true;
+            this.cbxBanco.Location = new System.Drawing.Point(80, 152);
+            this.cbxBanco.Name = "cbxBanco";
+            this.cbxBanco.Size = new System.Drawing.Size(268, 21);
+            this.cbxBanco.TabIndex = 30;
             // 
             // FormRetiros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(380, 345);
+            this.ClientSize = new System.Drawing.Size(380, 375);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnRetirar);
@@ -210,9 +232,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtDocumento;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox cbxBanco;
     }
 }

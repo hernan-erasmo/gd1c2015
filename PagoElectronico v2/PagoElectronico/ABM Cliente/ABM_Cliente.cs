@@ -12,7 +12,7 @@ namespace PagoElectronico.ABM_Cliente
     public partial class ABM_Cliente : Form
     {
         Form formPadre;
-        AltaCliente altaCliente = new PagoElectronico.ABM_Cliente.AltaCliente();
+        FormCrear altaCliente = new PagoElectronico.ABM_Cliente.FormCrear();
         ModificacionBaja modificacionBajaCliente = new PagoElectronico.ABM_Cliente.ModificacionBaja();
 
 
