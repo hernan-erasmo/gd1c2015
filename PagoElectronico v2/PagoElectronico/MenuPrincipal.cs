@@ -137,5 +137,12 @@ namespace PagoElectronico
             this.Hide();
             frm.Show();
         }
+
+        private void btnABMCliente_Click(object sender, EventArgs e)
+        {
+            ABM_Cliente.FormCrear frm = new ABM_Cliente.FormCrear(this,usuario);
+            this.Hide();
+            frm.Show();
+        }
     }
 }

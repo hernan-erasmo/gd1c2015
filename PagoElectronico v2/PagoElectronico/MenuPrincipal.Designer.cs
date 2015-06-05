@@ -116,6 +116,7 @@
             this.btnABMCliente.TabIndex = 38;
             this.btnABMCliente.Text = "ABM Cliente";
             this.btnABMCliente.UseVisualStyleBackColor = true;
+            this.btnABMCliente.Click += new System.EventHandler(this.btnABMCliente_Click);
             // 
             // btnABMCuenta
             // 
