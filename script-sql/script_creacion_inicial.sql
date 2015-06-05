@@ -195,7 +195,7 @@ CREATE TABLE SARASA.Itemfact (
 	Itemfact_Descripcion			nvarchar(255),
 	Itemfact_Importe				numeric(18,2)	NOT NULL,
 	Itemfact_Fecha					datetime		NOT NULL,
-	Itemfact_Factura_Numero			numeric(18,0)	NOT NULL,
+	Itemfact_Factura_Numero			numeric(18,0),
 	Itemfact_Pagado					bit DEFAULT 1,	--1: Pagado, 0: No pagado
 )
 

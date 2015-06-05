@@ -136,6 +136,8 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 
 	Tabla SARASA.Itemfact:
 		Vamos a usar como PK un número entero que se autoincrementará.
+		
+		El atributo Itemfact_Factura_Numero es una FK que admite NULL. Si un registro Itemfact tiene ese atributo en NULL significa que aún no se ha facturado ese costo (no hay todavía una factura para ese ítem).
 
 	Tabla SARASA.Usuario:
 		Vamos a usar como PK un número entero que se autoincrementará. Gustavo le puso al username un tipo nvarchar(12), lo cambio a 20 para tener más margen para generar los username distintos entre sí. Cambia también el tipo de dato para la password, que pasa de nvarchar(8) a nvarchar(64) ya que 64 es la longitud en bytes del hash producido por sha256. Mismo caso para el campo 'Usuario_Respuesta_Sec'. En ambos casos es responsabilidad de la aplicación generar el hash y enviarlo a la DB.
