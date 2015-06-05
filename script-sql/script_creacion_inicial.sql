@@ -275,6 +275,23 @@ BEGIN
 END
 GO
 
+CREATE FUNCTION SARASA.cuenta_al_dia(
+	@cuenta_numero numeric(18,0))
+RETURNS bit
+AS
+BEGIN
+	DECLARE @cant_items_impagos integer
+	SELECT @cant_items_impagos =	COUNT(item.Itemfact_Pagado)
+									FROM SARASA.Itemfact item 
+									WHERE item.Itemfact_Pagado = 0 AND item.Itemfact_Cuenta_Numero = @cuenta_numero
+	IF @cant_items_impagos = 0
+	BEGIN
+		RETURN 1
+	END
+	RETURN 0
+END
+GO
+
 CREATE PROCEDURE SARASA.crear_rol(
 	@rol_desc				varchar(20),
 	@rol_estado				bit,
@@ -682,6 +699,7 @@ BEGIN CATCH
 	RAISERROR('Error en la creación de la cuenta: %s',16,1, @error_message)
 END CATCH
 GO
+
 
 /***********************
 	Creamos triggers

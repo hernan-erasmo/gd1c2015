@@ -78,6 +78,8 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 			@moneda_id, de tipo integer, es el FK para la tabla SARASA.Moneda, que indica el tipo de moneda de la cuenta (siempre dólar según el enunciado, pág 9)
 			@pais_id es de tipo integer y es el FK para la tabla SARASA.Pais, es el país que tiene asignado la cuenta.
 
+		La función SARASA.Cuenta_al_dia recibe como parámetro el numero de la cuenta y retorna 0 en caso de que la cuenta posea ítems de factura sin pagar y 1 en caso de que tenga todos los cargos pagos.
+
 	Tabla. SARASA.Deposito:
 		Usaremos como id el valor de la columna 'Deposito_Codigo' de la tabla maestra y lo incrementaremos de a 1. El código de ingreso (que debe ser distinto al de egreso y al de transacción) será el hash del valor de la clave del depósito con el algoritmo 'MD2' empleando la función HASHBYTES.
 
