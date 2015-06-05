@@ -673,6 +673,25 @@ BEGIN
 END
 GO
 
+CREATE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura
+ON SARASA.Cuenta
+AFTER INSERT
+AS
+BEGIN
+	DECLARE @precio_por_tipo_cuenta		numeric(18,2)
+	DECLARE @tipo_de_cuenta				integer
+	DECLARE @cuenta_num 				numeric(18,0)
+	DECLARE @fecha 						datetime
+
+	SELECT @tipo_de_cuenta = i.Cuenta_Tipocta_Id FROM INSERTED i
+	SELECT @precio_por_tipo_cuenta = tipo.Tipocta_Costo_Crea FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_de_cuenta
+	SELECT @cuenta_num = i.Cuenta_Numero FROM INSERTED i
+	SET @fecha = GETDATE()
+
+	EXEC SARASA.crear_item_factura @cuenta_num, 'Creación de cuenta', @precio_por_tipo_cuenta, @fecha, NULL, 0
+END
+GO
+
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
