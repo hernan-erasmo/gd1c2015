@@ -134,8 +134,9 @@ CREATE TABLE SARASA.Cuenta (
 	Cuenta_Pais_Id				integer			FOREIGN KEY REFERENCES SARASA.Pais (Pais_Id) NOT NULL,
 	Cuenta_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
 	Cuenta_Saldo				numeric(18,2),
-	Cuenta_Deudora				bit DEFAULT 0,	-- 1: Tiene deuda (valor < 0.00), 0: No tiene deuda (valor >= 0.00)
-	Cuenta_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL
+	Cuenta_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL,
+
+	CHECK (Cuenta_Saldo >= 0.0)
 )
 
 CREATE TABLE SARASA.Deposito (
@@ -2340,7 +2341,6 @@ INSERT INTO SARASA.Cuenta (	Cuenta_Numero,
 							Cuenta_Pais_Id,
 							Cuenta_Moneda_Id,
 							Cuenta_Saldo,
-							Cuenta_Deudora,
 							Cuenta_Cliente_Id)
 SELECT DISTINCT tm.Cuenta_Numero,
 				tm.Cuenta_Fecha_Creacion,
@@ -2350,7 +2350,6 @@ SELECT DISTINCT tm.Cuenta_Numero,
 				tm.Cuenta_Pais_Codigo,
 				m.Moneda_Id,
 				0.00,
-				0,
 				(SELECT cli.Cliente_Id
 					FROM SARASA.Cliente cli
 					WHERE tm.Cuenta_Numero IS NOT NULL AND tm.Cli_Nro_Doc = cli.Cliente_Doc_Nro)
