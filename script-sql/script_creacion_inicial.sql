@@ -249,6 +249,24 @@ GO
 	Creamos funciones y SPs
 ********************************/
 
+CREATE FUNCTION SARASA.ejecutar_autenticacion(
+	@username	nvarchar(20),
+	@password	nvarchar(64))
+RETURNS integer		-- Retorna 0 si el usuario/pass no existe, o el id del usuario si existe
+AS
+BEGIN
+	DECLARE @usuario_id integer
+	SELECT @usuario_id = usu.Usuario_Id	FROM SARASA.Usuario usu	WHERE usu.Usuario_Username = @username AND usu.Usuario_Password = @password
+	
+	IF @usuario_id IS NULL
+	BEGIN
+		RETURN 0
+	END
+	
+	RETURN @usuario_id
+END
+GO
+
 CREATE FUNCTION SARASA.generar_codigo_ingreso(
 	@deposito_id numeric(18,0))
 RETURNS varchar(32)
