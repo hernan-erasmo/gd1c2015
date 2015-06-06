@@ -225,7 +225,7 @@ CREATE TABLE SARASA.Rol_x_Usuario (
 
 CREATE TABLE SARASA.Funcion (
 	Funcion_Id						integer			identity(1,1) PRIMARY KEY,
-	Funcion_Descripcion				nvarchar(20)	NOT NULL
+	Funcion_Descripcion				nvarchar(40)	NOT NULL
 )
 
 CREATE TABLE SARASA.Rol_x_Funcion (
@@ -849,6 +849,20 @@ GO
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
+
+-- Funciones
+INSERT INTO SARASA.Funcion (Funcion_Descripcion)
+VALUES	('ABM de Rol'),
+		('Login y seguridad'),
+		('ABM de Usuario'),
+		('ABM de cliente'),
+		('ABM de cuenta'),
+		('Depósitos'),
+		('Retiro de Efectivo'),
+		('Transferencias entre cuentas'),
+		('Facturación de Costos'),
+		('Consulta de saldos'),
+		('Listado Estadístico')
 
 -- Monedas
 INSERT INTO SARASA.Moneda (Moneda_Descripcion)
