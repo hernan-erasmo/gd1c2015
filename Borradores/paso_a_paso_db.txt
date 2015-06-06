@@ -199,7 +199,7 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	Tabla SARASA.Funcion:
 		Vamos a usar como PK un número entero que se autoincrementará.
 
-		Los campos Funcion_Id y Funcion_Descripcion están cargados en el mismo orden que en el enunciado (pág. 5)
+		Los campos Funcion_Id y Funcion_Descripcion están cargados en el mismo orden que en el enunciado (pág. 5), aunque la función 'Login y seguridad' no se carga, ya que no puede ser asignada a ningún rol ("Todos los usuarios tienen la capacidad de utilizar el login", pág 6)
 
 	Tabla SARASA.Rol_x_Funcion:
 		La PK de este mapeo será compuesta entre Rol_Id y Funcion_Id. 

@@ -850,19 +850,27 @@ GO
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
 
+-- Roles
+SET IDENTITY_INSERT SARASA.Rol ON
+INSERT INTO SARASA.Rol (Rol_Id, Rol_Descripcion)
+VALUES 	(1, 'Administrador'),
+		(2, 'Cliente')
+SET IDENTITY_INSERT SARASA.Rol OFF
+
 -- Funciones
-INSERT INTO SARASA.Funcion (Funcion_Descripcion)
-VALUES	('ABM de Rol'),
-		('Login y seguridad'),
-		('ABM de Usuario'),
-		('ABM de cliente'),
-		('ABM de cuenta'),
-		('Depósitos'),
-		('Retiro de Efectivo'),
-		('Transferencias entre cuentas'),
-		('Facturación de Costos'),
-		('Consulta de saldos'),
-		('Listado Estadístico')
+SET IDENTITY_INSERT SARASA.Funcion ON
+INSERT INTO SARASA.Funcion (Funcion_Id, Funcion_Descripcion)
+VALUES	(1, 'ABM de Rol'),
+		(2, 'ABM de Usuario'),
+		(3, 'ABM de cliente'),
+		(4, 'ABM de cuenta'),
+		(5, 'Depósitos'),
+		(6, 'Retiro de Efectivo'),
+		(7, 'Transferencias entre cuentas'),
+		(8, 'Facturación de Costos'),
+		(9, 'Consulta de saldos'),
+		(10, 'Listado Estadístico')
+SET IDENTITY_INSERT SARASA.Funcion OFF
 
 -- Monedas
 INSERT INTO SARASA.Moneda (Moneda_Descripcion)
@@ -882,13 +890,6 @@ VALUES 	('Gratuita', 2147483647, 0, 0, 0),
 		('Bronce', 30, 5, 1, 3),
 		('Plata', 60, 10, 1, 2),
 		('Oro', 90, 15, 1, 1)
-
--- Roles
-SET IDENTITY_INSERT SARASA.Rol ON
-INSERT INTO SARASA.Rol (Rol_Id, Rol_Descripcion)
-VALUES 	(1, 'Administrador'),
-		(2, 'Cliente')
-SET IDENTITY_INSERT SARASA.Rol OFF
 
 -- Usuarios administradores
 INSERT INTO SARASA.Usuario (Usuario_Username,
