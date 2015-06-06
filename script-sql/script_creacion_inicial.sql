@@ -862,8 +862,8 @@ SET IDENTITY_INSERT SARASA.Funcion ON
 INSERT INTO SARASA.Funcion (Funcion_Id, Funcion_Descripcion)
 VALUES	(1, 'ABM de Rol'),
 		(2, 'ABM de Usuario'),
-		(3, 'ABM de cliente'),
-		(4, 'ABM de cuenta'),
+		(3, 'ABM de Cliente'),
+		(4, 'ABM de Cuenta'),
 		(5, 'Depósitos'),
 		(6, 'Retiro de Efectivo'),
 		(7, 'Transferencias entre cuentas'),
@@ -871,6 +871,11 @@ VALUES	(1, 'ABM de Rol'),
 		(9, 'Consulta de saldos'),
 		(10, 'Listado Estadístico')
 SET IDENTITY_INSERT SARASA.Funcion OFF
+
+-- Mapeos iniciales entre roles y funciones
+INSERT INTO SARASA.Rol_x_Funcion (Rol_Id, Funcion_Id)
+VALUES	(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),	--Funciones iniciales para Administrador
+		(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10)						--Funciones iniciales para Cliente
 
 -- Monedas
 INSERT INTO SARASA.Moneda (Moneda_Descripcion)
