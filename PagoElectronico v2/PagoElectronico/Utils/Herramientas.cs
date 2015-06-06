@@ -8,6 +8,7 @@ using System.Data;
 using System.Configuration;
 using System.Web;
 using System.Xml.Linq;
+using System.Security.Cryptography;
 
 namespace PagoElectronico.Utils
 {
@@ -40,65 +41,59 @@ namespace PagoElectronico.Utils
             return result;
         }
 
+        public static String sha256_hash(String value)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                Byte[] result = hash.ComputeHash(enc.GetBytes(value));
+
+                foreach (Byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
+        }
 
         //  Ejecuta la auteticacion del usuario y carga la lista de funciones
         public static void ejecutarAutenticacion(Usuario user)
         {
-            string nombreSP = "test.Ejecutar_Autenticacion";
-
-            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
-                "@username", user.Username, "@password", user.Password);
-
+            string nombreSP = "SARASA.ejecutar_autenticacion";
             conexion cn = new conexion();
 
             SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
-            query.CommandType = CommandType.StoredProcedure;
+            query.CommandType = CommandType.StoredProcedure;            
+            query.Parameters.AddWithValue("@username", user.Username);
+            query.Parameters.AddWithValue("password", sha256_hash(user.Password));
+            Console.WriteLine("Hola, el hash es: " + sha256_hash(user.Password));
+            
+            //user.CodLogin = Convert.ToInt32(query.ExecuteScalar());
+            Console.WriteLine("El codlogin es: " + query.ExecuteScalar().ToString());
+            user.UsuarioId = user.CodLogin;
 
-
-            //	Agregar los parametros del tipo INPUT
-            query.Parameters.AddRange(listaParametros.ToArray());
-
-            //	Definir el parametro del tipo OUTPUT
-            SqlParameter ParamCodigo = new SqlParameter("@codigo", 0);
-            ParamCodigo.Direction = ParameterDirection.Output;
-            query.Parameters.Add(ParamCodigo);
-
-            SqlParameter ParamNombre = new SqlParameter("@nombre", "");
-            ParamNombre.Direction = ParameterDirection.Output;
-            ParamNombre.Size = 255;
-            query.Parameters.Add(ParamNombre);
-
-            SqlParameter ParamApellido = new SqlParameter("@apellido", "");
-            ParamApellido.Direction = ParameterDirection.Output;
-            ParamApellido.Size = 255;
-            query.Parameters.Add(ParamApellido);
-
-            SqlParameter ParamClienteId = new SqlParameter("@clienteId", 0);
-            ParamClienteId.Direction = ParameterDirection.Output;
-            query.Parameters.Add(ParamClienteId);
-
-            SqlParameter ParamClienteDocumento = new SqlParameter("@clienteDocumento", 0);
-            ParamClienteDocumento.Direction = ParameterDirection.Output;
-            query.Parameters.Add(ParamClienteDocumento);
-
-            query.ExecuteNonQuery();
-
-            user.CodLogin = int.Parse(query.Parameters["@codigo"].SqlValue.ToString());
-            user.ClienteId = int.Parse(query.Parameters["@clienteId"].SqlValue.ToString());
-            user.Nombre = query.Parameters["@nombre"].SqlValue.ToString();
-            user.Apellido = query.Parameters["@apellido"].SqlValue.ToString();
-            user.Documento = query.Parameters["@clienteDocumento"].SqlValue.ToString();
-
-            //	Agregar el parametro del tipo OUTPUT
-//            SqlDataAdapter da = new SqlDataAdapter(query);
-//            int val1 = ParamHabilitado.Value;//ToString();
-//            int val1 = int.Parse(query.Parameters["@habilitado"].SqlValue.ToString());
-//            string val2 = query.Parameters["@mensaje"].SqlValue.ToString();
-            //	Recuperar el valor del parametro OUTPUT	
-//            string valorOutput = query.Parameters["@habilitado"].Value.ToString();
-//            da.Fill(dtable);
-//            return dtable;
-
+            if (user.CodLogin != 0)
+            {
+                String query_datos_usuario = "" +
+                    "SELECT usu.Usuario_Username, usu.Usuario_Password, cli.Cliente_Id, cli.Cliente_Nombre, cli.Cliente_Apellido, cli.Cliente_Doc_Nro, usu.Usuario_Habilitado " +
+                    "FROM SARASA.Usuario usu " +
+                    "INNER JOIN SARASA.Cliente cli ON usu.Usuario_Cliente_Id = cli.Cliente_Id " +
+                    "WHERE usu.Usuario_Id = " + user.UsuarioId.ToString();
+                                        
+                SqlDataReader usuarioInfo = ejecutarConsultaSimple(query_datos_usuario);
+                while (usuarioInfo.Read())
+                {
+                    user.Username = ((IDataRecord) usuarioInfo)[0].ToString();
+                    user.Password = ((IDataRecord) usuarioInfo)[1].ToString();
+                    user.ClienteId = Convert.ToInt32(((IDataRecord) usuarioInfo)[2]);
+                    user.Nombre = ((IDataRecord)usuarioInfo)[3].ToString();
+                    user.Apellido = ((IDataRecord)usuarioInfo)[4].ToString();
+                    user.Documento = ((IDataRecord)usuarioInfo)[5].ToString();
+                    user.Habilitado = Convert.ToBoolean(((IDataRecord)usuarioInfo)[6]);
+                }
+            }
+            
         }
 
         public static void cargarFunciones(Usuario user)
@@ -121,8 +116,7 @@ namespace PagoElectronico.Utils
 
                 //	Agregar los parametros del tipo INPUT
                 query.Parameters.AddRange(listaParametros.ToArray());
-
-
+                
                 dReader = query.ExecuteReader();
 
                 while (dReader.Read())

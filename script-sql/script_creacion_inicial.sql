@@ -250,20 +250,22 @@ GO
 ********************************/
 
 CREATE FUNCTION SARASA.ejecutar_autenticacion(
-	@username	nvarchar(20),
-	@password	nvarchar(64))
+	@username nvarchar(20),
+	@password nvarchar(64))
 RETURNS integer		-- Retorna 0 si el usuario/pass no existe, o el id del usuario si existe
 AS
 BEGIN
 	DECLARE @usuario_id integer
+	DECLARE @respuesta integer
+
+	SET @respuesta = 0
 	SELECT @usuario_id = usu.Usuario_Id	FROM SARASA.Usuario usu	WHERE usu.Usuario_Username = @username AND usu.Usuario_Password = @password
 	
-	IF @usuario_id IS NULL
+	IF @usuario_id IS NOT NULL
 	BEGIN
-		RETURN 0
+		SET @respuesta = @usuario_id
 	END
-	
-	RETURN @usuario_id
+	RETURN @respuesta
 END
 GO
 

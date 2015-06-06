@@ -21,6 +21,8 @@ namespace PagoElectronico.Utils
         private int codLogin;
         private int clienteId;
         private int usuarioId;
+        private bool logueado;
+        private bool habilitado;
 
         //Constructor
         public Usuario()
@@ -31,6 +33,7 @@ namespace PagoElectronico.Utils
             this.nombre = string.Empty;
             this.apellido = string.Empty;
             this.funciones = new ArrayList();
+            this.logueado = false;
         }
 
         //Propiedades
@@ -96,6 +99,18 @@ namespace PagoElectronico.Utils
         {
             get { return this.apellido; }
             set { this.apellido = value; }
+        }
+
+        public bool Logueado
+        {
+            get { return this.logueado; }
+            set { this.logueado = value; }
+        }
+
+        public bool Habilitado
+        {
+            get { return this.habilitado; }
+            set { this.habilitado = value; }
         }
     }
 }

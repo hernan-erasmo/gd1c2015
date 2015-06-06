@@ -15,8 +15,8 @@ namespace PagoElectronico
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-//            Application.Run(new Login.Login());
-            Application.Run(new MenuPrincipal());
+            Application.Run(new Login.Login(new MenuPrincipal()));
+            //Application.Run(new MenuPrincipal());
         }
     }
 }
