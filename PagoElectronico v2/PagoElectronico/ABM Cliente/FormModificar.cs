@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace PagoElectronico.ABM_Cliente
 {
-    public partial class ModificarCliente : Form
+    public partial class FormModificar : Form
     {
         Form formPadre;
 
@@ -18,7 +18,7 @@ namespace PagoElectronico.ABM_Cliente
             this.formPadre = padre;
         }
 
-        public ModificarCliente()
+        public FormModificar()
         {
             InitializeComponent();
         }

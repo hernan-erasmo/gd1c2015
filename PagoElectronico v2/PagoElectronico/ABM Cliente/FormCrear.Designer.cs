@@ -56,6 +56,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkEstado = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbxRol = new System.Windows.Forms.ComboBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtRespuestaSec = new System.Windows.Forms.TextBox();
             this.txtPreguntaSec = new System.Windows.Forms.TextBox();
@@ -65,7 +66,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.cbxRol = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -277,6 +277,7 @@
             this.button3.TabIndex = 32;
             this.button3.Text = "Limpiar";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // groupBox1
             // 
@@ -340,6 +341,14 @@
             this.groupBox2.TabIndex = 34;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Información del Usuario";
+            // 
+            // cbxRol
+            // 
+            this.cbxRol.FormattingEnabled = true;
+            this.cbxRol.Location = new System.Drawing.Point(19, 302);
+            this.cbxRol.Name = "cbxRol";
+            this.cbxRol.Size = new System.Drawing.Size(259, 21);
+            this.cbxRol.TabIndex = 19;
             // 
             // txtPassword
             // 
@@ -413,14 +422,6 @@
             this.label17.Size = new System.Drawing.Size(43, 13);
             this.label17.TabIndex = 10;
             this.label17.Text = "Usuario";
-            // 
-            // cbxRol
-            // 
-            this.cbxRol.FormattingEnabled = true;
-            this.cbxRol.Location = new System.Drawing.Point(19, 302);
-            this.cbxRol.Name = "cbxRol";
-            this.cbxRol.Size = new System.Drawing.Size(259, 21);
-            this.cbxRol.TabIndex = 19;
             // 
             // FormCrear
             // 

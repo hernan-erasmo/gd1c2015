@@ -12,7 +12,7 @@ namespace PagoElectronico.ABM_Cliente
     public partial class ModificacionBaja : Form
     {
         Form formPadre;
-        ModificarCliente modificarCliente = new PagoElectronico.ABM_Cliente.ModificarCliente();
+        FormModificar modificarCliente = new PagoElectronico.ABM_Cliente.FormModificar();
 
         public void asignarPadre(Form padre)
         {

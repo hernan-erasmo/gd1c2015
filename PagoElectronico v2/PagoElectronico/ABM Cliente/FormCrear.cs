@@ -37,8 +37,8 @@ namespace PagoElectronico.ABM_Cliente
         {
             Herramientas.llenarComboBox(cbxPais, "SELECT Pais_Id 'Valor', Pais_Nombre 'Etiqueta' FROM test.pais ORDER BY Pais_Nombre", true);
 
-            Utils.Herramientas.llenarComboBox(cbxTipoDoc, "select Tipodoc_Id 'Valor', Tipodoc_Descripcion 'Etiqueta' from test.Tipodoc", true);
-            Utils.Herramientas.llenarComboBox(cbxRol, "SELECT Rol_Id 'Valor', Rol_Descripcion 'Etiqueta' FROM test.Rol", true);
+            Herramientas.llenarComboBox(cbxTipoDoc, "select Tipodoc_Id 'Valor', Tipodoc_Descripcion 'Etiqueta' from test.Tipodoc", true);
+            Herramientas.llenarComboBox(cbxRol, "SELECT Rol_Id 'Valor', Rol_Descripcion 'Etiqueta' FROM test.Rol", true);
            
 
 
@@ -104,6 +104,11 @@ namespace PagoElectronico.ABM_Cliente
         {
             this.Close();
             formPadre.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
