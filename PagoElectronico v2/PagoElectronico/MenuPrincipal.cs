@@ -121,7 +121,9 @@ namespace PagoElectronico
 
         private void btnTransferencias_Click(object sender, EventArgs e)
         {
-
+            Transferencias.FormTransferencias frmTransferencia = new Transferencias.FormTransferencias(this, usuario);
+            this.Hide();
+            frmTransferencia.Show();
         }
 
         private void btnABMCuenta_Click(object sender, EventArgs e)
