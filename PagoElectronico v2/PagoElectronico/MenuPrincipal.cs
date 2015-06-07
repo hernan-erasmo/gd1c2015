@@ -144,5 +144,12 @@ namespace PagoElectronico
             this.Hide();
             frm.Show();
         }
+
+        private void btnListados_Click(object sender, EventArgs e)
+        {
+            Listados.FormListados frm = new Listados.FormListados(this,usuario);
+            this.Hide();
+            frm.Show();
+        }
     }
 }

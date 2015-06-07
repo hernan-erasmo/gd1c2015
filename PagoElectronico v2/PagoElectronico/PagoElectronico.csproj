@@ -92,12 +92,6 @@
       <DependentUpon>FormModificar.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM de Usuario\Usuario.cs" />
-    <Compile Include="ABM Cliente\Buscar Cliente.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Cliente\Buscar Cliente.Designer.cs">
-      <DependentUpon>Buscar Cliente.cs</DependentUpon>
-    </Compile>
     <Compile Include="ABM Cliente\FormModificar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,11 +191,11 @@
     <Compile Include="MenuPrincipal.Designer.cs">
       <DependentUpon>MenuPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Listados\Form1.cs">
+    <Compile Include="Listados\FormListados.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Listados\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Listados\FormListados.Designer.cs">
+      <DependentUpon>FormListados.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
@@ -216,9 +210,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\FormCrear.resx">
       <DependentUpon>FormCrear.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ABM Cliente\Buscar Cliente.resx">
-      <DependentUpon>Buscar Cliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\FormModificar.resx">
       <DependentUpon>FormModificar.cs</DependentUpon>
@@ -261,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Depositos\FormDepositos.resx">
       <DependentUpon>FormDepositos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listados\FormListados.resx">
+      <DependentUpon>FormListados.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MenuPrincipal.resx">
       <DependentUpon>MenuPrincipal.cs</DependentUpon>

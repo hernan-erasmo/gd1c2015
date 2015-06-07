@@ -185,6 +185,7 @@
             this.btnListados.TabIndex = 44;
             this.btnListados.Text = "Listados";
             this.btnListados.UseVisualStyleBackColor = true;
+            this.btnListados.Click += new System.EventHandler(this.btnListados_Click);
             // 
             // btnFacturacion
             // 
