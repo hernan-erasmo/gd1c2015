@@ -60,17 +60,14 @@ namespace PagoElectronico.Utils
         //  Ejecuta la auteticacion del usuario y carga la lista de funciones
         public static void ejecutarAutenticacion(Usuario user)
         {
-            string nombreSP = "SARASA.ejecutar_autenticacion";
+            string query_procedure = "" + 
+                "SELECT SARASA.ejecutar_autenticacion('" + user.Username + "','" + sha256_hash(user.Password) + "')";
+            Console.WriteLine(query_procedure);
             conexion cn = new conexion();
 
-            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
-            query.CommandType = CommandType.StoredProcedure;            
-            query.Parameters.AddWithValue("@username", user.Username);
-            query.Parameters.AddWithValue("password", sha256_hash(user.Password));
-            Console.WriteLine("Hola, el hash es: " + sha256_hash(user.Password));
+            SqlCommand query = new SqlCommand(query_procedure, cn.abrir_conexion());
             
-            //user.CodLogin = Convert.ToInt32(query.ExecuteScalar());
-            Console.WriteLine("El codlogin es: " + query.ExecuteScalar().ToString());
+            user.CodLogin = Convert.ToInt32(query.ExecuteScalar());
             user.UsuarioId = user.CodLogin;
 
             if (user.CodLogin != 0)

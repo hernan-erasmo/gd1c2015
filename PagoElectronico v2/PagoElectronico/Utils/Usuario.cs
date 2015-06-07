@@ -85,7 +85,7 @@ namespace PagoElectronico.Utils
 
         public int UsuarioId
         {
-            get { return this.UsuarioId; }
+            get { return this.usuarioId; }
             set { this.usuarioId = value; }
         }
 
