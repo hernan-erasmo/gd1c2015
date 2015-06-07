@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using PagoElectronico.Utils;
 
 namespace PagoElectronico.Login
 {
@@ -23,7 +24,7 @@ namespace PagoElectronico.Login
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Utils.Herramientas.llenarComboBox(comboBox1, "SELECT * FROM test.Rol",true);
+            Herramientas.llenarComboBoxSP(comboBox1, "SARASA.cbx_rol", true);
         }
 
         //  Login

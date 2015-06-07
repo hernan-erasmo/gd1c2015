@@ -57,6 +57,13 @@ namespace PagoElectronico.Depositos
             usuario = user;
         }
 
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this.Dispose();
+            formPadre.Show();
+        }
+
         //  Vuelve al menu principal
         private void button1_Click(object sender, EventArgs e)
         {

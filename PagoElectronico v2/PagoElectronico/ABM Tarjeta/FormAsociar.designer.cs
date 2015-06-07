@@ -72,7 +72,6 @@
             this.dtpFechaVencimiento.Name = "dtpFechaVencimiento";
             this.dtpFechaVencimiento.Size = new System.Drawing.Size(86, 20);
             this.dtpFechaVencimiento.TabIndex = 7;
-            this.dtpFechaVencimiento.ValueChanged += new System.EventHandler(this.dtpFechaVencimiento_ValueChanged);
             // 
             // txtCodSeguridad
             // 
@@ -91,7 +90,6 @@
             this.dtpFechaEmision.Size = new System.Drawing.Size(86, 20);
             this.dtpFechaEmision.TabIndex = 6;
             this.dtpFechaEmision.Value = new System.DateTime(2015, 5, 17, 0, 0, 0, 0);
-            this.dtpFechaEmision.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label6
             // 
@@ -109,7 +107,6 @@
             this.cbxEmisor.Name = "cbxEmisor";
             this.cbxEmisor.Size = new System.Drawing.Size(121, 21);
             this.cbxEmisor.TabIndex = 6;
-            this.cbxEmisor.SelectedIndexChanged += new System.EventHandler(this.cbxEmisor_SelectedIndexChanged);
             // 
             // txtNumero
             // 
@@ -118,7 +115,6 @@
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(106, 20);
             this.txtNumero.TabIndex = 5;
-            this.txtNumero.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label5
             // 
@@ -181,7 +177,6 @@
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(162, 20);
             this.txtCliente.TabIndex = 2;
-            this.txtCliente.TextChanged += new System.EventHandler(this.txtCliente_TextChanged);
             // 
             // btnVolver
             // 

@@ -126,7 +126,6 @@
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(106, 20);
             this.txtNumero.TabIndex = 5;
-            this.txtNumero.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // label5
             // 

@@ -92,7 +92,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(173, 20);
             this.textBox1.TabIndex = 5;
-            this.textBox1.Text = "userAdmin";
+            this.textBox1.Text = "userTest";
             // 
             // textBox2
             // 
@@ -100,7 +100,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(172, 20);
             this.textBox2.TabIndex = 6;
-            this.textBox2.Text = "1111";
+            this.textBox2.Text = "0";
             // 
             // comboBox1
             // 

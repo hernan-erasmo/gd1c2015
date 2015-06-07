@@ -30,5 +30,10 @@ namespace PagoElectronico.ABM_Cliente
         {
 
         }
+
+        private void FormBuscar_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

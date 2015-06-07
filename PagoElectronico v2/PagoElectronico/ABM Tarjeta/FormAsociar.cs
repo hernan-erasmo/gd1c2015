@@ -12,7 +12,7 @@ namespace PagoElectronico.ABM_Tarjeta
 {
     public partial class FormAsociar : Form
     {
-        Form padre;
+        Form formPadre;
 
         public FormAsociar()
         {
@@ -22,18 +22,15 @@ namespace PagoElectronico.ABM_Tarjeta
         public FormAsociar(Form f, string cliente)
         {
             InitializeComponent();
-            padre = f;
+            formPadre = f;
             txtCliente.Text = cliente;
         }
 
-        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
         {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
+            this.Dispose();
+            formPadre.Show();
         }
 
         //  Asociar
@@ -107,32 +104,12 @@ namespace PagoElectronico.ABM_Tarjeta
         }
 
 
-        private void txtCliente_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         //  Volver
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
-            this.padre.Show();
+            this.formPadre.Show();
         }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cbxEmisor_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dtpFechaVencimiento_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

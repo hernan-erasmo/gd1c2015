@@ -32,6 +32,7 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnModUsuario = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
@@ -40,7 +41,6 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnLimpiar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -53,7 +53,7 @@
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.btnModUsuario = new System.Windows.Forms.Button();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -99,6 +99,15 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 33);
             this.flowLayoutPanel1.TabIndex = 19;
             this.flowLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.flowLayoutPanel1_Paint);
+            // 
+            // btnModUsuario
+            // 
+            this.btnModUsuario.Location = new System.Drawing.Point(261, 3);
+            this.btnModUsuario.Name = "btnModUsuario";
+            this.btnModUsuario.Size = new System.Drawing.Size(80, 28);
+            this.btnModUsuario.TabIndex = 11;
+            this.btnModUsuario.Text = "Mod. Usuario";
+            this.btnModUsuario.UseVisualStyleBackColor = true;
             // 
             // btnModificar
             // 
@@ -189,15 +198,6 @@
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
-            // 
-            // btnLimpiar
-            // 
-            this.btnLimpiar.Location = new System.Drawing.Point(12, 183);
-            this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(80, 28);
-            this.btnLimpiar.TabIndex = 21;
-            this.btnLimpiar.Text = "Limpiar";
-            this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -297,14 +297,14 @@
             this.comboBox1.Size = new System.Drawing.Size(168, 21);
             this.comboBox1.TabIndex = 65;
             // 
-            // btnModUsuario
+            // btnLimpiar
             // 
-            this.btnModUsuario.Location = new System.Drawing.Point(261, 3);
-            this.btnModUsuario.Name = "btnModUsuario";
-            this.btnModUsuario.Size = new System.Drawing.Size(80, 28);
-            this.btnModUsuario.TabIndex = 11;
-            this.btnModUsuario.Text = "Mod. Usuario";
-            this.btnModUsuario.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Location = new System.Drawing.Point(12, 183);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(80, 28);
+            this.btnLimpiar.TabIndex = 21;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // FormBuscar
             // 
@@ -323,6 +323,7 @@
             this.MaximizeBox = false;
             this.Name = "FormBuscar";
             this.Text = "Cliente - Buscar";
+            this.Load += new System.EventHandler(this.FormBuscar_Load);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

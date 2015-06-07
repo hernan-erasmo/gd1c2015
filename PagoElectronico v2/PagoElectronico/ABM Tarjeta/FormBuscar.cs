@@ -32,6 +32,13 @@ namespace PagoElectronico.ABM_Tarjeta
             usuario = user;
         }
 
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this.Dispose();
+            formPadre.Show();
+        }
+
         //  Carga el formulario
         private void FormBuscar_Load(object sender, EventArgs e)
         {

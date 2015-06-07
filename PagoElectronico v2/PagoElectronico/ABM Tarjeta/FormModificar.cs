@@ -12,7 +12,7 @@ namespace PagoElectronico.ABM_Tarjeta
 {
     public partial class FormModificar : Form
     {
-        Form padre;
+        Form formPadre;
         Tarjeta tarjeta;
 
         public FormModificar()
@@ -23,7 +23,7 @@ namespace PagoElectronico.ABM_Tarjeta
         public FormModificar(Form f, string cliente, Tarjeta t)
         {
             InitializeComponent();
-            padre = f;
+            formPadre = f;
             txtCliente.Text = cliente;
 
             tarjeta = t;
@@ -48,14 +48,11 @@ namespace PagoElectronico.ABM_Tarjeta
             
         }
 
-        private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
         {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
+            this.Dispose();
+            formPadre.Show();
         }
 
         private void FormModificar_Load(object sender, EventArgs e)
@@ -79,7 +76,7 @@ namespace PagoElectronico.ABM_Tarjeta
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
-            this.padre.Show();
+            this.formPadre.Show();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)

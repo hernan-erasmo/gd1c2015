@@ -21,6 +21,12 @@ namespace PagoElectronico.Listados
             usuario = user;
         }
 
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this.Dispose();
+            formPadre.Show();
+        }
 
         private void FormListado_Load(object sender, EventArgs e)
         {

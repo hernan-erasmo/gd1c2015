@@ -391,6 +391,47 @@ namespace PagoElectronico.Utils
             }
         }
 
+        //  Carga el combo box con el resultado de la consulta ejecutando un SP
+        public static void llenarComboBoxSP(ComboBox cb, string nombreSP, bool obligatorio)
+        {
+            SqlDataReader dReader;
+            try
+            {
+                conexion cn = new conexion();
+                SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+                query.CommandType = CommandType.StoredProcedure;
+                dReader = query.ExecuteReader();
+
+                //	Add keys and values in a Dictionary Object
+                Dictionary<string, string> comboSource = new Dictionary<string, string>();
+
+                //*************************************************
+                if (!obligatorio)
+                    comboSource.Add("0", "<Ninguno>");
+
+                if (dReader.HasRows)
+                {
+                    //                    comboSource.Add("0", "<Ninguno>");
+                    while (dReader.Read())
+                    {
+                        comboSource.Add(dReader[0].ToString(), dReader[1].ToString());
+                    }
+
+                    //	Bind the source Dictionary object to Combobox
+                    cb.DataSource = new BindingSource(comboSource, null);
+                    cb.DisplayMember = "Value";
+                    cb.ValueMember = "Key";
+                }
+
+                dReader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No se pudo cargar el combo Box " + ex.ToString());
+
+            }
+        }
+
         //  Carga el combo box con el resultado de la consulta
         public static void llenarComboBoxConSeleccion(ComboBox cb, string consulta, string valor, bool obligatorio)
         {

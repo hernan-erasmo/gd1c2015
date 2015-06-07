@@ -21,9 +21,11 @@ namespace PagoElectronico.Consulta_Saldos
             usuario = user;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
         {
-
+            this.Dispose();
+            formPadre.Show();
         }
 
         private void FormConsultaSaldo_Load(object sender, EventArgs e)

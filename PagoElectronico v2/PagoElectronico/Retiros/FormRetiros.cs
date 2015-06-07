@@ -34,6 +34,13 @@ namespace PagoElectronico.Retiros
             Herramientas.llenarComboBox(cbxBanco, "SELECT Banco_Codigo 'Valor', Banco_Nombre + ' - ' + Banco_Direccion 'ETIQUETA' FROM test.banco", true);
         }
 
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this.Dispose();
+            formPadre.Show();
+        }
+
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();

@@ -21,9 +21,12 @@ namespace PagoElectronico.Transferencias
             formPadre = f;
             usuario = user;
         }
-        public FormTransferencias()
+
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
         {
-            InitializeComponent();
+            this.Dispose();
+            formPadre.Show();
         }
 
         private void FormTransferencias_Load(object sender, EventArgs e)
@@ -39,7 +42,8 @@ namespace PagoElectronico.Transferencias
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            this.Close();
+            //this.Close();
+            this.Dispose(); 
             formPadre.Show();
         }
 
