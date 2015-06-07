@@ -151,5 +151,12 @@ namespace PagoElectronico
             this.Hide();
             frm.Show();
         }
+
+        private void btnConsultaSaldos_Click(object sender, EventArgs e)
+        {
+            Consulta_Saldos.FormConsulta frm = new Consulta_Saldos.FormConsulta(this, usuario);
+            this.Hide();
+            frm.Show();
+        }
     }
 }

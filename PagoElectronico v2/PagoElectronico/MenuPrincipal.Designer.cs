@@ -176,6 +176,7 @@
             this.btnConsultaSaldos.TabIndex = 41;
             this.btnConsultaSaldos.Text = "Consulta Saldos";
             this.btnConsultaSaldos.UseVisualStyleBackColor = true;
+            this.btnConsultaSaldos.Click += new System.EventHandler(this.btnConsultaSaldos_Click);
             // 
             // btnListados
             // 

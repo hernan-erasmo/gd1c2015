@@ -167,11 +167,11 @@
     <Compile Include="Utils\conexion.cs" />
     <Compile Include="Utils\Filtros.cs" />
     <Compile Include="Utils\Herramientas.cs" />
-    <Compile Include="Consulta Saldos\Form1.cs">
+    <Compile Include="Consulta Saldos\FormConsulta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Consulta Saldos\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Consulta Saldos\FormConsulta.Designer.cs">
+      <DependentUpon>FormConsulta.cs</DependentUpon>
     </Compile>
     <Compile Include="Depositos\FormDepositos.cs">
       <SubType>Form</SubType>
@@ -249,6 +249,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Tarjeta\FormBuscarClie.resx">
       <DependentUpon>FormBuscarClie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Consulta Saldos\FormConsulta.resx">
+      <DependentUpon>FormConsulta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Depositos\FormDepositos.resx">
       <DependentUpon>FormDepositos.cs</DependentUpon>
