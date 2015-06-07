@@ -907,7 +907,7 @@ INSERT INTO SARASA.Usuario (Usuario_Username,
 							Usuario_Cliente_Id)
 VALUES	
 		(	'admin1', 
-			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',	--hash sha256 para w23e
 			GETDATE(),
 			GETDATE(),
 			'¿Cual es el nombre de este grupo?',
@@ -915,7 +915,7 @@ VALUES
 			1,	--Habilitado
 			NULL),
 		(	'admin2', 
-			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',	--hash sha256 para w23e
 			GETDATE(),
 			GETDATE(),
 			'¿Cual es el nombre de este grupo?',
@@ -923,7 +923,7 @@ VALUES
 			1,	--Habilitado
 			NULL),
 		(	'admin3', 
-			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',	--hash sha256 para w23e
 			GETDATE(),
 			GETDATE(),
 			'¿Cual es el nombre de este grupo?',
@@ -931,7 +931,7 @@ VALUES
 			1,	--Habilitado
 			NULL),
 		(	'admin4', 
-			'837259564908a914502c515217d33100e5e7fa04de8083dfad999b63eed48ee6',	--hash sha256 para w23e
+			'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',	--hash sha256 para w23e
 			GETDATE(),
 			GETDATE(),
 			'¿Cual es el nombre de este grupo?',
