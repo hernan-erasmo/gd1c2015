@@ -79,12 +79,14 @@ namespace PagoElectronico.Login
                         button1.Text = "Usar el rol seleccionado";
 
                         String query_roles_para_usuario = "" +
-                            "SELECT rol.Rol_Descripcion " +
+                            "SELECT rol.Rol_Id, rol.Rol_Descripcion " +
                             "FROM SARASA.Usuario usu " +
                             "INNER JOIN SARASA.Rol_x_Usuario rxu ON rxu.Usuario_Id = usu.Usuario_Id " +
                             "INNER JOIN SARASA.Rol rol ON rol.Rol_Id = rxu.Rol_Id " +
                             "WHERE usu.Usuario_Id = " + usuario.UsuarioId.ToString();
+
                         Utils.Herramientas.llenarComboBox(comboBox1, query_roles_para_usuario, true);
+                        usuario.Logueado = true;
                     }
                 break;
             }
