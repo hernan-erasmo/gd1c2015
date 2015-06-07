@@ -171,9 +171,9 @@
             // 
             // txtVolver
             // 
-            this.txtVolver.Location = new System.Drawing.Point(12, 428);
+            this.txtVolver.Location = new System.Drawing.Point(12, 435);
             this.txtVolver.Name = "txtVolver";
-            this.txtVolver.Size = new System.Drawing.Size(88, 36);
+            this.txtVolver.Size = new System.Drawing.Size(79, 29);
             this.txtVolver.TabIndex = 14;
             this.txtVolver.Text = "Volver";
             this.txtVolver.UseVisualStyleBackColor = true;
@@ -261,9 +261,9 @@
             // 
             // txtCrear
             // 
-            this.txtCrear.Location = new System.Drawing.Point(529, 428);
+            this.txtCrear.Location = new System.Drawing.Point(529, 435);
             this.txtCrear.Name = "txtCrear";
-            this.txtCrear.Size = new System.Drawing.Size(88, 36);
+            this.txtCrear.Size = new System.Drawing.Size(80, 29);
             this.txtCrear.TabIndex = 31;
             this.txtCrear.Text = "Crear";
             this.txtCrear.UseVisualStyleBackColor = true;
@@ -271,9 +271,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(106, 428);
+            this.button3.Location = new System.Drawing.Point(106, 435);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(88, 36);
+            this.button3.Size = new System.Drawing.Size(80, 29);
             this.button3.TabIndex = 32;
             this.button3.Text = "Limpiar";
             this.button3.UseVisualStyleBackColor = true;

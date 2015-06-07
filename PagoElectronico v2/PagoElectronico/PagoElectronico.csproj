@@ -66,11 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABM Cliente\ABM_Cliente.cs">
+    <Compile Include="ABM Cliente\FormBuscar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Cliente\ABM_Cliente.Designer.cs">
-      <DependentUpon>ABM_Cliente.cs</DependentUpon>
+    <Compile Include="ABM Cliente\FormBuscar.Designer.cs">
+      <DependentUpon>FormBuscar.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Cliente\FormCrear.cs">
       <SubType>Form</SubType>
@@ -98,11 +98,11 @@
     <Compile Include="ABM Cliente\Buscar Cliente.Designer.cs">
       <DependentUpon>Buscar Cliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Cliente\ModificarCliente.cs">
+    <Compile Include="ABM Cliente\FormModificar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Cliente\ModificarCliente.Designer.cs">
-      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    <Compile Include="ABM Cliente\FormModificar.Designer.cs">
+      <DependentUpon>FormModificar.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Cuenta\FormBuscar.cs">
       <SubType>Form</SubType>
@@ -211,8 +211,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ABM Cliente\ABM_Cliente.resx">
-      <DependentUpon>ABM_Cliente.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Cliente\FormBuscar.resx">
+      <DependentUpon>FormBuscar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\FormCrear.resx">
       <DependentUpon>FormCrear.cs</DependentUpon>
@@ -220,8 +220,8 @@
     <EmbeddedResource Include="ABM Cliente\Buscar Cliente.resx">
       <DependentUpon>Buscar Cliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Cliente\ModificarCliente.resx">
-      <DependentUpon>ModificarCliente.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Cliente\FormModificar.resx">
+      <DependentUpon>FormModificar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cuenta\FormBuscar.resx">
       <DependentUpon>FormBuscar.cs</DependentUpon>

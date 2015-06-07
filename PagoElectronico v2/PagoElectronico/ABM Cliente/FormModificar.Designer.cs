@@ -280,18 +280,18 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.Location = new System.Drawing.Point(230, 428);
+            this.btnGuardar.Location = new System.Drawing.Point(238, 423);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(88, 36);
+            this.btnGuardar.Size = new System.Drawing.Size(80, 28);
             this.btnGuardar.TabIndex = 35;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
             // 
             // txtVolver
             // 
-            this.txtVolver.Location = new System.Drawing.Point(12, 428);
+            this.txtVolver.Location = new System.Drawing.Point(12, 423);
             this.txtVolver.Name = "txtVolver";
-            this.txtVolver.Size = new System.Drawing.Size(88, 36);
+            this.txtVolver.Size = new System.Drawing.Size(79, 28);
             this.txtVolver.TabIndex = 34;
             this.txtVolver.Text = "Volver";
             this.txtVolver.UseVisualStyleBackColor = true;
@@ -300,7 +300,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 503);
+            this.ClientSize = new System.Drawing.Size(335, 486);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtVolver);
