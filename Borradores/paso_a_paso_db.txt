@@ -80,15 +80,21 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 
 		La función SARASA.Cuenta_al_dia recibe como parámetro el numero de la cuenta y retorna 0 en caso de que la cuenta posea ítems de factura sin pagar y 1 en caso de que tenga todos los cargos pagos.
 
-		El procedure SARASA.modificar_cuenta recibe
+		El procedure SARASA.modificar_cuenta recibe 4 parámetros.
 			@cliente_id, de tipo integer, es el FK que identifica al cliente que modifica la cuenta (id del cliente)
 			@cuenta_numero de tipo numeric(18,0) es el numero de la cuenta que se desea modificar
-			@tipo_cuenta_id de tipo integer, es el FK para la tabla SARASA.Tipocta que indica el tipo de cuenta al que se desea cambiar
-			@cerrar_cuenta de tipo bit (1: SI, 0: NO) indica que el cliente desea cambiar el estado de la cuenta a 'cerrada'
+			@tipo_cuenta_deseado de tipo integer, es el FK para la tabla SARASA.Tipocta que indica el tipo de cuenta al que se desea cambiar
+			@estado_deseado, de tipo integer, es el FK para la tabla SARASA.Estado y representa el estado al que se quiere cambiar la cuenta.
 
-			Las modificaciones que puede sufrir una cuenta por parte del cliente de manera voluntaria son:
-				1- Cambiar el tipo de la cuenta (lo que genera un costo)
-				2- Cerrar la cuenta (que es irreversible)
+			Las transiciones entre estados permitidas por este método son:
+				(A falta de un requerimiento explícito en el enunciado, vamos a asumir que una cuenta pendiente de activación no puede recibir ni enviar dinero, y tampoco realizar depósitos hasta no estar activa)
+				
+				* Pendiente de activación -> Habilitada (Automáticamente, al facturarse el costo de apertura.)
+				* Habilitada -> Inhabilitada (Manualmente, por un usuario que posea permisos suficientes. Automáticamente, al deber 5 transacciones o al vencer su suscripción.)
+				* Habilitada -> Cerrada (Manualmente, por un usuario que posea permisos suficientes.)
+				* Inhabilitada -> Habilitada (Manualmente, por un usuario que posea permisos suficientes y en tanto se hayan facturado todos sus costos pendientes)
+
+			Ninguna otra transición es válida en el sistema.				
 
 			El proceso realiza las validaciones necesarias antes de cerrar la cuenta y no permite que se cierre una cuenta que posee importes sin facturar.
 			También genera los ítems de las facturas en caso de que se cambie el tipo de cuenta, y por supuesto modifica el estado de la cuenta y el tipo en caso de ser necesario.

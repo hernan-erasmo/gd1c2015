@@ -701,10 +701,10 @@ END CATCH
 GO
 
 CREATE PROCEDURE SARASA.modificar_cuenta (
-	@cliente_id		integer,
-	@cuenta_numero	numeric(18,0),
-	@tipo_cuenta_id	integer,
-	@cerrar_cuenta	bit
+	@cliente_id				integer,
+	@cuenta_numero			numeric(18,0),
+	@tipo_cuenta_deseado	integer,
+	@estado_deseado 		integer
 )
 AS
 
@@ -721,7 +721,9 @@ BEGIN TRY
 		BEGIN TRANSACTION
 
 			DECLARE @cuenta_string nvarchar(40)
+			DECLARE @estado_habilitada integer
 			DECLARE @estado_cerrada integer
+			DECLARE @estado_inhabilitada integer
 			DECLARE @estado_actual integer
 			DECLARE @fecha_hoy datetime
 			DECLARE @importe numeric(18,2)
@@ -729,8 +731,10 @@ BEGIN TRY
 
 			SET @fecha_hoy = GETDATE()
 			SELECT @tipo_cuenta_actual = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
-			SELECT @importe = tipo.Tipocta_Costo_Mod FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_id
+			SELECT @importe = tipo.Tipocta_Costo_Mod FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_deseado
+			SELECT @estado_habilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada'
 			SELECT @estado_cerrada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Cerrada'
+			SELECT @estado_inhabilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Inhabilitada'
 			SELECT @estado_actual = cue.Cuenta_Estado_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
 			SET @cuenta_string = CAST(@cuenta_numero AS nvarchar(40)) --solo en caso de error
 
@@ -740,28 +744,36 @@ BEGIN TRY
 				RAISERROR('No se puede modificar la cuenta %s porque está cerrada.',16,1,@cuenta_string)
 			END
 
-			-- Si el tipo de cuenta es distinto al actual, generamos un item de factura por el cambio de tipo.
-			IF @tipo_cuenta_actual != @tipo_cuenta_id
+			-- Si se quiere inhabilitar, se inhabilita.
+			IF @estado_deseado = @estado_inhabilitada
 			BEGIN
-				EXEC SARASA.crear_item_factura @cuenta_numero, 'Cambio de tipo de cuenta.',@importe,@fecha_hoy,NULL,0
+				UPDATE SARASA.Cuenta
+				SET Cuenta_Estado_Id = @estado_inhabilitada
+				WHERE Cuenta_Numero = @cuenta_numero
 			END
 
-			-- Luego modificamos el tipo
-			UPDATE SARASA.Cuenta
-			SET Cuenta_Tipocta_Id = @tipo_cuenta_id
-			WHERE Cuenta_Numero = @cuenta_numero
+			-- Si el tipo de cuenta es distinto al actual, generamos un item de factura por el cambio de tipo.
+			IF @tipo_cuenta_actual != @tipo_cuenta_deseado
+			BEGIN
+				EXEC SARASA.crear_item_factura @cuenta_numero, 'Cambio de tipo de cuenta.',@importe,@fecha_hoy,NULL,0
+				
+				-- Luego modificamos el tipo
+				UPDATE SARASA.Cuenta
+				SET Cuenta_Tipocta_Id = @tipo_cuenta_deseado
+				WHERE Cuenta_Numero = @cuenta_numero
+			END
 
-			-- Si se quiere cerrar la cuenta, validamos que no haya ningún item factura impago para ese nro de cuenta
-			IF @cerrar_cuenta = 1
+			-- Si se quiere cerrar o habilitar la cuenta, validamos que no haya ningún item factura impago para ese nro de cuenta
+			IF @estado_deseado = @estado_cerrada OR @estado_deseado = @estado_habilitada
 			BEGIN
 				IF SARASA.cuenta_al_dia(@cuenta_numero) = 0
 				BEGIN
-					RAISERROR('No se puede cerrar la cuenta %s porque tiene transacciones sin pagar.',16,1,@cuenta_string)
+					RAISERROR('No se puede modificar el estado de la cuenta %s porque aún tiene costos sin facturar.',16,1,@cuenta_string)
 				END
 
 				-- Si no, modificamos el estado de la cuenta y listo
 				UPDATE SARASA.Cuenta
-				SET Cuenta_Estado_Id = @estado_cerrada
+				SET Cuenta_Estado_Id = @estado_deseado
 				WHERE Cuenta_Numero = @cuenta_numero
 			END			
 
