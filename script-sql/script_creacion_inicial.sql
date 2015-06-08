@@ -788,6 +788,44 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.acreditar_en_cuenta (
+	@cuenta_numero	numeric(18,0),
+	@importe		numeric(18,2)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+			DECLARE @cuenta_numero_string nvarchar(40)
+
+			DECLARE @saldo_actual numeric(18,2)
+			SELECT @saldo_actual = cue.Cuenta_Saldo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+
+			UPDATE SARASA.Cuenta
+			SET Cuenta_Saldo = @saldo_actual + @importe
+			WHERE Cuenta_Numero = @cuenta_numero
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	SET @cuenta_numero_string = CAST(@cuenta_numero AS nvarchar(40))
+	RAISERROR('Error al realizar la acreditación de fondos en la cuenta destino %s: %s',16,1,@cuenta_numero_string,@error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
