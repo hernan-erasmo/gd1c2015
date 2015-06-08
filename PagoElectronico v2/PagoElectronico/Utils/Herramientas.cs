@@ -5,9 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Xml.Linq;
+using System.Security.Cryptography;
 
 namespace PagoElectronico.Utils
 {
@@ -41,10 +39,27 @@ namespace PagoElectronico.Utils
         }
 
 
+        //  Encriptador SHA256
+        public static String sha256_hash(String value)
+        {
+            StringBuilder Sb = new StringBuilder();
+
+            using (System.Security.Cryptography.SHA256 hash = SHA256Managed.Create())
+            {
+                Encoding enc = Encoding.UTF8;
+                Byte[] result = hash.ComputeHash(enc.GetBytes(value));
+
+                foreach (Byte b in result)
+                    Sb.Append(b.ToString("x2"));
+            }
+
+            return Sb.ToString();
+        }
+
         //  Ejecuta la auteticacion del usuario y carga la lista de funciones
         public static void ejecutarAutenticacion(Usuario user)
         {
-            string nombreSP = "test.Ejecutar_Autenticacion";
+            string nombreSP = "SARASA.Ejecutar_Autenticacion";
 
             List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
                 "@username", user.Username, "@password", user.Password);
@@ -81,6 +96,15 @@ namespace PagoElectronico.Utils
             ParamClienteDocumento.Direction = ParameterDirection.Output;
             query.Parameters.Add(ParamClienteDocumento);
 
+            SqlParameter ParamUsuarioId = new SqlParameter("@usuarioId", 0);
+            ParamUsuarioId.Direction = ParameterDirection.Output;
+            query.Parameters.Add(ParamUsuarioId);
+
+            SqlParameter ParamRolNombre = new SqlParameter("@rolNombre", "");
+            ParamRolNombre.Direction = ParameterDirection.Output;
+            ParamRolNombre.Size = 20;
+            query.Parameters.Add(ParamRolNombre);
+
             query.ExecuteNonQuery();
 
             user.CodLogin = int.Parse(query.Parameters["@codigo"].SqlValue.ToString());
@@ -88,16 +112,9 @@ namespace PagoElectronico.Utils
             user.Nombre = query.Parameters["@nombre"].SqlValue.ToString();
             user.Apellido = query.Parameters["@apellido"].SqlValue.ToString();
             user.Documento = query.Parameters["@clienteDocumento"].SqlValue.ToString();
-
-            //	Agregar el parametro del tipo OUTPUT
-//            SqlDataAdapter da = new SqlDataAdapter(query);
-//            int val1 = ParamHabilitado.Value;//ToString();
-//            int val1 = int.Parse(query.Parameters["@habilitado"].SqlValue.ToString());
-//            string val2 = query.Parameters["@mensaje"].SqlValue.ToString();
-            //	Recuperar el valor del parametro OUTPUT	
-//            string valorOutput = query.Parameters["@habilitado"].Value.ToString();
-//            da.Fill(dtable);
-//            return dtable;
+            user.UsuarioId = int.Parse(query.Parameters["@usuarioId"].SqlValue.ToString());
+            user.Rol = query.Parameters["@rolNombre"].SqlValue.ToString();
+            user.RolId = query.Parameters["@codigo"].SqlValue.ToString();
 
         }
 
@@ -106,12 +123,11 @@ namespace PagoElectronico.Utils
             SqlDataReader dReader;
             try
             {
-                string nombreSP = "test.Cargar_Funciones";
+                string nombreSP = "SARASA.Cargar_Funciones";
 
-                MessageBox.Show("Usuario: "+user.Username+" Rol: " +user.Rol);
+                MessageBox.Show("Usuario: "+user.Username+" Rol: " +user.RolId);
 
-                List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
-                    "@username", user.Username.ToString(), "@rol", user.Rol.ToString());
+                List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rolId", user.RolId);
 
                 conexion cn = new conexion();
 
@@ -392,7 +408,7 @@ namespace PagoElectronico.Utils
         }
 
         //  Carga el combo box con el resultado de la consulta ejecutando un SP
-        public static void llenarComboBoxSP(ComboBox cb, string nombreSP, bool obligatorio)
+        public static void llenarComboBoxSP(ComboBox cb, string nombreSP, List<SqlParameter> parametros,bool obligatorio)
         {
             SqlDataReader dReader;
             try
@@ -400,6 +416,10 @@ namespace PagoElectronico.Utils
                 conexion cn = new conexion();
                 SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
                 query.CommandType = CommandType.StoredProcedure;
+
+                if(parametros != null)
+                    query.Parameters.AddRange(parametros.ToArray());
+
                 dReader = query.ExecuteReader();
 
                 //	Add keys and values in a Dictionary Object

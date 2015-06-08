@@ -20,6 +20,7 @@ namespace PagoElectronico.Utils
         private ArrayList funciones;
         private int codLogin;
         private int clienteId;
+        private int usuarioId;
 
 
         //Constructor
@@ -78,6 +79,12 @@ namespace PagoElectronico.Utils
         {
             get { return this.clienteId; }
             set { this.clienteId = value; }
+        }
+
+        public int UsuarioId
+        {
+            get { return this.usuarioId; }
+            set { this.usuarioId = value; }
         }
 
         public string Nombre
