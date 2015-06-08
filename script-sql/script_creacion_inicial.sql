@@ -826,6 +826,58 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.debitar_de_cuenta (
+	@cuenta_numero	numeric(18,0),
+	@importe		numeric(18,2)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+			DECLARE @cuenta_numero_string nvarchar(40) --solo para errores
+
+			DECLARE @saldo_actual numeric(18,2)
+			SELECT @saldo_actual = cue.Cuenta_Saldo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+			
+			DECLARE @fecha_hoy datetime
+			SET @fecha_hoy = GETDATE()
+			
+			DECLARE	@comision numeric(18,2)
+			SELECT	@comision = tcta.Tipocta_Costo_Trans
+						FROM SARASA.Cuenta cue
+						INNER JOIN SARASA.Tipocta tcta ON cue.Cuenta_Tipocta_Id = tcta.Tipocta_Id
+						WHERE cue.Cuenta_Numero = @cuenta_numero
+
+
+		-- Debitamos el dinero.
+		UPDATE SARASA.Cuenta
+		SET Cuenta_Saldo = @saldo_actual - @importe
+		WHERE Cuenta_Numero = @cuenta_numero
+
+		-- Generamos el item factura correspondiente
+		EXEC SARASA.crear_item_factura @cuenta_numero,'Comisión por transferencia',@comision,@fecha_hoy,NULL,0
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	SET @cuenta_numero_string = CAST(@cuenta_numero as nvarchar(40))
+	RAISERROR('Error al realizar el débito de fondos en la cuenta origen %s: %s',16,1,@cuenta_numero_string,@error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
