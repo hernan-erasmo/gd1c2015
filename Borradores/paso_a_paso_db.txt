@@ -159,6 +159,16 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	Tabla SARASA.Transferencia:
 		Usaremos un valor entero autoincremental como PK.
 
+		El procedure SARASA.realizar_transferencia recibe 3 parámetros:
+				@cuenta_origen, de tipo numeric(18,0), recibe el número de la cuenta origen de la transferencia, donde se debitarán los fondos.
+				@cuenta_destino, de tipo numeric(18,0), es el número de la cuenta donde se deben depositar los fondos.
+				@importe, de tipo numeric(18,2), es el monto que se debe debitar de la cuenta origen y depositar en la cuenta destino.
+
+				Este procedure valida que el importe sea > 0.00, y que la cuenta origen disponga de suficientes fondos para realizar la transferencia.
+
+				- Nota 1: Este procedure no controla que aún queden fondos para pagar los gastos de transferencia después de hacer el débito.
+				- Nota 2: Este procedure utiliza los procedures auxiliares 'acreditar_en_cuenta' y 'debitar_de_cuenta', que no hacen ningún tipo de validación sobre el importe que reciben, es por eso que no se deben ser llamados directamente.
+
 	Tabla SARASA.Factura:
 		Vamos a usar como PK el campo Factura_Numero.
 

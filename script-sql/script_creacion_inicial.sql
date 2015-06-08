@@ -878,6 +878,60 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.realizar_transferencia (
+	@cuenta_origen numeric(18,0),
+	@cuenta_destino numeric(18,0),
+	@importe numeric(18,2)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+			DECLARE @cuenta_origen_string nvarchar(40) --solo para errores
+			DECLARE @cuenta_destino_string nvarchar(40) --solo para errores
+
+			DECLARE @maximo_a_debitar numeric(18,2)
+			SELECT @maximo_a_debitar = cue.Cuenta_Saldo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_origen
+
+			-- Hacemos las validaciones necesarias.
+			IF @importe <= 0
+			BEGIN
+				RAISERROR('El importe a transferir debe ser mayor a cero.',16,1)
+			END
+
+			IF @importe > @maximo_a_debitar
+			BEGIN
+				RAISERROR('El monto a debitar supera el saldo de la cuenta de origen.',16,1)
+			END
+
+			-- Hacemos el débito de la cuenta origen y generamos el item factura por la comisión
+			EXEC SARASA.debitar_de_cuenta @cuenta_origen, @importe
+
+			-- Y luego el depósito en la cuenta destino
+			EXEC SARASA.acreditar_en_cuenta @cuenta_destino, @importe
+		
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	SET @cuenta_origen_string = CAST(@cuenta_origen as nvarchar(40))
+	SET @cuenta_destino_string = CAST(@cuenta_destino as nvarchar(40))
+	RAISERROR('Error al realizar la transferencia entre las cuentas %s y %s: %s',16,1,@cuenta_destino_string,@cuenta_origen_string,@error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
