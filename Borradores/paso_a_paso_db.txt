@@ -78,6 +78,15 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 			@moneda_id, de tipo integer, es el FK para la tabla SARASA.Moneda, que indica el tipo de moneda de la cuenta (siempre dólar según el enunciado, pág 9)
 			@pais_id es de tipo integer y es el FK para la tabla SARASA.Pais, es el país que tiene asignado la cuenta.
 
+		Cuando vence la suscripción de una cuenta, la misma debe inhabilitarse. Para determinar si una cuenta debe inhabilitarse por haber vencido la suscripción para su tipo, vamos a utilizar atributos auxiliares en la tabla de Cuenta:
+			- La columna 'Cuenta_Dias_De_Suscripcion' contiene un valor entero > 0 que representa la cantidad de días en total que tiene la suscripción o suscripciones que haya pagado el cliente. Por ejemplo: Si el tipo de cuenta ORO otorga 60 días de suscripción y el cliente abona dos sucripciones, el valor de esta columna será 120. El valor de esta columna no se actualiza constantemente, sino sólo cuando el cliente abona una suscripción o cuando el sistema determina que ha vencido la misma. Para calcular la cantidad de días restantes de la suscripción (y por ende, si debe o no ser inhabilitada la cuenta) es necesaria la siguiente columna:
+			
+			- La columna 'Cuenta_Ultima_Modificacion_Tipo' guarda la fecha en que el cliente realizó por última vez un cambio de cuenta. De esta manera, antes de realizar una operación de retiro o depósito(*), se debe verificar la cantidad de días restantes de la cuenta. Si es < 0, entonces no se realiza la operación y se inhabilita la cuenta.
+
+			(*) ¿Por qué únicamente con esas dos operaciones hay que hacer la verificación? Porque son las únicas dos que no pueden hacerse con una cuenta inhabilitada. 
+
+		Cuando una cuenta llega a tener 5 ítems sin facturar, debe inhabilitarse. Para poder cumplir con esta restricción, se agrega una columna a la tabla Cuenta, llamada 'Cuenta_Items_No_Facturados'. Cada vez que se realiza una operación para la cual es necesario generar un ítem de facturación, se incrementa el valor de este campo en 1. Cuando llega a 5, se inhabilita la cuenta. Cuando se genera una factura para esta cuenta, se vuelve a cero.
+
 		La función SARASA.Cuenta_al_dia recibe como parámetro el numero de la cuenta y retorna 0 en caso de que la cuenta posea ítems de factura sin pagar y 1 en caso de que tenga todos los cargos pagos.
 
 		El procedure SARASA.modificar_cuenta recibe 4 parámetros.

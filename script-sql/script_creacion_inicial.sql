@@ -884,15 +884,18 @@ BEGIN TRY
 			-- Si se quiere cerrar o habilitar la cuenta, validamos que no haya ningún item factura impago para ese nro de cuenta
 			IF @estado_deseado = @estado_cerrada OR @estado_deseado = @estado_habilitada
 			BEGIN
-				IF SARASA.cuenta_al_dia(@cuenta_numero) = 0
+				IF @estado_actual != @estado_deseado	--Solo tiene sentido cuando el estado es distinto al actual
 				BEGIN
-					RAISERROR('No se puede modificar el estado de la cuenta %s porque aún tiene costos sin facturar.',16,1,@cuenta_string)
-				END
+					IF SARASA.cuenta_al_dia(@cuenta_numero) = 0
+					BEGIN
+						RAISERROR('No se puede modificar el estado de la cuenta %s porque aún tiene costos sin facturar.',16,1,@cuenta_string)
+					END
 
-				-- Si no, modificamos el estado de la cuenta y listo
-				UPDATE SARASA.Cuenta
-				SET Cuenta_Estado_Id = @estado_deseado
-				WHERE Cuenta_Numero = @cuenta_numero
+					-- Si no, modificamos el estado de la cuenta y listo
+					UPDATE SARASA.Cuenta
+					SET Cuenta_Estado_Id = @estado_deseado
+					WHERE Cuenta_Numero = @cuenta_numero
+				END
 			END			
 
 	IF @starttrancount = 0
@@ -1173,6 +1176,45 @@ BEGIN
 	SET @fecha = GETDATE()
 
 	EXEC SARASA.crear_item_factura @cuenta_num, 'Creación de cuenta', @precio_por_tipo_cuenta, @fecha, NULL, 0
+END
+GO
+
+-- Incrementa la cantidad de items facturados para una cuenta, y la inhabilita si ésta llega a 5 ítems sin facturar
+CREATE TRIGGER SARASA.tr_itemfact_aff_ins
+ON SARASA.Itemfact
+AFTER INSERT
+AS
+BEGIN
+	DECLARE @cuenta_numero numeric(18,0)
+	SELECT @cuenta_numero = i.Itemfact_Cuenta_Numero FROM INSERTED i
+
+	DECLARE @cant_items_impagos integer
+	SELECT @cant_items_impagos = cue.Cuenta_Items_No_Facturados FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+
+	-- Actualizamos la tabla Cuenta
+	UPDATE SARASA.Cuenta
+	SET Cuenta_Items_No_Facturados = @cant_items_impagos + 1
+	WHERE Cuenta_Numero = @cuenta_numero
+
+	-- Como la transacción todavía no se ejecutó, para validar que el número es >= 5 hay que comparar con 4
+	IF @cant_items_impagos >= 4
+	BEGIN
+		DECLARE @estado_inhabilitada integer
+		SELECT @estado_inhabilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Inhabilitada'
+
+		DECLARE @tipo_actual integer
+		SELECT @tipo_actual = cue.Cuenta_Tipocta_Id FROM INSERTED item
+													INNER JOIN SARASA.Cuenta cue ON cue.Cuenta_Numero = item.Itemfact_Cuenta_Numero
+													WHERE cue.Cuenta_Numero = @cuenta_numero
+
+		DECLARE @cliente_id integer
+		SELECT @cliente_id = cli.Cliente_Id FROM INSERTED item
+											INNER JOIN SARASA.Cuenta cue ON cue.Cuenta_Numero = item.Itemfact_Cuenta_Numero
+											INNER JOIN SARASA.Cliente cli ON cue.Cuenta_Cliente_Id = cli.Cliente_Id
+											WHERE cue.Cuenta_Numero = @cuenta_numero
+
+		EXEC SARASA.modificar_cuenta @cliente_id, @cuenta_numero, @tipo_actual, @estado_inhabilitada
+	END
 END
 GO
 
