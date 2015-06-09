@@ -295,6 +295,33 @@ BEGIN
 END
 GO
 
+CREATE FUNCTION SARASA.calcular_cantidad_dias_restantes(
+	@cuenta_numero numeric(18,0))
+RETURNS integer
+AS
+BEGIN
+	DECLARE @dias_restantes integer
+	
+	DECLARE @ultima_modificacion datetime
+	SELECT @ultima_modificacion = cue.Cuenta_Ultima_Modificacion_Tipo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+
+	DECLARE @tipo_cuenta_gratuita integer
+	SELECT @tipo_cuenta_gratuita = tipo.Tipocta_Id FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Descripcion = 'Gratuita'
+
+	DECLARE @tipo_cuenta integer
+	SELECT @tipo_cuenta = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = cuenta_numero
+
+	DECLARE @dias_totales integer
+	SELECT @dias_totales = tipo.Tipocta_Vencimiento_Dias FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta
+	
+	DECLARE @fecha_vencimiento datetime
+	SET @fecha_vencimiento = DATEADD(day,@dias_totales,@ultima_modificacion)
+
+	SET @dias_restantes = DATEDIFF(day,@ultima_modificacion,@fecha_vencimiento)
+	RETURN @dias_restantes
+END
+GO
+
 CREATE PROCEDURE SARASA.crear_rol(
 	@rol_desc				varchar(20),
 	@rol_estado				bit,
