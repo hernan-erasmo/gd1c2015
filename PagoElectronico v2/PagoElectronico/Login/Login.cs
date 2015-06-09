@@ -72,6 +72,7 @@ namespace PagoElectronico.Login
                                     true);
                                 gbPermisos.Visible = true;
                                 gbPermisos.Enabled = true;
+                                btnLogin.Text = "Continuar..";
                                 break;
                             }
                         case -1: //  Usuario o password invalido
@@ -122,6 +123,7 @@ namespace PagoElectronico.Login
             textBox1.Text = "";
             textBox2.Text = "";
             idProcesoLogin = 0;
+            btnLogin.Text = "Login";
         }
     }
 }

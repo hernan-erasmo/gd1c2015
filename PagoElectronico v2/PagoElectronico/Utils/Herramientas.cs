@@ -123,11 +123,11 @@ namespace PagoElectronico.Utils
             SqlDataReader dReader;
             try
             {
-                string nombreSP = "SARASA.Cargar_Funciones";
+                string nombreSP = "SARASA.buscar_funciones";
 
                 MessageBox.Show("Usuario: "+user.Username+" Rol: " +user.RolId);
 
-                List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rolId", user.RolId);
+                List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rolId", user.RolId, "@form", "Login");
 
                 conexion cn = new conexion();
 
@@ -163,13 +163,16 @@ namespace PagoElectronico.Utils
             SqlDataReader dReader;
             try
             {
-                string nombreSP = "[test].[Cargar_FuncionesSistema]";
                 List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rolId", rolId, "@form", formulario);
 
                 conexion cn = new conexion();
-                SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+
+                SqlCommand query = new SqlCommand("SARASA.buscar_funciones", cn.abrir_conexion());
+                
                 query.Parameters.AddRange(listaParametros.ToArray());
+                
                 query.CommandType = CommandType.StoredProcedure;
+                
                 dReader = query.ExecuteReader();
 
                 lb.DisplayMember = "Descripcion";
@@ -206,11 +209,9 @@ namespace PagoElectronico.Utils
                 lb.DisplayMember = "Etiqueta";
                 lb.ValueMember = "Id";
 
-                string nombreSP = "[test].[Cargar_RolesSistema]";
-                List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rol", rolDesc, "@funcion", funcionDesc);
-
                 conexion cn = new conexion();
-                SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+                SqlCommand query = new SqlCommand("[SARASA].[buscar_rol]", cn.abrir_conexion());
+                List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rol", rolDesc, "@funcion", funcionDesc);
                 query.Parameters.AddRange(listaParametros.ToArray());
                 query.CommandType = CommandType.StoredProcedure;
                 dReader = query.ExecuteReader();
@@ -239,33 +240,31 @@ namespace PagoElectronico.Utils
 
         public static void crearRol(string nombreRol, int habilitado, string listIds) 
         {
-
-            string nombreSP = "test.Crear_Rol";
-
-            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
-                "@rolNombre", nombreRol, "@rolHabilitado", habilitado,"@listaId",listIds);
-
             conexion cn = new conexion();
-            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
-            query.CommandType = CommandType.StoredProcedure;
 
+            SqlCommand query = new SqlCommand("SARASA.Crear_Rol", cn.abrir_conexion());
+
+            query.CommandType = CommandType.StoredProcedure;
+            
             //	Agregar los parametros del tipo INPUT
+            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
+                            "@rol_desc", nombreRol, "@rol_estado", habilitado, "@funciones_asociadas", listIds);
+            
             query.Parameters.AddRange(listaParametros.ToArray());
 
             query.ExecuteNonQuery();
-        
+
         }
 
         public static void actualizarRol(int idRol, string nombreRol, int habilitado, string listIds)
         {
-
-            string nombreSP = "test.Actualizar_Rol";
-
             List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
-                "@rolId", idRol, "@rolNombre", nombreRol, "@rolHabilitado", habilitado, "@listaId", listIds);
+                "@rol_id", idRol, "@rol_desc", nombreRol, "@rol_estado", habilitado, "@funciones_asociadas", listIds);
 
             conexion cn = new conexion();
-            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+            
+            SqlCommand query = new SqlCommand("[SARASA].[modificar_rol]", cn.abrir_conexion());
+
             query.CommandType = CommandType.StoredProcedure;
 
             //	Agregar los parametros del tipo INPUT
@@ -274,6 +273,26 @@ namespace PagoElectronico.Utils
             query.ExecuteNonQuery();
 
         }
+
+
+        public static void eliminarRol(int idRol)
+        {
+            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rol_id", idRol);
+
+            conexion cn = new conexion();
+
+            SqlCommand query = new SqlCommand("[SARASA].[eliminar_rol]", cn.abrir_conexion());
+
+            query.CommandType = CommandType.StoredProcedure;
+
+            //	Agregar los parametros del tipo INPUT
+            query.Parameters.AddRange(listaParametros.ToArray());
+
+            query.ExecuteNonQuery();
+
+        }
+
+
 
 /*
         public static void HabilitarControles(List<String> funcionalidades)

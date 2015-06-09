@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PagoElectronico.Utils;
 
 namespace PagoElectronico.ABM_Rol
 {
@@ -23,7 +24,7 @@ namespace PagoElectronico.ABM_Rol
         {
             lbxFunciones.DisplayMember = "Descripcion";
             lbxFunciones.ValueMember = "Id";
-            Utils.Herramientas.llenarListBoxFuncionesSistema(lbxFunciones,0,"Crear");
+            Herramientas.llenarListBoxFuncionesSistema(lbxFunciones,0,"Crear");
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -44,9 +45,9 @@ namespace PagoElectronico.ABM_Rol
                 listIds += ((ItemFuncion)item).Id  + ",";
 
 
-            Utils.Herramientas.crearRol(nombreRol, habilitado, listIds);
+            Herramientas.crearRol(nombreRol, habilitado, listIds);
 
-            Utils.Herramientas.msebox_informacion("Rol: " + nombreRol + " (Habilitado= "+habilitado+")");
+            Herramientas.msebox_informacion("Rol: " + nombreRol + " (Habilitado= "+habilitado+")");
         }
 
     }

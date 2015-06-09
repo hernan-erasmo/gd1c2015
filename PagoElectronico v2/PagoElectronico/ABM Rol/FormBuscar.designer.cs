@@ -54,7 +54,7 @@
             this.lbxFunciones.FormattingEnabled = true;
             this.lbxFunciones.Location = new System.Drawing.Point(6, 22);
             this.lbxFunciones.Name = "lbxFunciones";
-            this.lbxFunciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbxFunciones.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.lbxFunciones.Size = new System.Drawing.Size(141, 238);
             this.lbxFunciones.TabIndex = 5;
             // 
@@ -165,6 +165,7 @@
             // txtFuncion
             // 
             this.txtFuncion.Location = new System.Drawing.Point(82, 62);
+            this.txtFuncion.MaxLength = 40;
             this.txtFuncion.Name = "txtFuncion";
             this.txtFuncion.Size = new System.Drawing.Size(155, 20);
             this.txtFuncion.TabIndex = 16;
@@ -190,6 +191,7 @@
             // txtRol
             // 
             this.txtRol.Location = new System.Drawing.Point(82, 30);
+            this.txtRol.MaxLength = 20;
             this.txtRol.Name = "txtRol";
             this.txtRol.Size = new System.Drawing.Size(155, 20);
             this.txtRol.TabIndex = 13;

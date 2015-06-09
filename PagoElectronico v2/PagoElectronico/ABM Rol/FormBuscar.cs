@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PagoElectronico.Utils;
 
 namespace PagoElectronico.ABM_Rol
 {
@@ -31,10 +32,24 @@ namespace PagoElectronico.ABM_Rol
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (usuario.Funciones.Contains("AgregarRol"))
+                btnAgregar.Visible = true;
+            else
+                btnAgregar.Visible = false;
 
+            if (usuario.Funciones.Contains("ModificarRol"))
+                btnModificar.Visible = true;
+            else
+                btnModificar.Visible = false;
+
+
+            if (usuario.Funciones.Contains("EliminarRol"))
+                btnEliminar.Visible = true;
+            else
+                btnEliminar.Visible = false;
 
         }
-
+        
         private void button4_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -68,7 +83,7 @@ namespace PagoElectronico.ABM_Rol
             if(txtFuncion.Text != "")
                 funcionDesc = txtFuncion.Text;
 
-            Utils.Herramientas.llenarListBoxRolesSistema(lbxRoles,rolDesc,funcionDesc);
+            Herramientas.llenarListBoxRolesSistema(lbxRoles,rolDesc,funcionDesc);
 
         }
 
@@ -78,34 +93,8 @@ namespace PagoElectronico.ABM_Rol
             frmCrear.Show();
             this.Hide();
             
-            //irol.Descripcion = txtRol.Text;
-            //irol.Id = int.Parse(txtFuncion.Text);
-            //irol.Habilitado = chkHabilitado.Checked;
-
-            //for (int j = 1; j <= int.Parse(txtFuncion.Text); j++) 
-            //{
-            //    ItemRol irol = new ItemRol();
-            //    irol.Descripcion = "Rol_" + j;
-            //    irol.Id = j;
-            //    irol.Habilitado = true;
-            //        lbxRoles.Items.Add(irol);
-            //    if(j%2==0)
-            //        lbxRoles.SelectedItems.Add(irol);
-
-            //}
-
             txtRol.Text = "";
             txtFuncion.Text = "";
-
-//            lbxRoles.SelectedItems.Add
-            //ListItem obj = new ListItem();
-            //obj.Text  = Li.ToString();
-            //obj.Value = Li.ToString();
-            //PoListBox.Items.Add(obj);
-
-            //comboSource.Add(int.Parse(txtFuncion.Text), txtRol.Text);
-            //lbxRoles.DataSource = new BindingSource(comboSource, null);
-
         }
 
 
@@ -114,7 +103,7 @@ namespace PagoElectronico.ABM_Rol
             if (lbxRoles.SelectedItem != null)
             {
                 lbxFunciones.Items.Clear();
-                Utils.Herramientas.llenarListBoxFuncionesSistema(lbxFunciones, ((ItemRol)lbxRoles.SelectedItem).Id, "Buscar");
+                Herramientas.llenarListBoxFuncionesSistema(lbxFunciones, ((ItemRol)lbxRoles.SelectedItem).Id, "Buscar");
             }
         }
 
@@ -127,10 +116,8 @@ namespace PagoElectronico.ABM_Rol
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-
-            //El indice del ultimo seleccionado
-            Utils.Herramientas.msebox_informacion(lbxFunciones.SelectedIndex.ToString());
-//            lbxFunciones.SelectedItems.Add
+            Herramientas.eliminarRol(((ItemRol)lbxRoles.SelectedItem).Id);
+            Herramientas.msebox_informacion(lbxFunciones.SelectedIndex.ToString());
         }
     }
 }
