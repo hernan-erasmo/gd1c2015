@@ -119,7 +119,7 @@ CREATE TABLE SARASA.Tipocta (
 	Tipocta_Costo_Mod			numeric(18,2)	NOT NULL,
 	Tipocta_Costo_Trans			numeric(18,2)	NOT NULL,
 
-	CHECK (Tipocta_Vencimiento_Dias >= 1),
+	CHECK (Tipocta_Vencimiento_Dias >= 0),
 	CHECK (Tipocta_Costo_Crea >= 0),
 	CHECK (Tipocta_Costo_Mod >= 0),
 	CHECK (Tipocta_Costo_Trans >= 0)
@@ -1264,7 +1264,7 @@ INSERT INTO SARASA.Tipocta (Tipocta_Descripcion,
 							Tipocta_Costo_Crea,
 							Tipocta_Costo_Mod,
 							Tipocta_Costo_Trans)
-VALUES 	('Gratuita', 2147483647, 0, 0, 0),
+VALUES 	('Gratuita', 0, 0, 0, 0),
 		('Bronce', 30, 5, 1, 3),
 		('Plata', 60, 10, 1, 2),
 		('Oro', 90, 15, 1, 1)
