@@ -161,6 +161,24 @@
       <DependentUpon>FormBuscarClie.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Tarjeta\Tarjeta.cs" />
+    <Compile Include="Facturacion\FormFacturasPagas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\FormFacturasPagas.Designer.cs">
+      <DependentUpon>FormFacturasPagas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturacion\FormGenerarFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\FormGenerarFactura.Designer.cs">
+      <DependentUpon>FormGenerarFactura.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturacion\FormVerFactura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\FormVerFactura.Designer.cs">
+      <DependentUpon>FormVerFactura.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilidades\conexion.cs" />
     <Compile Include="Utilidades\Herramientas.cs" />
     <Compile Include="Utilidades\LlenarCombos.cs" />
@@ -179,11 +197,11 @@
     <Compile Include="Depositos\FormDepositos.Designer.cs">
       <DependentUpon>FormDepositos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Facturacion\Form1.cs">
+    <Compile Include="Facturacion\FormFacturacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Facturacion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Facturacion\FormFacturacion.Designer.cs">
+      <DependentUpon>FormFacturacion.cs</DependentUpon>
     </Compile>
     <Compile Include="MenuPrincipal.cs">
       <SubType>Form</SubType>
@@ -256,8 +274,17 @@
     <EmbeddedResource Include="Depositos\FormDepositos.resx">
       <DependentUpon>FormDepositos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Facturacion\Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Facturacion\FormFacturacion.resx">
+      <DependentUpon>FormFacturacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\FormFacturasPagas.resx">
+      <DependentUpon>FormFacturasPagas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\FormGenerarFactura.resx">
+      <DependentUpon>FormGenerarFactura.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\FormVerFactura.resx">
+      <DependentUpon>FormVerFactura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Listados\FormListados.resx">
       <DependentUpon>FormListados.cs</DependentUpon>

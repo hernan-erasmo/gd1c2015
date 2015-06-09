@@ -135,7 +135,7 @@ namespace PagoElectronico
 
         private void btnFacturacion_Click(object sender, EventArgs e)
         {
-            ABM_de_Usuario.FormCrear frm = new ABM_de_Usuario.FormCrear();
+            Facturacion.FormFacturacion frm = new Facturacion.FormFacturacion(this,usuario);
             this.Hide();
             frm.Show();
         }
