@@ -1,14 +1,5 @@
 USE [GD1C2015]
 
-
-insert into SARASA.Rol_x_Funcion (Rol_Id,Funcion_Id)
-values (1,11),(1,12),(1,13),(1,14),(1,15)
-
---**************************************************************************************
-
-insert into SARASA.Funcion (Funcion_Descripcion)
-values('AsociarTarjeta'),('DesasociarTarjeta'),('ModificarTarjeta'),('AceptarTarjeta'),('BuscarTarjeta')
-
 --**************************************************************************************
 
 -- Valores de @codigo
@@ -115,21 +106,4 @@ DECLARE @usuario nvarchar(255)='userCliente', @fechaHora datetime = SYSDATETIME(
 	
 --	select @codigo 'Codigo', @nombre 'Nombre', @apellido 'Apellido', @clienteId 'ClienteId'
 	
-END
---**************************************************************************************
-USE [GD1C2015]
-GO
-/****** Object:  StoredProcedure [SARASA].[Cargar_Funciones]    Script Date: 06/08/2015 04:14:38 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
-ALTER PROCEDURE [SARASA].[Cargar_Funciones] (
-	@rolId integer) 
-AS
-BEGIN
-
-	select f.Funcion_Descripcion
-	from SARASA.Rol_x_Funcion rf, SARASA.Funcion f
-	where rf.Rol_Id = @rolId AND rf.Funcion_Id = f.Funcion_Id
 END

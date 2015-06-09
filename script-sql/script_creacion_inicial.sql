@@ -412,6 +412,112 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE [SARASA].[eliminar_rol] (
+	@rol_id					integer)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			-- Actualizamos la tabla SARASA.Rol
+			UPDATE	SARASA.Rol SET Rol_Estado = 0 WHERE Rol_Id = @rol_id;
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción al modificar el Rol con ID %d: %s',16,1, @rol_id, @error_message)
+END CATCH
+GO
+
+CREATE PROCEDURE [SARASA].[buscar_rol] (
+                    @rol varchar(20),
+                    @funcion varchar(40))
+AS
+BEGIN
+
+IF(@rol='' AND @funcion='')
+	SELECT Rol_Id, Rol_Estado,Rol_Descripcion, Rol_Etiqueta =CASE WHEN(Rol_Estado = 1) 
+								THEN (Rol_Descripcion + ' (habilitado)')
+								ELSE (Rol_Descripcion + ' (deshabilitado)')END
+	FROM SARASA.Rol;
+
+ELSE IF(@funcion='')
+	SELECT Rol_Id, Rol_Estado,Rol_Descripcion, Rol_Etiqueta =CASE WHEN(Rol_Estado = 1)
+								THEN (Rol_Descripcion + ' (habilitado)')
+								ELSE (Rol_Descripcion + ' (deshabilitado)')END
+	FROM SARASA.Rol
+	WHERE Rol_Descripcion = @rol;
+	
+ELSE IF(@rol='')
+	SELECT r.Rol_Id, r.Rol_Estado, r.Rol_Descripcion, Rol_Etiqueta =CASE WHEN(r.Rol_Estado = 1) 
+								THEN (r.Rol_Descripcion + ' (habilitado)')
+								ELSE (r.Rol_Descripcion + ' (deshabilitado)')END
+	FROM SARASA.Rol r, SARASA.Rol_x_Funcion rf, SARASA.Funcion f
+	WHERE r.Rol_Id = rf.Rol_Id AND rf.Funcion_Id = f.Funcion_Id 
+		AND f.Funcion_Descripcion = @funcion
+ELSE
+	SELECT 'No se pudo realizar la busqueda de roles'
+
+END
+GO
+
+CREATE PROCEDURE [SARASA].[buscar_funciones] (
+                    @rolId int,
+                    @form varchar(10))
+AS
+BEGIN
+
+IF(@form = 'Buscar')			-- Funciones del rol seleccionado (rolId)
+
+	SELECT f.Funcion_Id, f.Funcion_Descripcion, 0 'Seleccionado'
+	FROM SARASA.Rol r, SARASA.Rol_x_Funcion rf, SARASA.Funcion f
+	WHERE r.Rol_Id = rf.Rol_Id AND rf.Funcion_Id = f.Funcion_Id
+		AND r.Rol_Id = @rolId
+		
+ELSE IF(@form = 'Crear')		-- Todas las funciones del sistema
+
+	SELECT Funcion_Id, Funcion_Descripcion, 0 'Seleccionado'
+	FROM SARASA.Funcion
+	
+ELSE IF(@form = 'Modificar')	--	Todas las funciones, y cuales estan asociadas aun determinado rol (rolId)
+
+	SELECT f.Funcion_Id, f.Funcion_Descripcion, 
+		isnull((SELECT rf.Rol_Id
+				FROM SARASA.Rol_x_Funcion rf
+				WHERE rf.Funcion_Id = f.Funcion_Id
+				AND rf.Rol_Id = @rolId),0) 'Seleccionado'
+	FROM SARASA.Funcion f
+
+ELSE IF(@form = 'Login')	--	Recupera la descripcion de las funciones de un determinado rol (rolId)
+
+	SELECT f.Funcion_Descripcion
+	FROM SARASA.Rol_x_Funcion rf, SARASA.Funcion f
+	WHERE rf.Rol_Id = @rolId AND rf.Funcion_Id = f.Funcion_Id
+	
+ELSE
+
+	SELECT 'Formulario desconocido'
+
+END
+GO
+
+
+
+
+
 CREATE PROCEDURE SARASA.realizar_deposito (
 	@cliente_id				integer,
 	@deposito_fecha			datetime,
@@ -1016,22 +1122,23 @@ SET IDENTITY_INSERT SARASA.Rol OFF
 -- Funciones
 SET IDENTITY_INSERT SARASA.Funcion ON
 INSERT INTO SARASA.Funcion (Funcion_Id, Funcion_Descripcion)
-VALUES	(1, 'ABM de Rol'),
-		(2, 'ABM de Usuario'),
-		(3, 'ABM de Cliente'),
-		(4, 'ABM de Cuenta'),
-		(5, 'Depósitos'),
-		(6, 'Retiro de Efectivo'),
-		(7, 'Transferencias entre cuentas'),
-		(8, 'Facturación de Costos'),
-		(9, 'Consulta de saldos'),
-		(10, 'Listado Estadístico')
+VALUES	--(1, 'ABM de Rol'),(2, 'ABM de Usuario'),(3, 'ABM de Cliente'),(4, 'ABM de Cuenta'),
+		(1, 'Depositos'),
+		(2, 'Retiros'),
+		(3, 'Transferencias'),
+		(4, 'Facturacion'),
+		(5, 'ConsultaSaldo'),
+		(6, 'ListadoEstadístico'),
+		(7, 'AsociarTarjeta'),(8, 'DesasociarTarjeta'),(9, 'ModificarTarjeta'),(10, 'AceptarTarjeta'),
+		(11, 'BuscarTarjeta'),(12, 'BuscarRol'),(13, 'AgregarRol'),(14, 'ModificarRol'),(15, 'EliminarRol')
 SET IDENTITY_INSERT SARASA.Funcion OFF
 
 -- Mapeos iniciales entre roles y funciones
 INSERT INTO SARASA.Rol_x_Funcion (Rol_Id, Funcion_Id)
-VALUES	(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),	--Funciones iniciales para Administrador
-		(2,4),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10)						--Funciones iniciales para Cliente
+VALUES	(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),	--Funciones iniciales para Administrador (No son ABMs)
+		(1,7),(1,8),(1,9),(1,10),				--Funciones iniciales para Administrador (ABM Tarjeta)
+		(1,11),(1,12),(1,13),(1,14),(1,15),		--Funciones iniciales para Administrador (ABM Rol)
+		(2,1),(2,2),(2,3),(2,4),(2,5),(2,6)		--Funciones iniciales para Cliente
 
 -- Monedas
 INSERT INTO SARASA.Moneda (Moneda_Descripcion)
