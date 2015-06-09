@@ -91,7 +91,6 @@
     <Compile Include="ABM Cuenta\FormModificar.Designer.cs">
       <DependentUpon>FormModificar.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM de Usuario\Usuario.cs" />
     <Compile Include="ABM Cliente\FormModificar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,9 +178,6 @@
     <Compile Include="Facturacion\FormVerFactura.Designer.cs">
       <DependentUpon>FormVerFactura.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilidades\conexion.cs" />
-    <Compile Include="Utilidades\Herramientas.cs" />
-    <Compile Include="Utilidades\LlenarCombos.cs" />
     <Compile Include="Utils\conexion.cs" />
     <Compile Include="Utils\Filtros.cs" />
     <Compile Include="Utils\Herramientas.cs" />

@@ -23,7 +23,16 @@ namespace PagoElectronico.Facturacion
 
         private void FormFacturasPagas_Load(object sender, EventArgs e)
         {
-
+            DataTable dt = (DataTable)usuario.llenarDataGridFacturasPagas();
+            if (dt != null)
+            {
+                TablaDatos.DataSource = dt;
+            }
+            else
+            {
+                Utils.Herramientas.msebox_informacion("No hay datos");
+            }
+            TablaDatos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void buttonVolver_Click(object sender, EventArgs e)
@@ -38,20 +47,6 @@ namespace PagoElectronico.Facturacion
             Facturacion.FormVerFactura frmDetalles = new Facturacion.FormVerFactura(this, usuario, id);
             this.Hide();
             frmDetalles.Show();
-        }
-
-        private void CargarFacturas_Click(object sender, EventArgs e)
-        {
-            DataTable dt = (DataTable)usuario.llenarDataGridFacturasPagas();
-            if (dt != null)
-            {
-                TablaDatos.DataSource = dt;
-            }
-            else
-            {
-                Utils.Herramientas.msebox_informacion("No hay datos");
-            }
-            TablaDatos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
     }
