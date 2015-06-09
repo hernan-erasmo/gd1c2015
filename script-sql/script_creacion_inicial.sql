@@ -1096,6 +1096,7 @@ GO
 	Creamos triggers
 ************************/
 
+-- Actualiza el registro de un depósito con el código de ingreso que le corresponde.
 CREATE TRIGGER SARASA.tr_deposito_aff_ins_generar_codigo
 ON SARASA.Deposito
 AFTER INSERT
@@ -1108,6 +1109,7 @@ BEGIN
 END
 GO
 
+-- Actualiza el saldo de una cuenta luego de realizado un depósito
 CREATE TRIGGER SARASA.tr_deposito_aff_ins_modificar_saldo_cuenta
 ON SARASA.Deposito
 AFTER INSERT
@@ -1120,6 +1122,7 @@ BEGIN
 END
 GO
 
+-- Actualiza el registro de un retiro con el código de egreso que le corresponde.
 CREATE TRIGGER SARASA.tr_retiro_aff_ins_generar_codigo
 ON SARASA.Retiro
 AFTER INSERT
@@ -1131,6 +1134,7 @@ BEGIN
 END
 GO
 
+-- Modifica el saldo de una cuenta luego de realizado un retiro
 CREATE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta
 ON SARASA.Retiro
 AFTER INSERT
@@ -1143,6 +1147,7 @@ BEGIN
 END
 GO
 
+-- Genera un item factura después de la creación de una cuenta
 CREATE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura
 ON SARASA.Cuenta
 AFTER INSERT
