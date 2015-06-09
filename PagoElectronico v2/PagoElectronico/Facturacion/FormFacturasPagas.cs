@@ -39,5 +39,18 @@ namespace PagoElectronico.Facturacion
             frmDetalles.Show();
         }
 
+        private void CargarFacturas_Click(object sender, EventArgs e)
+        {
+            DataTable dt = (DataTable)usuario.llenarDataGridFacturasPagas();
+            if (dt != null)
+            {
+                TablaDatos.DataSource = dt;
+            }
+            else
+            {
+                Utils.Herramientas.msebox_informacion("No hay datos");
+            }
+        }
+
     }
 }

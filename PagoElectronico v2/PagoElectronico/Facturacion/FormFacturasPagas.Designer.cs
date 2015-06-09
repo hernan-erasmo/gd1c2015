@@ -28,20 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.TablaDatos = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonVolver = new System.Windows.Forms.Button();
             this.buttonDetalles = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.CargarFacturas = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.TablaDatos)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // TablaDatos
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(27, 52);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(679, 205);
-            this.dataGridView1.TabIndex = 0;
+            this.TablaDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TablaDatos.Location = new System.Drawing.Point(27, 52);
+            this.TablaDatos.Name = "TablaDatos";
+            this.TablaDatos.Size = new System.Drawing.Size(679, 205);
+            this.TablaDatos.TabIndex = 0;
             // 
             // label1
             // 
@@ -72,19 +73,30 @@
             this.buttonDetalles.UseVisualStyleBackColor = true;
             this.buttonDetalles.Click += new System.EventHandler(this.buttonDetalles_Click);
             // 
+            // CargarFacturas
+            // 
+            this.CargarFacturas.Location = new System.Drawing.Point(307, 282);
+            this.CargarFacturas.Name = "CargarFacturas";
+            this.CargarFacturas.Size = new System.Drawing.Size(127, 26);
+            this.CargarFacturas.TabIndex = 4;
+            this.CargarFacturas.Text = "Cargar Facturas";
+            this.CargarFacturas.UseVisualStyleBackColor = true;
+            this.CargarFacturas.Click += new System.EventHandler(this.CargarFacturas_Click);
+            // 
             // FormFacturasPagas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 316);
+            this.Controls.Add(this.CargarFacturas);
             this.Controls.Add(this.buttonDetalles);
             this.Controls.Add(this.buttonVolver);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.TablaDatos);
             this.Name = "FormFacturasPagas";
             this.Text = "FormFacturasPagas";
             this.Load += new System.EventHandler(this.FormFacturasPagas_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TablaDatos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -92,9 +104,10 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView TablaDatos;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonVolver;
         private System.Windows.Forms.Button buttonDetalles;
+        private System.Windows.Forms.Button CargarFacturas;
     }
 }

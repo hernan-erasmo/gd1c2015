@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
+using System.Data;
 using PagoElectronico.Utilidades;
 using System.Collections;
 
@@ -97,6 +98,21 @@ namespace PagoElectronico.Utils
         {
             get { return this.apellido; }
             set { this.apellido = value; }
+        }
+
+        //llenaElDataGridDelFormulariDeFacturasPagas
+        public DataTable llenarDataGridFacturasPagas()
+        {
+            conexion cn = new conexion();
+
+            String sql = "SELECT f.Factura_Numero AS Id_Factura, f.Factura_Fecha AS Fecha FROM GD1C2015.SARASA.Factura f, GD1C2015.SARASA.Itemfact i, GD1C2015.SARASA.Cliente c WHERE i.Itemfact_Factura_Numero= f.Factura_Numero AND f.Factura_Cliente_Id=c.Cliente_Id AND i.Itemfact_Pagado=1 AND c.Cliente_Id=" +clienteId+ "GROUP BY f.Factura_Numero, f.Factura_Fecha";
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter sqd = new SqlDataAdapter(sql, cn.abrir_conexion());
+            sqd.Fill(ds, "Fila");
+            return ds.Tables["Fila"];
+
+
         }
     }
 }
