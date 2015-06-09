@@ -787,14 +787,23 @@ BEGIN TRY
 										Cuenta_Pais_Id,
 										Cuenta_Moneda_Id,
 										Cuenta_Saldo,
-										Cuenta_Cliente_Id)
+										Cuenta_Cliente_Id,
+										Cuenta_Dias_De_Suscripcion,
+										Cuenta_Ultima_Modificacion_Tipo,
+										Cuenta_Items_No_Facturados)
 			VALUES (	@fecha_apertura,
 						@estado_cuenta,
 						@tipo_cuenta_id,
 						@pais_id,
 						@moneda_id,
 						0.0,
-						@cliente_id)
+						@cliente_id,
+						(SELECT tipo.Tipocta_Vencimiento_Dias
+							FROM SARASA.Tipocta tipo
+							WHERE tipo.Tipocta_Id = @tipo_cuenta_id),
+						GETDATE(),
+						0)	-- Es el valor inicial, luego el trigger que genera el item de la factura lo incrementará
+						
 
 			-- Luego el trigger SARASA.tr_cuenta_aff_ins_crear_item_factura se encargará de generar el ítem de factura correspondiente al costo de apertura
 
