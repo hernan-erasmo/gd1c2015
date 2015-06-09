@@ -126,15 +126,18 @@ CREATE TABLE SARASA.Tipocta (
 )
 
 CREATE TABLE SARASA.Cuenta (
-	Cuenta_Numero				numeric(18,0)	identity(1,1) PRIMARY KEY,
-	Cuenta_Fecha_Creacion		datetime,
-	Cuenta_Fecha_Cierre			datetime,
-	Cuenta_Estado_Id			integer			FOREIGN KEY REFERENCES SARASA.Estado (Estado_Id) NOT NULL,
-	Cuenta_Tipocta_Id			integer			FOREIGN KEY REFERENCES SARASA.Tipocta (Tipocta_Id) NOT NULL,
-	Cuenta_Pais_Id				integer			FOREIGN KEY REFERENCES SARASA.Pais (Pais_Id) NOT NULL,
-	Cuenta_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
-	Cuenta_Saldo				numeric(18,2),
-	Cuenta_Cliente_Id			integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL,
+	Cuenta_Numero						numeric(18,0)	identity(1,1) PRIMARY KEY,
+	Cuenta_Fecha_Creacion				datetime,
+	Cuenta_Fecha_Cierre					datetime,
+	Cuenta_Estado_Id					integer			FOREIGN KEY REFERENCES SARASA.Estado (Estado_Id) NOT NULL,
+	Cuenta_Tipocta_Id					integer			FOREIGN KEY REFERENCES SARASA.Tipocta (Tipocta_Id) NOT NULL,
+	Cuenta_Pais_Id						integer			FOREIGN KEY REFERENCES SARASA.Pais (Pais_Id) NOT NULL,
+	Cuenta_Moneda_Id					integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
+	Cuenta_Saldo						numeric(18,2),
+	Cuenta_Cliente_Id					integer			FOREIGN KEY REFERENCES SARASA.Cliente (Cliente_Id) NOT NULL,
+	Cuenta_Dias_De_Suscripcion			integer,
+	Cuenta_Ultima_Modificacion_Tipo		datetime,
+	Cuenta_Items_No_Facturados			integer,
 
 	CHECK (Cuenta_Saldo >= 0.0)
 )
@@ -2856,7 +2859,10 @@ INSERT INTO SARASA.Cuenta (	Cuenta_Numero,
 							Cuenta_Pais_Id,
 							Cuenta_Moneda_Id,
 							Cuenta_Saldo,
-							Cuenta_Cliente_Id)
+							Cuenta_Cliente_Id,
+							Cuenta_Dias_De_Suscripcion,
+							Cuenta_Ultima_Modificacion_Tipo,
+							Cuenta_Items_No_Facturados)
 SELECT DISTINCT tm.Cuenta_Numero,
 				tm.Cuenta_Fecha_Creacion,
 				tm.Cuenta_Fecha_Cierre,
@@ -2867,8 +2873,12 @@ SELECT DISTINCT tm.Cuenta_Numero,
 				0.00,
 				(SELECT cli.Cliente_Id
 					FROM SARASA.Cliente cli
-					WHERE tm.Cuenta_Numero IS NOT NULL AND tm.Cli_Nro_Doc = cli.Cliente_Doc_Nro)
-
+					WHERE tm.Cuenta_Numero IS NOT NULL AND tm.Cli_Nro_Doc = cli.Cliente_Doc_Nro),
+				(SELECT tipo.Tipocta_Vencimiento_Dias
+					FROM SARASA.Tipocta tipo
+					WHERE tipo.Tipocta_Descripcion = 'Oro'),
+				GETDATE(),
+				0	--No hay items sin facturar en ninguna cuenta al momento de la migración
 FROM gd_esquema.Maestra tm, SARASA.Estado e, SARASA.Tipocta t, SARASA.Moneda m
 WHERE e.Estado_Descripcion = 'Habilitada' AND t.Tipocta_Descripcion = 'Oro' AND m.Moneda_Descripcion = 'Dólar Estadounidense'
 SET IDENTITY_INSERT SARASA.Cuenta OFF
