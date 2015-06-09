@@ -1038,6 +1038,57 @@ BEGIN CATCH
 END CATCH
 GO
 
+USE GD1C2015
+GO
+
+CREATE PROCEDURE SARASA.consultar_saldos (
+	@cuenta_numero numeric(18,0)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			SELECT cue.Cuenta_Saldo AS Saldo
+			FROM SARASA.Cuenta cue
+			WHERE cue.Cuenta_Numero = @cuenta_numero
+			
+			SELECT TOP(5) dep.Deposito_Fecha AS Fecha, dep.Deposito_Codigo_Ingreso AS Codigo_Ingreso, dep.Deposito_Importe AS Importe
+			FROM SARASA.Deposito dep
+			WHERE dep.Deposito_Cuenta_Numero = @cuenta_numero
+			ORDER BY dep.Deposito_Fecha DESC
+
+			SELECT TOP(5) ret.Retiro_Fecha AS Fecha, ret.Retiro_Codigo_Egreso AS Codigo_Egreso, ret.Retiro_Importe AS Importe
+			FROM SARASA.Retiro ret
+			WHERE ret.Retiro_Cuenta_Id = @cuenta_numero
+			ORDER BY ret.Retiro_Fecha DESC
+
+			SELECT TOP(10) transf.Transferencia_Fecha AS Fecha, transf.Transferencia_Cuenta_Origen_Id AS Cuenta_Origen, transf.Transferencia_Cuenta_Destino_Id AS Cuenta_Destino, transf.Transferencia_Importe AS Importe, transf.Transferencia_Costo AS Comisión
+			FROM SARASA.Transferencia transf
+			WHERE transf.Transferencia_Cuenta_Destino_Id = @cuenta_numero
+			OR transf.Transferencia_Cuenta_Origen_Id = @cuenta_numero
+			ORDER BY transf.Transferencia_Fecha DESC
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la consulta de saldo: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
