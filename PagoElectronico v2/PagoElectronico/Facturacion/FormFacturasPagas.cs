@@ -34,7 +34,8 @@ namespace PagoElectronico.Facturacion
 
         private void buttonDetalles_Click(object sender, EventArgs e)
         {
-            Facturacion.FormVerFactura frmDetalles = new Facturacion.FormVerFactura(this, usuario);
+            int id = Convert.ToInt32(this.TablaDatos.CurrentRow.Cells[0].Value);
+            Facturacion.FormVerFactura frmDetalles = new Facturacion.FormVerFactura(this, usuario, id);
             this.Hide();
             frmDetalles.Show();
         }
@@ -50,6 +51,7 @@ namespace PagoElectronico.Facturacion
             {
                 Utils.Herramientas.msebox_informacion("No hay datos");
             }
+            TablaDatos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
     }

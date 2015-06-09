@@ -41,6 +41,8 @@
             this.TablaDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.TablaDatos.Location = new System.Drawing.Point(27, 52);
             this.TablaDatos.Name = "TablaDatos";
+            this.TablaDatos.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.TablaDatos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.TablaDatos.Size = new System.Drawing.Size(679, 205);
             this.TablaDatos.TabIndex = 0;
             // 

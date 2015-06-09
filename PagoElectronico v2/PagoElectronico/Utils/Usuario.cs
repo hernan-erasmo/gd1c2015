@@ -100,19 +100,30 @@ namespace PagoElectronico.Utils
             set { this.apellido = value; }
         }
 
-        //llenaElDataGridDelFormulariDeFacturasPagas
+        //llenaElDataGridDelFormularioDeFacturasPagas
         public DataTable llenarDataGridFacturasPagas()
         {
             conexion cn = new conexion();
 
-            String sql = "SELECT f.Factura_Numero AS Id_Factura, f.Factura_Fecha AS Fecha FROM GD1C2015.SARASA.Factura f, GD1C2015.SARASA.Itemfact i, GD1C2015.SARASA.Cliente c WHERE i.Itemfact_Factura_Numero= f.Factura_Numero AND f.Factura_Cliente_Id=c.Cliente_Id AND i.Itemfact_Pagado=1 AND c.Cliente_Id=" +clienteId+ "GROUP BY f.Factura_Numero, f.Factura_Fecha";
+            String sql = "SELECT f.Factura_Numero AS Id_Factura, f.Factura_Fecha AS Fecha FROM GD1C2015.SARASA.Factura f, GD1C2015.SARASA.Itemfact i, GD1C2015.SARASA.Cliente c WHERE i.Itemfact_Factura_Numero= f.Factura_Numero AND f.Factura_Cliente_Id=c.Cliente_Id AND i.Itemfact_Pagado=1 AND c.Cliente_Id=" +clienteId+ " GROUP BY f.Factura_Numero, f.Factura_Fecha";
 
             DataSet ds = new DataSet();
             SqlDataAdapter sqd = new SqlDataAdapter(sql, cn.abrir_conexion());
             sqd.Fill(ds, "Fila");
             return ds.Tables["Fila"];
+        }
 
+        //llenaElDataGridDelFormularioDeItemFactura
+        public DataTable llenarDataGridItemFactura(int id_fact)
+        {
+            conexion cn = new conexion();
 
+            String sql = "SELECT i.Itemfact_Id, i.Itemfact_Cuenta_Numero AS Cuenta, i.Itemfact_Descripcion AS Descripcion, i.Itemfact_Importe AS Importe, i.Itemfact_Fecha AS Fecha FROM GD1C2015.SARASA.Itemfact i WHERE i.Itemfact_Factura_Numero=" + id_fact;
+
+            DataSet ds = new DataSet();
+            SqlDataAdapter sqd = new SqlDataAdapter(sql, cn.abrir_conexion());
+            sqd.Fill(ds, "Fila");
+            return ds.Tables["Fila"];
         }
     }
 }

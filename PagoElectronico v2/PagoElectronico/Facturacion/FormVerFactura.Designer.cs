@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.TablaDatos = new System.Windows.Forms.DataGridView();
             this.buttonVolver = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TablaDatos)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // TablaDatos
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(29, 24);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(648, 234);
-            this.dataGridView1.TabIndex = 0;
+            this.TablaDatos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.TablaDatos.Location = new System.Drawing.Point(29, 24);
+            this.TablaDatos.Name = "TablaDatos";
+            this.TablaDatos.Size = new System.Drawing.Size(648, 234);
+            this.TablaDatos.TabIndex = 0;
             // 
             // buttonVolver
             // 
@@ -57,18 +57,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 321);
             this.Controls.Add(this.buttonVolver);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.TablaDatos);
             this.Name = "FormVerFactura";
             this.Text = "FormVerFactura";
             this.Load += new System.EventHandler(this.FormVerFactura_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TablaDatos)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView TablaDatos;
         private System.Windows.Forms.Button buttonVolver;
     }
 }
