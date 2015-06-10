@@ -544,10 +544,6 @@ ELSE
 END
 GO
 
-
-
-
-
 CREATE PROCEDURE SARASA.realizar_deposito (
 	@cliente_id				integer,
 	@deposito_fecha			datetime,
@@ -1217,6 +1213,31 @@ BEGIN
 	SET Cuenta_Saldo = Cuenta_Saldo - i.Retiro_Importe
 	FROM INSERTED i
 	WHERE SARASA.Cuenta.Cuenta_Numero = i.Retiro_Cuenta_Id
+END
+GO
+
+-- Detecta si una cuenta realizó un retiro con su suscripción vencida.
+CREATE TRIGGER SARASA.tr_retiro_aff_ins_detectar_cuenta_vencida
+ON SARASA.Retiro
+AFTER INSERT
+AS
+BEGIN
+	DECLARE @cuenta_numero numeric(18,0)
+	SELECT @cuenta_numero = i.Retiro_Cuenta_Id FROM INSERTED i
+
+	DECLARE @dias_restantes integer
+	SET @dias_restantes = SARASA.calcular_cantidad_dias_restantes(@cuenta_numero)
+
+	DECLARE @tipo_gratuita integer
+	SELECT @tipo_gratuita = tipo.Tipocta_Id FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Descripcion = 'Gratuita'
+
+	DECLARE @cuenta_tipo integer
+	SELECT @cuenta_tipo = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+
+	IF @dias_restantes < 0 AND @cuenta_tipo != @tipo_gratuita
+	BEGIN
+		RAISERROR('La suscripción de la cuenta ha caducado.',16,2) --Notar que el estado es distinto, ya que en el procedure vamos a inhabilitar la cuenta si falla por éste estado.
+	END
 END
 GO
 
@@ -2896,6 +2917,7 @@ DISABLE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta ON SARASA.Retiro
 DISABLE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura ON SARASA.Cuenta;
 DISABLE TRIGGER SARASA.tr_itemfact_aff_ins ON SARASA.Itemfact;
 DISABLE TRIGGER SARASA.tr_deposito_aff_ins_detectar_cuenta_vencida ON SARASA.Deposito;
+DISABLE TRIGGER SARASA.tr_retiro_aff_ins_detectar_cuenta_vencida ON SARASA.Retiro;
 GO
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Pais
@@ -3131,4 +3153,5 @@ ENABLE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta ON SARASA.Retiro;
 ENABLE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura ON SARASA.Cuenta;
 ENABLE TRIGGER SARASA.tr_itemfact_aff_ins ON SARASA.Itemfact;
 ENABLE TRIGGER SARASA.tr_deposito_aff_ins_detectar_cuenta_vencida ON SARASA.Deposito;
+ENABLE TRIGGER SARASA.tr_retiro_aff_ins_detectar_cuenta_vencida ON SARASA.Retiro;
 GO
