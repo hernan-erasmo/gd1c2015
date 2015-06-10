@@ -52,7 +52,7 @@
             this.txtNumDoc = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.cbxTipoDoc = new System.Windows.Forms.ComboBox();
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -77,6 +77,7 @@
             this.btnVolver.TabIndex = 9;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // btnAceptar
             // 
@@ -135,6 +136,7 @@
             this.btnCrear.TabIndex = 10;
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
             // lblEstadoBusqueda
             // 
@@ -177,6 +179,7 @@
             this.btnBuscar.TabIndex = 15;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // groupBox1
             // 
@@ -191,7 +194,7 @@
             this.groupBox1.Controls.Add(this.txtNumDoc);
             this.groupBox1.Controls.Add(this.txtNombre);
             this.groupBox1.Controls.Add(this.txtApellido);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.cbxTipoDoc);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(577, 166);
@@ -289,13 +292,14 @@
             this.txtApellido.Size = new System.Drawing.Size(168, 20);
             this.txtApellido.TabIndex = 64;
             // 
-            // comboBox1
+            // cbxTipoDoc
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(390, 84);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(168, 21);
-            this.comboBox1.TabIndex = 65;
+            this.cbxTipoDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxTipoDoc.FormattingEnabled = true;
+            this.cbxTipoDoc.Location = new System.Drawing.Point(390, 84);
+            this.cbxTipoDoc.Name = "cbxTipoDoc";
+            this.cbxTipoDoc.Size = new System.Drawing.Size(168, 21);
+            this.cbxTipoDoc.TabIndex = 65;
             // 
             // btnLimpiar
             // 
@@ -305,6 +309,7 @@
             this.btnLimpiar.TabIndex = 21;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // FormBuscar
             // 
@@ -360,7 +365,7 @@
         private System.Windows.Forms.TextBox txtNumDoc;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.TextBox txtApellido;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cbxTipoDoc;
         private System.Windows.Forms.Button btnModUsuario;
     }
 }

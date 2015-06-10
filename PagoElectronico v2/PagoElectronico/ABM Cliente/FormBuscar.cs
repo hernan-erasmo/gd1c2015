@@ -6,14 +6,27 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PagoElectronico.Utils;
+using System.Collections;
 
 namespace PagoElectronico.ABM_Cliente
 {
     public partial class FormBuscar : Form
     {
+        Usuario usuario;
+        ArrayList funciones;
+        Form formPadre;
+
         public FormBuscar()
         {
             InitializeComponent();
+        }
+
+        public FormBuscar(Form f, Utils.Usuario user)
+        {
+            InitializeComponent();
+            formPadre = f;
+            usuario = user;
         }
 
         private void txtNumero_TextChanged(object sender, EventArgs e)
@@ -33,7 +46,86 @@ namespace PagoElectronico.ABM_Cliente
 
         private void FormBuscar_Load(object sender, EventArgs e)
         {
+            btnModificar.Enabled = false;
+            btnModUsuario.Enabled = false;
+            btnEliminar.Enabled = false;
+            btnAceptar.Enabled = false;
 
+            Herramientas.llenarComboBoxSP(cbxTipoDoc, "SARASA.cbx_tipodoc", null, false);
+        }
+
+        private void btnCrear_Click(object sender, EventArgs e)
+        {
+            ABM_Cliente.FormCrear frm = new ABM_Cliente.FormCrear(this, usuario);
+            this.Hide();
+            frm.Show();
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            lblEstadoBusqueda.Text = "";    //  Indica estado de la busqueda
+
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtNumDoc.Text = "";
+            txtMail.Text = "";
+            txtUsuario.Text = "";
+
+            cbxTipoDoc.SelectedIndex = 0;
+
+            btnModificar.Enabled = false;
+            btnModUsuario.Enabled = false;
+            btnEliminar.Enabled = false;
+            btnAceptar.Enabled = false;
+
+
+
+            //  Limpiar la tabla de resultados
+            dataGridView1.DataSource = null;
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            formPadre.Show();
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            btnModificar.Enabled = false;
+            btnModUsuario.Enabled = false;
+            btnEliminar.Enabled = false;
+            btnAceptar.Enabled = false;
+
+            lblEstadoBusqueda.Text = "Ejecutando busqueda...";
+
+            //  ARMA LA QUERY A EJECUTAR BASADO EN LOS FILTROS
+            string queryConsulta = Filtros.filtroBuscarCliente(txtUsuario.Text, txtNombre.Text, txtApellido.Text, txtMail.Text, txtNumDoc.Text, "" + ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key);
+
+            Herramientas.msebox_informacion(queryConsulta);
+
+            DataTable resultados;
+            try
+            {
+                resultados = Herramientas.ejecutarConsultaTabla(queryConsulta);
+                dataGridView1.DataSource = resultados;
+
+                lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
+
+                if (dataGridView1.RowCount > 0)
+                {
+                    btnAceptar.Enabled = true;
+                    btnEliminar.Enabled = true;
+                    btnModificar.Enabled = true;
+                    btnModUsuario.Enabled = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+                lblEstadoBusqueda.Text = "Error al realizar la busqueda";
+            }
         }
     }
 }

@@ -39,6 +39,20 @@ namespace PagoElectronico.Utils
         }
 
 
+        //  Valida si los valores son numericos
+        public bool IsNumeric(string num)
+        {
+            try
+            {
+                int x = Convert.ToInt32(num);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         //  Encriptador SHA256
         public static String sha256_hash(String value)
         {

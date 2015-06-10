@@ -35,12 +35,17 @@ namespace PagoElectronico.ABM_Cliente
 
         private void AltaCliente_Load(object sender, EventArgs e)
         {
-            Herramientas.llenarComboBox(cbxPais, "SELECT Pais_Id 'Valor', Pais_Nombre 'Etiqueta' FROM test.pais ORDER BY Pais_Nombre", true);
+            Herramientas.llenarComboBoxSP(cbxPais,
+                "SARASA.cbx_pais",null,
+                true);
+ 
+            Herramientas.llenarComboBoxSP(cbxTipoDoc,
+                "SARASA.cbx_tipodoc", null,
+                true);
 
-            Herramientas.llenarComboBox(cbxTipoDoc, "select Tipodoc_Id 'Valor', Tipodoc_Descripcion 'Etiqueta' from test.Tipodoc", true);
-            Herramientas.llenarComboBox(cbxRol, "SELECT Rol_Id 'Valor', Rol_Descripcion 'Etiqueta' FROM test.Rol", true);
-           
-
+            Herramientas.llenarComboBoxSP(cbxRol,
+                "SARASA.cbx_rol", null,
+                true);
 
             //Herramientas.GenerarListaDeParametros(
             //    //"@cliId", txtCliente.Text,           //  @cliId integer,
@@ -62,8 +67,6 @@ namespace PagoElectronico.ABM_Cliente
         private void txtCrear_Click(object sender, EventArgs e)
         {
             //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-            string nombreSP = "Test.Crear_Cliente";    //  Nombre del StoreProcedure
-
             try
             {
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
@@ -79,9 +82,14 @@ namespace PagoElectronico.ABM_Cliente
                                             "@cliDomPiso", txtPiso.Text,
                                             "@cliDomDpto", txtDepto.Text,
                                             "@cliFechaNac", dtpFechaNac.Value.ToShortDateString(),
-                                            "@cliHabilitado", chkEstado.Checked);
+                                            "@cliHabilitado", chkEstado.Checked,
+                                            "@usuario",txtUsuario.Text,
+                                            "@password",txtPassword.Text,
+                                            "@pregunta",txtPreguntaSec.Text,
+                                            "@respuesta",txtRespuestaSec.Text,
+                                            "@rolId", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
 
-                Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                Herramientas.EjecutarStoredProcedure("SARASA.crear_cliente", lista);
                 Herramientas.msebox_informacion("Cliente nueva creada");
             }
             catch (Exception ex)

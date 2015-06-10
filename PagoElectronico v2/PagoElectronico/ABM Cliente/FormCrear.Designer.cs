@@ -304,7 +304,7 @@
             this.groupBox1.Controls.Add(this.txtApellido);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.txtNombre);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(311, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(306, 401);
             this.groupBox1.TabIndex = 33;
@@ -335,7 +335,7 @@
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.label16);
             this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Location = new System.Drawing.Point(324, 12);
+            this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(293, 401);
             this.groupBox2.TabIndex = 34;
@@ -355,6 +355,7 @@
             // 
             this.txtPassword.Location = new System.Drawing.Point(19, 119);
             this.txtPassword.Name = "txtPassword";
+            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(259, 20);
             this.txtPassword.TabIndex = 18;
             // 
@@ -362,6 +363,7 @@
             // 
             this.txtRespuestaSec.Location = new System.Drawing.Point(19, 246);
             this.txtRespuestaSec.Name = "txtRespuestaSec";
+            this.txtRespuestaSec.PasswordChar = '*';
             this.txtRespuestaSec.Size = new System.Drawing.Size(259, 20);
             this.txtRespuestaSec.TabIndex = 17;
             // 

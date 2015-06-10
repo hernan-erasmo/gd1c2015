@@ -1,5 +1,3 @@
-USE [GD1C2015]
-
 --**************************************************************************************
 
 -- Valores de @codigo
@@ -8,7 +6,7 @@ USE [GD1C2015]
 --	-2: Usuario o Pass incorrectos
 --	x: Login OK, usuario habilitado con un único rol (rolID = x)
 
-ALTER PROCEDURE [SARASA].[Ejecutar_Autenticacion] (
+CREATE PROCEDURE [SARASA].[Ejecutar_Autenticacion] (
 	@username nvarchar(20),
 	@password nvarchar(64),
 	@codigo integer OUTPUT,

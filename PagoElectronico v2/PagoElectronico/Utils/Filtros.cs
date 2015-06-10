@@ -112,7 +112,101 @@ namespace PagoElectronico.Utils
             
             return q;
         }
-   
-    
+
+        //  Genera la query de consulta del formulario buscar cliente (y usuario)
+        public static string filtroBuscarCliente(string username, string nombre, string apellido,
+            string mail, string docNumero, string tipodocId)
+        {
+            bool primero = true;
+            string q = "SELECT "
+                    + "Cliente_Id 'Cliente ID',"
+                    + "Usuario_Id 'User ID',"
+                    + "Usuario_Username 'User',"
+                    + "Cliente_Nombre 'Nombre',"
+                    + "Cliente_Apellido 'Apellido',"
+                    + "Cliente_Mail 'Mail',"
+                    + "Tipodoc_Descripcion 'Tipo Doc',"
+                    + "Cliente_Doc_Nro 'Numero Doc',"
+                    + "Cliente_Fecha_Nacimiento 'Fecha Nacimiento',"
+                    + "Pais_Nombre 'Pais',"
+                    + "Cliente_Dom_Calle + ' ' + CONVERT(nvarchar(20),Cliente_Dom_Numero) + ', Piso '+ CONVERT(nvarchar(20),Cliente_Dom_Piso) + ', Dpto ' + Cliente_Dom_Depto 'Direccion',"
+                    + "Cliente_Habilitado 'Cliente Habilitado',"
+                    + "Usuario_Habilitado 'User Habilitado',"
+                    + "Usuario_Fecha_Creacion 'User F.Creacion',"
+                    + "Usuario_Fecha_Modificacion 'User F.Modificacion'"
+                    + " FROM SARASA.Usuario FULL OUTER JOIN SARASA.Cliente ON (Usuario_Cliente_Id = Cliente_Id)"
+                    + "	LEFT JOIN SARASA.Pais ON (Cliente_Pais_Id = Pais_Id)"
+                    + "	LEFT JOIN SARASA.Tipodoc ON (Cliente_Tipodoc_Id = Tipodoc_Id) ";
+
+
+
+            if (username != "")
+            {
+                if (primero)
+                    q += "WHERE ";
+
+                q += "Usuario_Username = '" + username + "'";
+                primero = false;
+            }
+
+            if (nombre != "")
+            {
+                if (primero)
+                    q += "WHERE ";
+                else
+                    q += " and ";
+
+                q += "Cliente_Nombre = '" + nombre + "'";
+                primero = false;
+            }
+
+            if (apellido != "")
+            {
+                if (primero)
+                    q += "WHERE ";
+                else
+                    q += " and ";
+
+                q += "Cliente_Apellido = '" + apellido + "'";
+                primero = false;
+            }
+
+            if (mail != "")
+            {
+                if (primero)
+                    q += "WHERE ";
+                else
+                    q += " and ";
+
+                q += "Cliente_Mail = '" + mail + "'";
+                primero = false;
+            }
+
+            if (docNumero != "")
+            {
+                if (primero)
+                    q += "WHERE ";
+                else
+                    q += " and ";
+
+
+                q += "Cliente_Doc_Nro = " + docNumero;
+                primero = false;
+            }
+
+            if (tipodocId != "0")
+            {
+                if (primero)
+                    q += "WHERE ";
+                else
+                    q += " and ";
+
+
+                q += "Tipodoc_Id = " + tipodocId;
+                primero = false;
+            }
+
+            return q;
+        }
     }
 }
