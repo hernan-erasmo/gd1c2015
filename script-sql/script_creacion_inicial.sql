@@ -317,7 +317,7 @@ BEGIN
 	DECLARE @fecha_vencimiento datetime
 	SET @fecha_vencimiento = DATEADD(day,@dias_totales,@ultima_modificacion)
 
-	SET @dias_restantes = DATEDIFF(day,@ultima_modificacion,@fecha_vencimiento)
+	SET @dias_restantes = DATEDIFF(day,GETDATE(),@fecha_vencimiento)
 	RETURN @dias_restantes
 END
 GO
@@ -615,6 +615,15 @@ BEGIN CATCH
 	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
+	IF ERROR_STATE() = 2	-- Abortamos la transacción porque ha caducado la suscripción de la cuenta. Entonces la inhabilitamos.
+	BEGIN
+		DECLARE @estado_inhabilitada integer
+		SELECT @estado_inhabilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Inhabilitada';
+
+		UPDATE SARASA.Cuenta
+		SET Cuenta_Estado_Id = @estado_inhabilitada
+		WHERE Cuenta_Numero = @deposito_cuenta_num
+	END
 	RAISERROR('Error al realizar el depósito: %s',16,1, @error_message)
 END CATCH
 GO
@@ -1173,7 +1182,13 @@ BEGIN
 	DECLARE @dias_restantes integer
 	SET @dias_restantes = SARASA.calcular_cantidad_dias_restantes(@cuenta_numero)
 
-	IF @dias_restantes < 0
+	DECLARE @tipo_gratuita integer
+	SELECT @tipo_gratuita = tipo.Tipocta_Id FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Descripcion = 'Gratuita'
+
+	DECLARE @cuenta_tipo integer
+	SELECT @cuenta_tipo = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+
+	IF @dias_restantes < 0 AND @cuenta_tipo != @tipo_gratuita
 	BEGIN
 		RAISERROR('La suscripción de la cuenta ha caducado.',16,2) --Notar que el estado es distinto, ya que en el procedure vamos a inhabilitar la cuenta si falla por éste estado.
 	END
