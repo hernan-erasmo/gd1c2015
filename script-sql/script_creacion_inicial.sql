@@ -730,6 +730,15 @@ BEGIN CATCH
 	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
+	IF ERROR_STATE() = 2	-- Abortamos la transacción porque ha caducado la suscripción de la cuenta. Entonces la inhabilitamos.
+	BEGIN
+		DECLARE @estado_inhabilitada integer
+		SELECT @estado_inhabilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Inhabilitada';
+
+		UPDATE SARASA.Cuenta
+		SET Cuenta_Estado_Id = @estado_inhabilitada
+		WHERE Cuenta_Numero = @cuenta_nro
+	END
 	RAISERROR('Error en la transacción de retiro de efectivo: %s',16,1, @error_message)
 END CATCH
 GO
