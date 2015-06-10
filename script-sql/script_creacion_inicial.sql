@@ -2960,7 +2960,7 @@ SELECT DISTINCT tm.Cuenta_Numero,
 				(SELECT tipo.Tipocta_Vencimiento_Dias
 					FROM SARASA.Tipocta tipo
 					WHERE tipo.Tipocta_Descripcion = 'Oro'),
-				GETDATE(),
+				tm.Cuenta_Fecha_Creacion,	--En el momento de carga inicial, la fecha de creación y la de última modificación de tipo coinciden.
 				0	--No hay items sin facturar en ninguna cuenta al momento de la migración
 FROM gd_esquema.Maestra tm, SARASA.Estado e, SARASA.Tipocta t, SARASA.Moneda m
 WHERE e.Estado_Descripcion = 'Habilitada' AND t.Tipocta_Descripcion = 'Oro' AND m.Moneda_Descripcion = 'Dólar Estadounidense'
