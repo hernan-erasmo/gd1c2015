@@ -295,6 +295,7 @@ BEGIN
 END
 GO
 
+-- Si la suscripción venció, retorna un número negativo (igual a la cantidad de días que pasaron desde que venció)
 CREATE FUNCTION SARASA.calcular_cantidad_dias_restantes(
 	@cuenta_numero numeric(18,0))
 RETURNS integer
@@ -916,9 +917,17 @@ BEGIN TRY
 			BEGIN
 				EXEC SARASA.crear_item_factura @cuenta_numero, 'Cambio de tipo de cuenta.',@importe,@fecha_hoy,NULL,0
 				
-				-- Luego modificamos el tipo
+				-- Luego modificamos el tipo y actualizamos los campos auxiliares
+				DECLARE @cant_dias_restantes integer
+				SET @cant_dias_restantes = SARASA.calcular_cantidad_dias_restantes(@cuenta_numero)
+
+				DECLARE @cant_dias_nueva_suscripcion integer
+				SELECT @cant_dias_nueva_suscripcion = tipo.Tipocta_Vencimiento_Dias FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_deseado
+
 				UPDATE SARASA.Cuenta
-				SET Cuenta_Tipocta_Id = @tipo_cuenta_deseado
+				SET Cuenta_Tipocta_Id = @tipo_cuenta_deseado,
+					Cuenta_Ultima_Modificacion_Tipo = GETDATE(),
+					Cuenta_Dias_De_Suscripcion = @cant_dias_nueva_suscripcion + @cant_dias_restantes
 				WHERE Cuenta_Numero = @cuenta_numero
 			END
 
