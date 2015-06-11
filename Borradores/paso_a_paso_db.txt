@@ -232,5 +232,9 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		La PK de este mapeo será compuesta entre Rol_Id y Funcion_Id. 
 
 	Listados estadísticos:
+		4. Paises con mayor cantidad de movimientos tanto ingresos como egresos.
+			- Se llama al procedure SARASA.movimientos_por_pais y se le pasa las fechas de inicio y de fin deseadas.
+			- Se considera como movimientos entre paises únicamente a ingresos o retiros de dinero sobre cuentas que estén asociadas a un determinado país. No se tienen en cuenta las transferencias.
+
 		5. Total facturado para los distintos tipos de cuentas.
-			Se llama al procedure SARASA.Total_Facturado_Por_Tipo_Cuenta y se le pasa las fechas de inicio y de fin deseadas.
+			- Se llama al procedure SARASA.Total_Facturado_Por_Tipo_Cuenta y se le pasa las fechas de inicio y de fin deseadas.

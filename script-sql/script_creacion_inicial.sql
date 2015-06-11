@@ -1212,7 +1212,57 @@ BEGIN CATCH
 END CATCH
 GO
 
-CREATE PROCEDURE SARASA.Total_Facturado_Por_Tipo_Cuenta (
+-- Consulta estadística nro. 4
+CREATE PROCEDURE SARASA.movimientos_por_paises (
+	@fecha_desde datetime,
+	@fecha_hasta datetime
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		SELECT TOP 5 pais.Pais_Nombre, Tabla_Total.Total_Movimientos
+		FROM (	SELECT Total_Depositos.Cuenta_Pais_Id, SUM(COALESCE(Total_Depositos.Cantidad_Depositos,0) + COALESCE(Total_Retiros.Cantidad_Retiros,0)) AS Total_Movimientos
+				FROM (	SELECT cue.Cuenta_Pais_Id, COUNT(Deposito_Id) AS Cantidad_Depositos
+						FROM SARASA.Deposito dep
+						INNER JOIN SARASA.Cuenta cue ON cue.Cuenta_Numero = dep.Deposito_Cuenta_Numero
+						WHERE dep.Deposito_Fecha BETWEEN @fecha_desde AND @fecha_hasta
+						GROUP BY cue.Cuenta_Pais_Id) AS Total_Depositos
+				FULL OUTER JOIN 
+					(	SELECT cue.Cuenta_Pais_Id, COUNT(Retiro_Id) AS Cantidad_Retiros
+						FROM SARASA.Retiro ret
+						INNER JOIN SARASA.Cuenta cue ON cue.Cuenta_Numero = ret.Retiro_Cuenta_Id
+						WHERE ret.Retiro_Fecha BETWEEN @fecha_desde AND @fecha_hasta
+						GROUP BY cue.Cuenta_Pais_Id) AS Total_Retiros
+				ON Total_Depositos.Cuenta_Pais_Id = Total_Retiros.Cuenta_Pais_Id
+				GROUP BY Total_Depositos.Cuenta_Pais_Id) AS Tabla_Total
+		INNER JOIN SARASA.Pais pais ON pais.Pais_Id = Tabla_Total.Cuenta_Pais_Id
+		GROUP BY pais.Pais_Nombre, Tabla_Total.Total_Movimientos
+		ORDER BY Tabla_Total.Total_Movimientos DESC
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la consulta estadística nro 4 (Países con mayor cantidad de movimientos): %s',16,1, @error_message)
+END CATCH
+GO
+
+-- Consulta estadística nro. 5
+CREATE PROCEDURE SARASA.total_facturado_por_tipo_cuenta (
 	@fecha_desde datetime,
 	@fecha_hasta datetime
 )
