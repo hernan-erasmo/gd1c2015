@@ -1212,6 +1212,48 @@ BEGIN CATCH
 END CATCH
 GO
 
+-- Consulta estadística nro. 3
+CREATE PROCEDURE SARASA.clientes_transferencias_entre_si (
+	@fecha_desde datetime,
+	@fecha_hasta datetime
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		SELECT TOP 5 Tabla_Total.Cliente_Origen AS Cliente_Id, (cli.Cliente_Nombre + ' ' + cli.Cliente_Apellido) AS Nombre_y_Apellido, Tabla_Total.Cantidad_Transferencias AS Cantidad_Transferencias_Entre_Cuentas_Propias
+		FROM
+			(SELECT cue_origen.Cuenta_Cliente_Id AS Cliente_Origen, COUNT(transf.Transferencia_Id) AS Cantidad_Transferencias
+			FROM SARASA.Transferencia transf
+			INNER JOIN SARASA.Cuenta cue_origen ON cue_origen.Cuenta_Numero = transf.Transferencia_Cuenta_Origen_Id
+			INNER JOIN SARASA.Cuenta cue_destino ON cue_destino.Cuenta_Numero = transf.Transferencia_Cuenta_Destino_Id
+			WHERE cue_origen.Cuenta_Cliente_Id = cue_destino.Cuenta_Cliente_Id
+			AND transf.Transferencia_Fecha BETWEEN @fecha_desde AND @fecha_hasta
+			GROUP BY cue_origen.Cuenta_Cliente_Id) AS Tabla_Total
+		INNER JOIN SARASA.Cliente cli ON cli.Cliente_Id = Tabla_Total.Cliente_Origen
+		ORDER BY Tabla_Total.Cantidad_Transferencias DESC
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la consulta estadística nro 3 (Clientes con mayor cantidad de transferencias entre sí): %s',16,1, @error_message)
+END CATCH
+GO
+
 -- Consulta estadística nro. 4
 CREATE PROCEDURE SARASA.movimientos_por_paises (
 	@fecha_desde datetime,
