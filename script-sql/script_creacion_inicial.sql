@@ -1212,6 +1212,46 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.Total_Facturado_Por_Tipo_Cuenta (
+	@fecha_desde datetime,
+	@fecha_hasta datetime
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		SELECT TOP 5 tipo.Tipocta_Descripcion, SUM(COALESCE(Resultado_Parcial.Total_Por_Cuenta,0)) AS Total_Por_Tipo
+		FROM
+			(	SELECT cue.Cuenta_Numero, cue.Cuenta_Tipocta_Id, SUM(Itemfact_Importe) AS Total_Por_Cuenta
+				FROM SARASA.Itemfact item
+				INNER JOIN SARASA.Cuenta cue ON item.Itemfact_Cuenta_Numero = cue.Cuenta_Numero
+				WHERE item.Itemfact_Fecha BETWEEN @fecha_desde AND @fecha_hasta
+				GROUP BY cue.Cuenta_Numero, cue.Cuenta_Tipocta_Id	) AS Resultado_Parcial
+		FULL OUTER JOIN SARASA.Tipocta tipo ON tipo.Tipocta_Id = Resultado_Parcial.Cuenta_Tipocta_Id
+		GROUP BY tipo.Tipocta_Descripcion
+		ORDER BY Total_Por_Tipo DESC
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la consulta estadística nro 5 (Total facturado para los distintos tipos de cuenta): %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
