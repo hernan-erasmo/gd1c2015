@@ -95,6 +95,8 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 			@tipo_cuenta_deseado de tipo integer, es el FK para la tabla SARASA.Tipocta que indica el tipo de cuenta al que se desea cambiar
 			@estado_deseado, de tipo integer, es el FK para la tabla SARASA.Estado y representa el estado al que se quiere cambiar la cuenta.
 
+			Este procedure permite realizar más de un cambio a una cuenta en una misma llamada. Es por eso que para que funcione de la manera más defensiva posible, cuando se le pasa como parámetro el mismo valor que tiene la cuenta actualmente, entonces no genera ningún cambio para ese valor. Es decir, si el tipo de cuenta es 1 y el estado es 1, y se llama al procedure con tipo de cuenta 1 y estado 2, eso significa que se desea cambiar el estado PERO NO EL TIPO, y viceversa. En resumen, al llamar a este procedure para modificar un valor X de una cuenta, pasarle como valor X deseado otro valor distinto al que tiene actualmente.
+
 			Las transiciones entre estados permitidas por este método son:
 				(A falta de un requerimiento explícito en el enunciado, vamos a asumir que una cuenta pendiente de activación no puede recibir ni enviar dinero, y tampoco realizar depósitos hasta no estar activa)
 				

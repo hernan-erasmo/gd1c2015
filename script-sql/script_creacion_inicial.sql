@@ -306,14 +306,8 @@ BEGIN
 	DECLARE @ultima_modificacion datetime
 	SELECT @ultima_modificacion = cue.Cuenta_Ultima_Modificacion_Tipo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
 
-	DECLARE @tipo_cuenta_gratuita integer
-	SELECT @tipo_cuenta_gratuita = tipo.Tipocta_Id FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Descripcion = 'Gratuita'
-
-	DECLARE @tipo_cuenta integer
-	SELECT @tipo_cuenta = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = cuenta_numero
-
 	DECLARE @dias_totales integer
-	SELECT @dias_totales = tipo.Tipocta_Vencimiento_Dias FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta
+	SELECT @dias_totales = cue.Cuenta_Dias_De_Suscripcion FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
 	
 	DECLARE @fecha_vencimiento datetime
 	SET @fecha_vencimiento = DATEADD(day,@dias_totales,@ultima_modificacion)
@@ -1151,6 +1145,70 @@ BEGIN CATCH
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
 	RAISERROR('Error en la consulta de saldo: %s',16,1, @error_message)
+END CATCH
+GO
+
+CREATE PROCEDURE SARASA.renovar_suscripcion (
+	@cuenta_numero numeric(18,0)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+			DECLARE @tipo_cuenta_actual integer
+			SELECT @tipo_cuenta_actual = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
+
+			DECLARE @importe numeric(18,2)
+			SELECT @importe = tipo.Tipocta_Costo_Mod FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_actual
+
+			DECLARE @fecha_hoy datetime
+			SET @fecha_hoy = GETDATE()
+
+			-- Generamos el item factura correspondiente a la misma suscripción que tiene la cuenta.
+			EXEC SARASA.crear_item_factura @cuenta_numero, 'Renovación de cuenta', @importe, @fecha_hoy, NULL, 0
+
+			-- Tenemos que incrementar y modificar desde acá los valores para las columnas Cuenta_Ultima_Modificacion_Tipo y Cuenta_Dias_De_Suscripcion
+			DECLARE @cant_dias_restantes integer
+			SET @cant_dias_restantes = SARASA.calcular_cantidad_dias_restantes(@cuenta_numero)
+
+			DECLARE @cant_dias_nueva_suscripcion integer
+			SELECT @cant_dias_nueva_suscripcion = tipo.Tipocta_Vencimiento_Dias FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_actual
+			
+			-- Si la cantidad de días es negativa, la cuenta está inhabilitada por vencimiento, resetemos la fecha modificación tipo y la cantidad de días.
+			IF @cant_dias_restantes < 0
+			BEGIN
+				UPDATE SARASA.Cuenta
+				SET Cuenta_Ultima_Modificacion_Tipo = GETDATE(),
+					Cuenta_Dias_De_Suscripcion = @cant_dias_nueva_suscripcion	--notar que no le sumamos los días restantes
+				WHERE Cuenta_Numero = @cuenta_numero
+			END
+			ELSE
+			BEGIN
+				UPDATE SARASA.Cuenta
+				SET Cuenta_Ultima_Modificacion_Tipo = GETDATE(),
+					Cuenta_Dias_De_Suscripcion = @cant_dias_nueva_suscripcion + @cant_dias_restantes
+				WHERE Cuenta_Numero = @cuenta_numero
+			END
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	DECLARE @cuenta_numero_string nvarchar(40)
+	SET @cuenta_numero_string = CAST(@cuenta_numero AS nvarchar(40))
+	RAISERROR('Error al renovar la suscripción de la cuenta %s: %s',16,1,@cuenta_numero_string,@error_message)
 END CATCH
 GO
 
