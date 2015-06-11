@@ -19,7 +19,6 @@ namespace PagoElectronico.ABM_Tarjeta
 
         Form formPadre;
         Tarjeta tarjeta = new Tarjeta();
-
         public FormBuscar()
         {
             InitializeComponent();
@@ -220,7 +219,8 @@ namespace PagoElectronico.ABM_Tarjeta
         //  Buscar Cliente (solo para administrador)
         private void btnBuscarClie_Click(object sender, EventArgs e)
         {
-            FormBuscarClie formBuscarCliente = new FormBuscarClie(this);
+//            FormBuscarClie formBuscarCliente = new FormBuscarClie(this);
+            ABM_Cliente.FormBuscar formBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario, "BuscarCliente","ABM_Tarjeta.FormBuscar");
             formBuscarCliente.Show();
             this.Hide();
         }
@@ -345,5 +345,9 @@ namespace PagoElectronico.ABM_Tarjeta
             this.Text = "Key: " + key + ", Value: " + value;
         }
 
+        public void setClienteEncontrado(string clienteId, string nombre, string apellido) 
+        {
+            this.txtCliente.Text = apellido +", "+ nombre + " (" + clienteId + ")";
+        }
     }
 }

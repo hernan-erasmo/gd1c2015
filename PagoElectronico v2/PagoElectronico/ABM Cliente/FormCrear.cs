@@ -15,6 +15,7 @@ namespace PagoElectronico.ABM_Cliente
     {
         Form formPadre;
         Usuario usuario;
+        string userId;
 
         public void asignarPadre(Form padre)
         {
@@ -35,6 +36,11 @@ namespace PagoElectronico.ABM_Cliente
 
         private void AltaCliente_Load(object sender, EventArgs e)
         {
+            userId = "";
+
+            rbBuscarUser.Checked = true;
+            gbAltaUser.Enabled = false;
+
             Herramientas.llenarComboBoxSP(cbxPais,
                 "SARASA.cbx_pais",null,
                 true);
@@ -98,30 +104,44 @@ namespace PagoElectronico.ABM_Cliente
             }
         }
 
-        private void chkEstado_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void txtVolver_Click(object sender, EventArgs e)
         {
             this.Close();
             formPadre.Show();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void rbBuscarUser_CheckedChanged_1(object sender, EventArgs e)
         {
-
+            if (rbBuscarUser.Checked) 
+            {
+                gbBuscarUser.Enabled = true;
+                gbAltaUser.Enabled = false;
+            }
         }
 
-        private void groupBox2_Enter(object sender, EventArgs e)
+        private void rbAltaUser_CheckedChanged_1(object sender, EventArgs e)
         {
+            if (rbAltaUser.Checked)
+            {
+                gbBuscarUser.Enabled = false;
+                gbAltaUser.Enabled = true;
+                userId = "";
+                txtUsuarioBusq.Text = "";
+            }
+        }
 
+        private void btnBuscarUsuario_Click(object sender, EventArgs e)
+        {
+            ABM_Cliente.FormBuscar frmBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario, 
+                                                "BuscarUsuario", "ABM_Cliente.FormCrear");
+            frmBuscarCliente.Show();
+            this.Hide();
+        
+        }
+
+        public void setUsuarioEncontrado(string userId, string username) 
+        {
+            txtUsuarioBusq.Text = username + " (" + userId + ")";
         }
     }
 }

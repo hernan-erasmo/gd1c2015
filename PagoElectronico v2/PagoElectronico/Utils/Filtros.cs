@@ -208,5 +208,25 @@ namespace PagoElectronico.Utils
 
             return q;
         }
+ 
+        //  Genera la query de consulta del formulario buscar cliente (y usuario)
+        public static string filtroBuscarUsuario(string username)
+        {
+            string q = "SELECT "
+                    + "Usuario_Cliente_Id 'Cliente ID',"
+                    + "Usuario_Id 'User ID',"
+                    + "Usuario_Username 'User',"
+                    + "Usuario_Habilitado 'User Habilitado',"
+                    + "Usuario_Fecha_Creacion 'User F.Creacion',"
+                    + "Usuario_Fecha_Modificacion 'User F.Modificacion'"
+                    + " FROM SARASA.Usuario"
+                    + " WHERE Usuario_Cliente_Id is null ";
+
+            if (username != "")
+                q += "AND Usuario_Username = '" + username + "'";
+
+            return q;
+        }
+    
     }
 }

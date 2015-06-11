@@ -143,9 +143,10 @@ namespace PagoElectronico
         private void btnABMCliente_Click(object sender, EventArgs e)
         {
             //ABM_Cliente.FormCrear frm = new ABM_Cliente.FormCrear(this, usuario);
-            ABM_Cliente.FormBuscar frm = new ABM_Cliente.FormBuscar(this,usuario);
+            ABM_Cliente.FormBuscar frm = new ABM_Cliente.FormBuscar(this, usuario, "ABMCliente", "MenuPrincipal");
             this.Hide();
             frm.Show();
+            
         }
 
         private void btnListados_Click(object sender, EventArgs e)

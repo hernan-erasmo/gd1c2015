@@ -39,7 +39,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.txtVolver = new System.Windows.Forms.Button();
+            this.btnVolver = new System.Windows.Forms.Button();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.cbxTipoDoc = new System.Windows.Forms.ComboBox();
@@ -51,11 +51,11 @@
             this.txtPiso = new System.Windows.Forms.TextBox();
             this.txtDepto = new System.Windows.Forms.TextBox();
             this.dtpFechaNac = new System.Windows.Forms.DateTimePicker();
-            this.txtCrear = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnCrear = new System.Windows.Forms.Button();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkEstado = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbAltaUser = new System.Windows.Forms.GroupBox();
             this.cbxRol = new System.Windows.Forms.ComboBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.txtRespuestaSec = new System.Windows.Forms.TextBox();
@@ -66,8 +66,15 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
+            this.gbBuscarUser = new System.Windows.Forms.GroupBox();
+            this.btnBuscarUsuario = new System.Windows.Forms.Button();
+            this.txtUsuarioBusq = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.rbBuscarUser = new System.Windows.Forms.RadioButton();
+            this.rbAltaUser = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.gbAltaUser.SuspendLayout();
+            this.gbBuscarUser.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -169,15 +176,15 @@
             this.label14.TabIndex = 13;
             this.label14.Text = "Fecha Nac.";
             // 
-            // txtVolver
+            // btnVolver
             // 
-            this.txtVolver.Location = new System.Drawing.Point(12, 435);
-            this.txtVolver.Name = "txtVolver";
-            this.txtVolver.Size = new System.Drawing.Size(79, 29);
-            this.txtVolver.TabIndex = 14;
-            this.txtVolver.Text = "Volver";
-            this.txtVolver.UseVisualStyleBackColor = true;
-            this.txtVolver.Click += new System.EventHandler(this.txtVolver_Click);
+            this.btnVolver.Location = new System.Drawing.Point(17, 428);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(79, 29);
+            this.btnVolver.TabIndex = 14;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = true;
+            this.btnVolver.Click += new System.EventHandler(this.txtVolver_Click);
             // 
             // txtNombre
             // 
@@ -259,25 +266,24 @@
             this.dtpFechaNac.Size = new System.Drawing.Size(168, 20);
             this.dtpFechaNac.TabIndex = 28;
             // 
-            // txtCrear
+            // btnCrear
             // 
-            this.txtCrear.Location = new System.Drawing.Point(529, 435);
-            this.txtCrear.Name = "txtCrear";
-            this.txtCrear.Size = new System.Drawing.Size(80, 29);
-            this.txtCrear.TabIndex = 31;
-            this.txtCrear.Text = "Crear";
-            this.txtCrear.UseVisualStyleBackColor = true;
-            this.txtCrear.Click += new System.EventHandler(this.txtCrear_Click);
+            this.btnCrear.Location = new System.Drawing.Point(534, 428);
+            this.btnCrear.Name = "btnCrear";
+            this.btnCrear.Size = new System.Drawing.Size(80, 29);
+            this.btnCrear.TabIndex = 31;
+            this.btnCrear.Text = "Crear";
+            this.btnCrear.UseVisualStyleBackColor = true;
+            this.btnCrear.Click += new System.EventHandler(this.txtCrear_Click);
             // 
-            // button3
+            // btnLimpiar
             // 
-            this.button3.Location = new System.Drawing.Point(106, 435);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(80, 29);
-            this.button3.TabIndex = 32;
-            this.button3.Text = "Limpiar";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnLimpiar.Location = new System.Drawing.Point(111, 428);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(80, 29);
+            this.btnLimpiar.TabIndex = 32;
+            this.btnLimpiar.Text = "Limpiar";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -304,13 +310,12 @@
             this.groupBox1.Controls.Add(this.txtApellido);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.txtNombre);
-            this.groupBox1.Location = new System.Drawing.Point(311, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(306, 401);
             this.groupBox1.TabIndex = 33;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Información del Cliente";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // chkEstado
             // 
@@ -321,39 +326,36 @@
             this.chkEstado.TabIndex = 31;
             this.chkEstado.Text = "Habilitado";
             this.chkEstado.UseVisualStyleBackColor = true;
-            this.chkEstado.CheckedChanged += new System.EventHandler(this.chkEstado_CheckedChanged);
             // 
-            // groupBox2
+            // gbAltaUser
             // 
-            this.groupBox2.Controls.Add(this.cbxRol);
-            this.groupBox2.Controls.Add(this.txtPassword);
-            this.groupBox2.Controls.Add(this.txtRespuestaSec);
-            this.groupBox2.Controls.Add(this.txtPreguntaSec);
-            this.groupBox2.Controls.Add(this.txtUsuario);
-            this.groupBox2.Controls.Add(this.label12);
-            this.groupBox2.Controls.Add(this.label13);
-            this.groupBox2.Controls.Add(this.label15);
-            this.groupBox2.Controls.Add(this.label16);
-            this.groupBox2.Controls.Add(this.label17);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(293, 401);
-            this.groupBox2.TabIndex = 34;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Información del Usuario";
-            this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
+            this.gbAltaUser.Controls.Add(this.cbxRol);
+            this.gbAltaUser.Controls.Add(this.txtPassword);
+            this.gbAltaUser.Controls.Add(this.txtRespuestaSec);
+            this.gbAltaUser.Controls.Add(this.txtPreguntaSec);
+            this.gbAltaUser.Controls.Add(this.txtUsuario);
+            this.gbAltaUser.Controls.Add(this.label12);
+            this.gbAltaUser.Controls.Add(this.label13);
+            this.gbAltaUser.Controls.Add(this.label15);
+            this.gbAltaUser.Controls.Add(this.label16);
+            this.gbAltaUser.Controls.Add(this.label17);
+            this.gbAltaUser.Location = new System.Drawing.Point(324, 136);
+            this.gbAltaUser.Name = "gbAltaUser";
+            this.gbAltaUser.Size = new System.Drawing.Size(293, 277);
+            this.gbAltaUser.TabIndex = 34;
+            this.gbAltaUser.TabStop = false;
             // 
             // cbxRol
             // 
             this.cbxRol.FormattingEnabled = true;
-            this.cbxRol.Location = new System.Drawing.Point(19, 302);
+            this.cbxRol.Location = new System.Drawing.Point(19, 205);
             this.cbxRol.Name = "cbxRol";
             this.cbxRol.Size = new System.Drawing.Size(259, 21);
             this.cbxRol.TabIndex = 19;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(19, 119);
+            this.txtPassword.Location = new System.Drawing.Point(19, 76);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(259, 20);
@@ -361,7 +363,7 @@
             // 
             // txtRespuestaSec
             // 
-            this.txtRespuestaSec.Location = new System.Drawing.Point(19, 246);
+            this.txtRespuestaSec.Location = new System.Drawing.Point(19, 163);
             this.txtRespuestaSec.Name = "txtRespuestaSec";
             this.txtRespuestaSec.PasswordChar = '*';
             this.txtRespuestaSec.Size = new System.Drawing.Size(259, 20);
@@ -369,14 +371,14 @@
             // 
             // txtPreguntaSec
             // 
-            this.txtPreguntaSec.Location = new System.Drawing.Point(19, 184);
+            this.txtPreguntaSec.Location = new System.Drawing.Point(19, 119);
             this.txtPreguntaSec.Name = "txtPreguntaSec";
             this.txtPreguntaSec.Size = new System.Drawing.Size(259, 20);
             this.txtPreguntaSec.TabIndex = 16;
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(19, 61);
+            this.txtUsuario.Location = new System.Drawing.Point(19, 32);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(259, 20);
             this.txtUsuario.TabIndex = 15;
@@ -384,7 +386,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(16, 219);
+            this.label12.Location = new System.Drawing.Point(16, 147);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(96, 13);
             this.label12.TabIndex = 14;
@@ -393,7 +395,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(16, 157);
+            this.label13.Location = new System.Drawing.Point(16, 103);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(88, 13);
             this.label13.TabIndex = 13;
@@ -402,7 +404,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(16, 278);
+            this.label15.Location = new System.Drawing.Point(16, 190);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(23, 13);
             this.label15.TabIndex = 12;
@@ -411,7 +413,7 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(16, 93);
+            this.label16.Location = new System.Drawing.Point(16, 60);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(53, 13);
             this.label16.TabIndex = 11;
@@ -420,32 +422,99 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(16, 33);
+            this.label17.Location = new System.Drawing.Point(16, 16);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(43, 13);
             this.label17.TabIndex = 10;
             this.label17.Text = "Usuario";
+            // 
+            // gbBuscarUser
+            // 
+            this.gbBuscarUser.Controls.Add(this.btnBuscarUsuario);
+            this.gbBuscarUser.Controls.Add(this.txtUsuarioBusq);
+            this.gbBuscarUser.Controls.Add(this.label1);
+            this.gbBuscarUser.Location = new System.Drawing.Point(324, 42);
+            this.gbBuscarUser.Name = "gbBuscarUser";
+            this.gbBuscarUser.Size = new System.Drawing.Size(293, 71);
+            this.gbBuscarUser.TabIndex = 35;
+            this.gbBuscarUser.TabStop = false;
+            // 
+            // btnBuscarUsuario
+            // 
+            this.btnBuscarUsuario.Location = new System.Drawing.Point(263, 24);
+            this.btnBuscarUsuario.Name = "btnBuscarUsuario";
+            this.btnBuscarUsuario.Size = new System.Drawing.Size(27, 27);
+            this.btnBuscarUsuario.TabIndex = 36;
+            this.btnBuscarUsuario.Text = "...";
+            this.btnBuscarUsuario.UseVisualStyleBackColor = true;
+            this.btnBuscarUsuario.Click += new System.EventHandler(this.btnBuscarUsuario_Click);
+            // 
+            // txtUsuarioBusq
+            // 
+            this.txtUsuarioBusq.Location = new System.Drawing.Point(19, 28);
+            this.txtUsuarioBusq.Name = "txtUsuarioBusq";
+            this.txtUsuarioBusq.Size = new System.Drawing.Size(242, 20);
+            this.txtUsuarioBusq.TabIndex = 37;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Usuario";
+            // 
+            // rbBuscarUser
+            // 
+            this.rbBuscarUser.AutoSize = true;
+            this.rbBuscarUser.Location = new System.Drawing.Point(324, 22);
+            this.rbBuscarUser.Name = "rbBuscarUser";
+            this.rbBuscarUser.Size = new System.Drawing.Size(97, 17);
+            this.rbBuscarUser.TabIndex = 36;
+            this.rbBuscarUser.TabStop = true;
+            this.rbBuscarUser.Text = "Buscar Usuario";
+            this.rbBuscarUser.UseVisualStyleBackColor = true;
+            this.rbBuscarUser.CheckedChanged += new System.EventHandler(this.rbBuscarUser_CheckedChanged_1);
+            // 
+            // rbAltaUser
+            // 
+            this.rbAltaUser.AutoSize = true;
+            this.rbAltaUser.Location = new System.Drawing.Point(324, 119);
+            this.rbAltaUser.Name = "rbAltaUser";
+            this.rbAltaUser.Size = new System.Drawing.Size(155, 17);
+            this.rbAltaUser.TabIndex = 37;
+            this.rbAltaUser.TabStop = true;
+            this.rbAltaUser.Text = "Información Alta de Usuario";
+            this.rbAltaUser.UseVisualStyleBackColor = true;
+            this.rbAltaUser.CheckedChanged += new System.EventHandler(this.rbAltaUser_CheckedChanged_1);
             // 
             // FormCrear
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(624, 475);
-            this.Controls.Add(this.groupBox2);
+            this.ClientSize = new System.Drawing.Size(627, 468);
+            this.Controls.Add(this.rbAltaUser);
+            this.Controls.Add(this.rbBuscarUser);
+            this.Controls.Add(this.gbBuscarUser);
+            this.Controls.Add(this.gbAltaUser);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.txtCrear);
-            this.Controls.Add(this.txtVolver);
+            this.Controls.Add(this.btnLimpiar);
+            this.Controls.Add(this.btnCrear);
+            this.Controls.Add(this.btnVolver);
             this.MaximizeBox = false;
             this.Name = "FormCrear";
             this.Text = "Cliente - Alta";
             this.Load += new System.EventHandler(this.AltaCliente_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.gbAltaUser.ResumeLayout(false);
+            this.gbAltaUser.PerformLayout();
+            this.gbBuscarUser.ResumeLayout(false);
+            this.gbBuscarUser.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -462,7 +531,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Button txtVolver;
+        private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.ComboBox cbxTipoDoc;
@@ -474,11 +543,11 @@
         private System.Windows.Forms.TextBox txtPiso;
         private System.Windows.Forms.TextBox txtDepto;
         private System.Windows.Forms.DateTimePicker dtpFechaNac;
-        private System.Windows.Forms.Button txtCrear;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnCrear;
+        private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox chkEstado;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbAltaUser;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.TextBox txtRespuestaSec;
         private System.Windows.Forms.TextBox txtPreguntaSec;
@@ -489,5 +558,11 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.ComboBox cbxRol;
+        private System.Windows.Forms.GroupBox gbBuscarUser;
+        private System.Windows.Forms.TextBox txtUsuarioBusq;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnBuscarUsuario;
+        private System.Windows.Forms.RadioButton rbBuscarUser;
+        private System.Windows.Forms.RadioButton rbAltaUser;
     }
 }
