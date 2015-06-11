@@ -22,6 +22,25 @@ CREATE PROCEDURE [test].[Buscar_Tarjetas] (
 		SELECT * FROM test.EmisorTC
 	END
 
+--	Tabla de prueba de Tarjetas de creditos
+CREATE TABLE [test].[Tc] (
+	Tc_Num_Tarjeta			integer,
+	Tc_Cliente_Id			integer,
+	Tc_Fecha_Emision		nvarchar(),
+	Tc_Fecha_Vencimiento	datetime,
+	Tc_Codigo_Seg			nvarchar(4),
+	Tc_Emisor_Desc			nvarchar(255)
+)
+
+INSERT INTO [test].[Tc] (
+	Tc_Num_Tarjeta, 
+	Tc_Cliente_Id,
+	Tc_Fecha_Emision,
+	Tc_Fecha_Vencimiento,
+	Tc_Codigo_Seg,
+	Tc_Emisor_Desc)
+	VALUES (1,101,SYSDATETIME(),SYSDATETIME(),1234,'Visa');
+
 
 -- Linea de ejecucion
 EXEC test.Buscar_Tarjetas @emisorTarjeta = 'Visa';
