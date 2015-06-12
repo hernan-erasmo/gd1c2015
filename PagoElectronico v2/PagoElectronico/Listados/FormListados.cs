@@ -35,6 +35,7 @@ namespace PagoElectronico.Listados
             cbsTrimestre.Add("1", "1er");
             cbsTrimestre.Add("2", "2do");
             cbsTrimestre.Add("3", "3ro");
+            cbsTrimestre.Add("4", "4to");
             cbxTrimestre.DataSource = new BindingSource(cbsTrimestre, null);
             cbxTrimestre.DisplayMember = "Value";
             cbxTrimestre.ValueMember = "Key";
