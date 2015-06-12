@@ -143,6 +143,21 @@ namespace PagoElectronico.ABM_Cliente
                 resultados = Herramientas.ejecutarConsultaTabla(queryConsulta);
                 dataGridView1.DataSource = resultados;
 
+                if (tipoFormBusqueda.Equals("BuscarUsuario")) //  Busca usuarios sin clientes asociados
+                { }
+                else
+                {
+                    dataGridView1.Columns["Cliente ID"].Visible = false;
+                    dataGridView1.Columns["User ID"].Visible = false;
+                    dataGridView1.Columns["Pais ID"].Visible = false;
+                    dataGridView1.Columns["Tipo Doc ID"].Visible = false;
+                    dataGridView1.Columns["Calle"].Visible = false;
+                    dataGridView1.Columns["Numero"].Visible = false;
+                    dataGridView1.Columns["Piso"].Visible = false;
+                    dataGridView1.Columns["Dpto"].Visible = false;
+                    dataGridView1.Columns["Pregunta Sec"].Visible = false;
+                } 
+
                 lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
 
                 if (dataGridView1.RowCount > 0)
@@ -196,6 +211,67 @@ namespace PagoElectronico.ABM_Cliente
                 MessageBox.Show("Error: " + ex.ToString());
             }
 
+        }
+
+        //  Modificar Cliente
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            Cliente cliente = new Cliente();
+            cliente.ClienteId = dataGridView1.SelectedCells[0].Value.ToString();
+
+            if (cliente.ClienteId != "") 
+            {
+                cliente.Nombre = dataGridView1.SelectedCells[3].Value.ToString();
+                cliente.Apellido = dataGridView1.SelectedCells[4].Value.ToString();
+                cliente.Mail = dataGridView1.SelectedCells[5].Value.ToString();
+
+                cliente.TipoDocId = dataGridView1.SelectedCells[17].Value.ToString();
+                cliente.NumeroDoc = dataGridView1.SelectedCells[7].Value.ToString();
+
+                cliente.PaisId = dataGridView1.SelectedCells[16].Value.ToString();
+                cliente.DomCalle = dataGridView1.SelectedCells[18].Value.ToString();
+                cliente.DomNumero = dataGridView1.SelectedCells[19].Value.ToString();
+                cliente.DomPiso = dataGridView1.SelectedCells[20].Value.ToString();
+                cliente.DomDpto = dataGridView1.SelectedCells[21].Value.ToString();
+
+                cliente.FechaNacimiento = dataGridView1.SelectedCells[8].Value.ToString();
+                cliente.Habilitado = bool.Parse(dataGridView1.SelectedCells[11].Value.ToString());
+                Herramientas.msebox_informacion("ClienteId: " + cliente.ClienteId);
+            }
+            else
+                Herramientas.msebox_informacion("SIN CLIENTE ASOCIADO, ClienteId: " + cliente.ClienteId);
+
+            ABM_Cliente.FormModificar frmModificar = new ABM_Cliente.FormModificar(this,usuario,cliente);
+            this.Hide();
+            frmModificar.Show();
+
+
+/*
+0   + "Cliente_Id 'Cliente ID',"
+3   + "Cliente_Nombre 'Nombre',"
+4   + "Cliente_Apellido 'Apellido',"
+5   + "Cliente_Mail 'Mail',"
+7   + "Cliente_Doc_Nro 'Numero Doc',"
+8   + "Cliente_Fecha_Nacimiento 'Fecha Nacimiento',"
+11  + "Cliente_Habilitado 'Cliente Habilitado',"
+16  + "Cliente_Pais_Id 'Pais ID',"
+17  + "Cliente_Tipodoc_Id 'Tipo Doc ID',"
+18  + "Cliente_Dom_Calle 'Calle',"
+19  + "Cliente_Dom_Numero 'Numero',"
+20  + "Cliente_Dom_Piso 'Piso',"
+21  + "Cliente_Dom_Depto 'Dpto'"
+
+
+1   + "Usuario_Id 'User ID',"
+2   + "Usuario_Username 'User',"
+6   + "Tipodoc_Descripcion 'Tipo Doc',"
+9   + "Pais_Nombre 'Pais',"
+10  + "Cliente_Dom_Calle + ' ' + CONVERT(nvarchar(20),Cliente_Dom_Numero) + ', Piso '+ CONVERT(nvarchar(20),Cliente_Dom_Piso) + ', Dpto ' + Cliente_Dom_Depto 'Direccion',"
+12  + "Usuario_Habilitado 'User Habilitado',"
+13  + "Usuario_Fecha_Creacion 'User F.Creacion',"
+14  + "Usuario_Fecha_Modificacion 'User F.Modificacion',"
+15  + "Usuario_Pregunta_Sec 'Pregunta Sec',"
+*/
         }
     }
 }

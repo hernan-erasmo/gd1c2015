@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM Cliente\Cliente.cs" />
     <Compile Include="ABM Cliente\FormBuscar.cs">
       <SubType>Form</SubType>
     </Compile>

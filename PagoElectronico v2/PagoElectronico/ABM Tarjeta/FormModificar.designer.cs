@@ -112,6 +112,7 @@
             // 
             // cbxEmisor
             // 
+            this.cbxEmisor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxEmisor.FormattingEnabled = true;
             this.cbxEmisor.Location = new System.Drawing.Point(121, 90);
             this.cbxEmisor.Name = "cbxEmisor";

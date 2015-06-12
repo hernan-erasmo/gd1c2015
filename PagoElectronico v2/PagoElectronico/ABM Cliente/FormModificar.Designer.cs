@@ -191,6 +191,7 @@
             // 
             // cbxPais
             // 
+            this.cbxPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxPais.FormattingEnabled = true;
             this.cbxPais.Location = new System.Drawing.Point(123, 184);
             this.cbxPais.Name = "cbxPais";
@@ -240,6 +241,7 @@
             // 
             // cbxTipoDoc
             // 
+            this.cbxTipoDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTipoDoc.FormattingEnabled = true;
             this.cbxTipoDoc.Location = new System.Drawing.Point(123, 90);
             this.cbxTipoDoc.Name = "cbxTipoDoc";
@@ -286,6 +288,7 @@
             this.btnGuardar.TabIndex = 35;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = true;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // txtVolver
             // 
@@ -295,12 +298,13 @@
             this.txtVolver.TabIndex = 34;
             this.txtVolver.Text = "Volver";
             this.txtVolver.UseVisualStyleBackColor = true;
+            this.txtVolver.Click += new System.EventHandler(this.txtVolver_Click);
             // 
             // FormModificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 486);
+            this.ClientSize = new System.Drawing.Size(335, 467);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtVolver);
