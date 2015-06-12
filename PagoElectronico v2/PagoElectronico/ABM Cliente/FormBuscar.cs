@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using PagoElectronico.Utils;
 using System.Collections;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.ABM_Cliente
 {
@@ -177,6 +178,24 @@ namespace PagoElectronico.ABM_Cliente
             }
             formPadre.Show();
             this.Dispose();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                                 "@cliente_id", dataGridView1.SelectedCells[0].Value.ToString());
+
+                Herramientas.EjecutarStoredProcedure("SARASA.eliminar_cliente", lista);
+                Herramientas.msebox_informacion("EXEC SARASA.eliminar_cliente @cliente_id=" + dataGridView1.SelectedCells[0].Value.ToString());
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
+
         }
     }
 }

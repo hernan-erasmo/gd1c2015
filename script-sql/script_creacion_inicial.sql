@@ -636,6 +636,36 @@ AS
 GO
 
 
+CREATE PROCEDURE [SARASA].[eliminar_cliente] (
+	@cliente_id					integer)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			-- Actualizamos la tabla SARASA.Cliente
+			UPDATE	SARASA.Cliente SET Cliente_Habilitado = 0 WHERE Cliente_Id = @cliente_id;
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción al modificar Cliente con ID %d: %s',16,1, @cliente_id, @error_message)
+END CATCH
+GO
+
 
 CREATE PROCEDURE SARASA.realizar_deposito (
 	@cliente_id				integer,
