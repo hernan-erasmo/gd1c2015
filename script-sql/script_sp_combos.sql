@@ -1,6 +1,6 @@
 CREATE PROCEDURE [SARASA].[cbx_rol]
 AS
-	SELECT Rol_Id 'Valor', Rol_Descripcion 'Etiqueta' FROM test.Rol
+	SELECT Rol_Id 'Valor', Rol_Descripcion 'Etiqueta' FROM SARASA.Rol
 GO
 
 
