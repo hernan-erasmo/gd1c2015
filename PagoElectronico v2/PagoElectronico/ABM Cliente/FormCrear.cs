@@ -75,28 +75,29 @@ namespace PagoElectronico.ABM_Cliente
             //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
             try
             {
+
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                                            "@cliId", usuario.ClienteId,
-                                            "@cliNombre", txtNombre.Text,
-                                            "@cliApellido", txtApellido.Text,
-                                            "@cliTipoDocId", ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key,
-                                            "@cliNumDoc", txtNumDoc.Text,
-                                            "@cliMail", txtMail.Text,
-                                            "@cliPaisId", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
-                                            "@cliDomCalle", txtCalle.Text,
-                                            "@cliDomNumero", txtCalleNum.Text,
-                                            "@cliDomPiso", txtPiso.Text,
-                                            "@cliDomDpto", txtDepto.Text,
-                                            "@cliFechaNac", dtpFechaNac.Value.ToShortDateString(),
-                                            "@cliHabilitado", chkEstado.Checked,
-                                            "@usuario",txtUsuario.Text,
-                                            "@password",txtPassword.Text,
-                                            "@pregunta",txtPreguntaSec.Text,
-                                            "@respuesta",txtRespuestaSec.Text,
-                                            "@rolId", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
+                                 "@Cliente_Nombre", txtNombre.Text,
+                                 "@Cliente_Apellido", txtApellido.Text,
+                                 "@Cliente_Tipodoc_Id", ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key,
+                                 "@Cliente_Doc_Nro", txtNumDoc.Text,
+                                 "@Cliente_Dom_Calle", txtCalle.Text,
+                                 "@Cliente_Dom_Numero", txtCalleNum.Text,
+                                 "@Cliente_Dom_Piso", txtPiso.Text,
+                                 "@Cliente_Dom_Depto", txtDepto.Text,
+                                 "@Cliente_Mail", txtMail.Text,
+                                 "@Cliente_Pais_Id", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
+                                 "@Cliente_Fecha_Nacimiento", dtpFechaNac.Value.ToShortDateString(),
+                                 "@Cliente_Habilitado", chkEstado.Checked,
+                                 "@Usuario_Id", userId,
+                                 "@Usuario_Username", txtUsuario.Text,
+                                 "@Usuario_Password", Herramientas.sha256_hash(txtPassword.Text),
+                                 "@Usuario_Pregunta_Sec", txtPreguntaSec.Text,
+                                 "@Usuario_Respuesta_Sec", Herramientas.sha256_hash(txtRespuestaSec.Text),
+                                 "@Rol_Id", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
 
                 Herramientas.EjecutarStoredProcedure("SARASA.crear_cliente", lista);
-                Herramientas.msebox_informacion("Cliente nueva creada");
+                Herramientas.msebox_informacion("Cliente nueva creada (ID_USER: "+userId+")");
             }
             catch (Exception ex)
             {
@@ -125,7 +126,7 @@ namespace PagoElectronico.ABM_Cliente
             {
                 gbBuscarUser.Enabled = false;
                 gbAltaUser.Enabled = true;
-                userId = "";
+                userId = "0";
                 txtUsuarioBusq.Text = "";
             }
         }
@@ -142,6 +143,36 @@ namespace PagoElectronico.ABM_Cliente
         public void setUsuarioEncontrado(string userId, string username) 
         {
             txtUsuarioBusq.Text = username + " (" + userId + ")";
+            this.userId = userId;
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            //Informacion del Cliente
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtNumDoc.Text = "";
+            txtMail.Text = "";
+            txtCalle.Text = "";
+            txtCalleNum.Text = "";
+            txtPiso.Text = "";
+            txtDepto.Text = "";
+            cbxTipoDoc.SelectedIndex = 0;
+            cbxPais.SelectedIndex = 0;
+            chkEstado.Enabled = false;
+
+            //Buscar Usuario
+            rbBuscarUser.Checked = true;
+            txtUsuarioBusq.Text = "";
+            userId = "0";
+
+            //Informacion Alta Usuario
+            txtUsuario.Text = "";
+            txtPassword.Text = "";
+            txtPreguntaSec.Text = "";
+            txtRespuestaSec.Text = "";
+            cbxRol.SelectedIndex = 0;
+
         }
     }
 }

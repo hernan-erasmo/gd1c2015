@@ -539,6 +539,104 @@ ELSE
 END
 GO
 
+CREATE PROCEDURE [SARASA].[crear_cliente] (
+	@Cliente_Nombre nvarchar(255),
+	@Cliente_Apellido nvarchar(255),
+	@Cliente_Tipodoc_Id int,
+	@Cliente_Doc_Nro numeric(18, 0),
+	@Cliente_Dom_Calle nvarchar(255),
+	@Cliente_Dom_Numero numeric(18, 0),
+	@Cliente_Dom_Piso numeric(18, 0),
+	@Cliente_Dom_Depto nvarchar(10),
+	@Cliente_Fecha_Nacimiento datetime,
+	@Cliente_Mail nvarchar(255),
+	@Cliente_Pais_Id int,
+	@Cliente_Habilitado bit,
+	@Usuario_Id int,
+	@Usuario_Username nvarchar(20),
+	@Usuario_Password nvarchar(64),
+--	@Usuario_Fecha_Creacion datetime,
+--	@Usuario_Fecha_Modificacion datetime,
+	@Usuario_Pregunta_Sec nvarchar(255),
+	@Usuario_Respuesta_Sec nvarchar(64),
+--	@Usuario_Habilitado bit,
+	@Rol_Id int)
+AS
+
+	DECLARE @cliente_insertado int;
+	DECLARE @usuario_insertado int;
+
+	INSERT INTO SARASA.Cliente (
+		Cliente_Pais_Id,
+		Cliente_Nombre,
+		Cliente_Apellido,
+		Cliente_Tipodoc_Id,
+		Cliente_Doc_Nro,
+		Cliente_Dom_Calle,
+		Cliente_Dom_Numero,
+		Cliente_Dom_Piso,
+		Cliente_Dom_Depto,
+		Cliente_Fecha_Nacimiento,
+		Cliente_Mail,
+		Cliente_Habilitado)
+	VALUES(
+		@Cliente_Pais_Id,
+		@Cliente_Nombre,
+		@Cliente_Apellido,
+		@Cliente_Tipodoc_Id,
+		@Cliente_Doc_Nro,
+		@Cliente_Dom_Calle,
+		@Cliente_Dom_Numero,
+		@Cliente_Dom_Piso,
+		@Cliente_Dom_Depto,
+		@Cliente_Fecha_Nacimiento,
+		@Cliente_Mail,
+		@Cliente_Habilitado)
+
+	-- Obtenemos el valor de id para el cliente insertado
+	SELECT @cliente_insertado = IDENT_CURRENT('SARASA.Cliente');
+
+	IF (@Usuario_Id = 0)
+	BEGIN
+
+		-- ALTA DE USUARIO NUEVO PARA EL CLIENTE
+		INSERT INTO SARASA.Usuario (
+			Usuario_Cliente_Id,
+			Usuario_Username,
+			Usuario_Password,
+			Usuario_Fecha_Creacion,
+			Usuario_Fecha_Modificacion,
+			Usuario_Pregunta_Sec,
+			Usuario_Respuesta_Sec,
+			Usuario_Habilitado)
+		VALUES(
+			@cliente_insertado,
+			@Usuario_Username,
+			@Usuario_Password,
+			SYSDATETIME(),--@Usuario_Fecha_Creacion,
+			SYSDATETIME(),--@Usuario_Fecha_Modificacion,
+			@Usuario_Pregunta_Sec,
+			@Usuario_Respuesta_Sec,
+			1)--@Usuario_Habilitado)
+
+		-- Obtenemos el valor de id para el cliente insertado
+		SELECT @usuario_insertado = IDENT_CURRENT('SARASA.Usuario');
+			
+		-- ASOCIA EL NUEVO USUARIO CON UN ROL
+		INSERT INTO SARASA.Rol_x_Usuario (Rol_Id,Usuario_Id) VALUES(@Rol_Id, @usuario_insertado)
+
+	END
+	ELSE
+	BEGIN
+
+		-- ASOCIA EL CLIENTE A UN USUARIO QUE YA EXISTE
+		UPDATE SARASA.Usuario SET Usuario_Cliente_Id = @cliente_insertado
+		WHERE Usuario_Id = @Usuario_Id
+	END
+GO
+
+
+
 CREATE PROCEDURE SARASA.realizar_deposito (
 	@cliente_id				integer,
 	@deposito_fecha			datetime,
