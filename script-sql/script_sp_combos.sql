@@ -17,3 +17,15 @@ AS
 	ORDER BY Pais_Nombre
 GO
 
+
+CREATE PROCEDURE [SARASA].[cbx_moneda]
+AS	
+	SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' 
+	FROM SARASA.Moneda
+GO
+
+
+CREATE PROCEDURE [SARASA].[cbx_tipocta]
+AS	
+	SELECT Tipocta_Id 'Valor', Tipocta_Descripcion 'Etiqueta' 
+	FROM SARASA.Tipocta

@@ -60,6 +60,7 @@
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnRenovar = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -102,15 +103,16 @@
             this.flowLayoutPanel1.Controls.Add(this.btnModificar);
             this.flowLayoutPanel1.Controls.Add(this.btnBaja);
             this.flowLayoutPanel1.Controls.Add(this.btnCrear);
+            this.flowLayoutPanel1.Controls.Add(this.btnRenovar);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(337, 516);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(251, 516);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(258, 33);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 33);
             this.flowLayoutPanel1.TabIndex = 19;
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(175, 3);
+            this.btnModificar.Location = new System.Drawing.Point(261, 3);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(80, 28);
             this.btnModificar.TabIndex = 9;
@@ -120,7 +122,7 @@
             // 
             // btnBaja
             // 
-            this.btnBaja.Location = new System.Drawing.Point(89, 3);
+            this.btnBaja.Location = new System.Drawing.Point(175, 3);
             this.btnBaja.Name = "btnBaja";
             this.btnBaja.Size = new System.Drawing.Size(80, 28);
             this.btnBaja.TabIndex = 8;
@@ -130,7 +132,7 @@
             // 
             // btnCrear
             // 
-            this.btnCrear.Location = new System.Drawing.Point(4, 3);
+            this.btnCrear.Location = new System.Drawing.Point(90, 3);
             this.btnCrear.Name = "btnCrear";
             this.btnCrear.Size = new System.Drawing.Size(79, 28);
             this.btnCrear.TabIndex = 10;
@@ -384,6 +386,16 @@
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
+            // btnRenovar
+            // 
+            this.btnRenovar.Location = new System.Drawing.Point(4, 3);
+            this.btnRenovar.Name = "btnRenovar";
+            this.btnRenovar.Size = new System.Drawing.Size(80, 28);
+            this.btnRenovar.TabIndex = 11;
+            this.btnRenovar.Text = "Renovar";
+            this.btnRenovar.UseVisualStyleBackColor = true;
+            this.btnRenovar.Click += new System.EventHandler(this.btnRenovar_Click);
+            // 
             // FormBuscar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -451,5 +463,6 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cbxPais;
+        private System.Windows.Forms.Button btnRenovar;
     }
 }

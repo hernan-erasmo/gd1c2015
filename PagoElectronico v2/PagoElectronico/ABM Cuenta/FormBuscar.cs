@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PagoElectronico.Utils;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.ABM_Cuenta
 {
@@ -28,9 +29,9 @@ namespace PagoElectronico.ABM_Cuenta
             dtpFechaAperturaDesde.Enabled = false;
             dtpFechaAperturaHasta.Enabled = false;
 
-            Herramientas.llenarComboBox(cbxPais, "SELECT Pais_Id 'Valor', Pais_Nombre 'Etiqueta' FROM test.pais ORDER BY Pais_Nombre",false);
-            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda",false);
-            Herramientas.llenarComboBox(cbxTipoCta, "SELECT Tipocta_Id 'Valor', Tipocta_Descripcion 'Etiqueta' FROM test.Tipocta",false);
+            Herramientas.llenarComboBoxSP(cbxPais, "SARASA.cbx_pais", null, false);
+            Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda", null, false);
+            Herramientas.llenarComboBoxSP(cbxTipoCta, "SARASA.cbx_tipocta",null,false);
 
         }
 
@@ -166,6 +167,25 @@ namespace PagoElectronico.ABM_Cuenta
             ABM_Cuenta.FormModificar frmModificar = new ABM_Cuenta.FormModificar(this,cuenta);
             frmModificar.Show();
             this.Hide();
+        }
+
+        private void btnRenovar_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+
+                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                                 "@cuenta_numero", dataGridView1.SelectedCells[0].Value.ToString());
+
+                Herramientas.EjecutarStoredProcedure("SARASA.renovar_suscripcion", lista);
+                Herramientas.msebox_informacion("EXEC SARASA.renovar_suscripcion @cuenta_numero=" + dataGridView1.SelectedCells[0].Value.ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
+
         }
     }
 }
