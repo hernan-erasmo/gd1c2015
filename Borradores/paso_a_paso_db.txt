@@ -235,9 +235,14 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 		Tiene un PK de tipo numeric(18,0) autoincremental, y se utiliza como auxiliar para generar el listado estadístico nro. 1 (Clientes que alguna de sus cuentas fueron inhabilitadas por no pagar los costos de transacción). Se inserta un registro nuevo en esta tabla cada vez que a un cliente se le inhabilita una cuenta por haber llegado a las 5 transacciones sin pagar. Ese registro contendrá el id del cliente y la fecha en la que se produjo la inhabilitación.
 
 	Listados estadísticos:
+		1. Clientes que alguna de sus cuentas fueron inhabilitadas por no pagar los costos de transacción.
+			- Se llama al procedure SARASA.inhabilitaciones_por_cliente
+			- Se consideran únicamente las inhabilitaciones producidas por llegar a 5 transacciones sin pagar.
+
 		2. Clientes con mayor cantidad de comisiones facturadas en todas sus cuentas.
 			- Se llama al procedure SARASA.clientes_mas_comisiones_facturadas y se le pasa las fechas de inicio y de fin deseadas.
 			- De acuerdo a los comentarios de los ayudantes en el grupo de google, se consideran únicamente las comisiones por transferencia.
+		
 		3. Clientes con mayor cantidad de transferencias entre sí.
 			- Se llama al procedure SARASA.clientes_transferencias_entre_si y se le pasa las fechas de inicio y de fin deseadas.
 			- Entendemos que cuando el enunciado dice "Mayor cantidad de transacciones realizadas entre cuentas propias", en realidad se refiere a "transferencias" entre cuentas propias.

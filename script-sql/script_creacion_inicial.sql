@@ -238,7 +238,7 @@ CREATE TABLE SARASA.Rol_x_Funcion (
 
 CREATE TABLE SARASA.Inhabilitacion (
 	Inhab_Id 				numeric(18,0)			identity(1,1) PRIMARY KEY,
-	Inhab_Cliente_Id 		numeric(18,0)			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id) NOT NULL,
+	Inhab_Cliente_Id 		integer					FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id) NOT NULL,
 	Inhab_Fecha				datetime				NOT NULL
 )
 GO
@@ -1379,6 +1379,45 @@ BEGIN CATCH
 END CATCH
 GO
 
+-- Consulta estadística nro. 1
+CREATE PROCEDURE SARASA.inhabilitaciones_por_cliente (
+	@fecha_desde datetime,
+	@fecha_hasta datetime
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			SELECT TOP 5 Tabla_Total.inhab_cliente_Id AS Cliente_Id, (cli.Cliente_Nombre + ' ' + cli.Cliente_Apellido) AS Nombre_y_Apellido, Tabla_Total.Cantidad_Inhabilitaciones AS Cant_inhabilitaciones
+			FROM (	
+					SELECT inhab.inhab_cliente_Id, COUNT(inhab.inhab_Id) AS Cantidad_Inhabilitaciones
+					FROM SARASA.Inhabilitacion inhab
+					WHERE inhab.inhab_fecha BETWEEN @fecha_desde AND @fecha_hasta
+					GROUP BY inhab.inhab_cliente_Id) AS Tabla_Total
+			INNER JOIN SARASA.Cliente cli ON cli.Cliente_Id = Tabla_Total.inhab_cliente_Id
+			ORDER BY Cantidad_Inhabilitaciones DESC
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la consulta estadística nro 1 (Clientes que alguna de sus cuentas fueron inhabilitadas por no pagar los costos de transacción): %s',16,1, @error_message)
+END CATCH
+GO
+
 --Consulta estadística nro. 2
 CREATE PROCEDURE SARASA.clientes_mas_comisiones_facturadas (
 	@fecha_desde datetime,
@@ -1714,6 +1753,10 @@ BEGIN
 											WHERE cue.Cuenta_Numero = @cuenta_numero
 
 		EXEC SARASA.modificar_cuenta @cliente_id, @cuenta_numero, @tipo_actual, @estado_inhabilitada
+
+		-- Agregamos la inhabilitación a la tabla auxiliar que lleva la cuenta de estos eventos para el listado estadístico nro. 1
+		INSERT INTO SARASA.Inhabilitacion(Inhab_Cliente_Id, Inhab_Fecha)
+		VALUES	(@cliente_id, GETDATE())
 	END
 END
 GO
