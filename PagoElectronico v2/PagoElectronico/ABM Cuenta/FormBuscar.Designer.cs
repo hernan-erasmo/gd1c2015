@@ -35,6 +35,7 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnBaja = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
+            this.btnRenovar = new System.Windows.Forms.Button();
             this.lblEstadoBusqueda = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -60,7 +61,6 @@
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.btnRenovar = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -139,6 +139,16 @@
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
             this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
+            // 
+            // btnRenovar
+            // 
+            this.btnRenovar.Location = new System.Drawing.Point(4, 3);
+            this.btnRenovar.Name = "btnRenovar";
+            this.btnRenovar.Size = new System.Drawing.Size(80, 28);
+            this.btnRenovar.TabIndex = 11;
+            this.btnRenovar.Text = "Renovar";
+            this.btnRenovar.UseVisualStyleBackColor = true;
+            this.btnRenovar.Click += new System.EventHandler(this.btnRenovar_Click);
             // 
             // lblEstadoBusqueda
             // 
@@ -223,6 +233,7 @@
             // 
             // cbxPais
             // 
+            this.cbxPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxPais.FormattingEnabled = true;
             this.cbxPais.Location = new System.Drawing.Point(357, 29);
             this.cbxPais.Name = "cbxPais";
@@ -240,6 +251,7 @@
             // 
             // cbxTipoCta
             // 
+            this.cbxTipoCta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTipoCta.FormattingEnabled = true;
             this.cbxTipoCta.Location = new System.Drawing.Point(92, 59);
             this.cbxTipoCta.Name = "cbxTipoCta";
@@ -307,6 +319,7 @@
             // 
             // cbxMoneda
             // 
+            this.cbxMoneda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMoneda.FormattingEnabled = true;
             this.cbxMoneda.Location = new System.Drawing.Point(357, 59);
             this.cbxMoneda.Name = "cbxMoneda";
@@ -385,16 +398,6 @@
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
-            // 
-            // btnRenovar
-            // 
-            this.btnRenovar.Location = new System.Drawing.Point(4, 3);
-            this.btnRenovar.Name = "btnRenovar";
-            this.btnRenovar.Size = new System.Drawing.Size(80, 28);
-            this.btnRenovar.TabIndex = 11;
-            this.btnRenovar.Text = "Renovar";
-            this.btnRenovar.UseVisualStyleBackColor = true;
-            this.btnRenovar.Click += new System.EventHandler(this.btnRenovar_Click);
             // 
             // FormBuscar
             // 

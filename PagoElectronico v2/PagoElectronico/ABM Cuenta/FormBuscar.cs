@@ -177,7 +177,7 @@ namespace PagoElectronico.ABM_Cuenta
             {
 
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                                 "@cuenta_numero", dataGridView1.SelectedCells[0].Value.ToString());
+                                 "@cuenta_numero", dataGridView1.SelectedCells[1].Value.ToString());
 
                 Herramientas.EjecutarStoredProcedure("SARASA.renovar_suscripcion", lista);
                 Herramientas.msebox_informacion("EXEC SARASA.renovar_suscripcion @cuenta_numero=" + dataGridView1.SelectedCells[0].Value.ToString());
