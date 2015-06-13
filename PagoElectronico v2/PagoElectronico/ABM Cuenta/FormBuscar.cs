@@ -13,9 +13,11 @@ namespace PagoElectronico.ABM_Cuenta
 {
     public partial class FormBuscar : Form
     {
-        Utils.Usuario usuario;
         Form formPadre;
+        Usuario usuario;
         Cuenta cuenta = new Cuenta();
+        string clienteId;
+
 
         public FormBuscar(Form f, Utils.Usuario user)
         {
@@ -28,6 +30,8 @@ namespace PagoElectronico.ABM_Cuenta
         {
             dtpFechaAperturaDesde.Enabled = false;
             dtpFechaAperturaHasta.Enabled = false;
+
+            clienteId = "0";
 
             Herramientas.llenarComboBoxSP(cbxPais, "SARASA.cbx_pais", null, false);
             Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda", null, false);
@@ -67,7 +71,7 @@ namespace PagoElectronico.ABM_Cuenta
             lblEstadoBusqueda.Text = "Ejecutando busqueda...";
 
             string fechaAperturaDesde = "", fechaAperturaHasta = "";
-            string cliente = txtCliente.Text;
+            string cliente = clienteId;//txtCliente.Text;
             string numero = txtNumero.Text;
             string tipoCuentaId = ((KeyValuePair<string, string>)cbxTipoCta.SelectedItem).Key;
             string monedaId = ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key;
@@ -128,9 +132,15 @@ namespace PagoElectronico.ABM_Cuenta
         {
             lblEstadoBusqueda.Text = "";    //  Indica estado de la busqueda
 
+
             //  Si es administrador tambien limpia el campo de cliente
-            if (btnBuscarClie.Enabled == true)
+            if (btnBuscarClie.Enabled == true) 
+            {
                 txtCliente.Text = "";
+                //  Solo se blanquea si el boton de buscar cliente esta habilitado
+                clienteId = "0";
+            }
+            
 
             txtNumero.Text = "";
 
@@ -187,6 +197,21 @@ namespace PagoElectronico.ABM_Cuenta
                 MessageBox.Show("Error: " + ex.ToString());
             }
 
+        }
+
+        private void btnBuscarClie_Click(object sender, EventArgs e)
+        {
+            ABM_Cliente.FormBuscar frmBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario,
+                                    "BuscarCliente", "ABM_Cuenta.FormBuscar");
+            frmBuscarCliente.Show();
+            this.Hide();
+
+        }
+
+        public void setClienteEncontrado(string clienteId, string nombre, string apellido)
+        {
+            this.txtCliente.Text = apellido + ", " + nombre + " (" + clienteId + ")";
+            this.clienteId = clienteId;
         }
     }
 }

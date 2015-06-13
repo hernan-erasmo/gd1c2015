@@ -372,6 +372,7 @@
             this.btnBuscarClie.TabIndex = 8;
             this.btnBuscarClie.Text = "Buscar";
             this.btnBuscarClie.UseVisualStyleBackColor = true;
+            this.btnBuscarClie.Click += new System.EventHandler(this.btnBuscarClie_Click);
             // 
             // txtCliente
             // 

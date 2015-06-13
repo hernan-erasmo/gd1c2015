@@ -178,11 +178,19 @@ namespace PagoElectronico.ABM_Cliente
                                                                         dataGridView1.SelectedCells[3].Value.ToString(),
                                                                         dataGridView1.SelectedCells[4].Value.ToString());
             }
+            else if (tipoFormPadre.Equals("ABM_Cuenta.FormBuscar"))
+            {
+                ((ABM_Cuenta.FormBuscar)formPadre).setClienteEncontrado(dataGridView1.SelectedCells[0].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[3].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[4].Value.ToString());
+
+            }
             else if (tipoFormPadre.Equals("ABM_Cliente.FormCrear"))
             {
                 ((ABM_Cliente.FormCrear)formPadre).setUsuarioEncontrado(dataGridView1.SelectedCells[1].Value.ToString(),
                                                                         dataGridView1.SelectedCells[2].Value.ToString());
             }
+
             formPadre.Show();
             this.Dispose();
         }
