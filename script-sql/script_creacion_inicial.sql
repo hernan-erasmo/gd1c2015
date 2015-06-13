@@ -1748,6 +1748,13 @@ CREATE PROCEDURE [SARASA].[cbx_tipocta]
 AS	
 	SELECT Tipocta_Id 'Valor', Tipocta_Descripcion 'Etiqueta' 
 	FROM SARASA.Tipocta
+GO
+
+CREATE PROCEDURE [SARASA].[cbx_estado]
+AS	
+	SELECT Estado_Id 'Valor', Estado_Descripcion 'Etiqueta' 
+	FROM SARASA.Estado
+GO
 
 /***********************
 	Creamos triggers
