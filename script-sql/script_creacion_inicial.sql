@@ -235,6 +235,12 @@ CREATE TABLE SARASA.Rol_x_Funcion (
 	Rol_Id 							integer			FOREIGN KEY REFERENCES SARASA.Rol(Rol_Id) NOT NULL,
 	Funcion_Id 						integer			FOREIGN KEY REFERENCES SARASA.Funcion(Funcion_Id) NOT NULL
 )
+
+CREATE TABLE SARASA.Inhabilitacion (
+	Inhab_Id 				numeric(18,0)			identity(1,1) PRIMARY KEY,
+	Inhab_Cliente_Id 		numeric(18,0)			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id) NOT NULL,
+	Inhab_Fecha				datetime				NOT NULL
+)
 GO
 
 /****************************************

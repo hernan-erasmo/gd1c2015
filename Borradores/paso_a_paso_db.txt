@@ -231,6 +231,9 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 	Tabla SARASA.Rol_x_Funcion:
 		La PK de este mapeo será compuesta entre Rol_Id y Funcion_Id. 
 
+	Tabla SARASA.Inhabilitacion:
+		Tiene un PK de tipo numeric(18,0) autoincremental, y se utiliza como auxiliar para generar el listado estadístico nro. 1 (Clientes que alguna de sus cuentas fueron inhabilitadas por no pagar los costos de transacción). Se inserta un registro nuevo en esta tabla cada vez que a un cliente se le inhabilita una cuenta por haber llegado a las 5 transacciones sin pagar. Ese registro contendrá el id del cliente y la fecha en la que se produjo la inhabilitación.
+
 	Listados estadísticos:
 		2. Clientes con mayor cantidad de comisiones facturadas en todas sus cuentas.
 			- Se llama al procedure SARASA.clientes_mas_comisiones_facturadas y se le pasa las fechas de inicio y de fin deseadas.
