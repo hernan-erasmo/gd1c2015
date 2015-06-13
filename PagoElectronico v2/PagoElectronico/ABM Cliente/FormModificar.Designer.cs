@@ -304,10 +304,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 467);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(331, 459);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtVolver);
+            this.MaximizeBox = false;
             this.Name = "FormModificar";
             this.Text = "Cliente - Modificar";
             this.Load += new System.EventHandler(this.ModificarCliente_Load);

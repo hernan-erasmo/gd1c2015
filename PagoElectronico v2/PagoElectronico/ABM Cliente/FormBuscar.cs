@@ -34,19 +34,11 @@ namespace PagoElectronico.ABM_Cliente
             this.tipoFormPadre = tipoFormPadre;
         }
 
-        private void txtNumero_TextChanged(object sender, EventArgs e)
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
         {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
+            this.Dispose();
+            formPadre.Show();
         }
 
         private void FormBuscar_Load(object sender, EventArgs e)

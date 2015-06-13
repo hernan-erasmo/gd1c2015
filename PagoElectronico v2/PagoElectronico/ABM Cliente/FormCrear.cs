@@ -34,6 +34,13 @@ namespace PagoElectronico.ABM_Cliente
             InitializeComponent();
         }
 
+        //  Boton X
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            this.Dispose();
+            formPadre.Show();
+        }
+
         private void AltaCliente_Load(object sender, EventArgs e)
         {
             userId = "";

@@ -635,6 +635,36 @@ AS
 	END
 GO
 
+CREATE PROCEDURE SARASA.modificar_cliente(
+			@Cliente_Id int,
+			@Cliente_Nombre nvarchar(255),
+			@Cliente_Apellido nvarchar(255),
+			@Cliente_Tipodoc_Id int,
+			@Cliente_Doc_Nro numeric(18,0),
+			@Cliente_Dom_Calle nvarchar(255),
+			@Cliente_Dom_Numero numeric(18,0),
+			@Cliente_Dom_Piso numeric(18,0),
+			@Cliente_Dom_Depto nvarchar(10),
+			@Cliente_Mail nvarchar(255),
+			@Cliente_Pais_Id int,
+			@Cliente_Fecha_Nacimiento datetime,
+			@Cliente_Habilitado bit)
+AS
+	UPDATE SARASA.Cliente
+	   SET	Cliente_Pais_Id = @Cliente_Pais_Id,
+			Cliente_Nombre = @Cliente_Nombre,
+			Cliente_Apellido = @Cliente_Apellido,
+			Cliente_Tipodoc_Id = @Cliente_Tipodoc_Id,
+			Cliente_Doc_Nro = @Cliente_Doc_Nro,
+			Cliente_Dom_Calle = @Cliente_Dom_Calle,
+			Cliente_Dom_Numero = @Cliente_Dom_Numero,
+			Cliente_Dom_Piso = @Cliente_Dom_Piso,
+			Cliente_Dom_Depto = @Cliente_Dom_Depto,
+			Cliente_Fecha_Nacimiento = @Cliente_Fecha_Nacimiento,
+			Cliente_Mail = @Cliente_Mail,
+			Cliente_Habilitado = @Cliente_Habilitado
+	 WHERE Cliente_Id = @Cliente_Id
+GO
 
 CREATE PROCEDURE [SARASA].[eliminar_cliente] (
 	@cliente_id					integer)
