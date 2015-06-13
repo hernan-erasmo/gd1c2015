@@ -35,12 +35,32 @@ namespace PagoElectronico.Facturacion
             this.Close();
             formPadre.Show();
         }
-
+        
         private void buttonGenerar_Click(object sender, EventArgs e)
         {
-            Facturacion.FormGenerarFactura frmGenerarFactura = new Facturacion.FormGenerarFactura(this, usuario);
-            this.Hide();
-            frmGenerarFactura.Show();
+            //me fijo si hay elementos por facturar
+            string comp;
+            comp = Utils.Herramientas.comprobarItemsImpagos(this.usuario);
+            if (Int32.Parse(comp) == 1)
+            {
+                //genero la nueva factura
+                string factura_id;
+
+                factura_id = Utils.Herramientas.generarFactura(this.usuario);
+
+                Facturacion.FormGenerarFactura frmGenerarFactura = new Facturacion.FormGenerarFactura(this, usuario, factura_id);
+
+                //actualizo los item de factura
+
+                Utils.Herramientas.facturarItems(this.usuario, Int32.Parse(factura_id));
+                this.Hide();
+                frmGenerarFactura.Show();
+                
+            }
+            else
+            {
+                Utils.Herramientas.msebox_informacion("No hay items para facturar");
+            }
         }
 
         private void buttonFacturasPagadas_Click(object sender, EventArgs e)

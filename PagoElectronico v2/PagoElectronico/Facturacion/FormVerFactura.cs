@@ -26,15 +26,7 @@ namespace PagoElectronico.Facturacion
 
         private void FormVerFactura_Load(object sender, EventArgs e)
         {
-            DataTable dt = (DataTable)usuario.llenarDataGridItemFactura(id_fact);
-            if (dt != null)
-            {
-                TablaDatos.DataSource = dt;
-            }
-            else
-            {
-                Utils.Herramientas.msebox_informacion("No hay datos");
-            }
+            TablaDatos.DataSource = Utils.Herramientas.ejecutarConsultaTabla("SELECT i.Itemfact_Id, i.Itemfact_Cuenta_Numero AS Cuenta, i.Itemfact_Descripcion AS Descripcion, i.Itemfact_Importe AS Importe, i.Itemfact_Fecha AS Fecha FROM GD1C2015.SARASA.Itemfact i WHERE i.Itemfact_Factura_Numero=" + this.id_fact);
             TablaDatos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 

@@ -638,13 +638,12 @@ namespace PagoElectronico.Utils
                 query.Parameters.AddRange(parametros.ToArray());
 
                 //  Agrego el parametro de output
-                SqlParameter outParam = query.Parameters.Add("@habilitado", SqlDbType.VarChar);
+                //SqlParameter outParam = query.Parameters.Add("@habilitado", SqlDbType.VarChar);
+                SqlParameter outParam = query.Parameters.Add("@factura_id", SqlDbType.Int);
                 outParam.Direction = ParameterDirection.Output;
 
                 //  Recupera el valor de salida
                 return outParam.Value.ToString();
-
-
             }
             catch (SqlException ex)
             {
@@ -898,6 +897,80 @@ namespace PagoElectronico.Utils
 
             combo.Items.AddRange(lista.ToArray());
         }
+
+        public static string generarFactura(Usuario user)
+        {
+            string nombreSP = "SARASA.facturar_por_cliente";
+
+            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
+                "@cliente_id", user.ClienteId);
+
+            conexion cn = new conexion();
+
+            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+            query.CommandType = CommandType.StoredProcedure;
+
+
+            //	Agregar los parametros del tipo INPUT
+            query.Parameters.AddRange(listaParametros.ToArray());
+
+            //	Definir el parametro del tipo OUTPUT
+            SqlParameter factura = new SqlParameter("@factura_id", 0);
+            factura.Direction = ParameterDirection.Output;
+            query.Parameters.Add(factura);
+
+            query.ExecuteNonQuery();
+
+            return (query.Parameters["@factura_id"].SqlValue.ToString());
+        }
+
+        public static string comprobarItemsImpagos(Usuario user)
+        {
+            string nombreSP = "SARASA.comprobar_items_impagos";
+
+            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
+                "@cliente_id", user.ClienteId);
+
+            conexion cn = new conexion();
+
+            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+            query.CommandType = CommandType.StoredProcedure;
+
+
+            //	Agregar los parametros del tipo INPUT
+            query.Parameters.AddRange(listaParametros.ToArray());
+
+            //	Definir el parametro del tipo OUTPUT
+            SqlParameter factura = new SqlParameter("@comprobante", 0);
+            factura.Direction = ParameterDirection.Output;
+            query.Parameters.Add(factura);
+
+            query.ExecuteNonQuery();
+
+            return (query.Parameters["@comprobante"].SqlValue.ToString());
+            
+        }
+
+        public static void facturarItems(Usuario user, int factura_id)
+        {
+            string nombreSP = "SARASA.facturar_items";
+
+            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
+                "@factura_id", factura_id, "@cliente_id", user.ClienteId);
+
+            conexion cn = new conexion();
+
+            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+            query.CommandType = CommandType.StoredProcedure;
+
+
+            //	Agregar los parametros del tipo INPUT
+            query.Parameters.AddRange(listaParametros.ToArray());
+
+            query.ExecuteNonQuery();
+        }
+
+
         //Llave de la clase
     }
 }
