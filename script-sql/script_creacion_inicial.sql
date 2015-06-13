@@ -1370,6 +1370,49 @@ BEGIN CATCH
 END CATCH
 GO
 
+--Consulta estadística nro. 2
+CREATE PROCEDURE SARASA.clientes_mas_comisiones_facturadas (
+	@fecha_desde datetime,
+	@fecha_hasta datetime
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			SELECT TOP 5 Tabla_Total.Cuenta_Cliente_Id AS Cliente_Id, (cli.Cliente_Nombre + ' ' + cli.Cliente_Apellido) AS Nombre_y_Apellido, Tabla_Total.Total_Comisiones_Por_Cliente AS Comisiones_Por_Cliente
+			FROM (	
+					SELECT cue.Cuenta_Cliente_Id, SUM(Comisiones_Por_Cuenta.Cantidad_Comsiones_Facturadas) AS Total_Comisiones_Por_Cliente
+					FROM (	
+							SELECT item.Itemfact_Cuenta_Numero, COUNT(CASE WHEN Itemfact_Descripcion = 'Comisión por transferencia.' THEN 1 ELSE 0 END) AS Cantidad_Comsiones_Facturadas
+							FROM SARASA.Itemfact item
+							WHERE item.Itemfact_Fecha BETWEEN @fecha_desde AND @fecha_hasta
+							GROUP BY item.Itemfact_Cuenta_Numero) AS Comisiones_Por_Cuenta
+					INNER JOIN SARASA.Cuenta cue ON cue.Cuenta_Numero = Comisiones_Por_Cuenta.Itemfact_Cuenta_Numero
+					GROUP BY cue.Cuenta_Cliente_Id) AS Tabla_Total
+			INNER JOIN SARASA.Cliente cli ON cli.Cliente_Id = Tabla_Total.Cuenta_Cliente_Id
+			ORDER BY Comisiones_Por_Cliente DESC
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la consulta estadística nro 2 (Clientes con mayor cantidad de comisiones facturadas): %s',16,1, @error_message)
+END CATCH
+GO
+
 -- Consulta estadística nro. 3
 CREATE PROCEDURE SARASA.clientes_transferencias_entre_si (
 	@fecha_desde datetime,
