@@ -96,11 +96,12 @@ namespace PagoElectronico.ABM_Cuenta
                 resultados = Herramientas.ejecutarConsultaTabla(queryConsulta);
                 dataGridView1.DataSource = resultados;
 
-                dataGridView1.Columns["idCliente"].Visible = false;
-                dataGridView1.Columns["idEstado"].Visible = false;
-                dataGridView1.Columns["idPais"].Visible = false;
-                dataGridView1.Columns["idMoneda"].Visible = false;
-                dataGridView1.Columns["idTipo"].Visible = false;
+                dataGridView1.Columns["Cliente Id"].Visible = false;
+                dataGridView1.Columns["TipoCta Id"].Visible = false;
+                dataGridView1.Columns["Estado Id"].Visible = false;
+                dataGridView1.Columns["Pais Id"].Visible = false;
+                dataGridView1.Columns["Moneda Id"].Visible = false;
+
 
                 lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
 
