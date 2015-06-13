@@ -94,7 +94,7 @@ namespace PagoElectronico.Utils
             + " FROM SARASA.Cuenta, SARASA.Estado, SARASA.Pais, SARASA.Moneda, SARASA.Tipocta"
             + " WHERE Cuenta_Estado_Id = Estado_Id AND Cuenta_Pais_Id = Pais_Id AND Cuenta_Tipocta_Id = Tipocta_Id";
 
-            if (clienteId != "")
+            if (clienteId != "0")
                 q += " AND Cuenta_Cliente_Id = " + clienteId;
 
             if (numero != "")
