@@ -66,7 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABM Cliente\Cliente.cs" />
+    <Compile Include="Utils\Cliente.cs" />
     <Compile Include="ABM Cliente\FormBuscar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -79,7 +79,7 @@
     <Compile Include="ABM Cliente\FormCrear.Designer.cs">
       <DependentUpon>FormCrear.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Cuenta\Cuenta.cs" />
+    <Compile Include="Utils\Cuenta.cs" />
     <Compile Include="ABM Cuenta\FormCrear.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -128,8 +128,8 @@
     <Compile Include="ABM Rol\FormModificar.Designer.cs">
       <DependentUpon>FormModificar.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Rol\ItemFuncion.cs" />
-    <Compile Include="ABM Rol\ItemRol.cs" />
+    <Compile Include="Utils\ItemFuncion.cs" />
+    <Compile Include="Utils\ItemRol.cs" />
     <Compile Include="ABM Rol\ModificarEliminarRol.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,7 +160,7 @@
     <Compile Include="ABM Tarjeta\FormBuscarClie.Designer.cs">
       <DependentUpon>FormBuscarClie.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Tarjeta\Tarjeta.cs" />
+    <Compile Include="Utils\Tarjeta.cs" />
     <Compile Include="Facturacion\FormFacturasPagas.cs">
       <SubType>Form</SubType>
     </Compile>

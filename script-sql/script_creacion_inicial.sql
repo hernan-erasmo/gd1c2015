@@ -947,7 +947,8 @@ CREATE PROCEDURE SARASA.crear_cuenta (
 	@fecha_apertura		datetime,
 	@tipo_cuenta_id		integer,
 	@moneda_id			integer,
-	@pais_id			integer
+	@pais_id			integer,
+	@Cuenta_Numero		numeric(18,0) OUTPUT
 )
 AS
 
@@ -998,6 +999,8 @@ BEGIN TRY
 						GETDATE(),
 						0)	-- Es el valor inicial, luego el trigger que genera el item de la factura lo incrementará
 						
+			-- Obtenemos el valor de id para el cliente insertado
+			SELECT @Cuenta_Numero = IDENT_CURRENT('SARASA.Cuenta');
 
 			-- Luego el trigger SARASA.tr_cuenta_aff_ins_crear_item_factura se encargará de generar el ítem de factura correspondiente al costo de apertura
 

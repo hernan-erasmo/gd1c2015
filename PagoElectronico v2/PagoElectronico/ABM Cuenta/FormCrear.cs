@@ -15,6 +15,7 @@ namespace PagoElectronico.ABM_Cuenta
     {
         Utils.Usuario usuario;
         Form formPadre;
+        int pasoCrear;
 
         public FormCrear(Form f, Utils.Usuario user)
         {
@@ -25,10 +26,11 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void FormCrear_Load(object sender, EventArgs e)
         {
+            pasoCrear = 1;
             txtCliente.Text = usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")";
-            Herramientas.llenarComboBox(cbxPais, "SELECT Pais_Id 'Valor', Pais_Nombre 'Etiqueta' FROM test.pais ORDER BY Pais_Nombre",true);
-            Herramientas.llenarComboBox(cbxTipoCta, "SELECT Tipocta_Id 'Valor', Tipocta_Descripcion 'Etiqueta' FROM test.Tipocta",true);
-            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda",true);
+            Herramientas.llenarComboBoxSP(cbxPais,"SARASA.cbx_pais",null,true);
+            Herramientas.llenarComboBoxSP(cbxTipoCta, "SARASA.cbx_tipocta",null,true);
+            Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda",null,true);
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -39,29 +41,42 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
+            Cuenta cuenta;
 
-            //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-            string nombreSP = "Test.Crear_Cuenta";    //  Nombre del StoreProcedure
-
-            try
+            if (pasoCrear == 1)
             {
-                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                                            "@clienteId", usuario.ClienteId,
-                                            "@cuentaNumero", txtNumero.Text,
-                                            "@fechaApertura", dtpFechaApertura.Value.ToShortDateString(),
-                                            "@paisId", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
-                                            "@tipoctaId", ((KeyValuePair<string, string>)cbxTipoCta.SelectedItem).Key,
-                                            "@monedaId", ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key);
+                cuenta = new Cuenta();
+                cuenta.IdCliente = usuario.ClienteId;
+                cuenta.FechaApertura = dtpFechaApertura.Value.ToShortDateString();
+                cuenta.IdTipo = int.Parse(((KeyValuePair<string, string>)cbxTipoCta.SelectedItem).Key);
+                cuenta.IdPais = int.Parse(((KeyValuePair<string, string>)cbxPais.SelectedItem).Key);
+                cuenta.IdMoneda = int.Parse(((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key);
 
+                try
+                {
+                    Herramientas.ejecutarCrearCuenta(cuenta);
+                    txtNumero.Text = cuenta.Numero;
+                    gbCuenta.Enabled = false;
+                    btnCrear.Text = "Finalizar";
+                    pasoCrear = 2;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.ToString());
+                }
 
-                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
-
-                Utils.Herramientas.msebox_informacion("Cuenta nueva creada");
             }
-            catch (Exception ex)
+            else 
             {
-                MessageBox.Show("Error: " + ex.ToString());
+                gbCuenta.Enabled = true;
+                cbxTipoCta.SelectedIndex = 0;
+                cbxPais.SelectedIndex = 0;
+                cbxMoneda.SelectedIndex = 0;
+                btnCrear.Text = "Crear";
+                txtNumero.Text = "";
+                pasoCrear = 1;
             }
+
         }
     }
 }

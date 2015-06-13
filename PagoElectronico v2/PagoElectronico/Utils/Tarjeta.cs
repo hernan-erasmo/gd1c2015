@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PagoElectronico.ABM_Tarjeta
+namespace PagoElectronico.Utils
 {
     public class Tarjeta
     {
