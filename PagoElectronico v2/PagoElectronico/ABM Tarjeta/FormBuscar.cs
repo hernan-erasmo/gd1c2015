@@ -117,6 +117,8 @@ namespace PagoElectronico.ABM_Tarjeta
             else
                 btnAsociar.Enabled = true;
 
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+
         }
 
         //  Metodos publicos
@@ -367,6 +369,11 @@ namespace PagoElectronico.ABM_Tarjeta
         {
             this.txtCliente.Text = apellido +", "+ nombre + " (" + clienteId + ")";
             this.clienteId = clienteId;
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
 
         }
     }

@@ -43,5 +43,10 @@ namespace PagoElectronico.Facturacion
             this.Close();
             formPadre.Show();
         }
+
+        private void TablaDatos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

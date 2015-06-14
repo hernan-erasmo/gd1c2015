@@ -45,6 +45,7 @@
             this.TablaDatos.Name = "TablaDatos";
             this.TablaDatos.Size = new System.Drawing.Size(686, 187);
             this.TablaDatos.TabIndex = 0;
+            this.TablaDatos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TablaDatos_CellContentClick);
             // 
             // label1
             // 
