@@ -1762,6 +1762,12 @@ AS
 GO
 
 
+CREATE PROCEDURE [SARASA].[cbx_emisor]
+AS
+	SELECT Emisor_Id 'Valor', Emisor_Descripcion 'Etiqueta' FROM SARASA.Emisor
+GO
+
+
 CREATE PROCEDURE [SARASA].[cbx_tc](@Cliente_Id integer)
 AS
 

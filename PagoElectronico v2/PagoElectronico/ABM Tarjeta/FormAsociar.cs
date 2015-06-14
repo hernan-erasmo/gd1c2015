@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using PagoElectronico.Utils;
 
 namespace PagoElectronico.ABM_Tarjeta
 {
@@ -42,7 +43,7 @@ namespace PagoElectronico.ABM_Tarjeta
 
             //  Llena el combo de emisor
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
-            Utils.Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC",true);
+            Herramientas.llenarComboBoxSP(cbxEmisor,"SARASA.cbx_emisor",null,true);
         }
 
         //  Asociar: Ejecutar SP asociarTarjeta(idcliente, demas_parametros)
