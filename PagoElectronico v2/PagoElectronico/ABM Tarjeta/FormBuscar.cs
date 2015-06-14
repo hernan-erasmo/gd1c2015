@@ -201,24 +201,29 @@ namespace PagoElectronico.ABM_Tarjeta
 
             //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
             string nombreSP = "SARASA.Desasociar_Tarjeta";
-            string idTarjeta = this.dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            
 
             //Utils.Herramientas.msebox_informacion(idTarjeta);
-
-            try
+            if (this.dataGridView1.CurrentRow != null) //Valida que se haya seleccionado una fila del DataGridView
             {
-                List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                    "@cliente_id", Convert.ToInt32(this.usuario.ClienteId), "@tc_num", idTarjeta);
+                string idTarjeta = this.dataGridView1.CurrentRow.Cells[3].Value.ToString();
+                try
+                {
+                    List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                       "@cliente_id", Convert.ToInt32(this.usuario.ClienteId), "@tc_num", idTarjeta);
 
-                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
-                Utils.Herramientas.msebox_informacion("Tarjeta (ID:" + idTarjeta + ") desasociada");
+                    Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                    Utils.Herramientas.msebox_informacion("Tarjeta (ID:" + idTarjeta + ") desasociada");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.ToString());
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error: " + ex.ToString());
+                Utils.Herramientas.msebox_informacion("Por favor, selecciona una fila de tarjeta");
             }
-
-            
         }
 
         //  Buscar Cliente (solo para administrador)
