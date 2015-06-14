@@ -265,13 +265,21 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            string num, tipo;
             if (tipoFormPadre.Equals("Consulta_Saldos.FormConsulta"))
             {
-                string num = dataGridView1.SelectedCells[1].Value.ToString();
-                string tipo = dataGridView1.SelectedCells[3].Value.ToString();
+                num = dataGridView1.SelectedCells[1].Value.ToString();
+                tipo = dataGridView1.SelectedCells[3].Value.ToString();
                 ((Consulta_Saldos.FormConsulta)formPadre).setCuentaEncontrada(num, tipo);
             }
+            else if (tipoFormPadre.Equals("Transferencias.FormTransferencias"))
+            {
+                num = dataGridView1.SelectedCells[1].Value.ToString();
+                tipo = dataGridView1.SelectedCells[3].Value.ToString();
+                ((Transferencias.FormTransferencias)formPadre).setCuentaEncontrada(num, tipo);
 
+            
+            }
             formPadre.Show();
             this.Dispose();
         }
