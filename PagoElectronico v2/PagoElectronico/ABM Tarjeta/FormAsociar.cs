@@ -14,17 +14,19 @@ namespace PagoElectronico.ABM_Tarjeta
     public partial class FormAsociar : Form
     {
         Form formPadre;
+        Usuario usuario;
 
         public FormAsociar()
         {
             InitializeComponent();
         }
 
-        public FormAsociar(Form f, string cliente)
+        public FormAsociar(Form f, string cliente, Usuario user)
         {
             InitializeComponent();
             formPadre = f;
             txtCliente.Text = cliente;
+            usuario = user;
         }
 
         //  Boton X
@@ -58,20 +60,23 @@ namespace PagoElectronico.ABM_Tarjeta
             {   //  Se pudo grabar la tarjeta
 
                 //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-                string nombreSP = "Test.Asociar_Tarjeta";    //  Nombre del StoreProcedure
+                string nombreSP = "SARASA.Asociar_Tarjeta";    //  Nombre del StoreProcedure
 
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@clienteId", txtCliente.Text,
-                        "@tarjetaNumero", txtNumero.Text,
-                        "@tarjetaFechaEmision", dtpFechaEmision.Value.ToShortDateString(),
-                        "@tarjetaFechaVencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
-                        "@tarjetaCodigoSeg", txtCodSeguridad.Text,
-                        "@tarjetaEmisorDescripcion", cbxEmisor.Text,
-                        "@tarjetaUltimosCuatro", Utils.Herramientas.stringRight(txtNumero.Text, 4));
+                        "@cliente_id", this.usuario.ClienteId,
+                        "@tc_num", Convert.ToString(txtNumero.Text),
+                        "@tc_ultimoscuatro", Convert.ToString(Utils.Herramientas.stringRight(txtNumero.Text, 4)),
+                        "@tc_emision", dtpFechaEmision.Value.ToShortDateString(),
+                        "@tc_vencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
+                        "@tc_codseg", Convert.ToString(txtCodSeguridad.Text),
+                        "@tc_emisor", Convert.ToString(cbxEmisor.Text));
 
-                       Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                        Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                        Utils.Herramientas.msebox_informacion("Tarjeta asociada con éxito");
+                        this.Hide();
+                        (this.formPadre).Show();
                     
                 }
                 catch (Exception ex)
@@ -79,7 +84,7 @@ namespace PagoElectronico.ABM_Tarjeta
                     MessageBox.Show("Error: " + ex.ToString());
                 }
                 
-                String msj = "Nueva Tarjetan\n";
+                /*String msj = "Nueva Tarjetan\n";
                 msj += "@clienteId = 'PRUEBA'\n";
                 msj += "@tarjetaNumero = '" + txtNumero.Text + "'\n";
                 msj += "@tarjetaFechaEmision = '" + dtpFechaEmision.Value.ToShortDateString() + "'\n";
@@ -93,7 +98,7 @@ namespace PagoElectronico.ABM_Tarjeta
                 txtNumero.Text = "";
                 cbxEmisor.Text = "";
                 dtpFechaEmision.Value = DateTime.Now;
-                dtpFechaVencimiento.Value = DateTime.Now;
+                dtpFechaVencimiento.Value = DateTime.Now;*/
             }
 
 

@@ -305,7 +305,7 @@ namespace PagoElectronico.ABM_Tarjeta
         //  Asociar
         private void btnAsociar_Click(object sender, EventArgs e)
         {
-            FormAsociar formAsociar = new FormAsociar(this,txtCliente.Text);
+            FormAsociar formAsociar = new FormAsociar(this,txtCliente.Text,this.usuario);
             formAsociar.Show();
             this.Hide();
         }
