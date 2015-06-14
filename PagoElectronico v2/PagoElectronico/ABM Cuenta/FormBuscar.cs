@@ -126,6 +126,23 @@ namespace PagoElectronico.ABM_Cuenta
         private void btnBaja_Click(object sender, EventArgs e)
         {
 
+            string msj = "Seguro que quiere CERRAR la CUENTA \"" + dataGridView1.SelectedCells[1].Value.ToString() + "\"?\n";
+            msj += "UNA CUENTA CERRADA NO PUEDE VOLVER A ACTIVARSE";
+
+            var result = MessageBox.Show(msj, "Cerrar cuenta",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
+
+            if (result == DialogResult.OK) 
+            {
+                List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                    "@cliente_id", dataGridView1.SelectedCells[0].Value.ToString(),
+                    "@cuenta_numero", dataGridView1.SelectedCells[1].Value.ToString(),
+                    "@tipo_cuenta_deseado", dataGridView1.SelectedCells[2].Value.ToString(),
+                    "@estado_deseado", 2);  //  El estado con ID 2 es "Cerrada"
+
+                Herramientas.EjecutarStoredProcedure("SARASA.modificar_cuenta", lista);
+            }
+            
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -163,7 +180,7 @@ namespace PagoElectronico.ABM_Cuenta
         private void btnModificar_Click(object sender, EventArgs e)
         {
             cuenta = new Cuenta();
-
+/*
             cuenta.DesCliente = txtCliente.Text;
             cuenta.Numero = dataGridView1.SelectedCells[0].Value.ToString();
             cuenta.IdCliente = int.Parse(dataGridView1.SelectedCells[1].Value.ToString());
@@ -174,6 +191,12 @@ namespace PagoElectronico.ABM_Cuenta
             cuenta.Deudora = Boolean.Parse(dataGridView1.SelectedCells[11].Value.ToString());
             cuenta.FechaApertura = dataGridView1.SelectedCells[12].Value.ToString();
             cuenta.FechaCierre = dataGridView1.SelectedCells[13].Value.ToString();
+*/
+            cuenta.IdCliente = int.Parse(dataGridView1.SelectedCells[0].Value.ToString());
+            cuenta.Numero = dataGridView1.SelectedCells[1].Value.ToString();
+            cuenta.IdTipo = int.Parse(dataGridView1.SelectedCells[2].Value.ToString());
+            cuenta.IdEstado = int.Parse(dataGridView1.SelectedCells[4].Value.ToString());
+
 
             ABM_Cuenta.FormModificar frmModificar = new ABM_Cuenta.FormModificar(this,cuenta);
             frmModificar.Show();

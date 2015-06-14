@@ -549,7 +549,7 @@ namespace PagoElectronico.Utils
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.ToString(), "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show(""+ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return null;
             }
         }
