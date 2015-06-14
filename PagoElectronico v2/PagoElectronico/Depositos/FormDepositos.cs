@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PagoElectronico.Utils;
+using System.Data.SqlClient;
 
 /*
 
@@ -90,24 +91,30 @@ namespace PagoElectronico.Depositos
 
         private void btnDepositar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                        "@cliente_id", usuario.ClienteId,
+                        "@deposito_fecha", dtpFecha.Value.ToShortDateString(),
+                        "@deposito_importe", txtImporte.Text,
+                        "@deposito_moneda_id", ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
+                        "@deposito_tarjeta_num", ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key,
+                        "@deposito_cuenta_num", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key);
 
-            Utils.Herramientas.GenerarListaDeParametros(
-                "@cliente_id",usuario.ClienteId,
-                "@deposito_fecha",dtpFecha.Value.ToShortDateString(),
-                "@deposito_importe",txtImporte.Text,
-                "@deposito_moneda_id",((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
-                "@deposito_tarjeta_num", ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key,
-                "@deposito_cuenta_num", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key
-                );
+            Herramientas.EjecutarStoredProcedure("SARASA.realizar_deposito ", lista);
 
             string msj = "DEPOSITO:\n"
-                    + "Id Cliente: " + usuario.ClienteId + "\n"
-                    + "Cuenta: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
-                    + "Tarjeta: " + ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key + "\n"
-                    + "Importe: " + txtImporte.Text + "\n";
+                + "Id Cliente: " + usuario.ClienteId + "\n"
+                + "Cuenta: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
+                + "Tarjeta: " + ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key + "\n"
+                + "Importe: " + txtImporte.Text + "\n";
             Utils.Herramientas.msebox_informacion(msj);
 
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
         }
     }
 }
