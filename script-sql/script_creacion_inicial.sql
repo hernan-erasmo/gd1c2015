@@ -125,6 +125,11 @@ CREATE TABLE SARASA.Tipocta (
 	CHECK (Tipocta_Costo_Trans >= 0)
 )
 
+CREATE TABLE SARASA.Emisor (
+	Emisor_Id					integer			identity(1,1) PRIMARY KEY,
+	Emisor_Descripcion 			nvarchar(255)	NOT NULL
+)
+
 CREATE TABLE SARASA.Cuenta (
 	Cuenta_Numero						numeric(18,0)	identity(1,1) PRIMARY KEY,
 	Cuenta_Fecha_Creacion				datetime,
@@ -2036,6 +2041,7 @@ VALUES 	('Gratuita', 0, 0, 0, 0),
 		('Plata', 60, 10, 1, 2),
 		('Oro', 90, 15, 1, 1)
 
+		
 -- Usuarios administradores
 INSERT INTO SARASA.Usuario (Usuario_Username,
 							Usuario_Password,
@@ -3662,6 +3668,12 @@ SET Usuario_Cliente_Id = cli.Cliente_Id
 FROM SARASA.Cliente cli
 WHERE Usuario_Id > 4 AND
 cli.Cliente_Id = Usuario_Id - 4		-- Hay 4 administradores a los que no queremos asignarle ningún cliente (aquellos con Usuario_Id=1,2,3,4)
+GO
+
+-- Desde tabla gd_esquema.Maestra a SARASA.Emisor
+INSERT INTO SARASA.Emisor (Emisor_Descripcion)
+	SELECT DISTINCT Maestra.Tarjeta_Emisor_Descripcion
+	FROM gd_esquema.Maestra maestra WHERE Tarjeta_Emisor_Descripcion is not null ORDER BY Tarjeta_Emisor_Descripcion
 GO
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Tc
