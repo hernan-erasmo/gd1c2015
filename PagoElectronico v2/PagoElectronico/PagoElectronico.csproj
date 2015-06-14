@@ -154,12 +154,6 @@
     <Compile Include="ABM Tarjeta\FormBuscar.designer.cs">
       <DependentUpon>FormBuscar.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Tarjeta\FormBuscarClie.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ABM Tarjeta\FormBuscarClie.Designer.cs">
-      <DependentUpon>FormBuscarClie.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utils\Tarjeta.cs" />
     <Compile Include="Facturacion\FormFacturasPagas.cs">
       <SubType>Form</SubType>
@@ -261,9 +255,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Tarjeta\FormBuscar.resx">
       <DependentUpon>FormBuscar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ABM Tarjeta\FormBuscarClie.resx">
-      <DependentUpon>FormBuscarClie.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Consulta Saldos\FormConsulta.resx">
       <DependentUpon>FormConsulta.cs</DependentUpon>

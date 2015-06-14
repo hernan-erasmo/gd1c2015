@@ -21,11 +21,11 @@ namespace PagoElectronico.ABM_Tarjeta
             InitializeComponent();
         }
 
-        public FormModificar(Form f, string cliente, Tarjeta t)
+        public FormModificar(Form f, Tarjeta t)
         {
             InitializeComponent();
             formPadre = f;
-            txtCliente.Text = cliente;
+            txtCliente.Text = t.Apellido + ", " + t.Nombre + " (" + t.ClienteId + ")";
 
             tarjeta = t;
 
@@ -43,9 +43,6 @@ namespace PagoElectronico.ABM_Tarjeta
             //tarjeta.Emisor = t.Emisor;
             //tarjeta.FechaEmision = t.FechaEmision;
             //tarjeta.FechaVencimiento = t.FechaVencimiento;
-
-
-
             
         }
 
@@ -65,13 +62,6 @@ namespace PagoElectronico.ABM_Tarjeta
             Herramientas.llenarComboBoxSP(cbxEmisor, "SARASA.cbx_emisor", null, true);
             cbxEmisor.Text = tarjeta.Emisor;
         }
-
-        //  Buscar
-        private void btnBuscar_Click(object sender, EventArgs e)
-        {
-          
-        }
-
 
         //  Volver
         private void btnVolver_Click(object sender, EventArgs e)

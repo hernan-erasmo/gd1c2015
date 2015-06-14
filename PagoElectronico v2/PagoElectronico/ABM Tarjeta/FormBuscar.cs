@@ -175,6 +175,10 @@ namespace PagoElectronico.ABM_Tarjeta
                 resultados = Herramientas.ejecutarConsultaTabla(queryConsulta);
                 dataGridView1.DataSource = resultados;
 
+                dataGridView1.Columns["Cliente Id"].Visible = false;
+                dataGridView1.Columns["Nombre"].Visible = false;
+                dataGridView1.Columns["Apellido"].Visible = false;
+
                 lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
 
                 if(dataGridView1.RowCount > 0){ // Hay resultados habilita Desasociar y Modificar
@@ -282,7 +286,7 @@ namespace PagoElectronico.ABM_Tarjeta
 
             //  Con la tarjeta seleccionada
             //  Abrir un formulario con los datos de la tarjeta
-            FormModificar formModificar = new FormModificar(this, txtCliente.Text, tarjeta);
+            FormModificar formModificar = new FormModificar(this, tarjeta);
             formModificar.Show();
             this.Hide();
         }

@@ -116,7 +116,7 @@
             this.cbxEmisor.FormattingEnabled = true;
             this.cbxEmisor.Location = new System.Drawing.Point(121, 90);
             this.cbxEmisor.Name = "cbxEmisor";
-            this.cbxEmisor.Size = new System.Drawing.Size(121, 21);
+            this.cbxEmisor.Size = new System.Drawing.Size(159, 21);
             this.cbxEmisor.TabIndex = 6;
             // 
             // txtNumero
@@ -125,7 +125,7 @@
             this.txtNumero.Location = new System.Drawing.Point(121, 26);
             this.txtNumero.MaxLength = 16;
             this.txtNumero.Name = "txtNumero";
-            this.txtNumero.Size = new System.Drawing.Size(106, 20);
+            this.txtNumero.Size = new System.Drawing.Size(159, 20);
             this.txtNumero.TabIndex = 5;
             // 
             // label5
