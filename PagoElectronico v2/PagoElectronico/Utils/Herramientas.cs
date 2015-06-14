@@ -37,7 +37,7 @@ namespace PagoElectronico.Utils
         }
 
         //  Valida si los valores son numericos
-        public bool IsNumeric(string num)
+        public static bool IsNumeric(string num)
         {
             try
             {

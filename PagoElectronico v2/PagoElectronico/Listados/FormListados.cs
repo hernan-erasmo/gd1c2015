@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PagoElectronico.Utils;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.Listados
 {
@@ -52,40 +54,71 @@ namespace PagoElectronico.Listados
 
         }
 
-        private void btnVolver_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            formPadre.Show();
-        }
-
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string idConsulta = ((KeyValuePair<string, string>)cbxConsulta.SelectedItem).Key;
-            string idTrimestre = ((KeyValuePair<string, string>)cbxTrimestre.SelectedItem).Key;
-            string año = txtAño.Text;
-
-            switch (idConsulta)
+            dgvListado.DataSource = null;
+            if (Herramientas.IsNumeric(txtAño.Text))
             {
-                case "1":
-                    //EJECUTA EL PROCEDURE DE LA CONSULTA 1
-                    break;
-                case "2":
-                    //EJECUTA EL PROCEDURE DE LA CONSULTA 2
-                    break;
-                case "3":
-                    //EJECUTA EL PROCEDURE DE LA CONSULTA 3
-                    break;
-                case "4":
-                    //EJECUTA EL PROCEDURE DE LA CONSULTA 4
-                    break;
-                case "5":
-                    //EJECUTA EL PROCEDURE DE LA CONSULTA 5
-                    break;
-                default:
-                    Console.WriteLine("Default case");
-                    break;
+                lblAño.ForeColor = Color.Black;
+
+                string idConsulta = ((KeyValuePair<string, string>)cbxConsulta.SelectedItem).Key;
+                string idTrimestre = ((KeyValuePair<string, string>)cbxTrimestre.SelectedItem).Key;
+                string año = txtAño.Text;
+                string fechaDesde = "", fechaHasta = "";
+
+                switch (idTrimestre)
+                {
+                    case "1":   // Enero, Febrero, Marzo
+                        fechaDesde = "01/01/" + año;
+                        fechaHasta = "31/03/" + año;
+                        break;
+                    case "2":   //  Abril, Mayo, Junio
+                        fechaDesde = "01/04/" + año;
+                        fechaHasta = "30/06/" + año;
+                        break;
+                    case "3":   //  Julio, Agosto, Septiembre
+                        fechaDesde = "01/07/" + año;
+                        fechaHasta = "30/09/" + año;
+                        break;
+                    case "4":   //  Octubre, Noviembre, Diciembre
+                        fechaDesde = "01/10/" + año;
+                        fechaHasta = "31/12/" + año;
+                        break;
+                }
+
+
+                List<SqlParameter> parametros = Herramientas.GenerarListaDeParametros("@fecha_desde","","@fecha_hasta","");
+
+                switch (idConsulta)
+                {
+                    case "1":
+                        //EJECUTA EL PROCEDURE DE LA CONSULTA 1
+                        dgvListado.DataSource = Herramientas.EjecutarStoredProcedure("SARASA.inhabilitaciones_por_cliente", parametros);
+                        break;
+                    case "2":
+                        //EJECUTA EL PROCEDURE DE LA CONSULTA 2
+                        dgvListado.DataSource = Herramientas.EjecutarStoredProcedure("SARASA.clientes_mas_comisiones_facturadas", parametros);
+                        break;
+                    case "3":
+                        //EJECUTA EL PROCEDURE DE LA CONSULTA 3
+                        dgvListado.DataSource = Herramientas.EjecutarStoredProcedure("SARASA.clientes_transferencias_entre_si", parametros);
+                        break;
+                    case "4":
+                        //EJECUTA EL PROCEDURE DE LA CONSULTA 4
+                        dgvListado.DataSource = Herramientas.EjecutarStoredProcedure("SARASA.movimientos_por_paises", parametros);
+                        break;
+                    case "5":
+                        //EJECUTA EL PROCEDURE DE LA CONSULTA 5
+                        dgvListado.DataSource = Herramientas.EjecutarStoredProcedure("SARASA.total_facturado_por_tipo_cuenta", parametros);
+                        break;
+                }
+
             }
-            Utils.Herramientas.msebox_informacion("SP_CONSULTA_" + idConsulta + "(@año="+año+", @idTrimestre="+idTrimestre+")");
+            else 
+            {
+                lblAño.ForeColor = Color.Red;
+            }
+
         }
 
         private void cbxConsulta_SelectedIndexChanged(object sender, EventArgs e)

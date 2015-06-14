@@ -42,38 +42,13 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            try
-            {
                 List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
                     "@cliente_id",cuenta.IdCliente,
                     "@cuenta_numero",cuenta.Numero,
                     "@tipo_cuenta_deseado", ((KeyValuePair<string, string>)cbxTipoCta.SelectedItem).Key,
                     "@estado_deseado", ((KeyValuePair<string, string>)cbxEstado.SelectedItem).Key);
 
-                Utils.Herramientas.EjecutarStoredProcedure("SARASA.modificar_cuenta", lista);
-                Utils.Herramientas.msebox_informacion("Datos Guardados");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.ToString());
-
-                SqlError err = ((SqlException)ex).Errors[0];
-                string mensaje = string.Empty;
-                switch (err.Number)
-                {
-                case 109:
-                mensaje = "Problemas con insert"; break;
-                case 110:
-                mensaje = "Más problemas con insert"; break;
-                case 113:
-                mensaje = "Problemas con comentarios"; break;
-                case 156:
-                mensaje = "Error de sintaxis"; break;
-                default:
-                mensaje = err.ToString();break;
-                Herramientas.msebox_informacion("Codigo de error de sql server: [" + mensaje + "]");
-                }
-            }
+                Herramientas.EjecutarStoredProcedure("SARASA.modificar_cuenta", lista);
         }
     }
 }
