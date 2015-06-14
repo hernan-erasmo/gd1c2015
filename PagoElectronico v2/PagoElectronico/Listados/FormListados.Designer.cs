@@ -44,6 +44,7 @@
             // 
             this.dgvListado.AllowUserToAddRows = false;
             this.dgvListado.AllowUserToDeleteRows = false;
+            this.dgvListado.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvListado.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvListado.Location = new System.Drawing.Point(12, 71);
             this.dgvListado.MultiSelect = false;
@@ -55,6 +56,7 @@
             // 
             // cbxConsulta
             // 
+            this.cbxConsulta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxConsulta.FormattingEnabled = true;
             this.cbxConsulta.Items.AddRange(new object[] {
             "Consulta 1 (1)",
@@ -97,6 +99,7 @@
             // 
             // cbxTrimestre
             // 
+            this.cbxTrimestre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTrimestre.FormattingEnabled = true;
             this.cbxTrimestre.Items.AddRange(new object[] {
             "primero (1)",
