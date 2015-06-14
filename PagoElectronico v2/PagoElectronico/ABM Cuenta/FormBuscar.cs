@@ -17,6 +17,21 @@ namespace PagoElectronico.ABM_Cuenta
         Usuario usuario;
         Cuenta cuenta = new Cuenta();
         string clienteId;
+        string tipoFormBusqueda;
+        string tipoFormPadre;
+
+        public FormBuscar(Form f, Utils.Usuario user, string tipoBusqueda, string tipoPadre)
+        {
+            InitializeComponent();
+            formPadre = f;
+            usuario = user;
+            tipoFormPadre = tipoPadre;
+            tipoFormBusqueda = tipoBusqueda;
+
+//            ABM_Cuenta.FormBuscar frmBuscarCuenta = new ABM_Cuenta.FormBuscar(this, usuario,
+//                                    "BuscarCuenta", "Consulta_Saldos.FormConsulta");
+
+        }
 
 
         public FormBuscar(Form f, Utils.Usuario user)
@@ -32,6 +47,17 @@ namespace PagoElectronico.ABM_Cuenta
             dtpFechaAperturaHasta.Enabled = false;
 
             clienteId = "0";
+
+            if (tipoFormBusqueda.Equals("BuscarCuenta"))
+            {
+                flowLayoutPanel1.Visible = false;
+                btnAceptar.Visible = true;
+            }
+            else if (tipoFormBusqueda.Equals("ABMCuenta"))
+            {
+                flowLayoutPanel1.Visible = true;
+                btnAceptar.Visible = false;
+            }
 
             Herramientas.llenarComboBoxSP(cbxPais, "SARASA.cbx_pais", null, false);
             Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda", null, false);
@@ -235,6 +261,19 @@ namespace PagoElectronico.ABM_Cuenta
         {
             this.txtCliente.Text = apellido + ", " + nombre + " (" + clienteId + ")";
             this.clienteId = clienteId;
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if (tipoFormPadre.Equals("Consulta_Saldos.FormConsulta"))
+            {
+                string num = dataGridView1.SelectedCells[1].Value.ToString();
+                string tipo = dataGridView1.SelectedCells[3].Value.ToString();
+                ((Consulta_Saldos.FormConsulta)formPadre).setCuentaEncontrada(num, tipo);
+            }
+
+            formPadre.Show();
+            this.Dispose();
         }
     }
 }

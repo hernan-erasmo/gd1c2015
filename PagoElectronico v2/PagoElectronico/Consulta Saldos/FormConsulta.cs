@@ -15,6 +15,7 @@ namespace PagoElectronico.Consulta_Saldos
     {
         Utils.Usuario usuario;
         Form formPadre;
+        string numeroCuenta = "0";
 
         public FormConsulta(Form f, Utils.Usuario user)
         {
@@ -50,7 +51,7 @@ namespace PagoElectronico.Consulta_Saldos
                 SqlCommand query = new SqlCommand("SARASA.consultar_saldos", cn.abrir_conexion());
                 query.CommandType = CommandType.StoredProcedure;
 
-                List<SqlParameter> parametros = Herramientas.GenerarListaDeParametros("@cuenta_numero", "1111111111111112");
+                List<SqlParameter> parametros = Herramientas.GenerarListaDeParametros("@cuenta_numero", numeroCuenta);
                 query.Parameters.AddRange(parametros.ToArray());
 
                 SqlDataReader reader = query.ExecuteReader();
@@ -85,8 +86,23 @@ namespace PagoElectronico.Consulta_Saldos
 
         private void lklCuenta_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Herramientas.msebox_informacion("Buscar una cuenta");
+//            Herramientas.msebox_informacion("Buscar una cuenta");
+//            "Consulta_Saldos.FormConsulta","BuscarCuenta"
+            ABM_Cuenta.FormBuscar frmBuscarCuenta = new ABM_Cuenta.FormBuscar(this, usuario,
+                                                "BuscarCuenta", "Consulta_Saldos.FormConsulta");
+            frmBuscarCuenta.Show();
+            this.Hide();
         }
 
+        public void setCuentaEncontrada(string numero, string tipo)
+        {
+            txtCuenta.Text = numero + " (" + tipo + ")";
+            this.numeroCuenta = numero;
+            dgvSaldo.DataSource = null;
+            dgvDepositos.DataSource = null;
+            dgvRetiros.DataSource = null;
+            dgvTransferencias.DataSource = null;
+
+        }
     }
 }
