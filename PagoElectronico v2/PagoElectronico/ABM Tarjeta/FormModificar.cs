@@ -62,7 +62,7 @@ namespace PagoElectronico.ABM_Tarjeta
 
             //  Llena el combo de emisor
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
-            Utils.Herramientas.llenarComboBox(cbxEmisor, "SELECT * FROM test.EmisorTC",true);
+            Herramientas.llenarComboBoxSP(cbxEmisor, "SARASA.cbx_emisor", null, true);
             cbxEmisor.Text = tarjeta.Emisor;
         }
 

@@ -16,15 +16,19 @@ namespace PagoElectronico.Utils
             string q = "";
             bool primero = true;
 
-            q += "SELECT [Tc_Num_Tarjeta] 'Numero',"
+            q += "SELECT "
+                + "[Tc_Cliente_Id] 'Cliente Id',"
+                + "[Cliente_Nombre] 'Nombre',"
+                + "[Cliente_Apellido] 'Apellido',"
+                + "[Tc_Num_Tarjeta] 'Numero',"
                 + "[Tc_Fecha_Emision] 'Fecha Emision',"
                 + "[Tc_Fecha_Vencimiento] 'Fecha Vencimiento',"
                 + "[Tc_Codigo_Seg] 'Codigo',"
                 + "[Tc_Emisor_Desc] 'Emisor' ";
 //                + "[Tc_Ultimos_Cuatro] 'Ultimos Cuatro'";
-            q += "FROM [test].[Tc] ";
+            q += "FROM [SARASA].[Tc] LEFT JOIN [SARASA].[Cliente] ON ([Tc_Cliente_Id] = [Cliente_Id]) ";
 
-            if (cliente != "")
+            if (cliente != "0")
             {
                 if (primero)
                     q += "WHERE ";
@@ -44,7 +48,7 @@ namespace PagoElectronico.Utils
                 primero = false;
             }
 
-            if (emisor != "")
+            if (emisor != "<Ninguno>")
             {
                 if (primero)
                     q += "WHERE ";

@@ -16,9 +16,9 @@ namespace PagoElectronico.ABM_Tarjeta
     {
         Usuario usuario;
         ArrayList funciones;
-
+        string clienteId = "0";
         Form formPadre;
-        Tarjeta tarjeta = new Tarjeta();
+
         public FormBuscar()
         {
             InitializeComponent();
@@ -135,7 +135,7 @@ namespace PagoElectronico.ABM_Tarjeta
             string fechaEmisionDesde, fechaEmisionHasta;
             string fechaVencimientoDesde, fechaVencimientoHasta;
 
-            string cliente = txtCliente.Text;
+            string cliente = this.clienteId;
             string numero = txtNumero.Text;
             string emisor = cbxEmisor.Text;
 
@@ -218,9 +218,9 @@ namespace PagoElectronico.ABM_Tarjeta
         //  Buscar Cliente (solo para administrador)
         private void btnBuscarClie_Click(object sender, EventArgs e)
         {
-//            FormBuscarClie formBuscarCliente = new FormBuscarClie(this);
-            ABM_Cliente.FormBuscar formBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario, "BuscarCliente","ABM_Tarjeta.FormBuscar");
-            formBuscarCliente.Show();
+            ABM_Cliente.FormBuscar frmBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario,
+                                                "BuscarCliente", "ABM_Tarjeta.FormBuscar");
+            frmBuscarCliente.Show();
             this.Hide();
         }
 
@@ -230,8 +230,11 @@ namespace PagoElectronico.ABM_Tarjeta
             lblEstadoBusqueda.Text = "";    //  Indica estado de la busqueda
 
             //  Si es administrador tambien limpia el campo de cliente
-            if(btnBuscarClie.Enabled == true)
+            if (btnBuscarClie.Enabled == true) 
+            {
                 txtCliente.Text = "";
+                this.clienteId = "0";            
+            }
 
             txtNumero.Text = "";
             cbxEmisor.Text = "";
@@ -264,12 +267,17 @@ namespace PagoElectronico.ABM_Tarjeta
         private void btnModificar_Click(object sender, EventArgs e)
         {
 
-            //  tarjeta = new Tarjeta();
-            tarjeta.Numero = dataGridView1.SelectedCells[0].Value.ToString();
-            tarjeta.FechaEmision = dataGridView1.SelectedCells[1].Value.ToString();
-            tarjeta.FechaVencimiento = dataGridView1.SelectedCells[2].Value.ToString();
-            tarjeta.CodigoSeguridad = dataGridView1.SelectedCells[3].Value.ToString();
-            tarjeta.Emisor = dataGridView1.SelectedCells[4].Value.ToString();
+            Tarjeta tarjeta = new Tarjeta();
+            
+            tarjeta.ClienteId = dataGridView1.SelectedCells[0].Value.ToString();//Cliente ID
+            tarjeta.Nombre = dataGridView1.SelectedCells[1].Value.ToString();//NOmbre
+            tarjeta.Apellido = dataGridView1.SelectedCells[2].Value.ToString();//Apellido
+
+            tarjeta.Numero = dataGridView1.SelectedCells[3].Value.ToString();
+            tarjeta.FechaEmision = dataGridView1.SelectedCells[4].Value.ToString();
+            tarjeta.FechaVencimiento = dataGridView1.SelectedCells[5].Value.ToString();
+            tarjeta.CodigoSeguridad = dataGridView1.SelectedCells[6].Value.ToString();
+            tarjeta.Emisor = dataGridView1.SelectedCells[7].Value.ToString();
            // txtCliente.Text = dataGridView1.SelectedRows[0].Index.ToString();
 
             //  Con la tarjeta seleccionada
@@ -347,6 +355,8 @@ namespace PagoElectronico.ABM_Tarjeta
         public void setClienteEncontrado(string clienteId, string nombre, string apellido) 
         {
             this.txtCliente.Text = apellido +", "+ nombre + " (" + clienteId + ")";
+            this.clienteId = clienteId;
+
         }
     }
 }
