@@ -75,8 +75,8 @@ namespace PagoElectronico.ABM_Tarjeta
 
                         Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
                         Utils.Herramientas.msebox_informacion("Tarjeta asociada con éxito");
-                        this.Hide();
-                        (this.formPadre).Show();
+                        this.Close();
+                        this.formPadre.Show();
                     
                 }
                 catch (Exception ex)

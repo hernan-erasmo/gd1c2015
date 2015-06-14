@@ -30,19 +30,11 @@ namespace PagoElectronico.ABM_Tarjeta
             tarjeta = t;
 
             txtCodSeguridad.Text = tarjeta.CodigoSeguridad;
-//            txtFechaEmision.Text = tarjeta.FechaEmision;
-//            txtFechaVencimiento.Text = tarjeta.FechaVencimiento;
             txtNumero.Text = tarjeta.Numero;
             cbxEmisor.Text = tarjeta.Emisor;
 
             dtpFechaEmision.Value = DateTime.Parse(tarjeta.FechaEmision);
             dtpFechaVencimiento.Value = DateTime.Parse(tarjeta.FechaVencimiento);
-
-            //tarjeta.Numero = t.Numero;
-            //tarjeta.CodigoSeguridad = t.CodigoSeguridad;
-            //tarjeta.Emisor = t.Emisor;
-            //tarjeta.FechaEmision = t.FechaEmision;
-            //tarjeta.FechaVencimiento = t.FechaVencimiento;
             
         }
 
@@ -80,20 +72,22 @@ namespace PagoElectronico.ABM_Tarjeta
             {   //  Se pudo grabar la tarjeta
 
                 //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-                string nombreSP = "Test.Modificar_Tarjeta";    //  Nombre del StoreProcedure
+                string nombreSP = "SARASA.Modificar_Tarjeta";    //  Nombre del StoreProcedure
 
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@tarjetaId", tarjeta.Numero,
-                        "@tarjetaNumero", txtNumero.Text,
-                        "@tarjetaFechaEmision", dtpFechaEmision.Value.ToShortDateString(),
-                        "@tarjetaFechaVencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
-                        "@tarjetaCodigoSeg", txtCodSeguridad.Text,
-                        "@tarjetaEmisorDescripcion", cbxEmisor.Text,
-                        "@tarjetaUltimosCuatro", Utils.Herramientas.stringRight(txtNumero.Text, 4));
+                        "@cliente_id", Convert.ToInt32(this.tarjeta.ClienteId),
+                        "@tc_num", Convert.ToString(this.tarjeta.Numero),
+                        "@tc_emision", dtpFechaEmision.Value.ToShortDateString(),
+                        "@tc_vencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
+                        "@tc_codseg", Convert.ToString(txtCodSeguridad.Text),
+                        "@tc_emisor", Convert.ToString(cbxEmisor.Text));
 
                     Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                    Utils.Herramientas.msebox_informacion("Tarjeta modificada con éxito");
+                    this.Close();
+                    this.formPadre.Show();
 
                 }
                 catch (Exception ex)
@@ -101,13 +95,13 @@ namespace PagoElectronico.ABM_Tarjeta
                     MessageBox.Show("Error: " + ex.ToString());
                 }
 
-                Utils.Herramientas.msebox_informacion("Datos Guardados");
+                /*Utils.Herramientas.msebox_informacion("Datos Guardados");
 
                 txtCodSeguridad.Text = "";
                 txtNumero.Text = "";
                 cbxEmisor.Text = "";
                 dtpFechaEmision.Value = DateTime.Now;
-                dtpFechaVencimiento.Value = DateTime.Now;
+                dtpFechaVencimiento.Value = DateTime.Now;*/
             }
         }
     }
