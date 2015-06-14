@@ -75,16 +75,16 @@ namespace PagoElectronico.Depositos
         {
 
             txtCliente.Text = usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")";
-            string cbxCuentaQuery = "SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'"
-                                    + "FROM test.Cuenta , test.Tipocta "
-                                    + "WHERE Tipocta_Id = Cuenta_Tipocta_Id AND Cuenta_Cliente_Id = " + usuario.ClienteId;
+            //string cbxCuentaQuery = "SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'"
+            //                        + "FROM test.Cuenta , test.Tipocta "
+            //                        + "WHERE Tipocta_Id = Cuenta_Tipocta_Id AND Cuenta_Cliente_Id = " + usuario.ClienteId;
 
-            string cbxTarjetaQuery = "SELECT Tc_Num_Tarjeta 'Valor', 'XXXX XXXX XXXX ' + Tc_Ultimos_Cuatro + ' (' + Tc_Emisor_Desc+ ')' 'Etiqueta' "
-                                    + "FROM test.Tc WHERE Tc_Cliente_Id = " + usuario.ClienteId;
+            //string cbxTarjetaQuery = "SELECT Tc_Num_Tarjeta 'Valor', 'XXXX XXXX XXXX ' + Tc_Ultimos_Cuatro + ' (' + Tc_Emisor_Desc+ ')' 'Etiqueta' "
+            //                        + "FROM test.Tc WHERE Tc_Cliente_Id = " + usuario.ClienteId;
 
-            Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery,true);
-            Herramientas.llenarComboBox(cbxTarjeta, cbxTarjetaQuery,true);
-            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda",true);
+            Herramientas.llenarComboBoxSP(cbxCuenta, "SARASA.cbx_cuenta", Herramientas.GenerarListaDeParametros("@Cliente_Id", usuario.ClienteId, "@Estado_Desc", "Habilitada"), true);
+            Herramientas.llenarComboBoxSP(cbxTarjeta, "SARASA.cbx_tc", Herramientas.GenerarListaDeParametros("@Cliente_Id", usuario.ClienteId), true);
+            Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda",null,true);
 
         }
 
