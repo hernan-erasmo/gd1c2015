@@ -52,7 +52,23 @@ namespace PagoElectronico.Facturacion
 
                 //actualizo los item de factura
 
-                Utils.Herramientas.facturarItems(this.usuario, Int32.Parse(factura_id));
+                string nombreSP = "SARASA.facturar_items";    //  Nombre del StoreProcedure
+                try
+                {
+                    List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                        "@factura_id", Int32.Parse(factura_id),
+                        "@cliente_id", this.usuario.ClienteId);
+
+                    Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                    this.Hide();
+                    this.formPadre.Show();
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.ToString());
+                }
+
                 this.Hide();
                 frmGenerarFactura.Show();
                 

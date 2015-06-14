@@ -679,26 +679,6 @@ namespace PagoElectronico.Utils
             
         }
 
-        public static void facturarItems(Usuario user, int factura_id)
-        {
-            string nombreSP = "SARASA.facturar_items";
-
-            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
-                "@factura_id", factura_id, "@cliente_id", user.ClienteId);
-
-            conexion cn = new conexion();
-
-            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
-            query.CommandType = CommandType.StoredProcedure;
-
-
-            //	Agregar los parametros del tipo INPUT
-            query.Parameters.AddRange(listaParametros.ToArray());
-
-            query.ExecuteNonQuery();
-        }
-
-
         //Llave de la clase
     }
 }
