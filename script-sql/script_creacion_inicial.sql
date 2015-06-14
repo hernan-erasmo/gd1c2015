@@ -98,7 +98,8 @@ CREATE TABLE SARASA.Tc (
 	Tc_Fecha_Vencimiento	datetime		NOT NULL,
 	Tc_Codigo_Seg			nvarchar(64)	NOT NULL,	--64 bytes ya que el hash de sha256 tiene 64 caracteres
 	Tc_Emisor_Desc			nvarchar(255)	NOT NULL,
-	Tc_Ultimos_Cuatro		nvarchar(4)		NOT NULL
+	Tc_Ultimos_Cuatro		nvarchar(4)		NOT NULL,
+	Tc_Asociada			bit DEFAULT 1,	--1: Habilitada, 0: No habilitada
 )
 
 CREATE TABLE SARASA.Moneda (
@@ -1741,8 +1742,8 @@ BEGIN TRY
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
 
-				INSERT INTO SARASA.Tc (Tc_Cliente_Id,Tc_Codigo_Seg,Tc_Emisor_Desc,Tc_Fecha_Emision,Tc_Fecha_Vencimiento,Tc_Num_Tarjeta,Tc_Ultimos_Cuatro)
-				VALUES (@cliente_id, @tc_codseg, @tc_emisor, @tc_emision, @tc_vencimiento, @tc_num, @tc_ultimoscuatro)
+				INSERT INTO SARASA.Tc (Tc_Cliente_Id,Tc_Codigo_Seg,Tc_Emisor_Desc,Tc_Fecha_Emision,Tc_Fecha_Vencimiento,Tc_Num_Tarjeta,Tc_Ultimos_Cuatro,Tc_Asociada)
+				VALUES (@cliente_id, @tc_codseg, @tc_emisor, @tc_emision, @tc_vencimiento, @tc_num, @tc_ultimoscuatro,'1')
 
 	IF @starttrancount = 0
 		COMMIT TRANSACTION
@@ -1754,6 +1755,42 @@ BEGIN CATCH
 	RAISERROR('Error en la transacción: %s',16,1, @error_message)
 END CATCH
 GO
+
+-- Procedimiento para desasociar una tarjeta de un cliente
+CREATE PROCEDURE SARASA.Desasociar_Tarjeta (
+	@cliente_id		integer,
+	@tc_num		varchar(64)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		UPDATE GD1C2015.SARASA.Tc
+		SET Tc_Asociada='0'
+		WHERE Tc_Cliente_Id= @cliente_id AND
+				Tc_Num_Tarjeta = @tc_num
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
 
 
 /***********************
@@ -3727,7 +3764,8 @@ INSERT INTO SARASA.Tc (	Tc_Num_Tarjeta,
 						Tc_Fecha_Vencimiento,
 						Tc_Codigo_Seg,
 						Tc_Emisor_Desc,
-						Tc_Ultimos_Cuatro)
+						Tc_Ultimos_Cuatro,
+						Tc_Asociada)
 SELECT DISTINCT tm.Tarjeta_Numero,
 				(	SELECT cli.Cliente_Id
 					FROM SARASA.Cliente cli
@@ -3736,7 +3774,8 @@ SELECT DISTINCT tm.Tarjeta_Numero,
 				tm.Tarjeta_Fecha_Vencimiento,
 				tm.Tarjeta_Codigo_Seg,
 				tm.Tarjeta_Emisor_Descripcion,
-				SUBSTRING(tm.Tarjeta_Numero,13,16)				
+				SUBSTRING(tm.Tarjeta_Numero,13,16),
+				'1'				
 FROM gd_esquema.Maestra tm
 WHERE tm.Tarjeta_Numero IS NOT NULL
 GO

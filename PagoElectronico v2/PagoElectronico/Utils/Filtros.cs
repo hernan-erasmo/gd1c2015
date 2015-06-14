@@ -14,7 +14,6 @@ namespace PagoElectronico.Utils
         {
 
             string q = "";
-            bool primero = true;
 
             q += "SELECT "
                 + "[Tc_Cliente_Id] 'Cliente Id',"
@@ -27,60 +26,41 @@ namespace PagoElectronico.Utils
                 + "[Tc_Emisor_Desc] 'Emisor' ";
 //                + "[Tc_Ultimos_Cuatro] 'Ultimos Cuatro'";
             q += "FROM [SARASA].[Tc] LEFT JOIN [SARASA].[Cliente] ON ([Tc_Cliente_Id] = [Cliente_Id]) ";
+            q += "WHERE [SARASA].[Tc].[Tc_Asociada]='1'";
 
             if (cliente != "0")
             {
-                if (primero)
-                    q += "WHERE ";
-
+                q += " and ";
                 q += "[Tc_Cliente_Id] = " + cliente;
-                primero = false;
             }
 
             if (numero != "")
             {
-                if (primero)
-                    q += "WHERE ";
-                else
                     q += " and ";
 
                 q += "[Tc_Num_Tarjeta] = '" + numero + "'";
-                primero = false;
             }
 
             if (emisor != "<Ninguno>")
             {
-                if (primero)
-                    q += "WHERE ";
-                else
                     q += " and ";
 
                 q += "[Tc_Emisor_Desc] = '" + emisor + "'";
-                primero = false;
             }
 
             if (fechaEmisionDesde != "" && fechaEmisionHasta != "")
             {
-                if (primero)
-                    q += "WHERE ";
-                else
                     q += " and ";
 
                 q += "([Tc_Fecha_Emision] between '" + fechaEmisionDesde + "' and '" + fechaEmisionHasta + "')";
-                primero = false;
             }
 
             if (fechaVencimientoDesde != "" && fechaVencimientoHasta != "")
             {
-                if (primero)
-                    q += "WHERE ";
-                else
                     q += " and ";
 
                 q += "([Tc_Fecha_Vencimiento] between '" + fechaVencimientoDesde + "' and '" + fechaVencimientoHasta + "')";
-                primero = false;
             }
-
             return q;
 
         }

@@ -5,10 +5,10 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE [test].[Desasociar_Tarjeta] (
+CREATE PROCEDURE SARASA.Desasociar_Tarjeta (
 	@tarjetaId varchar(64)) As
 	BEGIN
 
-	DELETE FROM [test].[Tc] WHERE Tc_Num_Tarjeta = @tarjetaId;
+	DELETE FROM GD1C2015.SARASA.Tc WHERE Tc_Num_Tarjeta = @tarjetaId;
 
 END

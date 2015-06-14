@@ -200,23 +200,25 @@ namespace PagoElectronico.ABM_Tarjeta
         {
 
             //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-            string nombreSP = "Test.Desasociar_Tarjeta";
-            string idTarjeta = dataGridView1.SelectedCells[0].Value.ToString();
+            string nombreSP = "SARASA.Desasociar_Tarjeta";
+            string idTarjeta = this.dataGridView1.CurrentRow.Cells[3].Value.ToString();
+
+            //Utils.Herramientas.msebox_informacion(idTarjeta);
 
             try
             {
                 List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                    "@tarjetaId", idTarjeta);
+                    "@cliente_id", Convert.ToInt32(this.usuario.ClienteId), "@tc_num", idTarjeta);
 
                 Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
-
+                Utils.Herramientas.msebox_informacion("Tarjeta (ID:" + idTarjeta + ") desasociada");
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.ToString());
             }
 
-            Utils.Herramientas.msebox_informacion("Tarjeta (ID:"+ idTarjeta+") desasociada");
+            
         }
 
         //  Buscar Cliente (solo para administrador)
