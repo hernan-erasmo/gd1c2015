@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Data.SqlClient;
+using PagoElectronico.Utils;
 
 namespace PagoElectronico.Consulta_Saldos
 {
@@ -30,12 +32,7 @@ namespace PagoElectronico.Consulta_Saldos
 
         private void FormConsultaSaldo_Load(object sender, EventArgs e)
         {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
+            dgvSaldo.ColumnHeadersVisible = false;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -43,5 +40,53 @@ namespace PagoElectronico.Consulta_Saldos
             this.Close();
             formPadre.Show();
         }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dtable = new DataTable();
+                conexion cn = new conexion();
+                SqlCommand query = new SqlCommand("SARASA.consultar_saldos", cn.abrir_conexion());
+                query.CommandType = CommandType.StoredProcedure;
+
+                List<SqlParameter> parametros = Herramientas.GenerarListaDeParametros("@cuenta_numero", "1111111111111112");
+                query.Parameters.AddRange(parametros.ToArray());
+
+                SqlDataReader reader = query.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    DataTable dt1 = new DataTable();
+                    dt1.Load(reader);
+                    dgvSaldo.DataSource = dt1;
+
+                    DataTable dt2 = new DataTable();
+                    dt2.Load(reader);
+                    dgvDepositos.DataSource = dt2;
+
+
+                    DataTable dt3 = new DataTable();
+                    dt3.Load(reader);
+                    dgvRetiros.DataSource = dt3;
+
+
+                    DataTable dt4 = new DataTable();
+                    dt4.Load(reader);
+                    dgvTransferencias.DataSource = dt4;
+                }
+                reader.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("" + ex.Message, "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void lklCuenta_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Herramientas.msebox_informacion("Buscar una cuenta");
+        }
+
     }
 }

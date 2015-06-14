@@ -106,6 +106,7 @@
             this.btnTransferir.TabIndex = 24;
             this.btnTransferir.Text = "Transferir";
             this.btnTransferir.UseVisualStyleBackColor = true;
+            this.btnTransferir.Click += new System.EventHandler(this.btnTransferir_Click);
             // 
             // btnVolver
             // 

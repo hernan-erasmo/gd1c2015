@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PagoElectronico.Utils;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.Transferencias
 {
@@ -53,6 +54,31 @@ namespace PagoElectronico.Transferencias
         {
             Herramientas.msebox_informacion("Abre el buscador para elegir la cuenta de otro cliente");
             cbxCuentaDestino.Text = "444550000000032105 (Oro)";
+        }
+
+        private void btnTransferir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                        "@cuenta_origen", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key,
+                        "@cuenta_destino", "",
+                        "@importe", txtImporte.Text);
+
+                Herramientas.EjecutarStoredProcedure("SARASA.realizar_transferencia", lista);
+
+                string msj = "TRANSFERENCIA:\n"
+                    + "Id Cliente: " + usuario.ClienteId + "\n"
+                    + "Cuenta Origen: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
+                    + "Cuenta Destino: " + "" + "\n"
+                    + "Importe: " + txtImporte.Text + "\n";
+                Utils.Herramientas.msebox_informacion(msj);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString());
+            }
         }
     }
 }
