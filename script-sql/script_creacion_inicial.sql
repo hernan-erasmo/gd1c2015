@@ -1756,6 +1756,67 @@ AS
 	FROM SARASA.Estado
 GO
 
+
+CREATE PROCEDURE [SARASA].[cbx_tc](@Cliente_Id integer)
+AS
+
+IF(@Cliente_Id = 0)
+BEGIN
+	SELECT Tc_Num_Tarjeta 'Valor', 'XXXX XXXX XXXX ' + Tc_Ultimos_Cuatro + ' (' + Tc_Emisor_Desc+ ')' 'Etiqueta'
+	FROM SARASA.Tc
+END
+ELSE
+BEGIN
+	SELECT Tc_Num_Tarjeta 'Valor', 'XXXX XXXX XXXX ' + Tc_Ultimos_Cuatro + ' (' + Tc_Emisor_Desc+ ')' 'Etiqueta'
+	FROM SARASA.Tc
+	WHERE Tc_Cliente_Id = @Cliente_Id
+END
+GO
+
+
+CREATE PROCEDURE [SARASA].[cbx_cuenta](
+		@Cliente_Id integer,
+		@Estado_Desc nvarchar(255))
+AS
+
+IF(@Cliente_Id =0 AND @Estado_Desc='')
+BEGIN
+
+	SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'
+	FROM SARASA.Cuenta, SARASA.Tipocta
+	WHERE Cuenta_Tipocta_Id = Tipocta_Id 
+
+END
+ELSE IF(@Cliente_Id != 0 AND @Estado_Desc != '')
+BEGIN
+
+	SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'
+	FROM SARASA.Cuenta, SARASA.Tipocta, SARASA.Estado
+	WHERE Cuenta_Tipocta_Id = Tipocta_Id 
+		AND Cuenta_Estado_Id = Estado_Id
+		AND Estado_Descripcion = @Estado_Desc
+		AND Cuenta_Cliente_Id = @Cliente_Id
+
+END
+ELSE IF(@Cliente_Id != 0)
+BEGIN
+
+	SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'
+	FROM SARASA.Cuenta, SARASA.Tipocta
+	WHERE Cuenta_Tipocta_Id = Tipocta_Id 
+		AND Cuenta_Cliente_Id = @Cliente_Id
+
+END
+ELSE IF(@Estado_Desc != '')
+BEGIN
+	SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'
+	FROM SARASA.Cuenta, SARASA.Tipocta, SARASA.Estado
+	WHERE Cuenta_Tipocta_Id = Tipocta_Id 
+		AND Cuenta_Estado_Id = Estado_Id
+		AND Estado_Descripcion = @Estado_Desc
+END
+GO
+
 /***********************
 	Creamos triggers
 ************************/
