@@ -3733,7 +3733,6 @@ GO
 ***********************************************************************/
 
 -- Deshabilitamos triggers
-DISABLE TRIGGER SARASA.tr_deposito_aff_ins_modificar_saldo_cuenta ON SARASA.Deposito;
 DISABLE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta ON SARASA.Retiro;
 DISABLE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura ON SARASA.Cuenta;
 DISABLE TRIGGER SARASA.tr_itemfact_aff_ins ON SARASA.Itemfact;
@@ -3977,7 +3976,6 @@ WHERE tm.Item_Factura_Importe IS NOT NULL
 GO
 
 --Volvemos a habilitar los triggers deshabilitados previo a la migración
-ENABLE TRIGGER SARASA.tr_deposito_aff_ins_modificar_saldo_cuenta ON SARASA.Deposito;
 ENABLE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta ON SARASA.Retiro;
 ENABLE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura ON SARASA.Cuenta;
 ENABLE TRIGGER SARASA.tr_itemfact_aff_ins ON SARASA.Itemfact;
