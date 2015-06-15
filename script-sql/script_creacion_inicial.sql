@@ -218,8 +218,18 @@ CREATE TABLE SARASA.Usuario (
 	Usuario_Pregunta_Sec			nvarchar(255)	NOT NULL,
 	Usuario_Respuesta_Sec			nvarchar(64)	NOT NULL,
 	Usuario_Habilitado				bit DEFAULT 1, 	--1: Habilitado, 0: No habilitado
-	Usuario_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id)
+	Usuario_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id),
+	Usuario_IntentosFallidos		integer DEFAULT 0,
+	Usuario_PrimerUso				bit DEFAULT 0
 )
+
+CREATE TABLE SARASA.Log (
+	Log_Id								integer			identity(1,1) PRIMARY KEY,
+	Log_Usuario_Id						integer	FOREIGN KEY REFERENCES SARASA.Usuario(Usuario_Id) NOT NULL,
+	Log_Resultado						bit NOT NULL,	--1: Correcto, 0: Erroneo
+	Log_Fecha							datetime NOT NULL
+)
+
 
 CREATE TABLE SARASA.Rol (
 	Rol_Id							integer			identity(1,1) PRIMARY KEY,

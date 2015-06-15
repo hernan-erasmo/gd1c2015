@@ -91,6 +91,11 @@ namespace PagoElectronico.Login
                                 MenuPrincipal menuPrincipal = new MenuPrincipal();
                                 menuPrincipal.asignarPadre(this);
                                 menuPrincipal.asignarUsuario(usuario);
+                                string nombreSP = "SARASA.Reiniciar_Intentos";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId);
+
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
                                 this.Hide();
                                 menuPrincipal.Show();
 
@@ -105,6 +110,11 @@ namespace PagoElectronico.Login
                 usuario.Rol = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Value;
                 usuario.RolId = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Key;
 
+                string nombreSP = "SARASA.Reiniciar_Intentos";    //  Nombre del StoreProcedure
+                List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
+                "@usuario_id", this.usuario.UsuarioId);
+
+                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
                 Herramientas.cargarFunciones(usuario);
                 MenuPrincipal menuPrincipal = new MenuPrincipal();
                 menuPrincipal.asignarPadre(this);
