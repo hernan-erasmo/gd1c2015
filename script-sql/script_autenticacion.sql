@@ -31,6 +31,7 @@ BEGIN
 	SET @clienteDocumento = 0
 
 	--	Valida solo el usuario y pass
+	
 	SELECT @codigo = Usuario_Habilitado, @usuarioId =Usuario_Id
 	FROM SARASA.Usuario
 	WHERE Usuario_Username = @username AND Usuario_Password = @password
@@ -54,9 +55,10 @@ BEGIN
 			-- Busca la información del cliente del usuario autenticado
 			
 
-			SELECT @clienteId = Cliente_Id, @nombre = Cliente_Nombre, @apellido = Cliente_Apellido, @clienteDocumento = Cliente_Doc_Nro
-			FROM SARASA.Usuario, SARASA.Cliente
-			WHERE Usuario_Cliente_Id = Cliente_Id
+			SELECT @clienteId = c.Cliente_Id, @nombre = Cliente_Nombre, @apellido = Cliente_Apellido, @clienteDocumento = Cliente_Doc_Nro
+			FROM SARASA.Usuario u, SARASA.Cliente c
+			WHERE u.Usuario_Cliente_Id = c.Cliente_Id AND
+					u.Usuario_Id=@usuarioId
 
 			
 			-- Busca cuantos roles tiene asignado el usuario
