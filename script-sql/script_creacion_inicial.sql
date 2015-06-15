@@ -227,7 +227,8 @@ CREATE TABLE SARASA.Log (
 	Log_Id								integer			identity(1,1) PRIMARY KEY,
 	Log_Usuario_Id						integer	FOREIGN KEY REFERENCES SARASA.Usuario(Usuario_Id) NOT NULL,
 	Log_Resultado						bit NOT NULL,	--1: Correcto, 0: Erroneo
-	Log_Fecha							datetime NOT NULL
+	Log_Fecha							datetime NOT NULL,
+	Log_IntentoFallido					integer
 )
 
 
@@ -1919,6 +1920,111 @@ BEGIN CATCH
 	SELECT @error_message = ERROR_MESSAGE()
 	RAISERROR('Error en la transacción: %s',16,1, @error_message)
 END CATCH
+GO
+
+
+-- Procedimiento para autenticar un usuario
+
+-- Valores de @codigo
+--	0: Login OK. usuario habilitado con más de un rol
+--	-1: Usuario no existe
+--	-2: Usuario o Pass incorrectos
+--	x: Login OK, usuario habilitado con un único rol (rolID = x)
+
+CREATE PROCEDURE SARASA.Ejecutar_Autenticacion (
+	@username nvarchar(20),
+	@password nvarchar(64),
+	@codigo integer OUTPUT,
+	@nombre nvarchar(255) OUTPUT,
+	@apellido nvarchar(255) OUTPUT,
+	@clienteId integer OUTPUT,
+	@clienteDocumento numeric(18,0) OUTPUT, --Cliente_Doc_Nro
+	@usuarioId integer OUTPUT,
+	@rolNombre nvarchar(20) OUTPUT)
+AS
+BEGIN
+
+--	Busca el usuario para ver si existe y si esta habilitado o no
+	SET @rolNombre = ''
+	SET @nombre = ''
+	SET @apellido = ''
+	SET @clienteId = 0
+	SET @clienteDocumento = 0
+
+	--	Valida solo el usuario y pass
+	
+	SELECT @codigo = Usuario_Habilitado, @usuarioId =Usuario_Id
+	FROM SARASA.Usuario
+	WHERE Usuario_Username = @username AND Usuario_Password = @password
+	
+
+
+
+	IF @codigo is null
+	BEGIN
+		SET @codigo = -1	-- Usuario no existe o password incorrecta
+		SET @usuarioId=0;
+		IF EXISTS (SELECT *
+					FROM SARASA.Usuario u
+					WHERE u.Usuario_Username=@username AND
+							u.Usuario_Habilitado='1')
+					
+		BEGIN
+		SET @codigo = -3
+		SET @usuarioId = (SELECT u.Usuario_Id
+							FROM SARASA.Usuario u
+							WHERE u.Usuario_Username=@username AND
+							u.Usuario_Habilitado='1')
+		END
+		IF EXISTS (SELECT *
+					FROM SARASA.Usuario u
+					WHERE u.Usuario_Username=@username AND
+							u.Usuario_Habilitado='0')
+		BEGIN
+			SET @codigo = -2
+			SET @usuarioId = (SELECT u.Usuario_Id
+							FROM SARASA.Usuario u
+							WHERE u.Usuario_Username=@username)
+		END
+	END
+	ELSE
+	BEGIN 
+		IF @codigo  = 0
+		BEGIN
+			SET @codigo = -2	-- Usuario inhabilitado
+			SET @clienteDocumento = 0
+			
+		END
+		ELSE
+		BEGIN
+			-- Busca la información del cliente del usuario autenticado
+			
+
+			SELECT @clienteId = c.Cliente_Id, @nombre = Cliente_Nombre, @apellido = Cliente_Apellido, @clienteDocumento = Cliente_Doc_Nro
+			FROM SARASA.Usuario u, SARASA.Cliente c
+			WHERE u.Usuario_Cliente_Id = c.Cliente_Id AND
+					u.Usuario_Id=@usuarioId
+
+			
+			-- Busca cuantos roles tiene asignado el usuario
+			SET @codigo = 0	-- Usuario habilitado
+			
+			DECLARE @AUX integer = 0;
+
+			SELECT DISTINCT @AUX = COUNT(*)
+			FROM SARASA.Rol_x_Usuario ru, SARASA.Rol r
+			WHERE ru.Rol_Id = r.Rol_Id AND r.Rol_Estado = 1 AND ru.Usuario_Id = @usuarioId
+
+			IF(@AUX=1)-- Busca el id del unico rol habilitado del usuario
+			BEGIN
+				SELECT @codigo = ru.Rol_Id, @rolNombre= r.Rol_Descripcion
+				FROM SARASA.Rol_x_Usuario ru, Rol r
+				WHERE ru.Usuario_Id = @usuarioId AND r.Rol_Id = ru.Rol_Id
+
+			END
+		END
+	END
+END
 GO
 
 /***********************

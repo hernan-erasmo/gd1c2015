@@ -38,7 +38,7 @@ namespace PagoElectronico.Login
             if (idProcesoLogin == 0)
             {
                 //  Validacion datos del formulario
-                if (string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))// || string.IsNullOrEmpty(comboBox1.Text))
+                if (string.IsNullOrEmpty(textBox1.Text) || string.IsNullOrEmpty(textBox2.Text))
                 {
                     label1.ForeColor = Color.Red;
                     label2.ForeColor = Color.Red;
@@ -54,7 +54,6 @@ namespace PagoElectronico.Login
                     usuario.Password = Herramientas.sha256_hash(textBox2.Text);
 
                     Herramientas.ejecutarAutenticacion(usuario);
-                    //lblInfo.Text = Convert.ToString(usuario.CodLogin);
 
                     switch (usuario.CodLogin)
                     {
@@ -73,11 +72,11 @@ namespace PagoElectronico.Login
                                 btnLogin.Text = "Continuar..";
                                 break; 
                             }
-                        case -1: //  Usuario o password invalido
+                        case -1: //  Usuario invalido
                             {
                                 label1.ForeColor = Color.Red;
                                 label2.ForeColor = Color.Red;
-                                lblInfo.Text = "Usuario o password incorrecto";
+                                lblInfo.Text = "Usuario incorrecto";
                                 break;
                             }
                         case -2: //  Usuario inhabilitado
@@ -87,7 +86,7 @@ namespace PagoElectronico.Login
                             }
                         case -3: //  Usuario existe, password incorrecta
                             {
-                                //Registra el intento fallido
+                                //Registra el intento fallido en el usuario
                                 lblInfo.Text = "Password incorrecta";
                                 string nombreSP = "SARASA.Registrar_Intento_Fallido";    //  Nombre del StoreProcedure
                                 List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
