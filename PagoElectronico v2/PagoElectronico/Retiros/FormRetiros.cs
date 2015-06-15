@@ -26,12 +26,9 @@ namespace PagoElectronico.Retiros
         private void FormRetiros_Load(object sender, EventArgs e)
         {
             txtCliente.Text = usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")";
-            string cbxCuentaQuery = "SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'"
-                                    + "FROM test.Cuenta , test.Tipocta "
-                                    + "WHERE Tipocta_Id = Cuenta_Tipocta_Id AND Cuenta_Cliente_Id = " + usuario.ClienteId;
-            Herramientas.llenarComboBox(cbxCuenta, cbxCuentaQuery,true);
-            Herramientas.llenarComboBox(cbxMoneda, "SELECT Moneda_Id 'Valor', Moneda_Descripcion 'Etiqueta' FROM test.Moneda",true);
-            Herramientas.llenarComboBox(cbxBanco, "SELECT Banco_Codigo 'Valor', Banco_Nombre + ' - ' + Banco_Direccion 'ETIQUETA' FROM test.banco", true);
+            Herramientas.llenarComboBoxSP(cbxCuenta, "SARASA.cbx_cuenta", Herramientas.GenerarListaDeParametros("@Cliente_Id", usuario.ClienteId, "@Estado_Desc", "Habilitada"), true);
+            Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda",null,true);
+            Herramientas.llenarComboBoxSP(cbxBanco, "SARASA.cbx_banco", null, true);
         }
 
         //  Boton X
@@ -62,14 +59,15 @@ namespace PagoElectronico.Retiros
                                                 "@importe", txtImporte.Text,
                                                 "@banco_codigo", ((KeyValuePair<string, string>)cbxBanco.SelectedItem).Key);
 
-                    //Utils.Herramientas.EjecutarStoredProcedure("SARASA.retirar_efectivo", lista);
-                    Utils.Herramientas.EjecutarStoredProcedure("test.retirar_efectivo", lista);
-
-                    Utils.Herramientas.msebox_informacion("Retiro realizado");
+                    if (Herramientas.EjecutarStoredProcedure("SARASA.retirar_efectivo", lista) != null)
+                    {
+                        Utils.Herramientas.msebox_informacion("Retiro realizado");
+                    }                    
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: " + ex.ToString());
+                    MessageBox.Show("Verificar que el formulario este completo", "Retiro", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else 

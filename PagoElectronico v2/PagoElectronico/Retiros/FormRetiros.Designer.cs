@@ -31,6 +31,8 @@
             this.btnRetirar = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbxBanco = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.cbxMoneda = new System.Windows.Forms.ComboBox();
             this.txtImporte = new System.Windows.Forms.TextBox();
             this.cbxCuenta = new System.Windows.Forms.ComboBox();
@@ -42,8 +44,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.cbxBanco = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -85,8 +85,27 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Informacion del retiro";
             // 
+            // cbxBanco
+            // 
+            this.cbxBanco.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxBanco.FormattingEnabled = true;
+            this.cbxBanco.Location = new System.Drawing.Point(80, 152);
+            this.cbxBanco.Name = "cbxBanco";
+            this.cbxBanco.Size = new System.Drawing.Size(268, 21);
+            this.cbxBanco.TabIndex = 30;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(5, 154);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(38, 13);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Banco";
+            // 
             // cbxMoneda
             // 
+            this.cbxMoneda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMoneda.FormattingEnabled = true;
             this.cbxMoneda.Location = new System.Drawing.Point(80, 71);
             this.cbxMoneda.Name = "cbxMoneda";
@@ -102,6 +121,7 @@
             // 
             // cbxCuenta
             // 
+            this.cbxCuenta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCuenta.FormattingEnabled = true;
             this.cbxCuenta.Location = new System.Drawing.Point(80, 31);
             this.cbxCuenta.Name = "cbxCuenta";
@@ -180,23 +200,6 @@
             this.label6.Size = new System.Drawing.Size(39, 13);
             this.label6.TabIndex = 28;
             this.label6.Text = "Cliente";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 154);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 13);
-            this.label5.TabIndex = 29;
-            this.label5.Text = "Banco";
-            // 
-            // cbxBanco
-            // 
-            this.cbxBanco.FormattingEnabled = true;
-            this.cbxBanco.Location = new System.Drawing.Point(80, 152);
-            this.cbxBanco.Name = "cbxBanco";
-            this.cbxBanco.Size = new System.Drawing.Size(268, 21);
-            this.cbxBanco.TabIndex = 30;
             // 
             // FormRetiros
             // 
