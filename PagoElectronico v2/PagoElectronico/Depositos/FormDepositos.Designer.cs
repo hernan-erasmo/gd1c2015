@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblImporte = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -53,14 +53,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Cuenta";
             // 
-            // label2
+            // lblImporte
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(24, 97);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(42, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Importe";
+            this.lblImporte.AutoSize = true;
+            this.lblImporte.Location = new System.Drawing.Point(24, 97);
+            this.lblImporte.Name = "lblImporte";
+            this.lblImporte.Size = new System.Drawing.Size(42, 13);
+            this.lblImporte.TabIndex = 1;
+            this.lblImporte.Text = "Importe";
             // 
             // label3
             // 
@@ -91,6 +91,7 @@
             // 
             // cbxCuenta
             // 
+            this.cbxCuenta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxCuenta.FormattingEnabled = true;
             this.cbxCuenta.Location = new System.Drawing.Point(132, 51);
             this.cbxCuenta.Name = "cbxCuenta";
@@ -100,12 +101,14 @@
             // txtImporte
             // 
             this.txtImporte.Location = new System.Drawing.Point(132, 90);
+            this.txtImporte.MaxLength = 28;
             this.txtImporte.Name = "txtImporte";
             this.txtImporte.Size = new System.Drawing.Size(269, 20);
             this.txtImporte.TabIndex = 6;
             // 
             // cbxMoneda
             // 
+            this.cbxMoneda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMoneda.FormattingEnabled = true;
             this.cbxMoneda.Location = new System.Drawing.Point(132, 128);
             this.cbxMoneda.Name = "cbxMoneda";
@@ -114,6 +117,7 @@
             // 
             // cbxTarjeta
             // 
+            this.cbxTarjeta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTarjeta.FormattingEnabled = true;
             this.cbxTarjeta.Location = new System.Drawing.Point(132, 165);
             this.cbxTarjeta.Name = "cbxTarjeta";
@@ -132,7 +136,7 @@
             // 
             // btnDepositar
             // 
-            this.btnDepositar.Location = new System.Drawing.Point(352, 240);
+            this.btnDepositar.Location = new System.Drawing.Point(340, 240);
             this.btnDepositar.Name = "btnDepositar";
             this.btnDepositar.Size = new System.Drawing.Size(61, 31);
             this.btnDepositar.TabIndex = 11;
@@ -169,7 +173,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(425, 283);
+            this.ClientSize = new System.Drawing.Size(417, 283);
             this.Controls.Add(this.dtpFecha);
             this.Controls.Add(this.txtCliente);
             this.Controls.Add(this.label6);
@@ -182,10 +186,9 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblImporte);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "FormDepositos";
             this.Text = "Deposito";
             this.Load += new System.EventHandler(this.FormDepositos_Load);
@@ -197,7 +200,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblImporte;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;

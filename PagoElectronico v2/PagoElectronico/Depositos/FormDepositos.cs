@@ -91,30 +91,45 @@ namespace PagoElectronico.Depositos
 
         private void btnDepositar_Click(object sender, EventArgs e)
         {
-            try
+            if (Herramientas.IsDecimal(txtImporte.Text))
             {
-                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                        "@cliente_id", usuario.ClienteId,
-                        "@deposito_fecha", dtpFecha.Value.ToShortDateString(),
-                        "@deposito_importe", txtImporte.Text,
-                        "@deposito_moneda_id", ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
-                        "@deposito_tarjeta_num", ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key,
-                        "@deposito_cuenta_num", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key);
+                lblImporte.ForeColor = Color.Black;
+                try
+                {
+                    List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                            "@cliente_id", usuario.ClienteId,
+                            "@deposito_fecha", dtpFecha.Value.ToShortDateString(),
+                            "@deposito_importe", txtImporte.Text,
+                            "@deposito_moneda_id", ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
+                            "@deposito_tarjeta_num", ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key,
+                            "@deposito_cuenta_num", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key);
 
-            Herramientas.EjecutarStoredProcedure("SARASA.realizar_deposito ", lista);
 
-            string msj = "DEPOSITO:\n"
-                + "Id Cliente: " + usuario.ClienteId + "\n"
-                + "Cuenta: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
-                + "Tarjeta: " + ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Key + "\n"
-                + "Importe: " + txtImporte.Text + "\n";
-            Utils.Herramientas.msebox_informacion(msj);
+                    if (Herramientas.EjecutarStoredProcedure("SARASA.realizar_deposito", lista) != null)
+                    {
+                        string msj = "CLIENTE: " + usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")\n"
 
+                            + "CUENTA: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
+                            + "TARJETA: " + ((KeyValuePair<string, string>)cbxTarjeta.SelectedItem).Value + "\n"
+                            + "IMPORTE: $" + txtImporte.Text + "\n";
+
+                        MessageBox.Show(msj, "DEPOSITO - COMPROBANTE",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        cbxCuenta.SelectedIndex = 0;
+                        cbxMoneda.SelectedIndex = 0;
+                        cbxTarjeta.SelectedIndex = 0;
+                        txtImporte.Text = "";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Verificar que el formulario este completo", "Depositos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.ToString());
-            }
+            else
+                lblImporte.ForeColor = Color.Red;
         }
     }
 }
