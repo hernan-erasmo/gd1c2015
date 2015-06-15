@@ -104,5 +104,11 @@ namespace PagoElectronico.Consulta_Saldos
             dgvTransferencias.DataSource = null;
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            formPadre.Show();
+        }
     }
 }

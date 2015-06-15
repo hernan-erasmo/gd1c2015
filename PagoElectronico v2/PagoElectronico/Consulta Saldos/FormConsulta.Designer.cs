@@ -39,6 +39,7 @@
             this.dgvSaldo = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.lklCuenta = new System.Windows.Forms.LinkLabel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepositos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRetiros)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTransferencias)).BeginInit();
@@ -171,12 +172,23 @@
             this.lklCuenta.Text = "Cuenta:";
             this.lklCuenta.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lklCuenta_LinkClicked);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(504, 602);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(85, 30);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "Volver";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FormConsulta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(602, 599);
+            this.ClientSize = new System.Drawing.Size(602, 640);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lklCuenta);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.dgvSaldo);
@@ -214,5 +226,6 @@
         private System.Windows.Forms.DataGridView dgvSaldo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.LinkLabel lklCuenta;
+        private System.Windows.Forms.Button button1;
     }
 }
