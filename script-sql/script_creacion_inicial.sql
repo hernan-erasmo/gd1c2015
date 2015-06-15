@@ -1916,6 +1916,13 @@ BEGIN
 END
 GO
 
+
+CREATE PROCEDURE [SARASA].[cbx_banco]
+AS
+	SELECT Banco_Codigo 'Valor', Banco_Nombre + ' (' + CAST(Banco_Codigo AS VARCHAR(18)) + ' - '+ Banco_Direccion + ')' 'Etiqueta'
+	FROM SARASA.Banco
+GO
+
 /***********************
 	Creamos triggers
 ************************/
