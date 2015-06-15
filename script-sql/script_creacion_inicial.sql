@@ -2421,7 +2421,7 @@ INSERT INTO SARASA.Usuario (Usuario_Username,
 							Usuario_Habilitado,
 							Usuario_Cliente_Id)
 VALUES	
-		(	'admin1', 
+		(	'admin', 
 			'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',	--hash sha256 para w23e
 			GETDATE(),
 			GETDATE(),
