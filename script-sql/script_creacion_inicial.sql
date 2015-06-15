@@ -2120,6 +2120,24 @@ BEGIN
 END
 GO
 
+--Solo durante la migración, recalcula los saldos de las cuentas afectados por transferencias
+CREATE TRIGGER SARASA.tr_transf_solo_para_migracion
+ON SARASA.Transferencia
+AFTER INSERT
+AS
+BEGIN
+	UPDATE cue
+	SET cue.Cuenta_Saldo = cue.Cuenta_Saldo - i.Transferencia_Importe
+	FROM SARASA.Cuenta cue
+	INNER JOIN INSERTED i ON i.Transferencia_Cuenta_Origen_Id = cue.Cuenta_Numero
+
+	UPDATE cue
+	SET cue.Cuenta_Saldo = cue.Cuenta_Saldo + i.Transferencia_Importe
+	FROM SARASA.Cuenta cue
+	INNER JOIN INSERTED i ON i.Transferencia_Cuenta_Destino_Id = cue.Cuenta_Numero
+END
+GO
+
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
@@ -3732,7 +3750,8 @@ GO
 	integridad de los datos)
 ***********************************************************************/
 
--- Deshabilitamos triggers
+-- Modificamos el estado de los triggers antes de la migracion
+-- Deshabilitamos los siguientes
 DISABLE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta ON SARASA.Retiro;
 DISABLE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura ON SARASA.Cuenta;
 DISABLE TRIGGER SARASA.tr_itemfact_aff_ins ON SARASA.Itemfact;
@@ -3975,10 +3994,14 @@ FROM gd_esquema.Maestra tm
 WHERE tm.Item_Factura_Importe IS NOT NULL
 GO
 
---Volvemos a habilitar los triggers deshabilitados previo a la migración
+--Modificamos el estado de los triggers después de la migración
+--Habilitamos los siguientes
 ENABLE TRIGGER SARASA.tr_retiro_aff_ins_modificar_saldo_cuenta ON SARASA.Retiro;
 ENABLE TRIGGER SARASA.tr_cuenta_aff_ins_crear_item_factura ON SARASA.Cuenta;
 ENABLE TRIGGER SARASA.tr_itemfact_aff_ins ON SARASA.Itemfact;
 ENABLE TRIGGER SARASA.tr_deposito_aff_ins_detectar_cuenta_vencida ON SARASA.Deposito;
 ENABLE TRIGGER SARASA.tr_retiro_aff_ins_detectar_cuenta_vencida ON SARASA.Retiro;
+
+--Deshabilitamos los siguientes
+DISABLE TRIGGER SARASA.tr_transf_solo_para_migracion ON SARASA.Transferencia
 GO
