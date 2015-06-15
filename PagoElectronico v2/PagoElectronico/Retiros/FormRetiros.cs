@@ -46,8 +46,31 @@ namespace PagoElectronico.Retiros
 
         private void btnRetirar_Click(object sender, EventArgs e)
         {
+            bool importeOK = false, documentoOK = false;
+
+            if (Herramientas.IsDecimal(txtImporte.Text))
+            {
+                lblImporte.ForeColor = Color.Black;
+                importeOK = true;
+            }
+            else
+            {
+                lblImporte.ForeColor = Color.Red;
+                importeOK = false;
+            }
 
             if (usuario.Documento.Equals(txtDocumento.Text))
+            {
+                lblDocumento.ForeColor = Color.Black;
+                documentoOK = true;
+            }
+            else
+            {
+                lblDocumento.ForeColor = Color.Red;
+                documentoOK = false;
+            }
+
+            if (documentoOK && importeOK)
             {
                 try
                 {
@@ -61,7 +84,22 @@ namespace PagoElectronico.Retiros
 
                     if (Herramientas.EjecutarStoredProcedure("SARASA.retirar_efectivo", lista) != null)
                     {
-                        Utils.Herramientas.msebox_informacion("Retiro realizado");
+
+                        string boleta = "RETIRO REALIZADO\n"
+                            + "CLIENTE: " + usuario.Apellido +", "+ usuario.Nombre + "\n"
+                            + "CUENTA: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
+                            + "IMPORTE: $" + txtImporte.Text + " (" + ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Value+ ")\n"
+                            + "BANCO: " + ((KeyValuePair<string, string>)cbxBanco.SelectedItem).Value + "\n";
+
+                        MessageBox.Show(boleta, "Retiro efectivo",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        txtDocumento.Text = "";
+                        txtImporte.Text = "";
+                        cbxBanco.SelectedIndex = 0;
+                        cbxCuenta.SelectedIndex = 0;
+                        cbxMoneda.SelectedIndex = 0;
+
                     }                    
                 }
                 catch (Exception ex)
@@ -69,10 +107,6 @@ namespace PagoElectronico.Retiros
                     MessageBox.Show("Verificar que el formulario este completo", "Retiro", 
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-            }
-            else 
-            {
-                Utils.Herramientas.msebox_informacion("El documento no es válido");
             }
         }
     }
