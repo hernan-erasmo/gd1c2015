@@ -2027,6 +2027,51 @@ BEGIN
 END
 GO
 
+-- Procedimiento para registrar en la tabla de Log los intentos de Login
+CREATE PROCEDURE SARASA.Registra_Log (
+	@usuario_id		integer,
+	@resultado		bit
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		IF @resultado='1'
+		BEGIN
+			INSERT INTO SARASA.Log(Log_Usuario_Id, Log_Resultado, Log_Fecha)
+			VALUES (@usuario_id, '1', GETDATE())
+		END
+		ELSE
+		BEGIN
+			DECLARE @intento integer
+			SET @intento = (SELECT u.Usuario_IntentosFallidos
+							FROM SARASA.Usuario u
+							WHERE u.Usuario_Id=@usuario_id)
+							
+			INSERT INTO SARASA.Log(Log_Usuario_Id, Log_Resultado, Log_Fecha, Log_IntentoFallido)
+			VALUES (@usuario_id, '0', GETDATE(), @intento)
+		END
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos procedures para la carga de los combos en la app
 ************************/

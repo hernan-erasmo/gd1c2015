@@ -99,7 +99,12 @@ namespace PagoElectronico.Login
                                 "@usuario_id", this.usuario.UsuarioId);
                                 Utils.Herramientas.EjecutarStoredProcedure(nombreSP2, listaParam);
 
-
+                                //Registra como intento fallido en la tabla de log
+                                string nombreSP3 = "SARASA.Registra_Log";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParam3 = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId, "@resultado", '0');
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP3, listaParam3);
+                                
                                 break;
                             }
                         default: // Autenticacion correcta, con rol unico
@@ -116,6 +121,12 @@ namespace PagoElectronico.Login
                                 this.Hide();
                                 menuPrincipal.Show();
 
+                                //Registra como intento fallido en la tabla de log
+                                string nombreSP3 = "SARASA.Registra_Log";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParam3 = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId, "@resultado", '1');
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP3, listaParam3);
+
                                 break;
                             }
                     }
@@ -130,8 +141,15 @@ namespace PagoElectronico.Login
                 string nombreSP = "SARASA.Reiniciar_Intentos";    //  Nombre del StoreProcedure
                 List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
                 "@usuario_id", this.usuario.UsuarioId);
-
                 Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
+
+                //Registra como intento fallido en la tabla de log
+                string nombreSP3 = "SARASA.Registra_Log";    //  Nombre del StoreProcedure
+                List<SqlParameter> listaParam3 = Utils.Herramientas.GenerarListaDeParametros(
+                "@usuario_id", this.usuario.UsuarioId, "@resultado", '1');
+                Utils.Herramientas.EjecutarStoredProcedure(nombreSP3, listaParam3);
+
+
                 Herramientas.cargarFunciones(usuario);
                 MenuPrincipal menuPrincipal = new MenuPrincipal();
                 menuPrincipal.asignarPadre(this);
