@@ -55,6 +55,16 @@ BEGIN
 							WHERE u.Usuario_Username=@username AND
 							u.Usuario_Habilitado='1')
 		END
+		IF EXISTS (SELECT *
+					FROM SARASA.Usuario u
+					WHERE u.Usuario_Username=@username AND
+							u.Usuario_Habilitado='0')
+		BEGIN
+			SET @codigo = -2
+			SET @usuarioId = (SELECT u.Usuario_Id
+							FROM SARASA.Usuario u
+							WHERE u.Usuario_Username=@username)
+		END
 	END
 	ELSE
 	BEGIN 

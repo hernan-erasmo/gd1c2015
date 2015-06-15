@@ -1848,7 +1848,7 @@ END CATCH
 GO
 
 
--- Reinicia los intentos fallidos tras login correcto de un usuario
+-- Registra un intento fallido de login de un usuario
 CREATE PROCEDURE SARASA.Registrar_Intento_Fallido (
 	@usuario_id		integer
 )
@@ -1881,6 +1881,45 @@ BEGIN CATCH
 END CATCH
 GO
 
+-- Comprueba intentos fallidos, en caso de ser 3 inhabilita al usuario
+CREATE PROCEDURE SARASA.Comprueba_Intentos_E_Inhabilita_Usuario (
+	@usuario_id		integer
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		IF EXISTS (SELECT *
+					FROM SARASA.Usuario u
+					WHERE u.Usuario_Id=@usuario_id AND
+					u.Usuario_IntentosFallidos=3)
+		BEGIN
+			UPDATE GD1C2015.SARASA.Usuario
+			SET Usuario_Habilitado='0'
+			WHERE Usuario_Id=@usuario_id
+		END
+
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
 
 /***********************
 	Creamos procedures para la carga de los combos en la app

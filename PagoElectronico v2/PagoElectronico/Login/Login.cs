@@ -95,7 +95,10 @@ namespace PagoElectronico.Login
                                 Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
 
                                 //Si tiene 3 intentos fallidos, se inhabilita al usuario
-
+                                string nombreSP2 = "SARASA.Comprueba_Intentos_E_Inhabilita_Usuario";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParam = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId);
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP2, listaParam);
 
 
                                 break;
