@@ -82,7 +82,6 @@
             this.cbxCuenta.Name = "cbxCuenta";
             this.cbxCuenta.Size = new System.Drawing.Size(269, 21);
             this.cbxCuenta.TabIndex = 18;
-            this.cbxCuenta.SelectedIndexChanged += new System.EventHandler(this.cbxCuenta_SelectedIndexChanged);
             // 
             // lblImporte
             // 

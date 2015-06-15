@@ -57,8 +57,6 @@ namespace PagoElectronico.Transferencias
         //  Abre el buscador, para seleccionar una cuenta de otro cliente
         private void lklCuentaDestino_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //Herramientas.msebox_informacion("Abre el buscador para elegir la cuenta de otro cliente");
-            //cbxCuentaDestino.Text = "444550000000032105 (Oro)";
 
             ABM_Cuenta.FormBuscar frmBuscarCuenta = new ABM_Cuenta.FormBuscar(this, usuario,
                                                 "BuscarCuenta", "Transferencias.FormTransferencias");
@@ -71,7 +69,7 @@ namespace PagoElectronico.Transferencias
 
             if (Herramientas.IsDecimal(txtImporte.Text))
             {
-                lblImporte.ForeColor = Color.Green;
+                lblImporte.ForeColor = Color.Black;
 
                 try
                 {
@@ -113,9 +111,5 @@ namespace PagoElectronico.Transferencias
             numeroCuenta = ((KeyValuePair<string, string>)cbxCuentaDestino.SelectedItem).Key;
         }
 
-        private void cbxCuenta_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            this.Text = "valor (" + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + ")";
-        }
     }
 }
