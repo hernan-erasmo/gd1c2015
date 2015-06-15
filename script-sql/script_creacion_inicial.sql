@@ -218,8 +218,18 @@ CREATE TABLE SARASA.Usuario (
 	Usuario_Pregunta_Sec			nvarchar(255)	NOT NULL,
 	Usuario_Respuesta_Sec			nvarchar(64)	NOT NULL,
 	Usuario_Habilitado				bit DEFAULT 1, 	--1: Habilitado, 0: No habilitado
-	Usuario_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id)
+	Usuario_Cliente_Id				integer			FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id),
+	Usuario_IntentosFallidos		integer DEFAULT 0,
+	Usuario_PrimerUso				bit DEFAULT 0
 )
+
+CREATE TABLE SARASA.Log (
+	Log_Id								integer			identity(1,1) PRIMARY KEY,
+	Log_Usuario_Id						integer	FOREIGN KEY REFERENCES SARASA.Usuario(Usuario_Id) NOT NULL,
+	Log_Resultado						bit NOT NULL,	--1: Correcto, 0: Erroneo
+	Log_Fecha							datetime NOT NULL
+)
+
 
 CREATE TABLE SARASA.Rol (
 	Rol_Id							integer			identity(1,1) PRIMARY KEY,
@@ -1804,7 +1814,112 @@ BEGIN CATCH
 END CATCH
 GO
 
+-- Reinicia los intentos fallidos tras login correcto de un usuario
+CREATE PROCEDURE SARASA.Reiniciar_Intentos (
+	@usuario_id		integer
+)
+AS
 
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		UPDATE GD1C2015.SARASA.Usuario
+		SET Usuario_IntentosFallidos='0'
+		WHERE Usuario_Id=@usuario_id
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
+
+-- Registra un intento fallido de login de un usuario
+CREATE PROCEDURE SARASA.Registrar_Intento_Fallido (
+	@usuario_id		integer
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		UPDATE GD1C2015.SARASA.Usuario
+		SET Usuario_IntentosFallidos=Usuario_IntentosFallidos+1
+		WHERE Usuario_Id=@usuario_id
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
+-- Comprueba intentos fallidos, en caso de ser 3 inhabilita al usuario
+CREATE PROCEDURE SARASA.Comprueba_Intentos_E_Inhabilita_Usuario (
+	@usuario_id		integer
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		IF EXISTS (SELECT *
+					FROM SARASA.Usuario u
+					WHERE u.Usuario_Id=@usuario_id AND
+					u.Usuario_IntentosFallidos=3)
+		BEGIN
+			UPDATE GD1C2015.SARASA.Usuario
+			SET Usuario_Habilitado='0'
+			WHERE Usuario_Id=@usuario_id
+		END
+
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
 
 /***********************
 	Creamos procedures para la carga de los combos en la app

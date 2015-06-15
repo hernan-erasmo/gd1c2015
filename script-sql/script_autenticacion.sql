@@ -38,10 +38,33 @@ BEGIN
 	
 
 
+
 	IF @codigo is null
 	BEGIN
 		SET @codigo = -1	-- Usuario no existe o password incorrecta
 		SET @usuarioId=0;
+		IF EXISTS (SELECT *
+					FROM SARASA.Usuario u
+					WHERE u.Usuario_Username=@username AND
+							u.Usuario_Habilitado='1')
+					
+		BEGIN
+		SET @codigo = -3
+		SET @usuarioId = (SELECT u.Usuario_Id
+							FROM SARASA.Usuario u
+							WHERE u.Usuario_Username=@username AND
+							u.Usuario_Habilitado='1')
+		END
+		IF EXISTS (SELECT *
+					FROM SARASA.Usuario u
+					WHERE u.Usuario_Username=@username AND
+							u.Usuario_Habilitado='0')
+		BEGIN
+			SET @codigo = -2
+			SET @usuarioId = (SELECT u.Usuario_Id
+							FROM SARASA.Usuario u
+							WHERE u.Usuario_Username=@username)
+		END
 	END
 	ELSE
 	BEGIN 
@@ -49,6 +72,7 @@ BEGIN
 		BEGIN
 			SET @codigo = -2	-- Usuario inhabilitado
 			SET @clienteDocumento = 0
+			
 		END
 		ELSE
 		BEGIN
@@ -84,15 +108,12 @@ BEGIN
 DECLARE @usuario nvarchar(255)='userCliente', @fechaHora datetime = SYSDATETIME(), @intento integer;
 	IF(@loginEstado = 0)
 	BEGIN
-
 		-- Recupera el numero de intento anterior
 		select TOP 1 @intento = LogLogin_Intento from test.loglogin
 		where LogLogin_usuario = @usuario
 		order by LogLogin_FechaHora desc
-
 		-- Aumenta el numero de intento
 		SET @intento = @intento + 1
-
 		-- Inserta en la tabla de LogLogin
 		INSERT INTO test.loglogin (LogLogin_FechaHora,LogLogin_Usuario,LogLogin_Valido,LogLogin_Intento)
 		VALUES(@fechaHora,@usuario,0,@intento)

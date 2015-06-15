@@ -85,12 +85,35 @@ namespace PagoElectronico.Login
                                 lblInfo.Text = "Usuario inhabilitado";
                                 break;
                             }
+                        case -3: //  Usuario existe, password incorrecta
+                            {
+                                //Registra el intento fallido
+                                lblInfo.Text = "Password incorrecta";
+                                string nombreSP = "SARASA.Registrar_Intento_Fallido";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId);
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
+
+                                //Si tiene 3 intentos fallidos, se inhabilita al usuario
+                                string nombreSP2 = "SARASA.Comprueba_Intentos_E_Inhabilita_Usuario";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParam = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId);
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP2, listaParam);
+
+
+                                break;
+                            }
                         default: // Autenticacion correcta, con rol unico
                             {
                                 Herramientas.cargarFunciones(usuario);
                                 MenuPrincipal menuPrincipal = new MenuPrincipal();
                                 menuPrincipal.asignarPadre(this);
                                 menuPrincipal.asignarUsuario(usuario);
+                                string nombreSP = "SARASA.Reiniciar_Intentos";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId);
+
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
                                 this.Hide();
                                 menuPrincipal.Show();
 
@@ -105,6 +128,11 @@ namespace PagoElectronico.Login
                 usuario.Rol = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Value;
                 usuario.RolId = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Key;
 
+                string nombreSP = "SARASA.Reiniciar_Intentos";    //  Nombre del StoreProcedure
+                List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
+                "@usuario_id", this.usuario.UsuarioId);
+
+                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
                 Herramientas.cargarFunciones(usuario);
                 MenuPrincipal menuPrincipal = new MenuPrincipal();
                 menuPrincipal.asignarPadre(this);
