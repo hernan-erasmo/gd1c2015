@@ -110,6 +110,8 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 			El proceso realiza las validaciones necesarias antes de cerrar la cuenta y no permite que se cierre una cuenta que posee importes sin facturar.
 			También genera los ítems de las facturas en caso de que se cambie el tipo de cuenta, y por supuesto modifica el estado de la cuenta y el tipo en caso de ser necesario.
 
+		Los saldos de las cuentas se migran desde la tabla maestra en el siguiente orden: SALDO_CUENTA = DEPOSITOS +/- TRANSFERENCIAS - RETIROS
+
 	Tabla. SARASA.Deposito:
 		Usaremos como id el valor de la columna 'Deposito_Codigo' de la tabla maestra y lo incrementaremos de a 1. El código de ingreso (que debe ser distinto al de egreso y al de transacción) será el hash del valor de la clave del depósito con el algoritmo 'MD2' empleando la función HASHBYTES.
 
