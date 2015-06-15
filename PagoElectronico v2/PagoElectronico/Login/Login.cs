@@ -87,18 +87,6 @@ namespace PagoElectronico.Login
                             }
                         default: // Autenticacion correcta, con rol unico
                             {
-                                Utils.Herramientas.msebox_informacion(usuario.Username + "             " +
-                    usuario.Password + "             " +
-                    usuario.Nombre + "             " +
-                    usuario.Apellido + "             " +
-                    usuario.Documento + "             " +
-                    usuario.Rol + "             " +
-                    usuario.RolId + "             " +
-                    usuario.CodLogin + "             " +
-                    usuario.ClienteId + "             " +
-                    usuario.UsuarioId
-
-                    );
                                 Herramientas.cargarFunciones(usuario);
                                 MenuPrincipal menuPrincipal = new MenuPrincipal();
                                 menuPrincipal.asignarPadre(this);
@@ -116,19 +104,6 @@ namespace PagoElectronico.Login
                 // Carga las funciones del rol seleccionado
                 usuario.Rol = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Value;
                 usuario.RolId = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Key;
-
-                Utils.Herramientas.msebox_informacion(usuario.Username +"             "+
-                    usuario.Password + "             " +
-                    usuario.Nombre + "             " +
-                    usuario.Apellido + "             " +
-                    usuario.Documento + "             " +
-                    usuario.Rol + "             " +
-                    usuario.RolId + "             " +
-                    usuario.CodLogin + "             " +
-                    usuario.ClienteId + "             " + 
-                    usuario.UsuarioId
-
-                    );
 
                 Herramientas.cargarFunciones(usuario);
                 MenuPrincipal menuPrincipal = new MenuPrincipal();
