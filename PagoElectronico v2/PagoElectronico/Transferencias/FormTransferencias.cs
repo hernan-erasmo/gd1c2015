@@ -80,12 +80,16 @@ namespace PagoElectronico.Transferencias
 
                     if (Herramientas.EjecutarStoredProcedure("SARASA.realizar_transferencia", lista) != null) 
                     {
-                        string msj = "TRANSFERENCIA:\n"
-                            + "Id Cliente: " + usuario.ClienteId + "\n"
-                            + "Cuenta Origen: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
-                            + "Cuenta Destino: " + numeroCuenta + "\n"
-                            + "Importe: " + txtImporte.Text + "\n";
-                        Utils.Herramientas.msebox_informacion(msj);
+                        string msj = "CLIENTE: " + usuario.Apellido + ", "+ usuario.Nombre + " (" +usuario.ClienteId + ")\n"
+                            + "CUENTA ORIGEN: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
+                            + "CUENTA DESTINO: " + numeroCuenta + "\n"
+                            + "IMPORTE: $" + txtImporte.Text + "\n";
+
+                        MessageBox.Show(msj, "TRANSFERENCIA - COMPROBANTE", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        cbxCuenta.SelectedIndex = 0;
+                        cbxCuentaDestino.SelectedIndex = 0;
                         txtImporte.Text = "";
                     }
                 }

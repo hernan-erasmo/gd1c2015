@@ -85,13 +85,12 @@ namespace PagoElectronico.Retiros
                     if (Herramientas.EjecutarStoredProcedure("SARASA.retirar_efectivo", lista) != null)
                     {
 
-                        string boleta = "RETIRO REALIZADO\n"
-                            + "CLIENTE: " + usuario.Apellido +", "+ usuario.Nombre + "\n"
-                            + "CUENTA: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
-                            + "IMPORTE: $" + txtImporte.Text + " (" + ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Value+ ")\n"
-                            + "BANCO: " + ((KeyValuePair<string, string>)cbxBanco.SelectedItem).Value + "\n";
+                        string boleta = "CLIENTE: " + usuario.Apellido +", "+ usuario.Nombre + " (" + usuario.ClienteId + ")\n"
+                                    + "CUENTA: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
+                                    + "IMPORTE: $" + txtImporte.Text + " (" + ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Value+ ")\n"
+                                    + "BANCO: " + ((KeyValuePair<string, string>)cbxBanco.SelectedItem).Value + "\n";
 
-                        MessageBox.Show(boleta, "Retiro efectivo",
+                        MessageBox.Show(boleta, "RETIRO - COMPROBANTE",
                                             MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         txtDocumento.Text = "";
