@@ -39,7 +39,7 @@ BEGIN
 
 	IF @codigo is null
 	BEGIN
-		SET @codigo = -1	-- Usuario no existe
+		SET @codigo = -1	-- Usuario no existe o password incorrecta
 		SET @usuarioId=0;
 	END
 	ELSE

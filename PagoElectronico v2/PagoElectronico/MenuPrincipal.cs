@@ -62,7 +62,7 @@ namespace PagoElectronico
         private void lklCerrarSesion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             this.Hide();        //  Oculta el formulario principal
-            Login.Login formLogin = new Login.Login(this);  //  Crea un formulario de Login
+            Login.Login formLogin = new Login.Login();  //  Crea un formulario de Login
             formLogin.Show();   //  Muestra el formulario de login
 
         }

@@ -1810,9 +1810,38 @@ GO
 	Creamos procedures para la carga de los combos en la app
 ************************/
 
-CREATE PROCEDURE [SARASA].[cbx_rol]
+-- Llenar el combo box de rol segun usuario
+CREATE PROCEDURE SARASA.cbx_rol (
+	@usuario_id		integer
+)
 AS
-	SELECT Rol_Id 'Valor', Rol_Descripcion 'Etiqueta' FROM SARASA.Rol
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			SELECT DISTINCT r.Rol_Id 'Valor', r.Rol_Descripcion 'Descripcion'
+			FROM GD1C2015.SARASA.Rol_x_Usuario ru, GD1C2015.SARASA.Rol r
+			WHERE r.Rol_Estado='1' AND r.Rol_Id = ru.Rol_Id AND
+			ru.Usuario_Id=@usuario_id
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
 GO
 
 

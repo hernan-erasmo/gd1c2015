@@ -14,13 +14,11 @@ namespace PagoElectronico.Login
     public partial class Login : Form
     {
         int idProcesoLogin;
-        MenuPrincipal menuPrincipal;
         public Usuario usuario;
 
-        public Login(MenuPrincipal menuPrincipal)
+        public Login()
         {
             InitializeComponent();
-            this.menuPrincipal = menuPrincipal;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -52,32 +50,31 @@ namespace PagoElectronico.Login
                     usuario = new Utils.Usuario();
 
                     //  Carga la informacion en usuario
-                    usuario.Username = this.textBox1.Text;
+                    usuario.Username = Convert.ToString(this.textBox1.Text);
                     usuario.Password = Herramientas.sha256_hash(textBox2.Text);
 
                     Herramientas.ejecutarAutenticacion(usuario);
+                    //lblInfo.Text = Convert.ToString(usuario.CodLogin);
 
                     switch (usuario.CodLogin)
                     {
-                        case 0: //  Autenticacion correcta
+                        case 0: //  Autenticacion correcta con mas de un rol
                             {
 
                                 idProcesoLogin = 1;
                                 gbLogin.Enabled = false;    //Bloquea los datos del usuario
 
                                 //  Busca los roles del usuario para que elija uno
-                                Herramientas.llenarComboBoxSP(comboBox1, 
-                                    "SARASA.cbx_rol", 
-                                    Herramientas.GenerarListaDeParametros("@usuarioId", usuario.UsuarioId), 
-                                    true);
                                 gbPermisos.Visible = true;
                                 gbPermisos.Enabled = true;
+                                List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", Convert.ToInt32(usuario.UsuarioId));
+                                Herramientas.llenarComboBoxSP(comboBox1, "SARASA.cbx_rol", lista, true);
                                 btnLogin.Text = "Continuar..";
-                                break;
+                                break; 
                             }
                         case -1: //  Usuario o password invalido
                             {
-                                //Console.WriteLine("Case 1");
                                 label1.ForeColor = Color.Red;
                                 label2.ForeColor = Color.Red;
                                 lblInfo.Text = "Usuario o password incorrecto";
@@ -91,6 +88,7 @@ namespace PagoElectronico.Login
                         default: // Autenticacion correcta, con rol unico
                             {
                                 Herramientas.cargarFunciones(usuario);
+                                MenuPrincipal menuPrincipal = new MenuPrincipal();
                                 menuPrincipal.asignarPadre(this);
                                 menuPrincipal.asignarUsuario(usuario);
                                 this.Hide();
@@ -108,10 +106,12 @@ namespace PagoElectronico.Login
                 usuario.RolId = ((KeyValuePair<string, string>)comboBox1.SelectedItem).Key;
 
                 Herramientas.cargarFunciones(usuario);
+                MenuPrincipal menuPrincipal = new MenuPrincipal();
                 menuPrincipal.asignarPadre(this);
                 menuPrincipal.asignarUsuario(usuario);
                 this.Hide();
                 menuPrincipal.Show();
+
             }
         }
 

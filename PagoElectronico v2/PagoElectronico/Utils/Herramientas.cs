@@ -157,7 +157,7 @@ namespace PagoElectronico.Utils
 
         }
 
-        //  Ejecuta la auteticacion del usuario y carga la lista de funciones
+        
         public static void ejecutarCrearCuenta(Cuenta cuenta)
         {
             List < SqlParameter > listaParametros = Herramientas.GenerarListaDeParametros(
