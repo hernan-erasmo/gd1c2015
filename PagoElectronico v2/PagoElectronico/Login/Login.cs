@@ -85,6 +85,21 @@ namespace PagoElectronico.Login
                                 lblInfo.Text = "Usuario inhabilitado";
                                 break;
                             }
+                        case -3: //  Usuario existe, password incorrecta
+                            {
+                                //Registra el intento fallido
+                                lblInfo.Text = "Password incorrecta";
+                                string nombreSP = "SARASA.Registrar_Intento_Fallido";    //  Nombre del StoreProcedure
+                                List<SqlParameter> listaParametros = Utils.Herramientas.GenerarListaDeParametros(
+                                "@usuario_id", this.usuario.UsuarioId);
+                                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, listaParametros);
+
+                                //Si tiene 3 intentos fallidos, se inhabilita al usuario
+
+
+
+                                break;
+                            }
                         default: // Autenticacion correcta, con rol unico
                             {
                                 Herramientas.cargarFunciones(usuario);
