@@ -3911,6 +3911,21 @@ FROM gd_esquema.Maestra tm
 WHERE tm.Cheque_Numero IS NOT NULL
 GO
 
+-- Desde tabla gd_esquema.Maestra a SARASA.Transferencia
+INSERT INTO SARASA.Transferencia (	Transferencia_Cuenta_Origen_Id,
+									Transferencia_Cuenta_Destino_Id,
+									Transferencia_Importe,
+									Transferencia_Fecha,
+									Transferencia_Costo)
+SELECT 	tm.Cuenta_Numero,
+		tm.Cuenta_Dest_Numero,
+		tm.Trans_Importe,
+		tm.Transf_Fecha,
+		tm.Trans_Costo_Trans
+FROM gd_esquema.Maestra tm
+WHERE tm.Transf_Fecha IS NOT NULL
+GO
+
 -- Desde tabla gd_esquema.Maestra a SARASA.Retiro
 SET IDENTITY_INSERT SARASA.Retiro ON
 INSERT INTO SARASA.Retiro (	Retiro_Id,
@@ -3928,21 +3943,6 @@ SELECT DISTINCT tm.Retiro_Codigo,
 FROM gd_esquema.Maestra tm
 WHERE tm.Retiro_Codigo IS NOT NULL
 SET IDENTITY_INSERT SARASA.Retiro OFF
-GO
-
--- Desde tabla gd_esquema.Maestra a SARASA.Transferencia
-INSERT INTO SARASA.Transferencia (	Transferencia_Cuenta_Origen_Id,
-									Transferencia_Cuenta_Destino_Id,
-									Transferencia_Importe,
-									Transferencia_Fecha,
-									Transferencia_Costo)
-SELECT 	tm.Cuenta_Numero,
-		tm.Cuenta_Dest_Numero,
-		tm.Trans_Importe,
-		tm.Transf_Fecha,
-		tm.Trans_Costo_Trans
-FROM gd_esquema.Maestra tm
-WHERE tm.Transf_Fecha IS NOT NULL
 GO
 
 --Desde tabla gd_esquema.Maestra a SARASA.Factura
