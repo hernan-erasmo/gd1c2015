@@ -255,3 +255,11 @@ Tareas del script 'script_creacion_inicial.sql' paso por paso, de acuerdo a lo q
 
 		5. Total facturado para los distintos tipos de cuentas.
 			- Se llama al procedure SARASA.Total_Facturado_Por_Tipo_Cuenta y se le pasa las fechas de inicio y de fin deseadas.
+
+**********************************************************************************************************************
+**********************************************************************************************************************
+DESCRIPCION DE LA APP
+
+Si un usuario tiene un cliente asociado y tiene los roles de Administrado y Cliente:
+1) Si el usuario inicia sesion como cliente, solo puede consultar los saldos de las cuentas asociadas a su cliente
+2) Si el usuario inicia sesion como administrador, puede consultar los saldos de todas las cuentas del sistema
