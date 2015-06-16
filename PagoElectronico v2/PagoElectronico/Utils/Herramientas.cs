@@ -757,7 +757,7 @@ namespace PagoElectronico.Utils
             try
             {
                 System.IO.StreamReader file =
-                new System.IO.StreamReader(@"C:\config.txt");
+                new System.IO.StreamReader(@"D:\config.txt");
                 line = file.ReadLine().ToString();
                 file.Close();
                 return Convert.ToInt64(line);
@@ -783,7 +783,7 @@ namespace PagoElectronico.Utils
                 mes = Convert.ToInt32(fecha2.Substring(2, 2));
                 año = Convert.ToInt32(fecha2.Substring(4, 4));
 
-                DateTime fechaDate = new DateTime(1993, mes, dia);
+                DateTime fechaDate = new DateTime(año, mes, dia);
                 Utils.Herramientas.msebox_informacion("Fecha leida del archivo de config: " + fechaDate.ToString());
                 return fechaDate;
             }
