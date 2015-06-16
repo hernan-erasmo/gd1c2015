@@ -39,9 +39,6 @@
             this.gbLogin = new System.Windows.Forms.GroupBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.lblInfo = new System.Windows.Forms.Label();
-            this.labelSet = new System.Windows.Forms.LinkLabel();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.buttonOK = new System.Windows.Forms.Button();
             this.gbPermisos.SuspendLayout();
             this.gbLogin.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +72,7 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(201, 244);
+            this.btnLogin.Location = new System.Drawing.Point(198, 193);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(88, 38);
             this.btnLogin.TabIndex = 3;
@@ -115,7 +112,7 @@
             // 
             this.gbPermisos.Controls.Add(this.label3);
             this.gbPermisos.Controls.Add(this.comboBox1);
-            this.gbPermisos.Location = new System.Drawing.Point(12, 164);
+            this.gbPermisos.Location = new System.Drawing.Point(15, 113);
             this.gbPermisos.Name = "gbPermisos";
             this.gbPermisos.Size = new System.Drawing.Size(277, 74);
             this.gbPermisos.TabIndex = 5;
@@ -128,7 +125,7 @@
             this.gbLogin.Controls.Add(this.label1);
             this.gbLogin.Controls.Add(this.textBox2);
             this.gbLogin.Controls.Add(this.textBox1);
-            this.gbLogin.Location = new System.Drawing.Point(15, 63);
+            this.gbLogin.Location = new System.Drawing.Point(15, 12);
             this.gbLogin.Name = "gbLogin";
             this.gbLogin.Size = new System.Drawing.Size(277, 95);
             this.gbLogin.TabIndex = 6;
@@ -137,7 +134,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(15, 244);
+            this.btnCancelar.Location = new System.Drawing.Point(15, 193);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(88, 38);
             this.btnCancelar.TabIndex = 7;
@@ -155,43 +152,12 @@
             this.lblInfo.Size = new System.Drawing.Size(0, 13);
             this.lblInfo.TabIndex = 8;
             // 
-            // labelSet
-            // 
-            this.labelSet.AutoSize = true;
-            this.labelSet.Location = new System.Drawing.Point(18, 8);
-            this.labelSet.Name = "labelSet";
-            this.labelSet.Size = new System.Drawing.Size(71, 13);
-            this.labelSet.TabIndex = 9;
-            this.labelSet.TabStop = true;
-            this.labelSet.Text = "Setear Fecha";
-            this.labelSet.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.labelSet_LinkClicked);
-            // 
-            // dateTimePicker1
-            // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(21, 24);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(196, 20);
-            this.dateTimePicker1.TabIndex = 10;
-            // 
-            // buttonOK
-            // 
-            this.buttonOK.Location = new System.Drawing.Point(235, 24);
-            this.buttonOK.Name = "buttonOK";
-            this.buttonOK.Size = new System.Drawing.Size(47, 19);
-            this.buttonOK.TabIndex = 11;
-            this.buttonOK.Text = "OK";
-            this.buttonOK.UseVisualStyleBackColor = true;
-            this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
-            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(306, 294);
-            this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.labelSet);
+            this.ClientSize = new System.Drawing.Size(306, 243);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.gbLogin);
@@ -223,9 +189,6 @@
         private System.Windows.Forms.GroupBox gbLogin;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label lblInfo;
-        private System.Windows.Forms.LinkLabel labelSet;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Button buttonOK;
 
     }
 }

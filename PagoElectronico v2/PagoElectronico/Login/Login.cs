@@ -15,7 +15,8 @@ namespace PagoElectronico.Login
     {
         int idProcesoLogin;
         public Usuario usuario;
-        public int seteado = 0;
+        public long fecha;
+        public DateTime fechaDate;
 
         public Login()
         {
@@ -27,8 +28,16 @@ namespace PagoElectronico.Login
             idProcesoLogin = 0;
             gbPermisos.Enabled = false;
             gbPermisos.Visible = false;
-            dateTimePicker1.Visible = false;
-            buttonOK.Visible = false;
+            fecha = Utils.Herramientas.leerArchivoConfig();
+            fechaDate = Utils.Herramientas.convertirFechaATipoDatetime(fecha);
+
+            //Ejecutar el stored procedure para setear la fecha
+            string nombreSP = "SARASA.set_datetime_app";    //  Nombre del StoreProcedure
+
+            List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                            "@datetime_app", fechaDate);
+            Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+
         }
 
         //  Login
@@ -38,8 +47,6 @@ namespace PagoElectronico.Login
             label2.ForeColor = Color.Black;
             lblInfo.Text = "";
 
-            if (this.seteado == 1)
-            {
                 if (idProcesoLogin == 0)
                 {
                     //  Validacion datos del formulario
@@ -164,11 +171,6 @@ namespace PagoElectronico.Login
 
                 }
             }
-            else
-            {
-                Utils.Herramientas.msebox_informacion("Por favor, elija una fecha para poder ingresar");
-            }
-        }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
@@ -181,24 +183,5 @@ namespace PagoElectronico.Login
             btnLogin.Text = "Login";
         }
 
-        private void labelSet_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            dateTimePicker1.Visible = true;
-            buttonOK.Visible = true;
         }
-
-        private void buttonOK_Click(object sender, EventArgs e)
-        {
-            DateTime fecha = dateTimePicker1.Value;
-            //Ejecutar el stored procedure para setear la fecha
-            string nombreSP = "SARASA.set_datetime_app";    //  Nombre del StoreProcedure
-
-            List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                            "@datetime_app", fecha);
-            Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
-            this.seteado = 1;
-            dateTimePicker1.Visible = false;
-            buttonOK.Visible = false;
-        }
-    }
 }

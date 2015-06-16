@@ -747,6 +747,55 @@ namespace PagoElectronico.Utils
             
         }
 
+
+        //Lee el archivo de configuración para setear la fecha de las operaciones
+        public static long leerArchivoConfig()
+        {
+            string line;
+            System.IO.StreamReader file =
+            new System.IO.StreamReader(@"C:\config.txt");
+
+            try
+            {
+                line = file.ReadLine().ToString();
+                file.Close();
+                return Convert.ToInt64(line);
+            }
+            catch
+            {
+                Utils.Herramientas.msebox_informacion("Debe ingresar una fecha con el formato DDMMAAAA en el archivo config.txt ubicado en C:/ ");
+                Application.Exit();
+                return 1;
+            }
+        }
+
+        public static DateTime convertirFechaATipoDatetime(long fecha)
+        {
+            try
+            {
+                string fecha2 = fecha.ToString();
+                int dia;
+                int mes;
+                int año;
+
+                dia = Convert.ToInt32(fecha2.Substring(0, 2));
+                mes = Convert.ToInt32(fecha2.Substring(2, 2));
+                año = Convert.ToInt32(fecha2.Substring(4, 4));
+
+                DateTime fechaDate = new DateTime(1993, mes, dia);
+                Utils.Herramientas.msebox_informacion("Fecha leida del archivo de config: " + fechaDate.ToString());
+                return fechaDate;
+            }
+            catch
+            {
+                Utils.Herramientas.msebox_informacion("Formato de fecha incorrecto en el archivo de config");
+                Application.Exit();
+                DateTime fechaDate2 = new DateTime(1993,12, 12);
+                return fechaDate2;
+            }
+
+        }
+
         //Llave de la clase
     }
 }
