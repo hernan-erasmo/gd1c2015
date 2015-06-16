@@ -752,11 +752,12 @@ namespace PagoElectronico.Utils
         public static long leerArchivoConfig()
         {
             string line;
-            System.IO.StreamReader file =
-            new System.IO.StreamReader(@"C:\config.txt");
+            
 
             try
             {
+                System.IO.StreamReader file =
+                new System.IO.StreamReader(@"C:\config.txt");
                 line = file.ReadLine().ToString();
                 file.Close();
                 return Convert.ToInt64(line);
