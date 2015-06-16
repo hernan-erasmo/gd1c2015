@@ -1002,6 +1002,7 @@ BEGIN TRY
 			-- Creamos la cuenta
 			DECLARE @fecha_actual datetime
 			SET @fecha_actual = GETDATE()
+			
 			INSERT INTO SARASA.Cuenta (	Cuenta_Fecha_Creacion,
 										Cuenta_Estado_Id, 
 										Cuenta_Tipocta_Id,
