@@ -49,6 +49,8 @@ namespace PagoElectronico.ABM_Cuenta
                     "@estado_deseado", ((KeyValuePair<string, string>)cbxEstado.SelectedItem).Key);
 
                 Herramientas.EjecutarStoredProcedure("SARASA.modificar_cuenta", lista);
+
+                Utils.Herramientas.msebox_informacion("Cuenta modificada con éxito");
         }
     }
 }

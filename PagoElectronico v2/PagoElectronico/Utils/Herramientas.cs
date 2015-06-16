@@ -176,28 +176,28 @@ namespace PagoElectronico.Utils
         {
             List < SqlParameter > listaParametros = Herramientas.GenerarListaDeParametros(
             "@cliente_id", cuenta.IdCliente,
-            "@fecha_apertura", cuenta.FechaApertura,
+            "@fecha_apertura", Convert.ToDateTime(cuenta.FechaApertura),
             "@tipo_cuenta_id", cuenta.IdTipo,
             "@moneda_id", cuenta.IdMoneda,
             "@pais_id", cuenta.IdPais);
 
             conexion cn = new conexion();
 
-            SqlCommand query = new SqlCommand("SARASA.crear_cuenta2", cn.abrir_conexion());
+            SqlCommand query = new SqlCommand("SARASA.crear_cuenta", cn.abrir_conexion());
             query.CommandType = CommandType.StoredProcedure;
 
             //	Agregar los parametros del tipo INPUT
             query.Parameters.AddRange(listaParametros.ToArray());
 
             //	Definir el parametro del tipo OUTPUT
-            SqlParameter ParamNumeroCta = new SqlParameter("@numeroCta",SqlDbType.Decimal);
+            SqlParameter ParamNumeroCta = new SqlParameter("@Cuenta_Numero", SqlDbType.Decimal);
             ParamNumeroCta.SqlDbType = SqlDbType.Decimal;
             ParamNumeroCta.Direction = ParameterDirection.Output;
             query.Parameters.Add(ParamNumeroCta);
 
             query.ExecuteNonQuery();
 
-            cuenta.Numero = query.Parameters["@numeroCta"].SqlValue.ToString();
+            cuenta.Numero = query.Parameters["@Cuenta_Numero"].SqlValue.ToString();
         }
 
 
@@ -694,6 +694,8 @@ namespace PagoElectronico.Utils
             return (query.Parameters["@factura_id"].SqlValue.ToString());
         }
 
+
+        //Comprueba si un usuario tiene items_factura sin pagar
         public static string comprobarItemsImpagos(Usuario user)
         {
             string nombreSP = "SARASA.comprobar_items_impagos";
