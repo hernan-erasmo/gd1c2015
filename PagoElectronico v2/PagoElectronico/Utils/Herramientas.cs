@@ -757,7 +757,7 @@ namespace PagoElectronico.Utils
             try
             {
                 System.IO.StreamReader file =
-                new System.IO.StreamReader(@"D:\config.txt");
+                new System.IO.StreamReader(@"C:\config.txt");
                 line = file.ReadLine().ToString();
                 file.Close();
                 return Convert.ToInt64(line);
