@@ -2177,10 +2177,19 @@ BEGIN TRY
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
 
+		IF(@usuario_id = 0)
+		BEGIN
+			SELECT DISTINCT r.Rol_Id 'Valor', r.Rol_Descripcion 'Descripcion'
+			FROM GD1C2015.SARASA.Rol_x_Usuario ru, GD1C2015.SARASA.Rol r
+			WHERE r.Rol_Estado='1' AND r.Rol_Id = ru.Rol_Id
+		END
+		ELSE
+		BEGIN
 			SELECT DISTINCT r.Rol_Id 'Valor', r.Rol_Descripcion 'Descripcion'
 			FROM GD1C2015.SARASA.Rol_x_Usuario ru, GD1C2015.SARASA.Rol r
 			WHERE r.Rol_Estado='1' AND r.Rol_Id = ru.Rol_Id AND
 			ru.Usuario_Id=@usuario_id
+		END
 
 	IF @starttrancount = 0
 		COMMIT TRANSACTION

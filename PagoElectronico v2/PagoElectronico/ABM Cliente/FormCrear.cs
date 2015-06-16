@@ -57,7 +57,8 @@ namespace PagoElectronico.ABM_Cliente
                 true);
 
             Herramientas.llenarComboBoxSP(cbxRol,
-                "SARASA.cbx_rol", null,
+                "SARASA.cbx_rol",
+                Herramientas.GenerarListaDeParametros("@usuario_id", 0),
                 true);
 
             //Herramientas.GenerarListaDeParametros(

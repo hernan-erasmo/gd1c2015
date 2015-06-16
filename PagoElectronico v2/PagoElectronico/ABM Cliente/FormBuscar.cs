@@ -67,6 +67,35 @@ namespace PagoElectronico.ABM_Cliente
                 flowLayoutPanel1.Visible = false;
             }
 
+
+            //  Muestra las funciones segun la lista de funciones
+            if (usuario.Funciones.Contains("CrearCliente"))
+                btnCrear.Visible=true;
+            else
+                btnCrear.Visible = false;
+
+            if (usuario.Funciones.Contains("EliminarCliente"))
+                btnEliminar.Visible = true;
+            else
+                btnEliminar.Visible = false;
+
+            if (usuario.Funciones.Contains("ModificarUsuarioCliente"))
+                btnModUsuario.Visible = true;
+            else
+                btnModUsuario.Visible = false;
+
+            if (usuario.Funciones.Contains("ModificarCliente"))
+                btnModificar.Visible = true;
+            else
+                btnModificar.Visible = false;
+
+            //if (usuario.Funciones.Contains("AsociarTarjetaCliente"))
+            //   btnCrear.Visible=true;
+            //else
+            //   btnCrear.Visible = false;
+
+
+
             Herramientas.llenarComboBoxSP(cbxTipoDoc, "SARASA.cbx_tipodoc", null, false);
         }
 
