@@ -51,30 +51,60 @@ namespace PagoElectronico.ABM_Tarjeta
         //  Asociar: Ejecutar SP asociarTarjeta(idcliente, demas_parametros)
         private void btnAsociar_Click(object sender, EventArgs e)
         {
+            bool numeroOk = false, codSeguridadOK = false, fechasOk = false;
+
+            if (Herramientas.IsNumericLong(txtNumero.Text) && (txtNumero.Text.ToString().Length == 16))
+            {
+                numeroOk = true;
+                lblNumero.ForeColor = Color.Black;
+            }
+            else
+            {
+                numeroOk = false;
+                lblNumero.ForeColor = Color.Red;
+            }
+    
+            if (Herramientas.IsNumeric(txtCodSeguridad.Text))
+            {
+                codSeguridadOK = true;
+                lblCodSeguridad.ForeColor = Color.Black;
+            }
+            else
+            {
+                codSeguridadOK = false;
+                lblCodSeguridad.ForeColor = Color.Red;
+            }
+
 
             if (dtpFechaEmision.Value.ToShortDateString().Equals(dtpFechaVencimiento.Value.ToShortDateString()))
             {// EMISION Y VENCIMIENTO IGUALES, ERROR AL GUARDAR
-                Utils.Herramientas.msebox_informacion("Existen valores inválidos: " + dtpFechaEmision.Value.ToShortTimeString() + "=" + dtpFechaVencimiento.Value.ToShortTimeString());
+                //   Utils.Herramientas.msebox_informacion("Existen valores inválidos: " + dtpFechaEmision.Value.ToShortTimeString() + "=" + dtpFechaVencimiento.Value.ToShortTimeString());
+                fechasOk = false;
+                lblFechaEmision.ForeColor = Color.Red;
+                lblFechaVencimiento.ForeColor = Color.Red;
             }
-            else
-            {   //  Se pudo grabar la tarjeta
-
-                //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-                string nombreSP = "SARASA.Asociar_Tarjeta";    //  Nombre del StoreProcedure
-
+            else 
+            {
+                fechasOk = true;
+                lblFechaEmision.ForeColor = Color.Black;
+                lblFechaVencimiento.ForeColor = Color.Black;
+            }
+    
+            if (fechasOk && numeroOk && codSeguridadOK)
+            {
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
                         "@cliente_id", this.usuario.ClienteId,
-                        "@tc_num", Convert.ToString(txtNumero.Text),
+                        "@tc_num", Herramientas.sha256_hash(txtNumero.Text),//Convert.ToString(txtNumero.Text),
                         "@tc_ultimoscuatro", Convert.ToString(Utils.Herramientas.stringRight(txtNumero.Text, 4)),
                         "@tc_emision", dtpFechaEmision.Value.ToShortDateString(),
                         "@tc_vencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
                         "@tc_codseg", Convert.ToString(txtCodSeguridad.Text),
                         "@tc_emisor", Convert.ToString(cbxEmisor.Text));
 
-                        Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
-                        Utils.Herramientas.msebox_informacion("Tarjeta asociada con éxito");
+                        Herramientas.EjecutarStoredProcedure("SARASA.Asociar_Tarjeta", lista);
+                        Herramientas.msebox_informacion("Tarjeta asociada con éxito");
                         this.Close();
                         this.formPadre.Show();
                     

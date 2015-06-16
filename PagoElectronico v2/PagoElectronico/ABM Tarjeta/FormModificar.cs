@@ -64,16 +64,36 @@ namespace PagoElectronico.ABM_Tarjeta
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
-            if (dtpFechaEmision.Value.ToShortDateString().Equals(dtpFechaVencimiento.Value.ToShortDateString()))
-            {// EMISION Y VENCIMIENTO IGUALES, ERROR AL GUARDAR
-                Utils.Herramientas.msebox_informacion("Existen valores inválidos: " + dtpFechaEmision.Value.ToShortTimeString() + "=" + dtpFechaVencimiento.Value.ToShortTimeString());
+            bool codSeguridadOK = false, fechasOk = false;
+
+            if (Herramientas.IsNumeric(txtCodSeguridad.Text))
+            {
+                codSeguridadOK = true;
+                lblCodSeguridad.ForeColor = Color.Black;
             }
             else
-            {   //  Se pudo grabar la tarjeta
+            {
+                codSeguridadOK = false;
+                lblCodSeguridad.ForeColor = Color.Red;
+            }
 
-                //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-                string nombreSP = "SARASA.Modificar_Tarjeta";    //  Nombre del StoreProcedure
 
+            if (dtpFechaEmision.Value.ToShortDateString().Equals(dtpFechaVencimiento.Value.ToShortDateString()))
+            {// EMISION Y VENCIMIENTO IGUALES, ERROR AL GUARDAR
+                //   Utils.Herramientas.msebox_informacion("Existen valores inválidos: " + dtpFechaEmision.Value.ToShortTimeString() + "=" + dtpFechaVencimiento.Value.ToShortTimeString());
+                fechasOk = false;
+                lblFechaEmision.ForeColor = Color.Red;
+                lblFechaVencimiento.ForeColor = Color.Red;
+            }
+            else
+            {
+                fechasOk = true;
+                lblFechaEmision.ForeColor = Color.Black;
+                lblFechaVencimiento.ForeColor = Color.Black;
+            }
+    
+            if (fechasOk && codSeguridadOK)
+            {
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
@@ -84,7 +104,7 @@ namespace PagoElectronico.ABM_Tarjeta
                         "@tc_codseg", Convert.ToString(txtCodSeguridad.Text),
                         "@tc_emisor", Convert.ToString(cbxEmisor.Text));
 
-                    Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                    Utils.Herramientas.EjecutarStoredProcedure("SARASA.Modificar_Tarjeta", lista);
                     Utils.Herramientas.msebox_informacion("Tarjeta modificada con éxito");
                     this.Close();
                     this.formPadre.Show();
