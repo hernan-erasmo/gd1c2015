@@ -11,6 +11,7 @@ namespace PagoElectronico.Utils
         private string numero;
         private string fechaApertura;
         private string fechaCierre;
+        private string cliente;
         private int idCliente;
         private int idPais;
         private int idTipo;
@@ -50,6 +51,12 @@ namespace PagoElectronico.Utils
         {
             get { return this.fechaCierre; }
             set { this.fechaCierre = value; }
+        }
+
+        public string Cliente
+        {
+            get { return this.cliente; }
+            set { this.cliente = value; }
         }
 
         public int IdCliente

@@ -74,9 +74,10 @@ namespace PagoElectronico.Utils
             + "Cuenta_Pais_Id 'Pais Id',Pais_Nombre 'Pais',"
             + "Cuenta_Saldo 'Saldo',Cuenta_Moneda_Id  'Moneda Id',Moneda_Descripcion 'Moneda',"
             + "Cuenta_Dias_De_Suscripcion 'Dias de suscripcion',Cuenta_Fecha_Creacion 'Fecha Creacion',Cuenta_Fecha_Cierre 'Fecha Cierre',"
-            + "Cuenta_Ultima_Modificacion_Tipo 'Fecha Mod Tipo',Cuenta_Items_No_Facturados 'Items no facturados'"
-            + " FROM SARASA.Cuenta, SARASA.Estado, SARASA.Pais, SARASA.Moneda, SARASA.Tipocta"
-            + " WHERE Cuenta_Estado_Id = Estado_Id AND Cuenta_Pais_Id = Pais_Id AND Cuenta_Tipocta_Id = Tipocta_Id";
+            + "Cuenta_Ultima_Modificacion_Tipo 'Fecha Mod Tipo',Cuenta_Items_No_Facturados 'Items no facturados',"
+            + "Cliente_Nombre 'Nombre',Cliente_Apellido 'Apellido'"
+            + " FROM SARASA.Cuenta, SARASA.Estado, SARASA.Pais, SARASA.Moneda, SARASA.Tipocta, SARASA.Cliente"
+            + " WHERE Cuenta_Estado_Id = Estado_Id AND Cuenta_Pais_Id = Pais_Id AND Cuenta_Tipocta_Id = Tipocta_Id AND Cuenta_Cliente_Id = Cliente_Id";
 
             if (clienteId != "0")
                 q += " AND Cuenta_Cliente_Id = " + clienteId;

@@ -13,21 +13,23 @@ namespace PagoElectronico.ABM_Cuenta
 {
     public partial class FormCrear : Form
     {
-        Utils.Usuario usuario;
         Form formPadre;
         int pasoCrear;
+        string clienteDesc;
+        int clienteId;
 
-        public FormCrear(Form f, Utils.Usuario user)
+        public FormCrear(Form f, string clienteDesc, string clienteId)
         {
             InitializeComponent();
             formPadre = f;
-            usuario = user;
+            this.clienteDesc = clienteDesc;
+            this.clienteId = Int32.Parse(clienteId);
         }
 
         private void FormCrear_Load(object sender, EventArgs e)
         {
             pasoCrear = 1;
-            txtCliente.Text = usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")";
+            txtCliente.Text = clienteDesc;
             Herramientas.llenarComboBoxSP(cbxPais,"SARASA.cbx_pais",null,true);
             Herramientas.llenarComboBoxSP(cbxTipoCta, "SARASA.cbx_tipocta",null,true);
             Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda",null,true);
@@ -46,7 +48,7 @@ namespace PagoElectronico.ABM_Cuenta
             if (pasoCrear == 1)
             {
                 cuenta = new Cuenta();
-                cuenta.IdCliente = usuario.ClienteId;
+                cuenta.IdCliente = clienteId;
                 cuenta.FechaApertura = dtpFechaApertura.Value.ToShortDateString();
                 cuenta.IdTipo = int.Parse(((KeyValuePair<string, string>)cbxTipoCta.SelectedItem).Key);
                 cuenta.IdPais = int.Parse(((KeyValuePair<string, string>)cbxPais.SelectedItem).Key);

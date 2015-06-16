@@ -158,7 +158,8 @@ namespace PagoElectronico
 
         private void lklLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Utils.Herramientas.msebox_informacion("" + usuario.Funciones.Count);
+            //Utils.Herramientas.msebox_informacion("" + usuario.Funciones.Count);
+            Utils.Herramientas.msebox_informacion(usuario.getInfo());
         }
 
         private void btnRetiros_Click(object sender, EventArgs e)

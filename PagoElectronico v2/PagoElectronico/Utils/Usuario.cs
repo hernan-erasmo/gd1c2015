@@ -98,5 +98,21 @@ namespace PagoElectronico.Utils
             get { return this.apellido; }
             set { this.apellido = value; }
         }
+
+        public string getInfo() 
+        { 
+            string info = "Username: " + username + "\n"
+                + "Password: " + password + "\n"
+                + "Nombre:" + nombre + "\n"
+                + "Apellido: " + apellido + "\n"
+                + "Usuario ID: " + usuarioId + "\n"
+                + "Cliente ID: " + clienteId + "\n"
+                + "Documento: " + documento + "\n"
+                + "Rol: " + rol + "\n"
+                + "Rol ID: " + rolId + "\n"
+                + "Funciones: " + this.Funciones.Count + "\n"
+                + "CodLogin: " + codLogin;
+            return info;
+        }
     }
 }
