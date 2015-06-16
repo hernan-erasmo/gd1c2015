@@ -258,6 +258,16 @@ CREATE TABLE SARASA.Inhabilitacion (
 	Inhab_Cliente_Id 		integer					FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id) NOT NULL,
 	Inhab_Fecha				datetime				NOT NULL
 )
+
+CREATE TABLE SARASA.Configuracion (
+	Config_Id				integer					identity(1,1) PRIMARY KEY,
+	Config_Datetime_App		datetime,
+	
+	-- Con esto nos aseguramos que la configuración contenga siempre un único registro. En caso de agregar otro parámetro de configuración
+	-- habrá que modificar el esquema y crear otro atributo. Para más pros y contras de este tipo de patrón, ver http://stackoverflow.com/a/2300493
+	Config_Solo_Un_Registro	bit DEFAULT 0			unique,
+	CHECK(Config_Solo_Un_Registro = 0)
+)
 GO
 
 /****************************************
@@ -326,6 +336,9 @@ AS
 BEGIN
 	DECLARE @dias_restantes integer
 	
+	DECLARE @hoy datetime
+	SELECT @hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
 	DECLARE @ultima_modificacion datetime
 	SELECT @ultima_modificacion = cue.Cuenta_Ultima_Modificacion_Tipo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
 
@@ -335,7 +348,7 @@ BEGIN
 	DECLARE @fecha_vencimiento datetime
 	SET @fecha_vencimiento = DATEADD(day,@dias_totales,@ultima_modificacion)
 
-	SET @dias_restantes = DATEDIFF(day,GETDATE(),@fecha_vencimiento)
+	SET @dias_restantes = DATEDIFF(day,@hoy,@fecha_vencimiento)
 	RETURN @dias_restantes
 END
 GO
@@ -621,6 +634,8 @@ AS
 
 	IF (@Usuario_Id = 0)
 	BEGIN
+		DECLARE @fecha_hoy datetime
+		SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
 		-- ALTA DE USUARIO NUEVO PARA EL CLIENTE
 		INSERT INTO SARASA.Usuario (
@@ -636,8 +651,8 @@ AS
 			@cliente_insertado,
 			@Usuario_Username,
 			@Usuario_Password,
-			SYSDATETIME(),--@Usuario_Fecha_Creacion,
-			SYSDATETIME(),--@Usuario_Fecha_Modificacion,
+			@fecha_hoy,--@Usuario_Fecha_Creacion,
+			@fecha_hoy,--@Usuario_Fecha_Modificacion,
 			@Usuario_Pregunta_Sec,
 			@Usuario_Respuesta_Sec,
 			1)--@Usuario_Habilitado)
@@ -759,7 +774,7 @@ BEGIN TRY
 			END
 
 			--Verificamos que la tarjeta no esté vencida. Si está vencida, salimos con RAISERROR
-			SET @fecha_hoy = GETDATE()
+			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 			SELECT @fecha_venc_tarjeta = tar.Tc_Fecha_Vencimiento FROM SARASA.Tc tar WHERE tar.Tc_Num_Tarjeta = @deposito_tarjeta_num
 
 			SELECT @tarjeta_vencida = CASE WHEN CAST(@fecha_venc_tarjeta AS DATE) < CAST(@fecha_hoy AS DATE) THEN 'SI' ELSE 'NO' END
@@ -820,12 +835,15 @@ BEGIN TRY
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
 
+			DECLARE @fecha_hoy datetime
+			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
 			INSERT INTO SARASA.Cheque (Cheque_Cliente_Nombre, Cheque_Banco_Id, Cheque_Importe, Cheque_Numero, Cheque_Fecha)
 			SELECT	(cli.Cliente_Apellido + ', ' + cli.Cliente_Nombre),
 					@banco_codigo,
 					@importe,
 					(SELECT MAX(che.Cheque_Numero) FROM SARASA.Cheque che) + 1,
-					GETDATE()
+					@fecha_hoy
 			FROM SARASA.Cliente cli
 			WHERE cli.Cliente_Id = @cliente_id
 
@@ -867,6 +885,7 @@ BEGIN TRY
 			DECLARE @estado_cuenta integer
 			DECLARE @estado_habilitada integer
 			DECLARE @saldo_cuenta numeric(18,2)
+			DECLARE @fecha_hoy datetime
 			DECLARE @cuenta_numero_string nvarchar(40)	--Sólo para manejo de errores
 			DECLARE @importe_string nvarchar(20)		--Sólo para manejo de errores
 
@@ -893,9 +912,11 @@ BEGIN TRY
 			--Emitimos el cheque y guardamos el id del mismo
 			EXECUTE SARASA.emitir_cheque @cliente_id, @banco_codigo, @importe, @cheque_id OUTPUT;
 
+			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
 			--Registramos el retiro
 			INSERT INTO SARASA.Retiro (Retiro_Cuenta_Id, Retiro_Cheque_Id, Retiro_Importe, Retiro_Fecha)
-			VALUES (@cuenta_nro, @cheque_id, @importe, GETDATE())
+			VALUES (@cuenta_nro, @cheque_id, @importe, @fecha_hoy)
 
 			--Luego SARASA.tr_retiro_aff_ins_generar_codigo inserta el código de egreso en SARASA.Retiro
 
@@ -1001,7 +1022,7 @@ BEGIN TRY
 
 			-- Creamos la cuenta
 			DECLARE @fecha_actual datetime
-			SET @fecha_actual = GETDATE()
+			SELECT @fecha_actual = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 			
 			INSERT INTO SARASA.Cuenta (	Cuenta_Fecha_Creacion,
 										Cuenta_Estado_Id, 
@@ -1074,7 +1095,7 @@ BEGIN TRY
 			DECLARE @importe numeric(18,2)
 			DECLARE @tipo_cuenta_actual integer
 
-			SET @fecha_hoy = GETDATE()
+			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 			SELECT @tipo_cuenta_actual = cue.Cuenta_Tipocta_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
 			SELECT @importe = tipo.Tipocta_Costo_Mod FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_deseado
 			SELECT @estado_habilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada'
@@ -1111,7 +1132,7 @@ BEGIN TRY
 
 				UPDATE SARASA.Cuenta
 				SET Cuenta_Tipocta_Id = @tipo_cuenta_deseado,
-					Cuenta_Ultima_Modificacion_Tipo = GETDATE(),
+					Cuenta_Ultima_Modificacion_Tipo = @fecha_hoy,
 					Cuenta_Dias_De_Suscripcion = @cant_dias_nueva_suscripcion + @cant_dias_restantes
 				WHERE Cuenta_Numero = @cuenta_numero
 			END
@@ -1206,7 +1227,7 @@ BEGIN TRY
 			SELECT @saldo_actual = cue.Cuenta_Saldo FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_numero
 			
 			DECLARE @fecha_hoy datetime
-			SET @fecha_hoy = GETDATE()
+			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 			
 			DECLARE	@comision numeric(18,2)
 			SELECT	@comision = tcta.Tipocta_Costo_Trans
@@ -1375,7 +1396,7 @@ BEGIN TRY
 			SELECT @importe = tipo.Tipocta_Costo_Mod FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_cuenta_actual
 
 			DECLARE @fecha_hoy datetime
-			SET @fecha_hoy = GETDATE()
+			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
 			-- Generamos el item factura correspondiente a la misma suscripción que tiene la cuenta.
 			EXEC SARASA.crear_item_factura @cuenta_numero, 'Renovación de cuenta', @importe, @fecha_hoy, NULL, 0
@@ -1391,14 +1412,14 @@ BEGIN TRY
 			IF @cant_dias_restantes < 0
 			BEGIN
 				UPDATE SARASA.Cuenta
-				SET Cuenta_Ultima_Modificacion_Tipo = GETDATE(),
+				SET Cuenta_Ultima_Modificacion_Tipo = @fecha_hoy,
 					Cuenta_Dias_De_Suscripcion = @cant_dias_nueva_suscripcion	--notar que no le sumamos los días restantes
 				WHERE Cuenta_Numero = @cuenta_numero
 			END
 			ELSE
 			BEGIN
 				UPDATE SARASA.Cuenta
-				SET Cuenta_Ultima_Modificacion_Tipo = GETDATE(),
+				SET Cuenta_Ultima_Modificacion_Tipo = @fecha_hoy,
 					Cuenta_Dias_De_Suscripcion = @cant_dias_nueva_suscripcion + @cant_dias_restantes
 				WHERE Cuenta_Numero = @cuenta_numero
 			END
@@ -1724,7 +1745,7 @@ SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performanc
 DECLARE @starttrancount int
 DECLARE @error_message nvarchar(4000)
 DECLARE @fecha_actual datetime
-SET @fecha_actual = GETDATE()
+SELECT @fecha_actual = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
 BEGIN TRY
 	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
@@ -2171,10 +2192,13 @@ BEGIN TRY
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
 
+		DECLARE @fecha_hoy datetime
+		SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
 		IF @resultado='1'
 		BEGIN
 			INSERT INTO SARASA.Log(Log_Usuario_Id, Log_Resultado, Log_Fecha)
-			VALUES (@usuario_id, '1', GETDATE())
+			VALUES (@usuario_id, '1', @fecha_hoy)
 		END
 		ELSE
 		BEGIN
@@ -2184,7 +2208,7 @@ BEGIN TRY
 							WHERE u.Usuario_Id=@usuario_id)
 							
 			INSERT INTO SARASA.Log(Log_Usuario_Id, Log_Resultado, Log_Fecha, Log_IntentoFallido)
-			VALUES (@usuario_id, '0', GETDATE(), @intento)
+			VALUES (@usuario_id, '0', @fecha_hoy, @intento)
 		END
 	IF @starttrancount = 0
 		COMMIT TRANSACTION
@@ -2194,6 +2218,39 @@ BEGIN CATCH
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
 	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
+CREATE PROCEDURE SARASA.set_datetime_app (
+	@datetime_app		datetime
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			UPDATE config
+			SET config.Config_Datetime_App = @datetime_app
+			FROM SARASA.Configuracion config
+			WHERE config.Config_Id = 1
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error al querer setear la fecha y hora del sistema según la app: %s',16,1, @error_message)
 END CATCH
 GO
 
@@ -2471,7 +2528,7 @@ BEGIN
 	SELECT @tipo_de_cuenta = i.Cuenta_Tipocta_Id FROM INSERTED i
 	SELECT @precio_por_tipo_cuenta = tipo.Tipocta_Costo_Crea FROM SARASA.Tipocta tipo WHERE tipo.Tipocta_Id = @tipo_de_cuenta
 	SELECT @cuenta_num = i.Cuenta_Numero FROM INSERTED i
-	SET @fecha = GETDATE()
+	SELECT @fecha = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
 	EXEC SARASA.crear_item_factura @cuenta_num, 'Creación de cuenta', @precio_por_tipo_cuenta, @fecha, NULL, 0
 END
@@ -2483,6 +2540,9 @@ ON SARASA.Itemfact
 AFTER INSERT
 AS
 BEGIN
+	DECLARE @fecha_hoy datetime
+	SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
 	DECLARE @cuenta_numero numeric(18,0)
 	SELECT @cuenta_numero = i.Itemfact_Cuenta_Numero FROM INSERTED i
 
@@ -2515,7 +2575,7 @@ BEGIN
 
 		-- Agregamos la inhabilitación a la tabla auxiliar que lleva la cuenta de estos eventos para el listado estadístico nro. 1
 		INSERT INTO SARASA.Inhabilitacion(Inhab_Cliente_Id, Inhab_Fecha)
-		VALUES	(@cliente_id, GETDATE())
+		VALUES	(@cliente_id, @fecha_hoy)
 	END
 END
 GO
@@ -2541,6 +2601,10 @@ GO
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
+
+-- Valores de configuracion
+INSERT INTO SARASA.Configuracion (Config_Datetime_App)
+VALUES	(GETDATE())		-- Se le inserta un valor por defecto, que luego será modificado por la app antes de ejecutarse.
 
 -- Roles
 SET IDENTITY_INSERT SARASA.Rol ON
