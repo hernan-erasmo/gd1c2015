@@ -169,7 +169,8 @@ namespace PagoElectronico.ABM_Cuenta
                 dataGridView1.Columns["Estado Id"].Visible = false;
                 dataGridView1.Columns["Pais Id"].Visible = false;
                 dataGridView1.Columns["Moneda Id"].Visible = false;
-
+                dataGridView1.Columns["Nombre"].Visible = false;
+                dataGridView1.Columns["Apellido"].Visible = false;
 
                 lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
 
