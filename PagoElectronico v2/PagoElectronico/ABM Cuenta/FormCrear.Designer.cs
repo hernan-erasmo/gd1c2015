@@ -37,9 +37,9 @@
             this.dtpFechaApertura = new System.Windows.Forms.DateTimePicker();
             this.label6 = new System.Windows.Forms.Label();
             this.cbxTipoCta = new System.Windows.Forms.ComboBox();
-            this.txtNumero = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.txtNumero = new System.Windows.Forms.TextBox();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -119,6 +119,7 @@
             this.dtpFechaApertura.Size = new System.Drawing.Size(86, 20);
             this.dtpFechaApertura.TabIndex = 6;
             this.dtpFechaApertura.Value = new System.DateTime(2015, 5, 17, 0, 0, 0, 0);
+            this.dtpFechaApertura.ValueChanged += new System.EventHandler(this.dtpFechaApertura_ValueChanged);
             // 
             // label6
             // 
@@ -137,15 +138,6 @@
             this.cbxTipoCta.Size = new System.Drawing.Size(159, 21);
             this.cbxTipoCta.TabIndex = 6;
             // 
-            // txtNumero
-            // 
-            this.txtNumero.Location = new System.Drawing.Point(121, 28);
-            this.txtNumero.MaxLength = 16;
-            this.txtNumero.Name = "txtNumero";
-            this.txtNumero.ReadOnly = true;
-            this.txtNumero.Size = new System.Drawing.Size(159, 20);
-            this.txtNumero.TabIndex = 5;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -163,6 +155,15 @@
             this.label3.Size = new System.Drawing.Size(80, 13);
             this.label3.TabIndex = 1;
             this.label3.Text = "Tipo de Cuenta";
+            // 
+            // txtNumero
+            // 
+            this.txtNumero.Location = new System.Drawing.Point(121, 28);
+            this.txtNumero.MaxLength = 16;
+            this.txtNumero.Name = "txtNumero";
+            this.txtNumero.ReadOnly = true;
+            this.txtNumero.Size = new System.Drawing.Size(159, 20);
+            this.txtNumero.TabIndex = 5;
             // 
             // txtCliente
             // 

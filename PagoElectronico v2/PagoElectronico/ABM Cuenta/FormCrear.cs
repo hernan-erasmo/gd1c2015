@@ -80,5 +80,10 @@ namespace PagoElectronico.ABM_Cuenta
             }
 
         }
+
+        private void dtpFechaApertura_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
