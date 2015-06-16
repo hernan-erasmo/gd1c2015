@@ -1815,6 +1815,47 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.Modificar_Tarjeta(
+		@cliente_id int,
+		@tc_num varchar(64),
+		@tc_emision datetime,
+		@tc_vencimiento datetime,
+		@tc_codseg nvarchar(64),
+		@tc_emisor nvarchar(255)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		UPDATE SARASA.Tc SET 
+			Tc_Fecha_Emision = @tc_emision,
+			Tc_Fecha_Vencimiento = @tc_vencimiento,
+			Tc_Codigo_Seg = @tc_codseg,
+			Tc_Emisor_Desc = @tc_emisor
+		WHERE Tc_Num_Tarjeta = @tc_num AND Tc_Cliente_Id = @cliente_id
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
+
 -- Reinicia los intentos fallidos tras login correcto de un usuario
 CREATE PROCEDURE SARASA.Reiniciar_Intentos (
 	@usuario_id		integer
