@@ -2207,6 +2207,39 @@ BEGIN CATCH
 END CATCH
 GO
 
+CREATE PROCEDURE SARASA.set_datetime_app (
+	@datetime_app		datetime
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			UPDATE config
+			SET config.Config_Datetime_App = @datetime_app
+			FROM SARASA.Configuracion config
+			WHERE config.Config_Id = 1
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error al querer setear la fecha y hora del sistema según la app: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos procedures para la carga de los combos en la app
 ************************/
@@ -2551,6 +2584,10 @@ GO
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
+
+-- Valores de configuracion
+INSERT INTO SARASA.Configuracion (Config_Datetime_App)
+VALUES	(GETDATE())		-- Se le inserta un valor por defecto, que luego será modificado por la app antes de ejecutarse.
 
 -- Roles
 SET IDENTITY_INSERT SARASA.Rol ON
