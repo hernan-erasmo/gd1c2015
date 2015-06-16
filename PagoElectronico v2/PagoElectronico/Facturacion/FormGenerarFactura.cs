@@ -48,9 +48,6 @@ namespace PagoElectronico.Facturacion
                 Decimal cuenta = Convert.ToDecimal(TablaDatos.Rows[i].Cells[1].Value);
                 Decimal importe = Convert.ToDecimal(TablaDatos.Rows[i].Cells[3].Value);
 
-                Utils.Herramientas.msebox_informacion(cuenta.ToString());
-                Utils.Herramientas.msebox_informacion(importe.ToString());
-
                 string nombreSP = "SARASA.cobrar_item";    //  Nombre del StoreProcedure
                 List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
                 "@cuenta_id", cuenta,

@@ -48,8 +48,6 @@ namespace PagoElectronico.Facturacion
 
                 factura_id = Utils.Herramientas.generarFactura(this.usuario);
 
-                Utils.Herramientas.msebox_informacion(factura_id);
-
                 Facturacion.FormGenerarFactura frmGenerarFactura = new Facturacion.FormGenerarFactura(this, usuario, factura_id);
 
                 //actualizo los item de factura
