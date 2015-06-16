@@ -1690,7 +1690,7 @@ BEGIN TRY
 				SET @factura_id = ( SELECT TOP 1 f.Factura_Numero
 								FROM GD1C2015.SARASA.Factura f
 								WHERE f.Factura_Cliente_Id=@cliente_id
-								ORDER BY f.Factura_Fecha ASC )
+								ORDER BY f.Factura_Numero DESC )
 		
 
 	IF @starttrancount = 0
@@ -1741,6 +1741,41 @@ BEGIN CATCH
 	RAISERROR('Error en la transacción: %s',16,1, @error_message)
 END CATCH
 GO
+
+-- Procedimiento para cobrar de la cuenta de origen los items
+CREATE PROCEDURE SARASA.cobrar_item (
+	@cuenta_id		numeric(18,0),
+	@importe		numeric(18,0)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		UPDATE GD1C2015.SARASA.Cuenta
+		SET Cuenta_Saldo=Cuenta_Saldo-@importe
+		WHERE Cuenta_Numero=@cuenta_id
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
 
 -- Procedimiento para asociar una tarjeta al cliente logueado
 CREATE PROCEDURE SARASA.Asociar_Tarjeta (
