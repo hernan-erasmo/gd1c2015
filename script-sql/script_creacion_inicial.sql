@@ -258,6 +258,16 @@ CREATE TABLE SARASA.Inhabilitacion (
 	Inhab_Cliente_Id 		integer					FOREIGN KEY REFERENCES SARASA.Cliente(Cliente_Id) NOT NULL,
 	Inhab_Fecha				datetime				NOT NULL
 )
+
+CREATE TABLE SARASA.Configuracion (
+	Config_Id				integer					identity(1,1) PRIMARY KEY,
+	Config_Datetime_App		datetime,
+	
+	-- Con esto nos aseguramos que la configuración contenga siempre un único registro. En caso de agregar otro parámetro de configuración
+	-- habrá que modificar el esquema y crear otro atributo. Para más pros y contras de este tipo de patrón, ver http://stackoverflow.com/a/2300493
+	Config_Solo_Un_Registro	bit DEFAULT 0			unique,
+	CHECK(Config_Solo_Un_Registro = 0)
+)
 GO
 
 /****************************************
