@@ -44,6 +44,7 @@
             this.TablaDatos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.TablaDatos.Size = new System.Drawing.Size(679, 205);
             this.TablaDatos.TabIndex = 0;
+            this.TablaDatos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TablaDatos_CellContentClick);
             // 
             // label1
             // 
