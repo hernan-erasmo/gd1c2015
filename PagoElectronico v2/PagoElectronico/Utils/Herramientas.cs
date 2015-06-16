@@ -51,6 +51,20 @@ namespace PagoElectronico.Utils
         }
 
         //  Valida si los valores son numericos
+        public static bool IsNumericLong(string num)
+        {
+            try
+            {
+                long x = Convert.ToInt64(num);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        //  Valida si los valores son numericos
         public static bool IsDouble(string num)
         {
             try

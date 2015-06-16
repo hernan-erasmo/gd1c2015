@@ -33,11 +33,11 @@
             this.dtpFechaVencimiento = new System.Windows.Forms.DateTimePicker();
             this.dtpFechaEmision = new System.Windows.Forms.DateTimePicker();
             this.txtCodSeguridad = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblCodSeguridad = new System.Windows.Forms.Label();
             this.cbxEmisor = new System.Windows.Forms.ComboBox();
             this.txtNumero = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblFechaVencimiento = new System.Windows.Forms.Label();
+            this.lblFechaEmision = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnModificar = new System.Windows.Forms.Button();
@@ -61,11 +61,11 @@
             this.groupBox1.Controls.Add(this.dtpFechaVencimiento);
             this.groupBox1.Controls.Add(this.dtpFechaEmision);
             this.groupBox1.Controls.Add(this.txtCodSeguridad);
-            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.lblCodSeguridad);
             this.groupBox1.Controls.Add(this.cbxEmisor);
             this.groupBox1.Controls.Add(this.txtNumero);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.lblFechaVencimiento);
+            this.groupBox1.Controls.Add(this.lblFechaEmision);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Location = new System.Drawing.Point(5, 45);
@@ -101,14 +101,14 @@
             this.txtCodSeguridad.Size = new System.Drawing.Size(59, 20);
             this.txtCodSeguridad.TabIndex = 10;
             // 
-            // label6
+            // lblCodSeguridad
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 61);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(80, 13);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Cod. Seguridad";
+            this.lblCodSeguridad.AutoSize = true;
+            this.lblCodSeguridad.Location = new System.Drawing.Point(13, 61);
+            this.lblCodSeguridad.Name = "lblCodSeguridad";
+            this.lblCodSeguridad.Size = new System.Drawing.Size(80, 13);
+            this.lblCodSeguridad.TabIndex = 9;
+            this.lblCodSeguridad.Text = "Cod. Seguridad";
             // 
             // cbxEmisor
             // 
@@ -128,23 +128,23 @@
             this.txtNumero.Size = new System.Drawing.Size(159, 20);
             this.txtNumero.TabIndex = 5;
             // 
-            // label5
+            // lblFechaVencimiento
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 156);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(98, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "Fecha Vencimiento";
+            this.lblFechaVencimiento.AutoSize = true;
+            this.lblFechaVencimiento.Location = new System.Drawing.Point(13, 156);
+            this.lblFechaVencimiento.Name = "lblFechaVencimiento";
+            this.lblFechaVencimiento.Size = new System.Drawing.Size(98, 13);
+            this.lblFechaVencimiento.TabIndex = 3;
+            this.lblFechaVencimiento.Text = "Fecha Vencimiento";
             // 
-            // label4
+            // lblFechaEmision
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 126);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Fecha Emision";
+            this.lblFechaEmision.AutoSize = true;
+            this.lblFechaEmision.Location = new System.Drawing.Point(13, 126);
+            this.lblFechaEmision.Name = "lblFechaEmision";
+            this.lblFechaEmision.Size = new System.Drawing.Size(76, 13);
+            this.lblFechaEmision.TabIndex = 2;
+            this.lblFechaEmision.Text = "Fecha Emision";
             // 
             // label3
             // 
@@ -217,15 +217,15 @@
 
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblFechaVencimiento;
+        private System.Windows.Forms.Label lblFechaEmision;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtNumero;
         private System.Windows.Forms.ComboBox cbxEmisor;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.TextBox txtCodSeguridad;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblCodSeguridad;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.DateTimePicker dtpFechaVencimiento;
