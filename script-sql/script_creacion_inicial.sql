@@ -2466,15 +2466,20 @@ VALUES	--(1, 'ABM de Rol'),(2, 'ABM de Usuario'),(3, 'ABM de Cliente'),(4, 'ABM 
 		(4, 'Facturacion'),
 		(5, 'ConsultaSaldo'),
 		(6, 'ListadoEstadístico'),
-		(7, 'AsociarTarjeta'),(8, 'DesasociarTarjeta'),(9, 'ModificarTarjeta'),(10, 'AceptarTarjeta'),
-		(11, 'BuscarTarjeta'),(12, 'BuscarRol'),(13, 'AgregarRol'),(14, 'ModificarRol'),(15, 'EliminarRol')
+		(7, 'AsociarTarjeta'),(8, 'DesasociarTarjeta'),(9, 'ModificarTarjeta'),(10, 'AceptarTarjeta'),(11, 'BuscarTarjeta'),
+		(12, 'BuscarRol'),(13, 'AgregarRol'),(14, 'ModificarRol'),(15, 'EliminarRol'),
+		(16, 'BuscarCuenta'),(17, 'RenovarCuenta'),(18, 'CrearCuenta'),(19, 'BajarCuenta'),(20, 'ModificarCuenta'),
+		(21, 'BuscarCliente'),(22, 'CrearCliente'),(23, 'EliminarCliente'),(24, 'ModificarCliente'),(25, 'ModificarUsuarioCliente'),(26,'AsociarTarjetaCliente')
+
 SET IDENTITY_INSERT SARASA.Funcion OFF
 
 -- Mapeos iniciales entre roles y funciones
 INSERT INTO SARASA.Rol_x_Funcion (Rol_Id, Funcion_Id)
 VALUES	(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),	--Funciones iniciales para Administrador (No son ABMs)
-		(1,7),(1,8),(1,9),(1,10),				--Funciones iniciales para Administrador (ABM Tarjeta)
-		(1,11),(1,12),(1,13),(1,14),(1,15),		--Funciones iniciales para Administrador (ABM Rol)
+		(1,7),(1,8),(1,9),(1,10),(1,11),		--Funciones iniciales para Administrador (ABM Tarjeta)
+		(1,12),(1,13),(1,14),(1,15),			--Funciones iniciales para Administrador (ABM Rol)
+		(1,16),(1,17),(1,18),(1,19),(1,20),		--Funciones iniciales para Administrador (ABM Cuenta)
+		(1,21),(1,22),(1,23),(1,24),(1,25),		--Funciones iniciales para Administrador (ABM Cliente)
 		(2,1),(2,2),(2,3),(2,4),(2,5),(2,6)		--Funciones iniciales para Cliente
 
 -- Monedas

@@ -88,6 +88,56 @@ namespace PagoElectronico
 
         private void MenuPrincipal_Load(object sender, EventArgs e)
         {
+            if (usuario.Funciones.Contains("Depositos"))
+                btnDepositos.Visible = true;
+            else
+                btnDepositos.Visible = false;
+
+            if (usuario.Funciones.Contains("Retiros"))
+                btnRetiros.Visible = true;
+            else
+                btnRetiros.Visible = false;
+
+            if (usuario.Funciones.Contains("Transferencias"))
+                btnTransferencias.Visible = true;
+            else
+                btnTransferencias.Visible = false;
+
+            if (usuario.Funciones.Contains("Facturacion"))
+                btnFacturacion.Visible = true;
+            else
+                btnFacturacion.Visible = false;
+
+            if (usuario.Funciones.Contains("ConsultaSaldo"))
+                btnConsultaSaldos.Visible = true;
+            else
+                btnConsultaSaldos.Visible = false;
+
+            if (usuario.Funciones.Contains("ListadoEstadístico"))
+                btnListados.Visible = true;
+            else
+                btnListados.Visible = false;
+
+            if (usuario.Funciones.Contains("BuscarRol"))
+                btnABMRol.Visible = true;
+            else
+                btnABMRol.Visible = false;
+
+            if (usuario.Funciones.Contains("BuscarTarjeta"))
+                btnABMTarjeta.Visible = true;
+            else
+                btnABMTarjeta.Visible = false;
+
+            if (usuario.Funciones.Contains("BuscarCuenta"))
+                btnABMCuenta.Visible = true;
+            else
+                btnABMCuenta.Visible = false;
+
+            if (usuario.Funciones.Contains("BuscarCliente"))
+                btnABMCliente.Visible = true;
+            else
+                btnABMCliente.Visible = false;
+
         }
 
         //  Depositos
