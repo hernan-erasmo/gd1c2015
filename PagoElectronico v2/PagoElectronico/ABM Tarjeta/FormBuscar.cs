@@ -357,13 +357,13 @@ namespace PagoElectronico.ABM_Tarjeta
             }
         }
 
-        private void cbxEmisor_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string key = ((KeyValuePair<string, string>)cbxEmisor.SelectedItem).Key;
-            string value = ((KeyValuePair<string, string>)cbxEmisor.SelectedItem).Value;
+        //private void cbxEmisor_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    string key = ((KeyValuePair<string, string>)cbxEmisor.SelectedItem).Key;
+        //    string value = ((KeyValuePair<string, string>)cbxEmisor.SelectedItem).Value;
 
-            this.Text = "Key: " + key + ", Value: " + value;
-        }
+        //    this.Text = "Key: " + key + ", Value: " + value;
+        //}
 
         public void setClienteEncontrado(string clienteId, string nombre, string apellido) 
         {

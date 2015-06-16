@@ -97,6 +97,40 @@ namespace PagoElectronico.ABM_Cuenta
 
             }
 
+            //  Muestra las funciones segun la lista de funciones
+            if (usuario.Funciones.Contains("CrearCuenta"))
+                btnCrear.Visible=true;
+            else
+                btnCrear.Visible = false;
+
+            if (usuario.Funciones.Contains("BajarCuenta"))
+                btnBaja.Visible = true;
+            else
+                btnBaja.Visible = false;
+
+            if (usuario.Funciones.Contains("RenovarCuenta"))
+                btnRenovar.Visible = true;
+            else
+                btnRenovar.Visible = false;
+
+            if (usuario.Funciones.Contains("ModificarCuenta"))
+                btnModificar.Visible = true;
+            else
+                btnModificar.Visible = false;
+
+
+            //if (usuario.Funciones.Contains("BuscarCuenta"))
+            //{
+            //    btnBuscar.Visible = true;
+            //    btnLimpiar.Visible = true;
+            //}
+            //else
+            //{
+            //    btnBuscar.Visible = false;
+            //    btnLimpiar.Visible = false;
+            //}
+
+            //  Carga los combos
             Herramientas.llenarComboBoxSP(cbxPais, "SARASA.cbx_pais", null, false);
             Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda", null, false);
             Herramientas.llenarComboBoxSP(cbxTipoCta, "SARASA.cbx_tipocta",null,false);

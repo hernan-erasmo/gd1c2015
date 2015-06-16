@@ -224,7 +224,6 @@
             this.cbxEmisor.Name = "cbxEmisor";
             this.cbxEmisor.Size = new System.Drawing.Size(202, 21);
             this.cbxEmisor.TabIndex = 10;
-            this.cbxEmisor.SelectedIndexChanged += new System.EventHandler(this.cbxEmisor_SelectedIndexChanged);
             // 
             // txtNumero
             // 
@@ -276,6 +275,7 @@
             // 
             // txtCliente
             // 
+            this.txtCliente.Enabled = false;
             this.txtCliente.Location = new System.Drawing.Point(60, 28);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(397, 20);
