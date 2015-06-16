@@ -43,35 +43,43 @@ namespace PagoElectronico.Facturacion
             comp = Utils.Herramientas.comprobarItemsImpagos(this.usuario);
             if (Int32.Parse(comp) == 1)
             {
-                //genero la nueva factura
-                string factura_id;
-
-                factura_id = Utils.Herramientas.generarFactura(this.usuario);
-
-                Facturacion.FormGenerarFactura frmGenerarFactura = new Facturacion.FormGenerarFactura(this, usuario, factura_id);
-
-                //actualizo los item de factura
-
-                string nombreSP = "SARASA.facturar_items";    //  Nombre del StoreProcedure
-                try
+                Decimal result = Utils.Herramientas.ejecutarPuedeFacturar(this.usuario);
+                if (result == 1) //valido que las cuentas puedan pagar los items antes de facturarlos
                 {
-                    List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@factura_id", Int32.Parse(factura_id),
-                        "@cliente_id", this.usuario.ClienteId);
+                    //genero la nueva factura
+                    string factura_id;
 
-                    Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                    factura_id = Utils.Herramientas.generarFactura(this.usuario);
+
+                    Facturacion.FormGenerarFactura frmGenerarFactura = new Facturacion.FormGenerarFactura(this, usuario, factura_id);
+
+                    //actualizo los item de factura
+
+                    string nombreSP = "SARASA.facturar_items";    //  Nombre del StoreProcedure
+                    try
+                    {
+                        List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                            "@factura_id", Int32.Parse(factura_id),
+                            "@cliente_id", this.usuario.ClienteId);
+
+                        Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+                        this.Hide();
+                        this.formPadre.Show();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.ToString());
+                    }
+
                     this.Hide();
-                    this.formPadre.Show();
-
+                    frmGenerarFactura.Show();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("Error: " + ex.ToString());
+                    Utils.Herramientas.msebox_informacion("Una de las cuentas no posee saldo suficiente para facturar los items");
                 }
 
-                this.Hide();
-                frmGenerarFactura.Show();
-                
             }
             else
             {

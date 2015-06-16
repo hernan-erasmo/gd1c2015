@@ -200,6 +200,30 @@ namespace PagoElectronico.Utils
             cuenta.Numero = query.Parameters["@Cuenta_Numero"].SqlValue.ToString();
         }
 
+        public static Decimal ejecutarPuedeFacturar(Usuario user)
+        {
+            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
+            "@cliente_id", user.ClienteId);
+
+            conexion cn = new conexion();
+
+            SqlCommand query = new SqlCommand("SARASA.puede_facturar", cn.abrir_conexion());
+            query.CommandType = CommandType.StoredProcedure;
+
+            //	Agregar los parametros del tipo INPUT
+            query.Parameters.AddRange(listaParametros.ToArray());
+
+            //	Definir el parametro del tipo OUTPUT
+            SqlParameter ParamNumeroCta = new SqlParameter("@bol", SqlDbType.Decimal);
+            ParamNumeroCta.SqlDbType = SqlDbType.Decimal;
+            ParamNumeroCta.Direction = ParameterDirection.Output;
+            query.Parameters.Add(ParamNumeroCta);
+
+            query.ExecuteNonQuery();
+
+            return Convert.ToDecimal(query.Parameters["@bol"].SqlValue.ToString());
+        }
+
 
         public static void cargarFunciones(Usuario user)
         {
