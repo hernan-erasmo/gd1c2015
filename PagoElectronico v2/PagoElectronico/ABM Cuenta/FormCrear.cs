@@ -43,7 +43,7 @@ namespace PagoElectronico.ABM_Cuenta
         {
             Cuenta cuenta;
 
-            if (pasoCrear == 1)
+            if (pasoCrear == 1) // Estado base del formulario antes de crear alguna cuenta
             {
                 cuenta = new Cuenta();
                 cuenta.IdCliente = usuario.ClienteId;
@@ -66,7 +66,7 @@ namespace PagoElectronico.ABM_Cuenta
                 }
 
             }
-            else 
+            else //La cuenta ya se creo, se vuelve a poner disponible el formulario para crear otra cuenta
             {
                 gbCuenta.Enabled = true;
                 cbxTipoCta.SelectedIndex = 0;
