@@ -332,7 +332,7 @@ namespace PagoElectronico.ABM_Cliente
                 Herramientas.msebox_informacion("ClienteId: " + cliente.ClienteId);
 
 
-                string infoCliente = cliente.Apellido +", " + cliente.Nombre + " (" + cliente.ClienteId+ ")";
+                string infoCliente =cliente.ClienteId;
                 ABM_Tarjeta.FormAsociar frmAsociar = new ABM_Tarjeta.FormAsociar(this, infoCliente, usuario);
                 this.Hide();
                 frmAsociar.Show();
