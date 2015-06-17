@@ -13,6 +13,7 @@ using PagoElectronico.Utils;
 using System.Collections;
 using System.Data;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace PagoElectronico.ABM_de_Usuario
 {
@@ -110,6 +111,40 @@ namespace PagoElectronico.ABM_de_Usuario
 
             //  Limpiar la tabla de resultados
             dataGridView1.DataSource = null;
+        }
+
+        private void btnCrear_Click(object sender, EventArgs e)
+        {
+            ABM_de_Usuario.FormCrear frm = new ABM_de_Usuario.FormCrear(this, usuario);
+            frm.Show();
+            this.Hide();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (this.dataGridView1.CurrentRow != null) //Valida que se haya seleccionado una fila del DataGridView
+            {
+                try
+                {
+                    List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
+                       "@Usuario_Id", dataGridView1.CurrentRow.Cells[0].Value.ToString());
+
+                    Herramientas.EjecutarStoredProcedure("SARASA.eliminar_usuario", lista);
+ 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: " + ex.ToString());
+                }
+            }
+            else
+            {
+                Utils.Herramientas.msebox_informacion("Por favor, seleccionar una fila de usuario");
+            }
+
+
+
+
         }
 	}
 }

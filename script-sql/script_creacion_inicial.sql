@@ -685,6 +685,68 @@ SET [Usuario_Password] = @usuario_pass,
 WHERE Usuario_Id = @usuario_id
 GO
 
+
+CREATE PROCEDURE SARASA.crear_usuario(
+	@Usuario_Username nvarchar(20),
+	@Usuario_Password nvarchar(64),
+--	@Usuario_Fecha_Creacion datetime,
+--	@Usuario_Fecha_Modificacion datetime,
+	@Usuario_Pregunta_Sec nvarchar(255),
+	@Usuario_Respuesta_Sec nvarchar(64),
+--	@Usuario_Habilitado bit,
+--	@Usuario_Cliente_Id int,
+--	@Usuario_IntentosFallidos int,
+--	@Usuario_PrimerUso bit,
+	@Rol_Id int)
+AS
+
+	DECLARE @fecha_hoy datetime
+	SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
+	INSERT INTO SARASA.Usuario
+           (Usuario_Username
+           ,Usuario_Password
+           ,Usuario_Fecha_Creacion
+           ,Usuario_Fecha_Modificacion
+           ,Usuario_Pregunta_Sec
+           ,Usuario_Respuesta_Sec
+           ,Usuario_Habilitado
+           ,Usuario_Cliente_Id
+           ,Usuario_IntentosFallidos
+           ,Usuario_PrimerUso)
+     VALUES(
+		@Usuario_Username,
+		@Usuario_Password,
+		@fecha_hoy,
+		@fecha_hoy,
+		@Usuario_Pregunta_Sec,
+		@Usuario_Respuesta_Sec,
+		1,
+		null,
+		0,
+		1)
+		
+			-- Obtenemos el valor de id para el cliente insertado
+		DECLARE @Usuario_Id int
+		SELECT @Usuario_Id = IDENT_CURRENT('SARASA.Usuario');
+
+
+		INSERT INTO SARASA.Rol_x_Usuario (Rol_Id,Usuario_Id) VALUES (@Rol_Id,@Usuario_Id)
+GO
+
+
+CREATE PROCEDURE SARASA.eliminar_usuario(@Usuario_Id int)
+AS
+
+	DECLARE @fecha_hoy datetime
+	SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
+UPDATE SARASA.Usuario SET
+           Usuario_Fecha_Modificacion = @fecha_hoy
+           ,Usuario_Habilitado = 0
+		WHERE Usuario_Id = @Usuario_Id
+GO
+
 CREATE PROCEDURE SARASA.modificar_cliente(
 			@Cliente_Id int,
 			@Cliente_Nombre nvarchar(255),

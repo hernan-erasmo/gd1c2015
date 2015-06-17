@@ -26,7 +26,7 @@ namespace PagoElectronico
         //  Boton X: Fin de toda la aplicacion
         protected override void OnClosing(CancelEventArgs e)
         {
-            Application.Exit();
+//            Application.Exit();
         }
 
 
@@ -52,10 +52,9 @@ namespace PagoElectronico
         //  Abre el formulario de Login
         private void lklCerrarSesion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            this.Close();        //  Oculta el formulario principal
             Login.Login formLogin = new Login.Login();  //  Crea un formulario de Login
             formLogin.Show();   //  Muestra el formulario de login
-
+            this.Close();        //  Oculta el formulario principal
         }
 
         private void lblLoginDatos_Click(object sender, EventArgs e)

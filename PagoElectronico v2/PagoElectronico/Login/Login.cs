@@ -23,8 +23,7 @@ namespace PagoElectronico.Login
             InitializeComponent();
         }
 
-
-        //  Boton X: Fin de toda la aplicacion
+        //  Boton X
         protected override void OnClosing(CancelEventArgs e)
         {
             Application.Exit();
