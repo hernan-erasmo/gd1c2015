@@ -673,6 +673,18 @@ AS
 	END
 GO
 
+
+CREATE PROCEDURE [SARASA].[modificar_pass_usuario](
+		@usuario_id int,
+		@usuario_pass nvarchar(64)
+)
+AS
+UPDATE [SARASA].[Usuario]
+SET [Usuario_Password] = @usuario_pass,
+	[Usuario_Fecha_Modificacion] = SYSDATETIME()
+WHERE Usuario_Id = @usuario_id
+GO
+
 CREATE PROCEDURE SARASA.modificar_cliente(
 			@Cliente_Id int,
 			@Cliente_Nombre nvarchar(255),
