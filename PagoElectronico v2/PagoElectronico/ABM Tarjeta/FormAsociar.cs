@@ -95,7 +95,7 @@ namespace PagoElectronico.ABM_Tarjeta
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@cliente_id", this.usuario.ClienteId,
+                        "@cliente_id", txtCliente.Text,
                         "@tc_num", Herramientas.sha256_hash(txtNumero.Text),//Convert.ToString(txtNumero.Text),
                         "@tc_ultimoscuatro", Convert.ToString(Utils.Herramientas.stringRight(txtNumero.Text, 4)),
                         "@tc_emision", dtpFechaEmision.Value.ToShortDateString(),

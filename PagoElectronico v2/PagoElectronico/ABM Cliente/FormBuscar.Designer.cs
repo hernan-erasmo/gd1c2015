@@ -36,6 +36,7 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
+            this.btnAsociarTC = new System.Windows.Forms.Button();
             this.lblEstadoBusqueda = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -54,7 +55,6 @@
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.cbxTipoDoc = new System.Windows.Forms.ComboBox();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.btnAsociarTC = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -141,6 +141,16 @@
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
             this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
+            // 
+            // btnAsociarTC
+            // 
+            this.btnAsociarTC.Location = new System.Drawing.Point(4, 3);
+            this.btnAsociarTC.Name = "btnAsociarTC";
+            this.btnAsociarTC.Size = new System.Drawing.Size(79, 28);
+            this.btnAsociarTC.TabIndex = 14;
+            this.btnAsociarTC.Text = "Asociar TC";
+            this.btnAsociarTC.UseVisualStyleBackColor = true;
+            this.btnAsociarTC.Click += new System.EventHandler(this.btnAsociarTC_Click);
             // 
             // lblEstadoBusqueda
             // 
@@ -314,15 +324,6 @@
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
-            // 
-            // btnAsociarTC
-            // 
-            this.btnAsociarTC.Location = new System.Drawing.Point(4, 3);
-            this.btnAsociarTC.Name = "btnAsociarTC";
-            this.btnAsociarTC.Size = new System.Drawing.Size(79, 28);
-            this.btnAsociarTC.TabIndex = 14;
-            this.btnAsociarTC.Text = "Asociar TC";
-            this.btnAsociarTC.UseVisualStyleBackColor = true;
             // 
             // FormBuscar
             // 
