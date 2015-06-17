@@ -87,6 +87,7 @@
             // 
             // cbxPais
             // 
+            this.cbxPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxPais.FormattingEnabled = true;
             this.cbxPais.Location = new System.Drawing.Point(121, 25);
             this.cbxPais.Name = "cbxPais";
@@ -95,6 +96,7 @@
             // 
             // cbxMoneda
             // 
+            this.cbxMoneda.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxMoneda.FormattingEnabled = true;
             this.cbxMoneda.Location = new System.Drawing.Point(121, 94);
             this.cbxMoneda.Name = "cbxMoneda";
@@ -132,6 +134,7 @@
             // 
             // cbxTipoCta
             // 
+            this.cbxTipoCta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTipoCta.FormattingEnabled = true;
             this.cbxTipoCta.Location = new System.Drawing.Point(121, 60);
             this.cbxTipoCta.Name = "cbxTipoCta";
@@ -216,7 +219,7 @@
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.Name = "FormCrear";
-            this.Text = "FormCrearcs";
+            this.Text = "Cuenta - Crear";
             this.Load += new System.EventHandler(this.FormCrear_Load);
             this.gbCuenta.ResumeLayout(false);
             this.gbCuenta.PerformLayout();

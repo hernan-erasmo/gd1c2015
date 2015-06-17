@@ -88,6 +88,7 @@
             // 
             // cbxEstado
             // 
+            this.cbxEstado.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxEstado.FormattingEnabled = true;
             this.cbxEstado.Location = new System.Drawing.Point(121, 94);
             this.cbxEstado.Name = "cbxEstado";
@@ -96,6 +97,7 @@
             // 
             // cbxTipoCta
             // 
+            this.cbxTipoCta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTipoCta.FormattingEnabled = true;
             this.cbxTipoCta.Location = new System.Drawing.Point(121, 59);
             this.cbxTipoCta.Name = "cbxTipoCta";

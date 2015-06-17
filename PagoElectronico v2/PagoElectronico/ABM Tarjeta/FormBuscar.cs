@@ -84,18 +84,6 @@ namespace PagoElectronico.ABM_Tarjeta
             else
                 btnAceptar.Visible = false;
 
-
-            //if (usuario.Funciones.Contains("BuscarTarjeta"))
-            //{
-            //    btnBuscar.Visible = true;
-            //    btnLimpiar.Visible = true;
-            //}
-            //else
-            //{
-            //    btnBuscar.Visible = false;
-            //    btnLimpiar.Visible = false;
-            //}
-
             
             //  Si el usuario tiene rol de administrador
             if (usuario.Rol.Equals("Administrador"))
@@ -122,16 +110,7 @@ namespace PagoElectronico.ABM_Tarjeta
                 txtCliente.Text = usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")";
                 clienteId = "" + usuario.ClienteId;
             }
-            //  Si es administrador el txtCliente es igual a ""
-            //  y el boton btnBuscarCli esta habilitado
-            //  Si es cliente el txtCliente es el nombre del cliente
-            
 
-            //  Si no hay un cliente, no se puede asociar una tarjeta
-            //if (txtCliente.Text == "")
-            //    btnAsociar.Enabled = false;
-            //else
-            //    btnAsociar.Enabled = true;
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
@@ -307,7 +286,7 @@ namespace PagoElectronico.ABM_Tarjeta
             tarjeta.FechaVencimiento = dataGridView1.SelectedCells[5].Value.ToString();
             tarjeta.CodigoSeguridad = dataGridView1.SelectedCells[6].Value.ToString();
             tarjeta.Emisor = dataGridView1.SelectedCells[7].Value.ToString();
-           // txtCliente.Text = dataGridView1.SelectedRows[0].Index.ToString();
+
 
             //  Con la tarjeta seleccionada
             //  Abrir un formulario con los datos de la tarjeta
@@ -372,14 +351,6 @@ namespace PagoElectronico.ABM_Tarjeta
                 dtpFechaVencimientoHasta.Enabled = false;
             }
         }
-
-        //private void cbxEmisor_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    string key = ((KeyValuePair<string, string>)cbxEmisor.SelectedItem).Key;
-        //    string value = ((KeyValuePair<string, string>)cbxEmisor.SelectedItem).Value;
-
-        //    this.Text = "Key: " + key + ", Value: " + value;
-        //}
 
         public void setClienteEncontrado(string clienteId, string nombre, string apellido) 
         {

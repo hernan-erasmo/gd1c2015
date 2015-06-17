@@ -114,6 +114,7 @@ namespace PagoElectronico.ABM_de_Usuario
             this.btnLimpiar.TabIndex = 19;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // lblEstadoBusqueda
             // 

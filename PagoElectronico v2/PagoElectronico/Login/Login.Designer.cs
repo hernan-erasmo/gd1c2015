@@ -87,7 +87,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(171, 20);
             this.textBox1.TabIndex = 1;
-            this.textBox1.Text = "gzfpxiza";
             // 
             // textBox2
             // 
@@ -97,7 +96,6 @@
             this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(171, 20);
             this.textBox2.TabIndex = 2;
-            this.textBox2.Text = "p97oqp";
             // 
             // comboBox1
             // 

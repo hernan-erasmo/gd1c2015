@@ -47,6 +47,7 @@ namespace PagoElectronico.ABM_Cliente
             btnModUsuario.Enabled = false;
             btnEliminar.Enabled = false;
             btnAceptar.Enabled = false;
+            btnAsociarTC.Enabled = false;
 
 
             if (tipoFormBusqueda.Equals("ABMCliente"))
@@ -89,10 +90,10 @@ namespace PagoElectronico.ABM_Cliente
             else
                 btnModificar.Visible = false;
 
-            //if (usuario.Funciones.Contains("AsociarTarjetaCliente"))
-            //   btnCrear.Visible=true;
-            //else
-            //   btnCrear.Visible = false;
+            if (usuario.Funciones.Contains("AsociarTarjeta"))
+                btnAsociarTC.Visible = true;
+            else
+                btnAsociarTC.Visible = false;
 
 
 
@@ -122,6 +123,7 @@ namespace PagoElectronico.ABM_Cliente
             btnModUsuario.Enabled = false;
             btnEliminar.Enabled = false;
             btnAceptar.Enabled = false;
+            btnAsociarTC.Enabled = false;
 
 
 
@@ -141,6 +143,7 @@ namespace PagoElectronico.ABM_Cliente
             btnModUsuario.Enabled = false;
             btnEliminar.Enabled = false;
             btnAceptar.Enabled = false;
+            btnAsociarTC.Enabled = false;
 
             lblEstadoBusqueda.Text = "Ejecutando busqueda...";
 
@@ -187,6 +190,7 @@ namespace PagoElectronico.ABM_Cliente
                     btnEliminar.Enabled = true;
                     btnModificar.Enabled = true;
                     btnModUsuario.Enabled = true;
+                    btnAsociarTC.Enabled = true;
                 }
 
             }
@@ -326,13 +330,16 @@ namespace PagoElectronico.ABM_Cliente
                 cliente.FechaNacimiento = dataGridView1.SelectedCells[8].Value.ToString();
                 cliente.Habilitado = bool.Parse(dataGridView1.SelectedCells[11].Value.ToString());
                 Herramientas.msebox_informacion("ClienteId: " + cliente.ClienteId);
+
+
+                string infoCliente = cliente.Apellido +", " + cliente.Nombre + " (" + cliente.ClienteId+ ")";
+                ABM_Tarjeta.FormAsociar frmAsociar = new ABM_Tarjeta.FormAsociar(this, infoCliente, usuario);
+                this.Hide();
+                frmAsociar.Show();
+
             }
             else
                 Herramientas.msebox_informacion("SIN CLIENTE ASOCIADO, ClienteId: " + cliente.ClienteId);
-
-            ABM_Tarjeta.FormAsociar frmAsociar = new ABM_Tarjeta.FormAsociar(this, cliente.ClienteId, usuario);
-            this.Hide();
-            frmAsociar.Show();
 
         }
     }

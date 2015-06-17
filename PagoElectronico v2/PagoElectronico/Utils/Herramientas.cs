@@ -265,7 +265,6 @@ namespace PagoElectronico.Utils
         }
 
         //  Carga la lista de funciones para asociar a un rol nuevo
-        //public static void llenarListBoxFuncionesSistema(ListBox lb, string rol, string funcion)
         public static void llenarListBoxFuncionesSistema(ListBox lb, int rolId, string formulario)
         {
             SqlDataReader dReader;
@@ -403,27 +402,26 @@ namespace PagoElectronico.Utils
             try
             {
                 conexion cn = new conexion();
-                //cn.abrir_conexion();
+
 
                 SqlCommand query = new SqlCommand(consulta, cn.abrir_conexion());
                 dReader = query.ExecuteReader();
 
-                //	Add keys and values in a Dictionary Object
+
                 Dictionary<string,string> comboSource = new Dictionary<string, string>();
                 
-                //*************************************************
+
                 if (!obligatorio)
                     comboSource.Add("0", "<Ninguno>");
 
                 if (dReader.HasRows) 
                 {
-//                    comboSource.Add("0", "<Ninguno>");
+
                     while (dReader.Read())
                     {
                         comboSource.Add(dReader[0].ToString(), dReader[1].ToString());
                     }
 
-                    //	Bind the source Dictionary object to Combobox
                     cb.DataSource = new BindingSource(comboSource, null);
                     cb.DisplayMember = "Value";
                     cb.ValueMember = "Key";
@@ -635,7 +633,6 @@ namespace PagoElectronico.Utils
                 query.Parameters.AddRange(parametros.ToArray());
 
                 //  Agrego el parametro de output
-                //SqlParameter outParam = query.Parameters.Add("@habilitado", SqlDbType.VarChar);
                 SqlParameter outParam = query.Parameters.Add("@factura_id", SqlDbType.Int);
                 outParam.Direction = ParameterDirection.Output;
 

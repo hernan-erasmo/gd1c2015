@@ -97,5 +97,19 @@ namespace PagoElectronico.ABM_de_Usuario
                 lblEstadoBusqueda.Text = "Error al realizar la busqueda";
             }
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            lblEstadoBusqueda.Text = "";    //  Indica estado de la busqueda
+            txtUsuario.Text = "";
+            cbxRol.SelectedIndex = 0;
+
+            btnCrear.Enabled = false;
+            btnEliminar.Enabled = false;
+            btnModificar.Enabled = false;
+
+            //  Limpiar la tabla de resultados
+            dataGridView1.DataSource = null;
+        }
 	}
 }

@@ -22,6 +22,14 @@ namespace PagoElectronico
             InitializeComponent();
         }
 
+
+        //  Boton X: Fin de toda la aplicacion
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            Application.Exit();
+        }
+
+
         public void asignarPadre(Form padre)
         {
             this.formPadre = padre;
@@ -33,15 +41,6 @@ namespace PagoElectronico
             this.lklLogin.Text = user.Username + " ("+ user.Apellido + ", " + user.Nombre + ")";
         }
 
-/*        
-        private void button5_Click(object sender, EventArgs e)
-        {
-            abmCliente.asignarPadre(this);
-            this.Hide();
-            abmCliente.Show();
-        }
-*/
-
         //  Realizar depositos
         private void button11_Click(object sender, EventArgs e)
         {
@@ -50,14 +49,6 @@ namespace PagoElectronico
             this.Hide();
         }
 
-/*
-        private void button7_Click(object sender, EventArgs e)
-        {
-            abmRol.asignarPadre(this);
-            this.Hide();
-            abmRol.Show();
-        }
-*/
         //  Abre el formulario de Login
         private void lklCerrarSesion_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -163,8 +154,9 @@ namespace PagoElectronico
 
         private void lklLogin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //Utils.Herramientas.msebox_informacion("" + usuario.Funciones.Count);
-            Utils.Herramientas.msebox_informacion(usuario.getInfo());
+            ABM_de_Usuario.FormModificarPass frm = new ABM_de_Usuario.FormModificarPass(this, usuario);
+            this.Hide();
+            frm.Show();
         }
 
         private void btnRetiros_Click(object sender, EventArgs e)
