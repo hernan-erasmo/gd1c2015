@@ -66,6 +66,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM de Usuario\FormBuscar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM de Usuario\FormBuscar.Designer.cs">
+      <DependentUpon>FormBuscar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Usuario\FormModificar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM de Usuario\FormModificar.Designer.cs">
+      <DependentUpon>FormModificar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM de Usuario\FormModificarPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM de Usuario\FormModificarPass.Designer.cs">
+      <DependentUpon>FormModificarPass.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Cliente.cs" />
     <Compile Include="ABM Cliente\FormBuscar.cs">
       <SubType>Form</SubType>
@@ -232,8 +250,17 @@
     <EmbeddedResource Include="ABM Cuenta\FormModificar.resx">
       <DependentUpon>FormModificar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\FormBuscar.resx">
+      <DependentUpon>FormBuscar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ABM de Usuario\FormCrear.resx">
       <DependentUpon>FormCrear.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\FormModificar.resx">
+      <DependentUpon>FormModificar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM de Usuario\FormModificarPass.resx">
+      <DependentUpon>FormModificarPass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Rol\FormBuscar.resx">
       <DependentUpon>FormBuscar.cs</DependentUpon>

@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Security.Cryptography;
 
+
 namespace PagoElectronico.Utils
 {
     class Herramientas
@@ -757,7 +758,7 @@ namespace PagoElectronico.Utils
             try
             {
                 System.IO.StreamReader file =
-                new System.IO.StreamReader(@"C:\config.txt");
+                new System.IO.StreamReader("config.txt");
                 line = file.ReadLine().ToString();
                 file.Close();
                 return Convert.ToInt64(line);
@@ -774,7 +775,7 @@ namespace PagoElectronico.Utils
         {
             try
             {
-                string fecha2 = fecha.ToString();
+                string fecha2 = fecha.ToString(); 
                 int dia;
                 int mes;
                 int año;

@@ -41,6 +41,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
+            this.lbxRoles = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -122,13 +123,14 @@
             // cbxRol
             // 
             this.cbxRol.FormattingEnabled = true;
-            this.cbxRol.Location = new System.Drawing.Point(131, 191);
+            this.cbxRol.Location = new System.Drawing.Point(17, 235);
             this.cbxRol.Name = "cbxRol";
-            this.cbxRol.Size = new System.Drawing.Size(189, 21);
+            this.cbxRol.Size = new System.Drawing.Size(93, 21);
             this.cbxRol.TabIndex = 10;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lbxRoles);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.cbxRol);
             this.groupBox1.Controls.Add(this.label2);
@@ -141,14 +143,14 @@
             this.groupBox1.Controls.Add(this.txtUsuario);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(336, 235);
+            this.groupBox1.Size = new System.Drawing.Size(336, 440);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Infomación del Usuario";
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(12, 268);
+            this.btnVolver.Location = new System.Drawing.Point(11, 458);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(83, 31);
             this.btnVolver.TabIndex = 12;
@@ -157,21 +159,32 @@
             // 
             // btnCrear
             // 
-            this.btnCrear.Location = new System.Drawing.Point(265, 268);
+            this.btnCrear.Location = new System.Drawing.Point(264, 458);
             this.btnCrear.Name = "btnCrear";
             this.btnCrear.Size = new System.Drawing.Size(83, 31);
             this.btnCrear.TabIndex = 13;
             this.btnCrear.Text = "Crear";
             this.btnCrear.UseVisualStyleBackColor = true;
             // 
+            // lbxRoles
+            // 
+            this.lbxRoles.FormattingEnabled = true;
+            this.lbxRoles.Location = new System.Drawing.Point(129, 191);
+            this.lbxRoles.Name = "lbxRoles";
+            this.lbxRoles.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbxRoles.Size = new System.Drawing.Size(188, 238);
+            this.lbxRoles.TabIndex = 11;
+            // 
             // FormCrear
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 316);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(359, 501);
             this.Controls.Add(this.btnCrear);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
             this.Name = "FormCrear";
             this.Text = "Usuario - Alta";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -196,5 +209,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnCrear;
+        private System.Windows.Forms.ListBox lbxRoles;
     }
 }
