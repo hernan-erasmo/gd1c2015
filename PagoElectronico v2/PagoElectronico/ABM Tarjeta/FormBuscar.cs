@@ -53,6 +53,10 @@ namespace PagoElectronico.ABM_Tarjeta
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
             Herramientas.llenarComboBoxSP(cbxEmisor, "SARASA.cbx_emisor", null, false);
 
+            txtCliente.Text = "";
+            clienteId = "0";
+
+            btnAsociar.Enabled = false;
             btnDesasociar.Enabled = false;
             btnModificar.Enabled = false;
             txtCliente.Enabled = false;
@@ -81,16 +85,16 @@ namespace PagoElectronico.ABM_Tarjeta
                 btnAceptar.Visible = false;
 
 
-            if (usuario.Funciones.Contains("BuscarTarjeta"))
-            {
-                btnBuscar.Visible = true;
-                btnLimpiar.Visible = true;
-            }
-            else
-            {
-                btnBuscar.Visible = false;
-                btnLimpiar.Visible = false;
-            }
+            //if (usuario.Funciones.Contains("BuscarTarjeta"))
+            //{
+            //    btnBuscar.Visible = true;
+            //    btnLimpiar.Visible = true;
+            //}
+            //else
+            //{
+            //    btnBuscar.Visible = false;
+            //    btnLimpiar.Visible = false;
+            //}
 
             
             //  Si el usuario tiene rol de administrador
@@ -106,16 +110,28 @@ namespace PagoElectronico.ABM_Tarjeta
 
             }
 
+            if (usuario.RolId == "1")
+            {
+                btnBuscarClie.Visible = true;
+                btnAsociar.Enabled = false;
+            }
+            else
+            {
+                btnBuscarClie.Visible = false;
+                btnAsociar.Enabled = true;
+                txtCliente.Text = usuario.Apellido + ", " + usuario.Nombre + " (" + usuario.ClienteId + ")";
+                clienteId = "" + usuario.ClienteId;
+            }
             //  Si es administrador el txtCliente es igual a ""
             //  y el boton btnBuscarCli esta habilitado
             //  Si es cliente el txtCliente es el nombre del cliente
             
 
             //  Si no hay un cliente, no se puede asociar una tarjeta
-            if (txtCliente.Text == "")
-                btnAsociar.Enabled = false;
-            else
-                btnAsociar.Enabled = true;
+            //if (txtCliente.Text == "")
+            //    btnAsociar.Enabled = false;
+            //else
+            //    btnAsociar.Enabled = true;
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
