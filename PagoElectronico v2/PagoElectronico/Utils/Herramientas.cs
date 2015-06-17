@@ -758,14 +758,14 @@ namespace PagoElectronico.Utils
             try
             {
                 System.IO.StreamReader file =
-                new System.IO.StreamReader("config.txt");
+                new System.IO.StreamReader("../../config.txt");
                 line = file.ReadLine().ToString();
                 file.Close();
                 return Convert.ToInt64(line);
             }
             catch
             {
-                Utils.Herramientas.msebox_informacion("Debe ingresar una fecha con el formato DDMMAAAA en el archivo config.txt ubicado en C:/ ");
+                Utils.Herramientas.msebox_informacion("Debe ingresar una fecha con el formato DDMMAAAA en el archivo config.txt ubicado en /src ");
                 Application.Exit();
                 return 1;
             }
