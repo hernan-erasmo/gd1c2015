@@ -2626,7 +2626,7 @@ VALUES	--(1, 'ABM de Rol'),(2, 'ABM de Usuario'),(3, 'ABM de Cliente'),(4, 'ABM 
 		(7, 'AsociarTarjeta'),(8, 'DesasociarTarjeta'),(9, 'ModificarTarjeta'),(10, 'AceptarTarjeta'),(11, 'BuscarTarjeta'),
 		(12, 'BuscarRol'),(13, 'AgregarRol'),(14, 'ModificarRol'),(15, 'EliminarRol'),
 		(16, 'BuscarCuenta'),(17, 'RenovarCuenta'),(18, 'CrearCuenta'),(19, 'BajarCuenta'),(20, 'ModificarCuenta'),
-		(21, 'BuscarCliente'),(22, 'CrearCliente'),(23, 'EliminarCliente'),(24, 'ModificarCliente'),(25, 'ModificarUsuarioCliente'),(26,'AsociarTarjetaCliente')
+		(21, 'BuscarCliente'),(22, 'CrearCliente'),(23, 'EliminarCliente'),(24, 'ModificarCliente'),(25, 'ModificarUsuarioCliente'),(26,'AsociarTarjetaCliente'),
 		(27, 'BuscarUsuario'),(28, 'CrearUsuario'),(29, 'ModificarUsuario'),(30, 'EliminarUsuario')
 SET IDENTITY_INSERT SARASA.Funcion OFF
 
