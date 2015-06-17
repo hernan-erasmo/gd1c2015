@@ -222,6 +222,43 @@ namespace PagoElectronico.Utils
 
             return q;
         }
-    
+
+
+        public static string filtroBuscarUsuario(string username, string rolId) 
+        {
+            string q = "SELECT u.Usuario_Id 'Usuario ID',"
+                + " u.Usuario_Username 'Usuario', u.Usuario_Cliente_Id 'Cliente ID',"
+                + " u.Usuario_Fecha_Creacion 'Fecha Creación', u.Usuario_Fecha_Modificacion 'Fecha Modificación',"
+                + " u.Usuario_Pregunta_Sec 'Pregunta Secreta', u.Usuario_Habilitado 'Habilitado',"
+                + " u.Usuario_IntentosFallidos 'Intentos Login',u.Usuario_PrimerUso 'Primer Uso'";
+
+            if(username == "" && rolId == "0")
+            {
+                q += " FROM SARASA.Usuario u";
+            }
+            else if(username != "" &&  rolId == "0")
+            {
+                q += " FROM SARASA.Usuario u";
+                q += " WHERE Usuario_Username LIKE '%" + username + "%'";
+
+            }
+            else if(username == "" && rolId != "0")
+            {
+                q += " FROM SARASA.Usuario u, SARASA.Rol_x_Usuario ru";
+                q += " WHERE u.Usuario_Id = ru.Usuario_Id AND ru.Rol_Id = " + rolId;
+
+            }
+            else
+            {
+                q += " FROM SARASA.Usuario u, SARASA.Rol_x_Usuario ru";
+                q += " WHERE u.Usuario_Id = ru.Usuario_Id";
+                q += " AND ru.Rol_Id = " + rolId;
+                q += " AND Usuario_Username LIKE '%" + username + "%'";            
+            }
+
+
+
+            return q;
+        }
     }
 }

@@ -217,5 +217,12 @@ namespace PagoElectronico
             this.Hide();
             frm.Show();
         }
+
+        private void btnABMUsuario_Click(object sender, EventArgs e)
+        {
+            ABM_de_Usuario.FormBuscar frm = new ABM_de_Usuario.FormBuscar(this, usuario);
+            this.Hide();
+            frm.Show();
+        }
     }
 }

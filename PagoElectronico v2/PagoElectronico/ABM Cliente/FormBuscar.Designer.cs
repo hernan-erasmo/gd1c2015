@@ -54,6 +54,7 @@
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.cbxTipoDoc = new System.Windows.Forms.ComboBox();
             this.btnLimpiar = new System.Windows.Forms.Button();
+            this.btnAsociarTC = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -95,15 +96,16 @@
             this.flowLayoutPanel1.Controls.Add(this.btnModificar);
             this.flowLayoutPanel1.Controls.Add(this.btnEliminar);
             this.flowLayoutPanel1.Controls.Add(this.btnCrear);
+            this.flowLayoutPanel1.Controls.Add(this.btnAsociarTC);
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(245, 393);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(188, 393);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(344, 33);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(429, 33);
             this.flowLayoutPanel1.TabIndex = 19;
             // 
             // btnModUsuario
             // 
-            this.btnModUsuario.Location = new System.Drawing.Point(261, 3);
+            this.btnModUsuario.Location = new System.Drawing.Point(346, 3);
             this.btnModUsuario.Name = "btnModUsuario";
             this.btnModUsuario.Size = new System.Drawing.Size(80, 28);
             this.btnModUsuario.TabIndex = 13;
@@ -112,7 +114,7 @@
             // 
             // btnModificar
             // 
-            this.btnModificar.Location = new System.Drawing.Point(175, 3);
+            this.btnModificar.Location = new System.Drawing.Point(260, 3);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(80, 28);
             this.btnModificar.TabIndex = 12;
@@ -122,7 +124,7 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(89, 3);
+            this.btnEliminar.Location = new System.Drawing.Point(174, 3);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(80, 28);
             this.btnEliminar.TabIndex = 11;
@@ -132,7 +134,7 @@
             // 
             // btnCrear
             // 
-            this.btnCrear.Location = new System.Drawing.Point(4, 3);
+            this.btnCrear.Location = new System.Drawing.Point(89, 3);
             this.btnCrear.Name = "btnCrear";
             this.btnCrear.Size = new System.Drawing.Size(79, 28);
             this.btnCrear.TabIndex = 10;
@@ -170,12 +172,12 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(577, 164);
+            this.dataGridView1.Size = new System.Drawing.Size(602, 164);
             this.dataGridView1.TabIndex = 16;
             // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(509, 184);
+            this.btnBuscar.Location = new System.Drawing.Point(534, 184);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(80, 28);
             this.btnBuscar.TabIndex = 7;
@@ -199,7 +201,7 @@
             this.groupBox1.Controls.Add(this.cbxTipoDoc);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(577, 166);
+            this.groupBox1.Size = new System.Drawing.Size(602, 166);
             this.groupBox1.TabIndex = 13;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtros";
@@ -207,7 +209,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(283, 129);
+            this.label2.Location = new System.Drawing.Point(305, 129);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(43, 13);
             this.label2.TabIndex = 56;
@@ -215,7 +217,7 @@
             // 
             // txtUsuario
             // 
-            this.txtUsuario.Location = new System.Drawing.Point(390, 129);
+            this.txtUsuario.Location = new System.Drawing.Point(412, 129);
             this.txtUsuario.MaxLength = 16;
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(168, 20);
@@ -249,7 +251,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(283, 88);
+            this.label6.Location = new System.Drawing.Point(305, 88);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(101, 13);
             this.label6.TabIndex = 60;
@@ -258,7 +260,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(283, 42);
+            this.label5.Location = new System.Drawing.Point(305, 42);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(44, 13);
             this.label5.TabIndex = 59;
@@ -289,7 +291,7 @@
             // 
             // txtApellido
             // 
-            this.txtApellido.Location = new System.Drawing.Point(390, 39);
+            this.txtApellido.Location = new System.Drawing.Point(412, 39);
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(168, 20);
             this.txtApellido.TabIndex = 1;
@@ -298,7 +300,7 @@
             // 
             this.cbxTipoDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTipoDoc.FormattingEnabled = true;
-            this.cbxTipoDoc.Location = new System.Drawing.Point(390, 84);
+            this.cbxTipoDoc.Location = new System.Drawing.Point(412, 84);
             this.cbxTipoDoc.Name = "cbxTipoDoc";
             this.cbxTipoDoc.Size = new System.Drawing.Size(168, 21);
             this.cbxTipoDoc.TabIndex = 3;
@@ -313,12 +315,21 @@
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
+            // btnAsociarTC
+            // 
+            this.btnAsociarTC.Location = new System.Drawing.Point(4, 3);
+            this.btnAsociarTC.Name = "btnAsociarTC";
+            this.btnAsociarTC.Size = new System.Drawing.Size(79, 28);
+            this.btnAsociarTC.TabIndex = 14;
+            this.btnAsociarTC.Text = "Asociar TC";
+            this.btnAsociarTC.UseVisualStyleBackColor = true;
+            // 
             // FormBuscar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(599, 436);
+            this.ClientSize = new System.Drawing.Size(621, 436);
             this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.flowLayoutPanel1);
@@ -369,5 +380,6 @@
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.ComboBox cbxTipoDoc;
         private System.Windows.Forms.Button btnModUsuario;
+        private System.Windows.Forms.Button btnAsociarTC;
     }
 }

@@ -218,6 +218,7 @@
             this.btnABMUsuario.TabIndex = 49;
             this.btnABMUsuario.Text = "ABM Usuario";
             this.btnABMUsuario.UseVisualStyleBackColor = true;
+            this.btnABMUsuario.Click += new System.EventHandler(this.btnABMUsuario_Click);
             // 
             // MenuPrincipal
             // 
