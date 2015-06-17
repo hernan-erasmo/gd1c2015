@@ -138,6 +138,11 @@ namespace PagoElectronico
             else
                 btnABMCliente.Visible = false;
 
+            if (usuario.Funciones.Contains("BuscarUsuario"))
+                btnABMUsuario.Visible = true;
+            else
+                btnABMUsuario.Visible = false;
+
         }
 
         //  Depositos

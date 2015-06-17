@@ -43,6 +43,7 @@
             this.btnListados = new System.Windows.Forms.Button();
             this.btnFacturacion = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
+            this.btnABMUsuario = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,6 +84,7 @@
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.btnABMRol);
+            this.flowLayoutPanel2.Controls.Add(this.btnABMUsuario);
             this.flowLayoutPanel2.Controls.Add(this.btnABMCliente);
             this.flowLayoutPanel2.Controls.Add(this.btnABMCuenta);
             this.flowLayoutPanel2.Controls.Add(this.btnABMTarjeta);
@@ -110,7 +112,7 @@
             // 
             // btnABMCliente
             // 
-            this.btnABMCliente.Location = new System.Drawing.Point(120, 3);
+            this.btnABMCliente.Location = new System.Drawing.Point(237, 3);
             this.btnABMCliente.Name = "btnABMCliente";
             this.btnABMCliente.Size = new System.Drawing.Size(111, 34);
             this.btnABMCliente.TabIndex = 38;
@@ -120,7 +122,7 @@
             // 
             // btnABMCuenta
             // 
-            this.btnABMCuenta.Location = new System.Drawing.Point(237, 3);
+            this.btnABMCuenta.Location = new System.Drawing.Point(354, 3);
             this.btnABMCuenta.Name = "btnABMCuenta";
             this.btnABMCuenta.Size = new System.Drawing.Size(111, 34);
             this.btnABMCuenta.TabIndex = 39;
@@ -130,7 +132,7 @@
             // 
             // btnABMTarjeta
             // 
-            this.btnABMTarjeta.Location = new System.Drawing.Point(354, 3);
+            this.btnABMTarjeta.Location = new System.Drawing.Point(3, 43);
             this.btnABMTarjeta.Name = "btnABMTarjeta";
             this.btnABMTarjeta.Size = new System.Drawing.Size(111, 34);
             this.btnABMTarjeta.TabIndex = 47;
@@ -140,7 +142,7 @@
             // 
             // btnDepositos
             // 
-            this.btnDepositos.Location = new System.Drawing.Point(3, 43);
+            this.btnDepositos.Location = new System.Drawing.Point(120, 43);
             this.btnDepositos.Name = "btnDepositos";
             this.btnDepositos.Size = new System.Drawing.Size(111, 34);
             this.btnDepositos.TabIndex = 42;
@@ -150,7 +152,7 @@
             // 
             // btnRetiros
             // 
-            this.btnRetiros.Location = new System.Drawing.Point(120, 43);
+            this.btnRetiros.Location = new System.Drawing.Point(237, 43);
             this.btnRetiros.Name = "btnRetiros";
             this.btnRetiros.Size = new System.Drawing.Size(111, 34);
             this.btnRetiros.TabIndex = 45;
@@ -160,7 +162,7 @@
             // 
             // btnTransferencias
             // 
-            this.btnTransferencias.Location = new System.Drawing.Point(237, 43);
+            this.btnTransferencias.Location = new System.Drawing.Point(354, 43);
             this.btnTransferencias.Name = "btnTransferencias";
             this.btnTransferencias.Size = new System.Drawing.Size(111, 34);
             this.btnTransferencias.TabIndex = 46;
@@ -170,7 +172,7 @@
             // 
             // btnConsultaSaldos
             // 
-            this.btnConsultaSaldos.Location = new System.Drawing.Point(354, 43);
+            this.btnConsultaSaldos.Location = new System.Drawing.Point(3, 83);
             this.btnConsultaSaldos.Name = "btnConsultaSaldos";
             this.btnConsultaSaldos.Size = new System.Drawing.Size(111, 34);
             this.btnConsultaSaldos.TabIndex = 41;
@@ -180,7 +182,7 @@
             // 
             // btnListados
             // 
-            this.btnListados.Location = new System.Drawing.Point(3, 83);
+            this.btnListados.Location = new System.Drawing.Point(120, 83);
             this.btnListados.Name = "btnListados";
             this.btnListados.Size = new System.Drawing.Size(111, 34);
             this.btnListados.TabIndex = 44;
@@ -190,7 +192,7 @@
             // 
             // btnFacturacion
             // 
-            this.btnFacturacion.Location = new System.Drawing.Point(120, 83);
+            this.btnFacturacion.Location = new System.Drawing.Point(237, 83);
             this.btnFacturacion.Name = "btnFacturacion";
             this.btnFacturacion.Size = new System.Drawing.Size(111, 34);
             this.btnFacturacion.TabIndex = 43;
@@ -200,13 +202,22 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(237, 83);
+            this.btnSalir.Location = new System.Drawing.Point(354, 83);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(111, 34);
             this.btnSalir.TabIndex = 48;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
+            // 
+            // btnABMUsuario
+            // 
+            this.btnABMUsuario.Location = new System.Drawing.Point(120, 3);
+            this.btnABMUsuario.Name = "btnABMUsuario";
+            this.btnABMUsuario.Size = new System.Drawing.Size(111, 34);
+            this.btnABMUsuario.TabIndex = 49;
+            this.btnABMUsuario.Text = "ABM Usuario";
+            this.btnABMUsuario.UseVisualStyleBackColor = true;
             // 
             // MenuPrincipal
             // 
@@ -245,6 +256,7 @@
         private System.Windows.Forms.Button btnABMCuenta;
         private System.Windows.Forms.Button btnABMCliente;
         private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.Button btnABMUsuario;
     }
 }
 

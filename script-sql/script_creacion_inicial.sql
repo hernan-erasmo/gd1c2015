@@ -2627,7 +2627,7 @@ VALUES	--(1, 'ABM de Rol'),(2, 'ABM de Usuario'),(3, 'ABM de Cliente'),(4, 'ABM 
 		(12, 'BuscarRol'),(13, 'AgregarRol'),(14, 'ModificarRol'),(15, 'EliminarRol'),
 		(16, 'BuscarCuenta'),(17, 'RenovarCuenta'),(18, 'CrearCuenta'),(19, 'BajarCuenta'),(20, 'ModificarCuenta'),
 		(21, 'BuscarCliente'),(22, 'CrearCliente'),(23, 'EliminarCliente'),(24, 'ModificarCliente'),(25, 'ModificarUsuarioCliente'),(26,'AsociarTarjetaCliente')
-
+		(27, 'BuscarUsuario'),(28, 'CrearUsuario'),(29, 'ModificarUsuario'),(30, 'EliminarUsuario')
 SET IDENTITY_INSERT SARASA.Funcion OFF
 
 -- Mapeos iniciales entre roles y funciones
@@ -2637,6 +2637,7 @@ VALUES	(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),	--Funciones iniciales para Administr
 		(1,12),(1,13),(1,14),(1,15),			--Funciones iniciales para Administrador (ABM Rol)
 		(1,16),(1,17),(1,18),(1,19),(1,20),		--Funciones iniciales para Administrador (ABM Cuenta)
 		(1,21),(1,22),(1,23),(1,24),(1,25),		--Funciones iniciales para Administrador (ABM Cliente)
+		(1,26),(1,27),(1,28),(1,29),(1,30),		--Funciones iniciales para Administrador (ABM Usuario)
 		(2,1),(2,2),(2,3),(2,4),(2,5),(2,6)		--Funciones iniciales para Cliente
 
 -- Monedas
