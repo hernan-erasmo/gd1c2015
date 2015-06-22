@@ -4485,7 +4485,7 @@ SELECT 	tm.Cuenta_Numero,
 		tm.Transf_Fecha,
 		tm.Trans_Costo_Trans
 FROM gd_esquema.Maestra tm
-WHERE tm.Transf_Fecha IS NOT NULL
+WHERE tm.Item_Factura_Descr IS NOT NULL
 GO
 
 -- Desde tabla gd_esquema.Maestra a SARASA.Retiro
