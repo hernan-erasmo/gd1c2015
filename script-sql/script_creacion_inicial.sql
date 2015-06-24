@@ -181,6 +181,7 @@ CREATE TABLE SARASA.Retiro (
 	Retiro_Cuenta_Id			numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
 	Retiro_Cheque_Id			numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cheque (Cheque_Id) NOT NULL,
 	Retiro_Importe				numeric(18,2)	NOT NULL,
+	Retiro_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
 	Retiro_Fecha				datetime,
 	Retiro_Codigo_Egreso		varchar(32)		--Es NULL hasta que se dispara el trigger after insert para generarlo.
 )
@@ -992,8 +993,8 @@ BEGIN TRY
 			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
 			--Registramos el retiro
-			INSERT INTO SARASA.Retiro (Retiro_Cuenta_Id, Retiro_Cheque_Id, Retiro_Importe, Retiro_Fecha)
-			VALUES (@cuenta_nro, @cheque_id, @importe, @fecha_hoy)
+			INSERT INTO SARASA.Retiro (Retiro_Cuenta_Id, Retiro_Cheque_Id, Retiro_Importe, Retiro_Fecha, Retiro_Moneda_Id)
+			VALUES (@cuenta_nro, @cheque_id, @importe, @fecha_hoy, @moneda_id)
 
 			--Luego SARASA.tr_retiro_aff_ins_generar_codigo inserta el código de egreso en SARASA.Retiro
 
@@ -4503,14 +4504,16 @@ INSERT INTO SARASA.Retiro (	Retiro_Id,
 							Retiro_Cuenta_Id,
 							Retiro_Cheque_Id,
 							Retiro_Importe,
-							Retiro_Fecha)
+							Retiro_Fecha,
+							Retiro_Moneda_Id)
 SELECT DISTINCT tm.Retiro_Codigo,
 				tm.Cuenta_Numero,
 				(	SELECT che.Cheque_Id
 					FROM SARASA.Cheque che
 					WHERE tm.Retiro_Codigo IS NOT NULL AND tm.Cheque_Numero = che.Cheque_Numero),
 				tm.Retiro_Importe,
-				tm.Retiro_Fecha
+				tm.Retiro_Fecha,
+				1
 FROM gd_esquema.Maestra tm
 WHERE tm.Retiro_Codigo IS NOT NULL
 SET IDENTITY_INSERT SARASA.Retiro OFF
