@@ -206,6 +206,7 @@ CREATE TABLE SARASA.Itemfact (
 	Itemfact_Cuenta_Numero			numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta(Cuenta_Numero) NOT NULL,
 	Itemfact_Descripcion			nvarchar(255),
 	Itemfact_Importe				numeric(18,2)	NOT NULL,
+	Itemfact_Moneda_Id				integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
 	Itemfact_Fecha					datetime		NOT NULL,
 	Itemfact_Factura_Numero			numeric(18,0),
 	Itemfact_Pagado					bit DEFAULT 1,	--1: Pagado, 0: No pagado
@@ -1040,18 +1041,23 @@ BEGIN TRY
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
 
+			DECLARE @moneda_id integer
+			SELECT @moneda_id = cue.Cuenta_Moneda_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_num
+
 			INSERT INTO SARASA.Itemfact (	Itemfact_Cuenta_Numero,
 											Itemfact_Descripcion,
 											Itemfact_Importe,
 											Itemfact_Fecha,
 											Itemfact_Factura_Numero,
-											Itemfact_Pagado)
+											Itemfact_Pagado,
+											Itemfact_Moneda_Id)
 			VALUES (	@cuenta_num,
 						@descripcion,
 						@importe,
 						@fecha,
 						@factura_nro,
-						@pagado)
+						@pagado,
+						@moneda_id)
 
 	IF @starttrancount = 0
 		COMMIT TRANSACTION
@@ -4539,12 +4545,14 @@ INSERT INTO SARASA.Itemfact (	Itemfact_Cuenta_Numero,
 								Itemfact_Descripcion,
 								Itemfact_Importe,
 								Itemfact_Fecha,
-								Itemfact_Factura_Numero)
+								Itemfact_Factura_Numero,
+								Itemfact_Moneda_Id)
 SELECT 	tm.Cuenta_Numero,
 		tm.Item_Factura_Descr,
 		tm.Item_Factura_Importe,
 		tm.Factura_Fecha,
-		tm.Factura_Numero
+		tm.Factura_Numero,
+		1
 FROM gd_esquema.Maestra tm
 WHERE tm.Item_Factura_Importe IS NOT NULL
 GO
