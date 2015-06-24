@@ -1121,11 +1121,15 @@ BEGIN TRY
 						@fecha_actual,
 						0)	-- Es el valor inicial, luego el trigger que genera el item de la factura lo incrementará
 						
-			-- Obtenemos el valor de id para el cliente insertado
-			SET @Cuenta_Numero = (SELECT c.Cuenta_Numero
-									FROM SARASA.Cuenta c
-									WHERE c.Cuenta_Cliente_Id=@cliente_id AND
-											c.Cuenta_Ultima_Modificacion_Tipo=@fecha_actual);
+
+				-- Obtenemos el valor de id para la cuenta recien insertada
+				SELECT @Cuenta_Numero = IDENT_CURRENT('SARASA.Cuenta');
+
+
+--			SET @Cuenta_Numero = (SELECT c.Cuenta_Numero
+--									FROM SARASA.Cuenta c
+--									WHERE c.Cuenta_Cliente_Id=@cliente_id AND
+--											c.Cuenta_Ultima_Modificacion_Tipo=@fecha_actual);
 
 			-- Luego el trigger SARASA.tr_cuenta_aff_ins_crear_item_factura se encargará de generar el ítem de factura correspondiente al costo de apertura
 
