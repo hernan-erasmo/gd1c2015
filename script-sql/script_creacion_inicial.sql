@@ -169,6 +169,7 @@ CREATE TABLE SARASA.Banco (
 CREATE TABLE SARASA.Cheque (
 	Cheque_Id					numeric(18,0)	identity(1,1) PRIMARY KEY,
 	Cheque_Importe				numeric(18,2)	NOT NULL,
+	Cheque_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
 	Cheque_Fecha				datetime,
 	Cheque_Banco_Id				numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Banco (Banco_Codigo) NOT NULL,
 	Cheque_Cliente_Nombre		nvarchar(510)	NOT NULL,
@@ -893,6 +894,7 @@ CREATE PROCEDURE SARASA.emitir_cheque (
 	@cliente_id		integer,
 	@banco_codigo	numeric(18,0),
 	@importe		numeric(18,2),
+	@moneda_id 		integer,
 	@cheque_id		numeric(18,0)	OUTPUT
 )
 AS
@@ -912,12 +914,13 @@ BEGIN TRY
 			DECLARE @fecha_hoy datetime
 			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
-			INSERT INTO SARASA.Cheque (Cheque_Cliente_Nombre, Cheque_Banco_Id, Cheque_Importe, Cheque_Numero, Cheque_Fecha)
+			INSERT INTO SARASA.Cheque (Cheque_Cliente_Nombre, Cheque_Banco_Id, Cheque_Importe, Cheque_Numero, Cheque_Fecha, Cheque_Moneda_Id)
 			SELECT	(cli.Cliente_Apellido + ', ' + cli.Cliente_Nombre),
 					@banco_codigo,
 					@importe,
 					(SELECT MAX(che.Cheque_Numero) FROM SARASA.Cheque che) + 1,
-					@fecha_hoy
+					@fecha_hoy,
+					@moneda_id
 			FROM SARASA.Cliente cli
 			WHERE cli.Cliente_Id = @cliente_id
 
@@ -962,7 +965,7 @@ BEGIN TRY
 			DECLARE @fecha_hoy datetime
 			DECLARE @cuenta_numero_string nvarchar(40)	--Sólo para manejo de errores
 			DECLARE @importe_string nvarchar(20)		--Sólo para manejo de errores
-
+			
 			--Verificamos que la cuenta esté habilitada. Si no, salimos con RAISERROR
 			SELECT @estado_habilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada';
 			SELECT @estado_cuenta = cue.Cuenta_Estado_Id FROM SARASA.Cuenta cue WHERE cue.Cuenta_Numero = @cuenta_nro;
@@ -984,7 +987,7 @@ BEGIN TRY
 			END
 
 			--Emitimos el cheque y guardamos el id del mismo
-			EXECUTE SARASA.emitir_cheque @cliente_id, @banco_codigo, @importe, @cheque_id OUTPUT;
+			EXECUTE SARASA.emitir_cheque @cliente_id, @banco_codigo, @importe, @moneda_id, @cheque_id OUTPUT;
 
 			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
@@ -4467,12 +4470,14 @@ INSERT INTO SARASA.Cheque (	Cheque_Numero,
 							Cheque_Fecha,
 							Cheque_Importe,
 							Cheque_Cliente_Nombre,
-							Cheque_Banco_Id)
+							Cheque_Banco_Id,
+							Cheque_Moneda_Id)
 SELECT DISTINCT tm.Cheque_Numero,
 				tm.Cheque_Fecha,
 				tm.Cheque_Importe,
 				[tm].Cli_Apellido + ', ' + [tm].[Cli_Nombre],
-				tm.Banco_Cogido
+				tm.Banco_Cogido,
+				1
 FROM gd_esquema.Maestra tm
 WHERE tm.Cheque_Numero IS NOT NULL
 GO
