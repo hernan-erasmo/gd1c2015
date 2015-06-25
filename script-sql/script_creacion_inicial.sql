@@ -194,7 +194,7 @@ CREATE TABLE SARASA.Transferencia (
 	Transferencia_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
 	Transferencia_Fecha				datetime		NOT NULL,
 	Transferencia_Costo				numeric(18,2)	NOT NULL,
-	Transferencia_Codigo			varchar(32),	--Es NULL hasta que se dispara el trigger after insert para generarlo.
+	Transferencia_Codigo			varchar(32)		--Es NULL hasta que se dispara el trigger after insert para generarlo.
 )
 
 CREATE TABLE SARASA.Factura (
@@ -212,6 +212,7 @@ CREATE TABLE SARASA.Itemfact (
 	Itemfact_Fecha					datetime		NOT NULL,
 	Itemfact_Factura_Numero			numeric(18,0),
 	Itemfact_Pagado					bit DEFAULT 1,	--1: Pagado, 0: No pagado
+	Itemfact_Codigo_Transferencia	varchar(32)
 )
 
 CREATE TABLE SARASA.Usuario (
@@ -1035,12 +1036,13 @@ END CATCH
 GO
 
 CREATE PROCEDURE SARASA.crear_item_factura (
-	@cuenta_num		numeric(18,0),
-	@descripcion	nvarchar(255),
-	@importe		numeric(18,2),
-	@fecha			datetime,
-	@factura_nro	numeric(18,0),
-	@pagado			bit
+	@cuenta_num				numeric(18,0),
+	@descripcion			nvarchar(255),
+	@importe				numeric(18,2),
+	@fecha					datetime,
+	@factura_nro			numeric(18,0),
+	@pagado					bit,
+	@codigo_transferencia 	varchar(32)
 )
 AS
 
@@ -1065,14 +1067,16 @@ BEGIN TRY
 											Itemfact_Fecha,
 											Itemfact_Factura_Numero,
 											Itemfact_Pagado,
-											Itemfact_Moneda_Id)
+											Itemfact_Moneda_Id,
+											Itemfact_Codigo_Transferencia)
 			VALUES (	@cuenta_num,
 						@descripcion,
 						@importe,
 						@fecha,
 						@factura_nro,
 						@pagado,
-						@moneda_id)
+						@moneda_id,
+						@codigo_transferencia)
 
 	IF @starttrancount = 0
 		COMMIT TRANSACTION
@@ -1224,7 +1228,7 @@ BEGIN TRY
 			-- Si el tipo de cuenta es distinto al actual, generamos un item de factura por el cambio de tipo.
 			IF @tipo_cuenta_actual != @tipo_cuenta_deseado
 			BEGIN
-				EXEC SARASA.crear_item_factura @cuenta_numero, 'Cambio de tipo de cuenta.',@importe,@fecha_hoy,NULL,0
+				EXEC SARASA.crear_item_factura @cuenta_numero, 'Cambio de tipo de cuenta.',@importe,@fecha_hoy,NULL,0,NULL
 				
 				-- Luego modificamos el tipo y actualizamos los campos auxiliares
 				DECLARE @cant_dias_restantes integer
@@ -1265,6 +1269,39 @@ BEGIN CATCH
 		ROLLBACK TRANSACTION
 	SELECT @error_message = ERROR_MESSAGE()
 	RAISERROR('Error en la modificación de la cuenta: %s',16,1, @error_message)
+END CATCH
+GO
+
+CREATE PROCEDURE SARASA.modificar_itemfact_por_transferencia (
+	@codigo_transferencia		varchar(32)
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+			UPDATE SARASA.Itemfact
+			SET Itemfact_Codigo_Transferencia = @codigo_transferencia
+			WHERE Itemfact_Codigo_Transferencia = 'INSERTAR_CODIGO_TRANSFERENCIA'
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error al modificar el ítem de factura con el código de la transferencia: %s',16,1,@error_message)
 END CATCH
 GO
 
@@ -1338,7 +1375,7 @@ BEGIN TRY
 		WHERE Cuenta_Numero = @cuenta_numero
 
 		-- Generamos el item factura correspondiente
-		EXEC SARASA.crear_item_factura @cuenta_numero,'Comisión por transferencia',@comision,@fecha_hoy,NULL,0
+		EXEC SARASA.crear_item_factura @cuenta_numero,'Comisión por transferencia',@comision,@fecha_hoy,NULL,0,'INSERTAR_CODIGO_TRANSFERENCIA'
 
 	IF @starttrancount = 0
 		COMMIT TRANSACTION
@@ -1519,7 +1556,7 @@ BEGIN TRY
 			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
 			-- Generamos el item factura correspondiente a la misma suscripción que tiene la cuenta.
-			EXEC SARASA.crear_item_factura @cuenta_numero, 'Renovación de cuenta', @importe, @fecha_hoy, NULL, 0
+			EXEC SARASA.crear_item_factura @cuenta_numero, 'Renovación de cuenta', @importe, @fecha_hoy, NULL, 0, NULL
 
 			-- Tenemos que incrementar y modificar desde acá los valores para las columnas Cuenta_Ultima_Modificacion_Tipo y Cuenta_Dias_De_Suscripcion
 			DECLARE @cant_dias_restantes integer
@@ -2546,6 +2583,23 @@ BEGIN
 END
 GO
 
+-- Actualiza un item de factura con el codigo de la transferencia recien insertada
+CREATE TRIGGER SARASA.tr_transferencia_aff_ins_actualizar_itemfact
+ON SARASA.Transferencia
+AFTER INSERT
+AS
+BEGIN
+	DECLARE @codigo_transferencia varchar(32)
+	DECLARE @transferencia_id numeric(18,0)
+
+	SELECT @transferencia_id = i.Transferencia_Id FROM INSERTED i
+	SET @codigo_transferencia = SARASA.generar_codigo_transferencia(@transferencia_id)
+
+	EXEC SARASA.modificar_itemfact_por_transferencia @codigo_transferencia
+
+END
+GO
+
 -- Actualiza el registro de un depósito con el código de ingreso que le corresponde.
 CREATE TRIGGER SARASA.tr_deposito_aff_ins_generar_codigo
 ON SARASA.Deposito
@@ -2663,7 +2717,7 @@ BEGIN
 	SELECT @cuenta_num = i.Cuenta_Numero FROM INSERTED i
 	SELECT @fecha = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 
-	EXEC SARASA.crear_item_factura @cuenta_num, 'Creación de cuenta', @precio_por_tipo_cuenta, @fecha, NULL, 0
+	EXEC SARASA.crear_item_factura @cuenta_num, 'Creación de cuenta', @precio_por_tipo_cuenta, @fecha, NULL, 0, NULL
 END
 GO
 
