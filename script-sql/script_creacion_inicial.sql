@@ -1294,7 +1294,7 @@ GO
 CREATE PROCEDURE SARASA.debitar_de_cuenta (
 	@cuenta_numero			numeric(18,0),
 	@importe				numeric(18,2),
-	@se_cobra_comision 		bit
+	@comision 				numeric(18,2)
 )
 AS
 
@@ -1317,13 +1317,6 @@ BEGIN TRY
 			DECLARE @fecha_hoy datetime
 			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
 			
-			DECLARE	@comision numeric(18,2)
-			SELECT	@comision = tcta.Tipocta_Costo_Trans
-						FROM SARASA.Cuenta cue
-						INNER JOIN SARASA.Tipocta tcta ON cue.Cuenta_Tipocta_Id = tcta.Tipocta_Id
-						WHERE cue.Cuenta_Numero = @cuenta_numero
-
-
 		-- Debitamos el dinero.
 		UPDATE SARASA.Cuenta
 		SET Cuenta_Saldo = @saldo_actual - @importe
@@ -1385,14 +1378,19 @@ BEGIN TRY
 				RAISERROR('El monto a debitar supera el saldo de la cuenta de origen.',16,1)
 			END
 
-			DECLARE @se_cobra_comision bit = 1
-			IF @cliente_cuenta_origen = @cliente_cuenta_destino
+			DECLARE	@comision numeric(18,2)
+			SET @comision = 0.0
+
+			IF @cliente_cuenta_origen != @cliente_cuenta_destino
 			BEGIN
-				SET @se_cobra_comision = 0
-			END
+				SELECT	@comision = tcta.Tipocta_Costo_Trans
+						FROM SARASA.Cuenta cue
+						INNER JOIN SARASA.Tipocta tcta ON cue.Cuenta_Tipocta_Id = tcta.Tipocta_Id
+						WHERE cue.Cuenta_Numero = @cuenta_origen
+			END			
 
 			-- Hacemos el débito de la cuenta origen y generamos el item factura por la comisión
-			EXEC SARASA.debitar_de_cuenta @cuenta_origen, @importe, @se_cobra_comision
+			EXEC SARASA.debitar_de_cuenta @cuenta_origen, @importe, @comision
 
 			-- Y luego el depósito en la cuenta destino
 			EXEC SARASA.acreditar_en_cuenta @cuenta_destino, @importe
