@@ -2785,6 +2785,30 @@ BEGIN
 END
 GO
 
+--Solo durante la migración, inserta los items de factura (con el código de transferencia si así lo requieren)
+CREATE TRIGGER SARASA.tr_itemfact_solo_para_migracion
+ON SARASA.Transferencia
+AFTER INSERT
+AS
+BEGIN
+	INSERT INTO SARASA.Itemfact (	Itemfact_Cuenta_Numero,
+									Itemfact_Descripcion,
+									Itemfact_Importe,
+									Itemfact_Moneda_Id,
+									Itemfact_Fecha,
+									Itemfact_Pagado,
+									Itemfact_Codigo_Transferencia)
+	SELECT 		i.Transferencia_Cuenta_Origen_Id,
+				'Comisión por transferencia.',
+				i.Transferencia_Costo,
+				1,	-- Son todos en dólares
+				i.Transferencia_Fecha,
+				1,	-- Todos los del sistema viejo están pagos
+				SARASA.generar_codigo_transferencia(i.Transferencia_Id)
+	FROM INSERTED i
+END
+GO
+
 /************************************************************************
 	Insertamos los datos que no estan disponibles en la tabla maestra.
 *************************************************************************/
@@ -4647,15 +4671,18 @@ INSERT INTO SARASA.Itemfact (	Itemfact_Cuenta_Numero,
 								Itemfact_Importe,
 								Itemfact_Fecha,
 								Itemfact_Factura_Numero,
-								Itemfact_Moneda_Id)
+								Itemfact_Moneda_Id,
+								Itemfact_Codigo_Transferencia)
 SELECT 	tm.Cuenta_Numero,
 		tm.Item_Factura_Descr,
 		tm.Item_Factura_Importe,
 		tm.Factura_Fecha,
 		tm.Factura_Numero,
-		1
+		1,
+		NULL
 FROM gd_esquema.Maestra tm
 WHERE tm.Item_Factura_Importe IS NOT NULL
+AND tm.Item_Factura_Descr NOT LIKE '%por transferencia%'
 GO
 
 --Modificamos el estado de los triggers después de la migración
@@ -4666,5 +4693,6 @@ ENABLE TRIGGER SARASA.tr_deposito_aff_ins_detectar_cuenta_vencida ON SARASA.Depo
 ENABLE TRIGGER SARASA.tr_retiro_aff_ins_detectar_cuenta_vencida ON SARASA.Retiro;
 
 --Deshabilitamos los siguientes
-DISABLE TRIGGER SARASA.tr_transf_solo_para_migracion ON SARASA.Transferencia
+DISABLE TRIGGER SARASA.tr_transf_solo_para_migracion ON SARASA.Transferencia;
+DISABLE TRIGGER SARASA.tr_itemfact_solo_para_migracion ON SARASA.Transferencia;
 GO
