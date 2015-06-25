@@ -191,6 +191,7 @@ CREATE TABLE SARASA.Transferencia (
 	Transferencia_Cuenta_Origen_Id	numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
 	Transferencia_Cuenta_Destino_Id	numeric(18,0)	FOREIGN KEY REFERENCES SARASA.Cuenta (Cuenta_Numero) NOT NULL,
 	Transferencia_Importe			numeric(18,2)	NOT NULL,
+	Transferencia_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
 	Transferencia_Fecha				datetime		NOT NULL,
 	Transferencia_Costo				numeric(18,2)	NOT NULL
 )
@@ -1390,22 +1391,27 @@ BEGIN TRY
 			END			
 
 			-- Hacemos el débito de la cuenta origen y generamos el item factura por la comisión
-			EXEC SARASA.debitar_de_cuenta @cuenta_origen, @importe, @comision
+			EXEC SARASA.debitar_de_cuenta @cuenta_origen, @importe, @comision;
 
 			-- Y luego el depósito en la cuenta destino
-			EXEC SARASA.acreditar_en_cuenta @cuenta_destino, @importe
+			EXEC SARASA.acreditar_en_cuenta @cuenta_destino, @importe;
 
 			DECLARE @fecha_hoy datetime
 			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+			
+			DECLARE @moneda_id integer
+			SELECT @moneda_id = cue.Cuenta_Moneda_Id FROM SARASA.Cuenta cue WHERE cue.cuenta_numero = @cuenta_origen
 
 			INSERT INTO SARASA.Transferencia (	Transferencia_Cuenta_Origen_Id,
 												Transferencia_Cuenta_Destino_Id,
 												Transferencia_Importe,
+												Transferencia_Moneda_Id,
 												Transferencia_Fecha,
 												Transferencia_Costo)
 			VALUES (	@cuenta_origen,
 						@cuenta_destino,
 						@importe,
+						@moneda_id,
 						@fecha_hoy,
 						@comision)
 		
@@ -4505,11 +4511,13 @@ GO
 INSERT INTO SARASA.Transferencia (	Transferencia_Cuenta_Origen_Id,
 									Transferencia_Cuenta_Destino_Id,
 									Transferencia_Importe,
+									Transferencia_Moneda_Id,
 									Transferencia_Fecha,
 									Transferencia_Costo)
 SELECT 	tm.Cuenta_Numero,
 		tm.Cuenta_Dest_Numero,
 		tm.Trans_Importe,
+		1,
 		tm.Transf_Fecha,
 		tm.Trans_Costo_Trans
 FROM gd_esquema.Maestra tm
