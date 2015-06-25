@@ -1394,6 +1394,20 @@ BEGIN TRY
 
 			-- Y luego el depósito en la cuenta destino
 			EXEC SARASA.acreditar_en_cuenta @cuenta_destino, @importe
+
+			DECLARE @fecha_hoy datetime
+			SELECT @fecha_hoy = config.Config_Datetime_App FROM SARASA.Configuracion config WHERE config.Config_Id = 1
+
+			INSERT INTO SARASA.Transferencia (	Transferencia_Cuenta_Origen_Id,
+												Transferencia_Cuenta_Destino_Id,
+												Transferencia_Importe,
+												Transferencia_Fecha,
+												Transferencia_Costo)
+			VALUES (	@cuenta_origen,
+						@cuenta_destino,
+						@importe,
+						@fecha_hoy,
+						@comision)
 		
 	IF @starttrancount = 0
 		COMMIT TRANSACTION
