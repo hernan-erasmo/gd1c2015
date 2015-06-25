@@ -193,7 +193,8 @@ CREATE TABLE SARASA.Transferencia (
 	Transferencia_Importe			numeric(18,2)	NOT NULL,
 	Transferencia_Moneda_Id			integer			FOREIGN KEY REFERENCES SARASA.Moneda (Moneda_Id) NOT NULL,
 	Transferencia_Fecha				datetime		NOT NULL,
-	Transferencia_Costo				numeric(18,2)	NOT NULL
+	Transferencia_Costo				numeric(18,2)	NOT NULL,
+	Transferencia_Codigo			varchar(32),	--Es NULL hasta que se dispara el trigger after insert para generarlo.
 )
 
 CREATE TABLE SARASA.Factura (
@@ -310,6 +311,19 @@ BEGIN
 	DECLARE @resultado_hash_binario varbinary(max)
 	DECLARE	@hash_string varchar(32)
 	SET @resultado_hash_binario = HASHBYTES('MD4',CAST(@retiro_id as varchar(18)))
+	SET @hash_string = CONVERT(varchar(32),@resultado_hash_binario,2)
+	RETURN @hash_string
+END
+GO
+
+CREATE FUNCTION SARASA.generar_codigo_transferencia(
+	@transferencia_id 	numeric(18,0))
+RETURNS varchar(32)
+AS
+BEGIN
+	DECLARE @resultado_hash_binario varbinary(max)
+	DECLARE @hash_string varchar(32)
+	SET @resultado_hash_binario = HASHBYTES('MD5',CAST(@transferencia_id as varchar(18)))
 	SET @hash_string = CONVERT(varchar(32),@resultado_hash_binario,2)
 	RETURN @hash_string
 END
@@ -2518,6 +2532,19 @@ GO
 /***********************
 	Creamos triggers
 ************************/
+
+-- Actualiza el registro de una transferencia con el código de transferencia que le corresponde.
+CREATE TRIGGER SARASA.tr_transferencia_aff_ins_generar_codigo
+ON SARASA.Transferencia
+AFTER INSERT
+AS
+BEGIN
+	UPDATE SARASA.Transferencia
+	SET Transferencia_Codigo = SARASA.generar_codigo_transferencia(i.Transferencia_Id)
+	FROM INSERTED i
+	WHERE SARASA.Transferencia.Transferencia_Id = i.Transferencia_Id
+END
+GO
 
 -- Actualiza el registro de un depósito con el código de ingreso que le corresponde.
 CREATE TRIGGER SARASA.tr_deposito_aff_ins_generar_codigo
