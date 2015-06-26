@@ -129,7 +129,8 @@ namespace PagoElectronico.Utils
                     + "Cliente_Dom_Numero 'Numero',"
                     + "Cliente_Dom_Piso 'Piso',"
                     + "Cliente_Dom_Depto 'Dpto'"
-                    + " FROM SARASA.Usuario FULL OUTER JOIN SARASA.Cliente ON (Usuario_Cliente_Id = Cliente_Id)"
+//                    + " FROM SARASA.Usuario FULL OUTER JOIN SARASA.Cliente ON (Usuario_Cliente_Id = Cliente_Id)"
+                    + " FROM SARASA.Usuario RIGHT JOIN SARASA.Cliente ON (Usuario_Cliente_Id = Cliente_Id)"
                     + "	LEFT JOIN SARASA.Pais ON (Cliente_Pais_Id = Pais_Id)"
                     + "	LEFT JOIN SARASA.Tipodoc ON (Cliente_Tipodoc_Id = Tipodoc_Id) ";
 
@@ -224,7 +225,7 @@ namespace PagoElectronico.Utils
         }
 
 
-        public static string filtroBuscarUsuario(string username, string rolId) 
+        public static string filtroBuscarUsuario(string username, string rolId, bool soloSinClientes) 
         {
             string q = "SELECT u.Usuario_Id 'Usuario ID',"
                 + " u.Usuario_Username 'Usuario', u.Usuario_Cliente_Id 'Cliente ID',"
@@ -232,32 +233,37 @@ namespace PagoElectronico.Utils
                 + " u.Usuario_Pregunta_Sec 'Pregunta Secreta', u.Usuario_Habilitado 'Habilitado',"
                 + " u.Usuario_IntentosFallidos 'Intentos Login',u.Usuario_PrimerUso 'Primer Uso'";
 
-            if(username == "" && rolId == "0")
+            if (username == "" && rolId == "0")
             {
                 q += " FROM SARASA.Usuario u";
-            }
-            else if(username != "" &&  rolId == "0")
-            {
-                q += " FROM SARASA.Usuario u";
-                q += " WHERE Usuario_Username LIKE '%" + username + "%'";
 
-            }
-            else if(username == "" && rolId != "0")
-            {
-                q += " FROM SARASA.Usuario u, SARASA.Rol_x_Usuario ru";
-                q += " WHERE u.Usuario_Id = ru.Usuario_Id AND ru.Rol_Id = " + rolId;
-
+                if (soloSinClientes)
+                    q += " WHERE u.Usuario_Cliente_Id IS NULL";
             }
             else
             {
-                q += " FROM SARASA.Usuario u, SARASA.Rol_x_Usuario ru";
-                q += " WHERE u.Usuario_Id = ru.Usuario_Id";
-                q += " AND ru.Rol_Id = " + rolId;
-                q += " AND Usuario_Username LIKE '%" + username + "%'";            
+                if (username != "" && rolId == "0")
+                {
+                    q += " FROM SARASA.Usuario u";
+                    q += " WHERE Usuario_Username LIKE '%" + username + "%'";
+                }
+                else if (username == "" && rolId != "0")
+                {
+                    q += " FROM SARASA.Usuario u, SARASA.Rol_x_Usuario ru";
+                    q += " WHERE u.Usuario_Id = ru.Usuario_Id AND ru.Rol_Id = " + rolId;
+                }
+                else
+                {
+                    q += " FROM SARASA.Usuario u, SARASA.Rol_x_Usuario ru";
+                    q += " WHERE u.Usuario_Id = ru.Usuario_Id";
+                    q += " AND ru.Rol_Id = " + rolId;
+                    q += " AND Usuario_Username LIKE '%" + username + "%'";
+                }
+
+                if (soloSinClientes)
+                    q += " AND u.Usuario_Cliente_Id IS NULL";
+
             }
-
-
-
             return q;
         }
     }

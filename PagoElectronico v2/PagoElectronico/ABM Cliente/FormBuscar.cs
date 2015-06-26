@@ -223,6 +223,18 @@ namespace PagoElectronico.ABM_Cliente
                 ((ABM_Cliente.FormCrear)formPadre).setUsuarioEncontrado(dataGridView1.SelectedCells[1].Value.ToString(),
                                                                         dataGridView1.SelectedCells[2].Value.ToString());
             }
+            else if (tipoFormPadre.Equals("Depositos.FormDepositos"))
+            {
+                ((Depositos.FormDepositos)formPadre).setClienteEncontrado(dataGridView1.SelectedCells[0].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[3].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[4].Value.ToString());
+            }
+            else if (tipoFormPadre.Equals("Retiros.FormRetiros"))
+            {
+                ((Retiros.FormRetiros)formPadre).setClienteEncontrado(dataGridView1.SelectedCells[0].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[3].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[4].Value.ToString());
+            }
 
             formPadre.Show();
             this.Dispose();

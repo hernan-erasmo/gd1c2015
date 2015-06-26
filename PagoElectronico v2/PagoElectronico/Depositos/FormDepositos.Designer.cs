@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblCuenta = new System.Windows.Forms.Label();
             this.lblImporte = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblMoneda = new System.Windows.Forms.Label();
+            this.lblTarjeta = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.cbxCuenta = new System.Windows.Forms.ComboBox();
             this.txtImporte = new System.Windows.Forms.TextBox();
@@ -40,18 +40,19 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnDepositar = new System.Windows.Forms.Button();
             this.txtCliente = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
+            this.lklCliente = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
-            // label1
+            // lblCuenta
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(24, 59);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Cuenta";
+            this.lblCuenta.AutoSize = true;
+            this.lblCuenta.Location = new System.Drawing.Point(24, 59);
+            this.lblCuenta.Name = "lblCuenta";
+            this.lblCuenta.Size = new System.Drawing.Size(41, 13);
+            this.lblCuenta.TabIndex = 0;
+            this.lblCuenta.Text = "Cuenta";
             // 
             // lblImporte
             // 
@@ -62,23 +63,23 @@
             this.lblImporte.TabIndex = 1;
             this.lblImporte.Text = "Importe";
             // 
-            // label3
+            // lblMoneda
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(24, 136);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Moneda";
+            this.lblMoneda.AutoSize = true;
+            this.lblMoneda.Location = new System.Drawing.Point(24, 136);
+            this.lblMoneda.Name = "lblMoneda";
+            this.lblMoneda.Size = new System.Drawing.Size(46, 13);
+            this.lblMoneda.TabIndex = 2;
+            this.lblMoneda.Text = "Moneda";
             // 
-            // label4
+            // lblTarjeta
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(24, 173);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Tarjeta de credito";
+            this.lblTarjeta.AutoSize = true;
+            this.lblTarjeta.Location = new System.Drawing.Point(24, 173);
+            this.lblTarjeta.Name = "lblTarjeta";
+            this.lblTarjeta.Size = new System.Drawing.Size(90, 13);
+            this.lblTarjeta.TabIndex = 3;
+            this.lblTarjeta.Text = "Tarjeta de credito";
             // 
             // label5
             // 
@@ -132,7 +133,7 @@
             this.btnVolver.TabIndex = 10;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
-            this.btnVolver.Click += new System.EventHandler(this.button1_Click);
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
             // 
             // btnDepositar
             // 
@@ -152,14 +153,15 @@
             this.txtCliente.Size = new System.Drawing.Size(269, 20);
             this.txtCliente.TabIndex = 13;
             // 
-            // label6
+            // lblCliente
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(24, 19);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 13);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Cliente";
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCliente.Location = new System.Drawing.Point(24, 19);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(39, 13);
+            this.lblCliente.TabIndex = 12;
+            this.lblCliente.Text = "Cliente";
             // 
             // dtpFecha
             // 
@@ -169,14 +171,26 @@
             this.dtpFecha.Size = new System.Drawing.Size(91, 20);
             this.dtpFecha.TabIndex = 14;
             // 
+            // lklCliente
+            // 
+            this.lklCliente.AutoSize = true;
+            this.lklCliente.Location = new System.Drawing.Point(24, 19);
+            this.lklCliente.Name = "lklCliente";
+            this.lklCliente.Size = new System.Drawing.Size(39, 13);
+            this.lklCliente.TabIndex = 15;
+            this.lklCliente.TabStop = true;
+            this.lklCliente.Text = "Cliente";
+            this.lklCliente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lklCliente_LinkClicked);
+            // 
             // FormDepositos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(417, 283);
+            this.Controls.Add(this.lklCliente);
             this.Controls.Add(this.dtpFecha);
             this.Controls.Add(this.txtCliente);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.btnDepositar);
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.cbxTarjeta);
@@ -184,10 +198,10 @@
             this.Controls.Add(this.txtImporte);
             this.Controls.Add(this.cbxCuenta);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblTarjeta);
+            this.Controls.Add(this.lblMoneda);
             this.Controls.Add(this.lblImporte);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblCuenta);
             this.MaximizeBox = false;
             this.Name = "FormDepositos";
             this.Text = "Deposito";
@@ -199,10 +213,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCuenta;
         private System.Windows.Forms.Label lblImporte;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblMoneda;
+        private System.Windows.Forms.Label lblTarjeta;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox cbxCuenta;
         private System.Windows.Forms.TextBox txtImporte;
@@ -211,7 +225,8 @@
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.Button btnDepositar;
         private System.Windows.Forms.TextBox txtCliente;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.DateTimePicker dtpFecha;
+        private System.Windows.Forms.LinkLabel lklCliente;
     }
 }

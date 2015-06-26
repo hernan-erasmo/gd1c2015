@@ -211,7 +211,10 @@ namespace PagoElectronico
 
         private void btnABMUsuario_Click(object sender, EventArgs e)
         {
-            ABM_de_Usuario.FormBuscar frm = new ABM_de_Usuario.FormBuscar(this, usuario);
+
+            ABM_de_Usuario.FormBuscar frm = new ABM_de_Usuario.FormBuscar(this, usuario,
+                                                    "ABMUsuario", "MenuPrincipal");
+//            ABM_de_Usuario.FormBuscar frm = new ABM_de_Usuario.FormBuscar(this, usuario);
             this.Hide();
             frm.Show();
         }

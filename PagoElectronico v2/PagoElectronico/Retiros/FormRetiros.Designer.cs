@@ -32,18 +32,19 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbxBanco = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblBanco = new System.Windows.Forms.Label();
             this.cbxMoneda = new System.Windows.Forms.ComboBox();
             this.txtImporte = new System.Windows.Forms.TextBox();
             this.cbxCuenta = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblMoneda = new System.Windows.Forms.Label();
             this.lblImporte = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblCuenta = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.lblDocumento = new System.Windows.Forms.Label();
             this.txtDocumento = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lklCliente = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -71,13 +72,13 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.cbxBanco);
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.lblBanco);
             this.groupBox1.Controls.Add(this.cbxMoneda);
             this.groupBox1.Controls.Add(this.txtImporte);
             this.groupBox1.Controls.Add(this.cbxCuenta);
-            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.lblMoneda);
             this.groupBox1.Controls.Add(this.lblImporte);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.lblCuenta);
             this.groupBox1.Location = new System.Drawing.Point(12, 121);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(355, 195);
@@ -94,14 +95,14 @@
             this.cbxBanco.Size = new System.Drawing.Size(268, 21);
             this.cbxBanco.TabIndex = 5;
             // 
-            // label5
+            // lblBanco
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(5, 154);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 13);
-            this.label5.TabIndex = 29;
-            this.label5.Text = "Banco";
+            this.lblBanco.AutoSize = true;
+            this.lblBanco.Location = new System.Drawing.Point(5, 154);
+            this.lblBanco.Name = "lblBanco";
+            this.lblBanco.Size = new System.Drawing.Size(38, 13);
+            this.lblBanco.TabIndex = 29;
+            this.lblBanco.Text = "Banco";
             // 
             // cbxMoneda
             // 
@@ -129,14 +130,14 @@
             this.cbxCuenta.Size = new System.Drawing.Size(269, 21);
             this.cbxCuenta.TabIndex = 2;
             // 
-            // label3
+            // lblMoneda
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(5, 74);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Moneda";
+            this.lblMoneda.AutoSize = true;
+            this.lblMoneda.Location = new System.Drawing.Point(5, 74);
+            this.lblMoneda.Name = "lblMoneda";
+            this.lblMoneda.Size = new System.Drawing.Size(46, 13);
+            this.lblMoneda.TabIndex = 25;
+            this.lblMoneda.Text = "Moneda";
             // 
             // lblImporte
             // 
@@ -147,23 +148,23 @@
             this.lblImporte.TabIndex = 24;
             this.lblImporte.Text = "Importe";
             // 
-            // label1
+            // lblCuenta
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 23;
-            this.label1.Text = "Cuenta";
+            this.lblCuenta.AutoSize = true;
+            this.lblCuenta.Location = new System.Drawing.Point(5, 34);
+            this.lblCuenta.Name = "lblCuenta";
+            this.lblCuenta.Size = new System.Drawing.Size(41, 13);
+            this.lblCuenta.TabIndex = 23;
+            this.lblCuenta.Text = "Cuenta";
             // 
-            // label6
+            // lblCliente
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(5, 26);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 13);
-            this.label6.TabIndex = 28;
-            this.label6.Text = "Cliente";
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Location = new System.Drawing.Point(5, 26);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(39, 13);
+            this.lblCliente.TabIndex = 28;
+            this.lblCliente.Text = "Cliente";
             // 
             // txtCliente
             // 
@@ -192,16 +193,28 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lklCliente);
             this.groupBox2.Controls.Add(this.txtDocumento);
             this.groupBox2.Controls.Add(this.lblDocumento);
             this.groupBox2.Controls.Add(this.txtCliente);
-            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.lblCliente);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(355, 99);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Informacion del Cliente";
+            // 
+            // lklCliente
+            // 
+            this.lklCliente.AutoSize = true;
+            this.lklCliente.Location = new System.Drawing.Point(5, 26);
+            this.lklCliente.Name = "lklCliente";
+            this.lklCliente.Size = new System.Drawing.Size(39, 13);
+            this.lklCliente.TabIndex = 31;
+            this.lklCliente.TabStop = true;
+            this.lklCliente.Text = "Cliente";
+            this.lklCliente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lklCliente_LinkClicked);
             // 
             // FormRetiros
             // 
@@ -233,15 +246,16 @@
         private System.Windows.Forms.ComboBox cbxMoneda;
         private System.Windows.Forms.TextBox txtImporte;
         private System.Windows.Forms.ComboBox cbxCuenta;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblMoneda;
         private System.Windows.Forms.Label lblImporte;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblCuenta;
+        private System.Windows.Forms.Label lblBanco;
         private System.Windows.Forms.ComboBox cbxBanco;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.Label lblDocumento;
         private System.Windows.Forms.TextBox txtDocumento;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.LinkLabel lklCliente;
     }
 }

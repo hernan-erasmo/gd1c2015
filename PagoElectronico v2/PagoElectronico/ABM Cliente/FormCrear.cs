@@ -141,9 +141,12 @@ namespace PagoElectronico.ABM_Cliente
 
         private void btnBuscarUsuario_Click(object sender, EventArgs e)
         {
-            ABM_Cliente.FormBuscar frmBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario, 
-                                                "BuscarUsuario", "ABM_Cliente.FormCrear");
-            frmBuscarCliente.Show();
+//            ABM_Cliente.FormBuscar frmBuscar = new ABM_Cliente.FormBuscar(this, usuario, 
+//                                                "BuscarUsuario", "ABM_Cliente.FormCrear");
+            ABM_de_Usuario.FormBuscar frmBuscar = new ABM_de_Usuario.FormBuscar(this, usuario,
+                                                    "BuscarUsuario", "ABM_Cliente.FormCrear");
+            
+            frmBuscar.Show();
             this.Hide();
         
         }

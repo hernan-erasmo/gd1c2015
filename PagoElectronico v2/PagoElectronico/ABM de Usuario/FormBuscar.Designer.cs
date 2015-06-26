@@ -52,6 +52,7 @@ namespace PagoElectronico.ABM_de_Usuario
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.btnCrear = new System.Windows.Forms.Button();
+            this.btnAceptar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.flowLayoutPanel2.SuspendLayout();
@@ -162,9 +163,10 @@ namespace PagoElectronico.ABM_de_Usuario
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.btnVolver);
+            this.flowLayoutPanel2.Controls.Add(this.btnAceptar);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(12, 286);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(89, 33);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(171, 33);
             this.flowLayoutPanel2.TabIndex = 24;
             // 
             // btnVolver
@@ -217,6 +219,16 @@ namespace PagoElectronico.ABM_de_Usuario
             this.btnCrear.UseVisualStyleBackColor = true;
             this.btnCrear.Click += new System.EventHandler(this.btnCrear_Click);
             // 
+            // btnAceptar
+            // 
+            this.btnAceptar.Location = new System.Drawing.Point(89, 3);
+            this.btnAceptar.Name = "btnAceptar";
+            this.btnAceptar.Size = new System.Drawing.Size(79, 28);
+            this.btnAceptar.TabIndex = 26;
+            this.btnAceptar.Text = "Aceptar";
+            this.btnAceptar.UseVisualStyleBackColor = true;
+            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
+            // 
             // FormBuscar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -260,5 +272,6 @@ namespace PagoElectronico.ABM_de_Usuario
 		private System.Windows.Forms.TextBox txtUsuario;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button btnAceptar;
 	}
 }

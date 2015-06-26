@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.txtCliente = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
             this.cbxCuentaDestino = new System.Windows.Forms.ComboBox();
             this.txtImporte = new System.Windows.Forms.TextBox();
             this.cbxCuenta = new System.Windows.Forms.ComboBox();
             this.lblImporte = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblCuenta = new System.Windows.Forms.Label();
             this.btnTransferir = new System.Windows.Forms.Button();
             this.btnVolver = new System.Windows.Forms.Button();
             this.lklCuentaDestino = new System.Windows.Forms.LinkLabel();
@@ -48,14 +48,14 @@
             this.txtCliente.Size = new System.Drawing.Size(269, 20);
             this.txtCliente.TabIndex = 23;
             // 
-            // label6
+            // lblCliente
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 19);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(39, 13);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "Cliente";
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Location = new System.Drawing.Point(11, 19);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(39, 13);
+            this.lblCliente.TabIndex = 22;
+            this.lblCliente.Text = "Cliente";
             // 
             // cbxCuentaDestino
             // 
@@ -92,14 +92,14 @@
             this.lblImporte.TabIndex = 15;
             this.lblImporte.Text = "Importe";
             // 
-            // label1
+            // lblCuenta
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 59);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 13);
-            this.label1.TabIndex = 14;
-            this.label1.Text = "Cuenta";
+            this.lblCuenta.AutoSize = true;
+            this.lblCuenta.Location = new System.Drawing.Point(11, 59);
+            this.lblCuenta.Name = "lblCuenta";
+            this.lblCuenta.Size = new System.Drawing.Size(41, 13);
+            this.lblCuenta.TabIndex = 14;
+            this.lblCuenta.Text = "Cuenta";
             // 
             // btnTransferir
             // 
@@ -142,12 +142,12 @@
             this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.btnTransferir);
             this.Controls.Add(this.txtCliente);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblCliente);
             this.Controls.Add(this.cbxCuentaDestino);
             this.Controls.Add(this.txtImporte);
             this.Controls.Add(this.cbxCuenta);
             this.Controls.Add(this.lblImporte);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblCuenta);
             this.MaximizeBox = false;
             this.Name = "FormTransferencias";
             this.Text = "Transferencia";
@@ -160,12 +160,12 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtCliente;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.ComboBox cbxCuentaDestino;
         private System.Windows.Forms.TextBox txtImporte;
         private System.Windows.Forms.ComboBox cbxCuenta;
         private System.Windows.Forms.Label lblImporte;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblCuenta;
         private System.Windows.Forms.Button btnTransferir;
         private System.Windows.Forms.Button btnVolver;
         private System.Windows.Forms.LinkLabel lklCuentaDestino;

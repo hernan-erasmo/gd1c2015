@@ -28,6 +28,15 @@ namespace PagoElectronico.ABM_de_Usuario
         string tipoFormBusqueda;
         string tipoFormPadre;
 
+        public FormBuscar(Form f, Usuario user, string tipoFormBusqueda, string tipoFormPadre)
+        {
+            InitializeComponent();
+            this.formPadre = f;
+            this.usuario = user;
+            this.tipoFormBusqueda = tipoFormBusqueda;
+            this.tipoFormPadre = tipoFormPadre;
+        }
+
         public FormBuscar(Form f, Usuario user)//, string tipoFormBusqueda, string tipoFormPadre)
         {
             InitializeComponent();
@@ -40,8 +49,20 @@ namespace PagoElectronico.ABM_de_Usuario
 
         private void FormBuscar_Load(object sender, EventArgs e)
         {
-            Herramientas.llenarComboBoxSP(cbxRol,"SARASA.cbx_rol",
-                        Herramientas.GenerarListaDeParametros("@usuario_id", 0),false);
+            btnModificar.Enabled = false;
+            btnEliminar.Enabled = false;
+
+            if (tipoFormBusqueda.Equals("ABMUsuario"))
+            {
+                btnAceptar.Visible = false;
+            }
+            else if (tipoFormBusqueda.Equals("BuscarUsuario"))
+            {
+                flowLayoutPanel1.Visible = false;
+            }
+
+            Herramientas.llenarComboBoxSP(cbxRol, "SARASA.cbx_rol",
+                        Herramientas.GenerarListaDeParametros("@usuario_id", 0), false);
 
         }
 
@@ -54,14 +75,22 @@ namespace PagoElectronico.ABM_de_Usuario
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             btnModificar.Enabled = false;
-            btnCrear.Enabled = false;
             btnEliminar.Enabled = false;
 
 
             lblEstadoBusqueda.Text = "Ejecutando busqueda...";
 
             //  ARMA LA QUERY A EJECUTAR BASADO EN LOS FILTROS
-            string queryConsulta = Filtros.filtroBuscarUsuario(txtUsuario.Text, "" + ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
+            string queryConsulta;
+            if (tipoFormBusqueda.Equals("BuscarUsuario")) //  Busca usuarios sin clientes asociados
+            {
+                queryConsulta = Filtros.filtroBuscarUsuario(txtUsuario.Text, "" + ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key,true);
+            }
+            else
+            {
+                queryConsulta = Filtros.filtroBuscarUsuario(txtUsuario.Text, "" + ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key,false);
+            }
+
 
             Herramientas.msebox_informacion(queryConsulta);
 
@@ -145,6 +174,19 @@ namespace PagoElectronico.ABM_de_Usuario
 
 
 
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+
+            if (tipoFormPadre.Equals("ABM_Cliente.FormCrear"))
+            {
+                ((ABM_Cliente.FormCrear)formPadre).setUsuarioEncontrado(dataGridView1.SelectedCells[0].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[1].Value.ToString());
+            }
+
+            formPadre.Show();
+            this.Dispose();
         }
 	}
 }
