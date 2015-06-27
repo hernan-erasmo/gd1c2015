@@ -71,7 +71,7 @@
             this.dtpFechaVencimiento.Location = new System.Drawing.Point(121, 152);
             this.dtpFechaVencimiento.Name = "dtpFechaVencimiento";
             this.dtpFechaVencimiento.Size = new System.Drawing.Size(86, 20);
-            this.dtpFechaVencimiento.TabIndex = 7;
+            this.dtpFechaVencimiento.TabIndex = 5;
             // 
             // txtCodSeguridad
             // 
@@ -79,7 +79,7 @@
             this.txtCodSeguridad.MaxLength = 4;
             this.txtCodSeguridad.Name = "txtCodSeguridad";
             this.txtCodSeguridad.Size = new System.Drawing.Size(59, 20);
-            this.txtCodSeguridad.TabIndex = 10;
+            this.txtCodSeguridad.TabIndex = 2;
             // 
             // dtpFechaEmision
             // 
@@ -88,7 +88,7 @@
             this.dtpFechaEmision.Location = new System.Drawing.Point(121, 121);
             this.dtpFechaEmision.Name = "dtpFechaEmision";
             this.dtpFechaEmision.Size = new System.Drawing.Size(86, 20);
-            this.dtpFechaEmision.TabIndex = 6;
+            this.dtpFechaEmision.TabIndex = 4;
             this.dtpFechaEmision.Value = new System.DateTime(2015, 5, 17, 0, 0, 0, 0);
             // 
             // lblCodSeguridad
@@ -106,7 +106,7 @@
             this.cbxEmisor.Location = new System.Drawing.Point(121, 90);
             this.cbxEmisor.Name = "cbxEmisor";
             this.cbxEmisor.Size = new System.Drawing.Size(121, 21);
-            this.cbxEmisor.TabIndex = 6;
+            this.cbxEmisor.TabIndex = 3;
             // 
             // txtNumero
             // 
@@ -114,7 +114,7 @@
             this.txtNumero.MaxLength = 16;
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(106, 20);
-            this.txtNumero.TabIndex = 5;
+            this.txtNumero.TabIndex = 1;
             // 
             // lblFechaVencimiento
             // 
@@ -157,7 +157,7 @@
             this.btnAsociar.Location = new System.Drawing.Point(211, 238);
             this.btnAsociar.Name = "btnAsociar";
             this.btnAsociar.Size = new System.Drawing.Size(80, 28);
-            this.btnAsociar.TabIndex = 4;
+            this.btnAsociar.TabIndex = 6;
             this.btnAsociar.Text = "Asociar";
             this.btnAsociar.UseVisualStyleBackColor = true;
             this.btnAsociar.Click += new System.EventHandler(this.btnAsociar_Click);
@@ -176,14 +176,14 @@
             this.txtCliente.Location = new System.Drawing.Point(126, 12);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(162, 20);
-            this.txtCliente.TabIndex = 2;
+            this.txtCliente.TabIndex = 0;
             // 
             // btnVolver
             // 
             this.btnVolver.Location = new System.Drawing.Point(5, 238);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(80, 28);
-            this.btnVolver.TabIndex = 5;
+            this.btnVolver.TabIndex = 7;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
