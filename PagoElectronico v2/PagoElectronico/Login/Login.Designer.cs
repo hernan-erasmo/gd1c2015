@@ -72,7 +72,7 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(198, 193);
+            this.btnLogin.Location = new System.Drawing.Point(198, 208);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(88, 38);
             this.btnLogin.TabIndex = 3;
@@ -110,7 +110,7 @@
             // 
             this.gbPermisos.Controls.Add(this.label3);
             this.gbPermisos.Controls.Add(this.comboBox1);
-            this.gbPermisos.Location = new System.Drawing.Point(15, 113);
+            this.gbPermisos.Location = new System.Drawing.Point(12, 128);
             this.gbPermisos.Name = "gbPermisos";
             this.gbPermisos.Size = new System.Drawing.Size(277, 74);
             this.gbPermisos.TabIndex = 5;
@@ -123,7 +123,7 @@
             this.gbLogin.Controls.Add(this.label1);
             this.gbLogin.Controls.Add(this.textBox2);
             this.gbLogin.Controls.Add(this.textBox1);
-            this.gbLogin.Location = new System.Drawing.Point(15, 12);
+            this.gbLogin.Location = new System.Drawing.Point(15, 27);
             this.gbLogin.Name = "gbLogin";
             this.gbLogin.Size = new System.Drawing.Size(277, 95);
             this.gbLogin.TabIndex = 6;
@@ -132,7 +132,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(15, 193);
+            this.btnCancelar.Location = new System.Drawing.Point(12, 208);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(88, 38);
             this.btnCancelar.TabIndex = 7;
@@ -155,7 +155,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(306, 243);
+            this.ClientSize = new System.Drawing.Size(306, 258);
             this.Controls.Add(this.lblInfo);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.gbLogin);
