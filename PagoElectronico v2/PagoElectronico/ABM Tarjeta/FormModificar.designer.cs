@@ -51,7 +51,7 @@
             this.btnVolver.Location = new System.Drawing.Point(5, 238);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(80, 28);
-            this.btnVolver.TabIndex = 0;
+            this.btnVolver.TabIndex = 7;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
@@ -81,7 +81,7 @@
             this.dtpFechaVencimiento.Location = new System.Drawing.Point(121, 152);
             this.dtpFechaVencimiento.Name = "dtpFechaVencimiento";
             this.dtpFechaVencimiento.Size = new System.Drawing.Size(86, 20);
-            this.dtpFechaVencimiento.TabIndex = 12;
+            this.dtpFechaVencimiento.TabIndex = 5;
             // 
             // dtpFechaEmision
             // 
@@ -90,7 +90,7 @@
             this.dtpFechaEmision.Location = new System.Drawing.Point(121, 121);
             this.dtpFechaEmision.Name = "dtpFechaEmision";
             this.dtpFechaEmision.Size = new System.Drawing.Size(86, 20);
-            this.dtpFechaEmision.TabIndex = 11;
+            this.dtpFechaEmision.TabIndex = 4;
             this.dtpFechaEmision.Value = new System.DateTime(2015, 5, 17, 0, 0, 0, 0);
             // 
             // txtCodSeguridad
@@ -99,7 +99,7 @@
             this.txtCodSeguridad.MaxLength = 4;
             this.txtCodSeguridad.Name = "txtCodSeguridad";
             this.txtCodSeguridad.Size = new System.Drawing.Size(59, 20);
-            this.txtCodSeguridad.TabIndex = 10;
+            this.txtCodSeguridad.TabIndex = 2;
             // 
             // lblCodSeguridad
             // 
@@ -117,7 +117,7 @@
             this.cbxEmisor.Location = new System.Drawing.Point(121, 90);
             this.cbxEmisor.Name = "cbxEmisor";
             this.cbxEmisor.Size = new System.Drawing.Size(159, 21);
-            this.cbxEmisor.TabIndex = 6;
+            this.cbxEmisor.TabIndex = 3;
             // 
             // txtNumero
             // 
@@ -126,7 +126,7 @@
             this.txtNumero.MaxLength = 16;
             this.txtNumero.Name = "txtNumero";
             this.txtNumero.Size = new System.Drawing.Size(159, 20);
-            this.txtNumero.TabIndex = 5;
+            this.txtNumero.TabIndex = 1;
             // 
             // lblFechaVencimiento
             // 
@@ -169,7 +169,7 @@
             this.btnModificar.Location = new System.Drawing.Point(211, 238);
             this.btnModificar.Name = "btnModificar";
             this.btnModificar.Size = new System.Drawing.Size(80, 28);
-            this.btnModificar.TabIndex = 4;
+            this.btnModificar.TabIndex = 6;
             this.btnModificar.Text = "Modificar";
             this.btnModificar.UseVisualStyleBackColor = true;
             this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
@@ -189,7 +189,7 @@
             this.txtCliente.Location = new System.Drawing.Point(126, 12);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(162, 20);
-            this.txtCliente.TabIndex = 2;
+            this.txtCliente.TabIndex = 0;
             // 
             // FormModificar
             // 

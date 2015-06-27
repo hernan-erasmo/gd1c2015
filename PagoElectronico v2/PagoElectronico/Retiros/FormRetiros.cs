@@ -165,13 +165,13 @@ namespace PagoElectronico.Retiros
             }
         }
 
+
         private void lklCliente_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             ABM_Cliente.FormBuscar frmBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario,
                                     "BuscarCliente", "Retiros.FormRetiros");
             frmBuscarCliente.Show();            
             this.Hide();
-
         }
 
         public void setClienteEncontrado(string clienteId, string nombre, string apellido)

@@ -54,7 +54,7 @@
             this.btnRetirar.Location = new System.Drawing.Point(306, 327);
             this.btnRetirar.Name = "btnRetirar";
             this.btnRetirar.Size = new System.Drawing.Size(61, 31);
-            this.btnRetirar.TabIndex = 6;
+            this.btnRetirar.TabIndex = 7;
             this.btnRetirar.Text = "Retirar";
             this.btnRetirar.UseVisualStyleBackColor = true;
             this.btnRetirar.Click += new System.EventHandler(this.btnRetirar_Click);
@@ -64,7 +64,7 @@
             this.btnVolver.Location = new System.Drawing.Point(12, 327);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(61, 31);
-            this.btnVolver.TabIndex = 7;
+            this.btnVolver.TabIndex = 8;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
@@ -93,7 +93,7 @@
             this.cbxBanco.Location = new System.Drawing.Point(80, 152);
             this.cbxBanco.Name = "cbxBanco";
             this.cbxBanco.Size = new System.Drawing.Size(268, 21);
-            this.cbxBanco.TabIndex = 5;
+            this.cbxBanco.TabIndex = 6;
             // 
             // lblBanco
             // 
@@ -111,7 +111,7 @@
             this.cbxMoneda.Location = new System.Drawing.Point(80, 71);
             this.cbxMoneda.Name = "cbxMoneda";
             this.cbxMoneda.Size = new System.Drawing.Size(269, 21);
-            this.cbxMoneda.TabIndex = 3;
+            this.cbxMoneda.TabIndex = 4;
             // 
             // txtImporte
             // 
@@ -119,7 +119,7 @@
             this.txtImporte.MaxLength = 28;
             this.txtImporte.Name = "txtImporte";
             this.txtImporte.Size = new System.Drawing.Size(269, 20);
-            this.txtImporte.TabIndex = 4;
+            this.txtImporte.TabIndex = 5;
             // 
             // cbxCuenta
             // 
@@ -128,7 +128,7 @@
             this.cbxCuenta.Location = new System.Drawing.Point(80, 31);
             this.cbxCuenta.Name = "cbxCuenta";
             this.cbxCuenta.Size = new System.Drawing.Size(269, 21);
-            this.cbxCuenta.TabIndex = 2;
+            this.cbxCuenta.TabIndex = 3;
             // 
             // lblMoneda
             // 
@@ -189,7 +189,7 @@
             this.txtDocumento.Name = "txtDocumento";
             this.txtDocumento.PasswordChar = '*';
             this.txtDocumento.Size = new System.Drawing.Size(269, 20);
-            this.txtDocumento.TabIndex = 1;
+            this.txtDocumento.TabIndex = 2;
             // 
             // groupBox2
             // 
@@ -211,7 +211,7 @@
             this.lklCliente.Location = new System.Drawing.Point(5, 26);
             this.lklCliente.Name = "lklCliente";
             this.lklCliente.Size = new System.Drawing.Size(39, 13);
-            this.lklCliente.TabIndex = 31;
+            this.lklCliente.TabIndex = 1;
             this.lklCliente.TabStop = true;
             this.lklCliente.Text = "Cliente";
             this.lklCliente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lklCliente_LinkClicked);

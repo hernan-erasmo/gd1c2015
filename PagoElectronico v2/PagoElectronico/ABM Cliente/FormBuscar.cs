@@ -235,6 +235,12 @@ namespace PagoElectronico.ABM_Cliente
                                                                         dataGridView1.SelectedCells[3].Value.ToString(),
                                                                         dataGridView1.SelectedCells[4].Value.ToString());
             }
+            else if (tipoFormPadre.Equals("Transferencias.FormTransferencias"))
+            {
+                ((Transferencias.FormTransferencias)formPadre).setClienteEncontrado(dataGridView1.SelectedCells[0].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[3].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[4].Value.ToString());
+            }
 
             formPadre.Show();
             this.Dispose();
