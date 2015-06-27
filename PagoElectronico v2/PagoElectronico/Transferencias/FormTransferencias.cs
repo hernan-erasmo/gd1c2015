@@ -186,7 +186,10 @@ namespace PagoElectronico.Transferencias
 
         private void cbxCuentaDestino_SelectedIndexChanged(object sender, EventArgs e)
         {
-            numeroCuenta = ((KeyValuePair<string, string>)cbxCuentaDestino.SelectedItem).Key;
+            if (cbxCuentaDestino.DataSource != null)
+                numeroCuenta = ((KeyValuePair<string, string>)cbxCuentaDestino.SelectedItem).Key;
+            else
+                numeroCuenta = "0";
         }
     }
 }
