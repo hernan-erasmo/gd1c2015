@@ -188,5 +188,14 @@ namespace PagoElectronico.ABM_de_Usuario
             formPadre.Show();
             this.Dispose();
         }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(this.dataGridView1.CurrentRow.Cells[0].Value);
+            string nombre = Convert.ToString(this.dataGridView1.CurrentRow.Cells[1].Value);
+            ABM_de_Usuario.FormModificar frm = new ABM_de_Usuario.FormModificar(this,id,nombre);
+            this.Hide();
+            frm.Show();
+        }
 	}
 }

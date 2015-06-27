@@ -102,6 +102,7 @@
             this.lbxFunciones.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
             this.lbxFunciones.Size = new System.Drawing.Size(141, 238);
             this.lbxFunciones.TabIndex = 5;
+            this.lbxFunciones.SelectedIndexChanged += new System.EventHandler(this.lbxFunciones_SelectedIndexChanged);
             // 
             // FormModificar
             // 

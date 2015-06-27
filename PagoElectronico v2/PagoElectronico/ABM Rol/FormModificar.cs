@@ -52,5 +52,11 @@ namespace PagoElectronico.ABM_Rol
 
             Herramientas.msebox_informacion("Rol: " + nombreRol + " (Habilitado= " + habilitado + ")");
         }
+
+        private void lbxFunciones_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
