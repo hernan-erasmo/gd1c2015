@@ -97,7 +97,7 @@
             this.cbxCuenta.Location = new System.Drawing.Point(132, 51);
             this.cbxCuenta.Name = "cbxCuenta";
             this.cbxCuenta.Size = new System.Drawing.Size(269, 21);
-            this.cbxCuenta.TabIndex = 5;
+            this.cbxCuenta.TabIndex = 2;
             // 
             // txtImporte
             // 
@@ -105,7 +105,7 @@
             this.txtImporte.MaxLength = 28;
             this.txtImporte.Name = "txtImporte";
             this.txtImporte.Size = new System.Drawing.Size(269, 20);
-            this.txtImporte.TabIndex = 6;
+            this.txtImporte.TabIndex = 3;
             // 
             // cbxMoneda
             // 
@@ -114,7 +114,7 @@
             this.cbxMoneda.Location = new System.Drawing.Point(132, 128);
             this.cbxMoneda.Name = "cbxMoneda";
             this.cbxMoneda.Size = new System.Drawing.Size(269, 21);
-            this.cbxMoneda.TabIndex = 7;
+            this.cbxMoneda.TabIndex = 4;
             // 
             // cbxTarjeta
             // 
@@ -123,14 +123,14 @@
             this.cbxTarjeta.Location = new System.Drawing.Point(132, 165);
             this.cbxTarjeta.Name = "cbxTarjeta";
             this.cbxTarjeta.Size = new System.Drawing.Size(269, 21);
-            this.cbxTarjeta.TabIndex = 8;
+            this.cbxTarjeta.TabIndex = 5;
             // 
             // btnVolver
             // 
             this.btnVolver.Location = new System.Drawing.Point(27, 240);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(61, 31);
-            this.btnVolver.TabIndex = 10;
+            this.btnVolver.TabIndex = 7;
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
@@ -140,7 +140,7 @@
             this.btnDepositar.Location = new System.Drawing.Point(340, 240);
             this.btnDepositar.Name = "btnDepositar";
             this.btnDepositar.Size = new System.Drawing.Size(61, 31);
-            this.btnDepositar.TabIndex = 11;
+            this.btnDepositar.TabIndex = 6;
             this.btnDepositar.Text = "Depositar";
             this.btnDepositar.UseVisualStyleBackColor = true;
             this.btnDepositar.Click += new System.EventHandler(this.btnDepositar_Click);
@@ -151,7 +151,7 @@
             this.txtCliente.Location = new System.Drawing.Point(132, 12);
             this.txtCliente.Name = "txtCliente";
             this.txtCliente.Size = new System.Drawing.Size(269, 20);
-            this.txtCliente.TabIndex = 13;
+            this.txtCliente.TabIndex = 0;
             // 
             // lblCliente
             // 
@@ -165,6 +165,7 @@
             // 
             // dtpFecha
             // 
+            this.dtpFecha.Enabled = false;
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFecha.Location = new System.Drawing.Point(132, 208);
             this.dtpFecha.Name = "dtpFecha";
@@ -177,7 +178,7 @@
             this.lklCliente.Location = new System.Drawing.Point(24, 19);
             this.lklCliente.Name = "lklCliente";
             this.lklCliente.Size = new System.Drawing.Size(39, 13);
-            this.lklCliente.TabIndex = 15;
+            this.lklCliente.TabIndex = 1;
             this.lklCliente.TabStop = true;
             this.lklCliente.Text = "Cliente";
             this.lklCliente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lklCliente_LinkClicked);
