@@ -38,10 +38,34 @@ namespace PagoElectronico.ABM_de_Usuario
 
         private void btnCambiar_Click(object sender, EventArgs e)
         {
-            if (txtPasswordNuevo.Text != "")
-            {
-                lblPassword.ForeColor = Color.Black;
+            bool passActualOK = false, passValidacionOK = false;
 
+            if (usuario.Password.Equals(Herramientas.sha256_hash(txtPasswordActual.Text.ToString())))
+            {
+                passActualOK = true;
+                lblPassActual.ForeColor = Color.Black;
+            }
+            else
+            {
+                passActualOK = false;
+                lblPassActual.ForeColor = Color.Red;
+            }
+
+            if((txtPasswordNuevo.Text != "") && (txtPasswordNuevo.Text.Equals(txtPasswordNuevoVal.Text)))
+            {
+                passValidacionOK = true;
+                lblPassNuevo.ForeColor = Color.Black;
+                lblPassNuevoVal.ForeColor = Color.Black;
+            }
+            else
+            {
+                passValidacionOK = false;
+                lblPassNuevo.ForeColor = Color.Red;
+                lblPassNuevoVal.ForeColor = Color.Red;
+            }
+
+            if(passActualOK && passValidacionOK)
+            {
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros("@usuario_id",
                         usuario.UsuarioId,
                         "@usuario_pass",
@@ -54,8 +78,6 @@ namespace PagoElectronico.ABM_de_Usuario
                     formPadre.Show();
                 }
             }
-            else
-                lblPassword.ForeColor = Color.Red;
         }
 
         //  Muestra información de la sesion

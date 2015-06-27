@@ -188,5 +188,10 @@ namespace PagoElectronico.ABM_de_Usuario
             formPadre.Show();
             this.Dispose();
         }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+
+        }
 	}
 }
