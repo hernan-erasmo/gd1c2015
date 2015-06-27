@@ -2566,6 +2566,90 @@ AS
 	FROM SARASA.Banco
 GO
 
+
+CREATE PROCEDURE SARASA.insertar_rol_usuario (
+	@usuario_id		integer,
+	@rol			integer
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+
+		IF (NOT EXISTS (SELECT *
+							FROM SARASA.Rol_x_Usuario r
+							WHERE r.Rol_Id = @rol AND r.Usuario_Id = @usuario_id ))
+			BEGIN
+					INSERT INTO SARASA.Rol_x_Usuario (Rol_Id, Usuario_Id)
+					VALUES (@usuario_id, @rol)
+			END
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
+-- Procedimiento para modificar los datos de un usuario
+CREATE PROCEDURE SARASA.modificar_usuario (
+	@usuario_id		integer,
+	@pass nvarchar(64),
+	@preg nvarchar(255),
+	@resp nvarchar(64),
+	@hab bit
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	DELETE
+	FROM SARASA.Rol_x_Usuario
+	WHERE Rol_x_Usuario.Usuario_Id = 1
+		
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		UPDATE GD1C2015.SARASA.Usuario
+		SET Usuario_Password = @pass, Usuario_Pregunta_Sec = @preg, Usuario_Respuesta_Sec = @resp,
+			Usuario_Habilitado = @hab, Usuario_Fecha_Modificacion= (
+																	SELECT Config_Datetime_App
+																	FROM SARASA.Configuracion
+																	WHERE Config_Id = 1 )
+		WHERE Usuario_Id = @usuario_id
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
 /***********************
 	Creamos triggers
 ************************/
