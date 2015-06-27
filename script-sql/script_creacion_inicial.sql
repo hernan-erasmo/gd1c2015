@@ -2591,7 +2591,7 @@ BEGIN TRY
 							WHERE r.Rol_Id = @rol AND r.Usuario_Id = @usuario_id ))
 			BEGIN
 					INSERT INTO SARASA.Rol_x_Usuario (Rol_Id, Usuario_Id)
-					VALUES (@usuario_id, @rol)
+					VALUES (@rol, @usuario_id)
 			END
 
 	IF @starttrancount = 0
@@ -2626,15 +2626,14 @@ BEGIN TRY
 
 	DELETE
 	FROM SARASA.Rol_x_Usuario
-	WHERE Rol_x_Usuario.Usuario_Id = 1
+	WHERE Rol_x_Usuario.Usuario_Id = @usuario_id
 		
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
 
 		UPDATE GD1C2015.SARASA.Usuario
 		SET Usuario_Password = @pass, Usuario_Pregunta_Sec = @preg, Usuario_Respuesta_Sec = @resp,
-			Usuario_Habilitado = @hab, Usuario_Fecha_Modificacion= (
-																	SELECT Config_Datetime_App
+			Usuario_Habilitado = @hab, Usuario_Fecha_Modificacion= (SELECT Config_Datetime_App
 																	FROM SARASA.Configuracion
 																	WHERE Config_Id = 1 )
 		WHERE Usuario_Id = @usuario_id

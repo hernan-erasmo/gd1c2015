@@ -86,7 +86,7 @@ namespace PagoElectronico.ABM_de_Usuario
                 lblRespuesta.ForeColor = Color.Red;
             }
 
-
+            
             if (passwordOK && preguntaOK && respuestaOK)
             {
                 if(lbxRoles.SelectedItems.Count!=0)
@@ -106,6 +106,7 @@ namespace PagoElectronico.ABM_de_Usuario
                     "@usuario_id", this.id,
                     "@rol", item.Id);
                     Herramientas.EjecutarStoredProcedure("SARASA.insertar_rol_usuario", lista);
+
                 }
 
                 Herramientas.msebox_informacion("Usuario modificado con éxito");
