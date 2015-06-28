@@ -266,12 +266,13 @@ namespace PagoElectronico.ABM_Tarjeta
             tarjeta.ClienteId = dataGridView1.SelectedCells[0].Value.ToString();//Cliente ID
             tarjeta.Nombre = dataGridView1.SelectedCells[1].Value.ToString();//NOmbre
             tarjeta.Apellido = dataGridView1.SelectedCells[2].Value.ToString();//Apellido
-
             tarjeta.Numero = dataGridView1.SelectedCells[3].Value.ToString();
+            tarjeta.Descripcion = dataGridView1.SelectedCells[4].Value.ToString();//xxxx xxxx xxxx ----
+            tarjeta.Emisor = dataGridView1.SelectedCells[5].Value.ToString();
             tarjeta.FechaEmision = dataGridView1.SelectedCells[6].Value.ToString();
             tarjeta.FechaVencimiento = dataGridView1.SelectedCells[7].Value.ToString();
             tarjeta.CodigoSeguridad = dataGridView1.SelectedCells[8].Value.ToString();
-            tarjeta.Emisor = dataGridView1.SelectedCells[5].Value.ToString();
+
 
 
             //  Con la tarjeta seleccionada

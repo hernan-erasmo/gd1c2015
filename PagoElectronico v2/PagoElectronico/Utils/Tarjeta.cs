@@ -33,6 +33,19 @@ namespace PagoElectronico.Utils
             }
         }
 
+        private string descripcion;
+        public string Descripcion
+        {
+            get
+            {
+                return descripcion;
+            }
+            set
+            {
+                descripcion = value;
+            }
+        }
+
         private string codigoSeguridad;
         public string CodigoSeguridad
         {

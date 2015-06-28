@@ -41,7 +41,8 @@ namespace PagoElectronico.ABM_Tarjeta
 
             txtCliente.Text = tarjeta.Apellido + ", " + tarjeta.Nombre + " (" + tarjeta.ClienteId + ")";
             txtCodSeguridad.Text = tarjeta.CodigoSeguridad;
-            txtNumero.Text = tarjeta.Numero;
+            //txtNumero.Text = tarjeta.Numero;
+            txtNumero.Text = tarjeta.Descripcion;
 
             dtpFechaEmision.Value = DateTime.Parse(tarjeta.FechaEmision);
             dtpFechaVencimiento.Value = DateTime.Parse(tarjeta.FechaVencimiento);
@@ -62,6 +63,11 @@ namespace PagoElectronico.ABM_Tarjeta
         private void btnModificar_Click(object sender, EventArgs e)
         {
             bool codSeguridadOK = false, fechasOk = false;
+
+            string msj = "Seguro que quiere MODIFICAR la información de la TARJERTA " +
+                tarjeta.Descripcion + "(" + tarjeta.Emisor + ")\n" +
+                 "del Cliente: " + txtCliente.Text + "?";
+
 
             if (Herramientas.IsNumeric(txtCodSeguridad.Text))
             {
@@ -91,34 +97,22 @@ namespace PagoElectronico.ABM_Tarjeta
     
             if (fechasOk && codSeguridadOK)
             {
-                try
+                var result = MessageBox.Show(msj, "Desasociar tarjeta",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.OK)
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@cliente_id", Convert.ToInt32(this.tarjeta.ClienteId),
-                        "@tc_num", Convert.ToString(this.tarjeta.Numero),
+                        "@cliente_id", this.tarjeta.ClienteId,
+                        "@tc_num", this.tarjeta.Numero,
                         "@tc_emision", dtpFechaEmision.Value.ToShortDateString(),
                         "@tc_vencimiento", dtpFechaVencimiento.Value.ToShortDateString(),
-                        "@tc_codseg", Convert.ToString(txtCodSeguridad.Text),
-                        "@tc_emisor", Convert.ToString(cbxEmisor.Text));
-
-                    Utils.Herramientas.EjecutarStoredProcedure("SARASA.Modificar_Tarjeta", lista);
-                    Utils.Herramientas.msebox_informacion("Tarjeta modificada con éxito");
-                    this.Close();
-                    this.formPadre.Show();
-
+                        "@tc_codseg", txtCodSeguridad.Text,
+                        "@tc_emisor", cbxEmisor.Text);
+                    Herramientas.EjecutarStoredProcedure("SARASA.Modificar_Tarjeta", lista);
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.ToString());
-                }
-
-                /*Utils.Herramientas.msebox_informacion("Datos Guardados");
-
-                txtCodSeguridad.Text = "";
-                txtNumero.Text = "";
-                cbxEmisor.Text = "";
-                dtpFechaEmision.Value = DateTime.Now;
-                dtpFechaVencimiento.Value = DateTime.Now;*/
+                this.Dispose();
+                this.formPadre.Show();
             }
         }
     }
