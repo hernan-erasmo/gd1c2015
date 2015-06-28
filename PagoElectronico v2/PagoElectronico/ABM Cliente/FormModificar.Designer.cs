@@ -144,6 +144,7 @@
             // txtPiso
             // 
             this.txtPiso.Location = new System.Drawing.Point(123, 275);
+            this.txtPiso.MaxLength = 18;
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(169, 20);
             this.txtPiso.TabIndex = 24;
@@ -160,6 +161,7 @@
             // txtCalleNum
             // 
             this.txtCalleNum.Location = new System.Drawing.Point(122, 246);
+            this.txtCalleNum.MaxLength = 18;
             this.txtCalleNum.Name = "txtCalleNum";
             this.txtCalleNum.Size = new System.Drawing.Size(169, 20);
             this.txtCalleNum.TabIndex = 23;
@@ -226,6 +228,7 @@
             // txtNumDoc
             // 
             this.txtNumDoc.Location = new System.Drawing.Point(123, 124);
+            this.txtNumDoc.MaxLength = 18;
             this.txtNumDoc.Name = "txtNumDoc";
             this.txtNumDoc.Size = new System.Drawing.Size(168, 20);
             this.txtNumDoc.TabIndex = 19;

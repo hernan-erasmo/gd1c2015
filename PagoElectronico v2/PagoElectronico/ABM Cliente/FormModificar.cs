@@ -78,7 +78,7 @@ namespace PagoElectronico.ABM_Cliente
                 cliente.ClienteId + ")\"?";
 
 
-            if (Herramientas.IsNumeric(txtNumDoc.Text))
+            if (Herramientas.IsNumericLong(txtNumDoc.Text))
             {
                 docNumeroOK = true;
                 lblNroDocumento.ForeColor = Color.Black;   
@@ -89,7 +89,7 @@ namespace PagoElectronico.ABM_Cliente
                 lblNroDocumento.ForeColor = Color.Red;
             }
 
-            if (Herramientas.IsNumeric(txtCalleNum.Text))
+            if (Herramientas.IsNumericLong(txtCalleNum.Text))
             {
                 domNumeroOK = true;
                 lblDomNum.ForeColor = Color.Black;
@@ -100,7 +100,7 @@ namespace PagoElectronico.ABM_Cliente
                 lblDomNum.ForeColor = Color.Red;
             }
 
-            if (Herramientas.IsNumeric(txtPiso.Text))
+            if (Herramientas.IsNumericLong(txtPiso.Text))
             {
                 domPisoOK = true;
                 lblDomPiso.ForeColor = Color.Black;
