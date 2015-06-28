@@ -51,6 +51,7 @@ namespace PagoElectronico.ABM_Cuenta
 
             if (tipoFormBusqueda.Equals("BuscarCuenta"))
             {
+                btnAceptar.Enabled = false;
                 flowLayoutPanel1.Visible = false;
                 btnAceptar.Visible = true;
 
@@ -119,17 +120,6 @@ namespace PagoElectronico.ABM_Cuenta
                 btnModificar.Visible = false;
 
 
-            //if (usuario.Funciones.Contains("BuscarCuenta"))
-            //{
-            //    btnBuscar.Visible = true;
-            //    btnLimpiar.Visible = true;
-            //}
-            //else
-            //{
-            //    btnBuscar.Visible = false;
-            //    btnLimpiar.Visible = false;
-            //}
-
             //  Carga los combos
             Herramientas.llenarComboBoxSP(cbxPais, "SARASA.cbx_pais", null, false);
             Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda", null, false);
@@ -167,6 +157,11 @@ namespace PagoElectronico.ABM_Cuenta
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             lblEstadoBusqueda.Text = "Ejecutando busqueda...";
+
+            btnAceptar.Enabled = false;
+            btnBaja.Enabled = false;
+            btnModificar.Enabled = false;
+            btnRenovar.Enabled = false;
 
             string fechaAperturaDesde = "", fechaAperturaHasta = "";
             string cliente = clienteId;//txtCliente.Text;
@@ -210,6 +205,7 @@ namespace PagoElectronico.ABM_Cuenta
 
                 if (dataGridView1.RowCount > 0)
                 { // Hay resultados habilita los botones para dar de Baja y Modificar
+                    btnAceptar.Enabled = true;
                     btnBaja.Enabled = true;
                     btnModificar.Enabled = true;
                     btnRenovar.Enabled = true;
@@ -269,6 +265,7 @@ namespace PagoElectronico.ABM_Cuenta
             btnBaja.Enabled = false;
             btnModificar.Enabled = false;
             btnRenovar.Enabled = false;
+            btnAceptar.Enabled = false;
 
             if (clienteId == "0") 
                 btnCrear.Enabled = false;
