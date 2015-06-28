@@ -78,33 +78,66 @@ namespace PagoElectronico.ABM_Cliente
                 cliente.ClienteId + ")\"?";
 
 
-            if(Herramientas.IsNumeric(txtNumDoc.Text)) 
-
-
-            var result = MessageBox.Show(msj, "Modificar cliente",
-                MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
-
-            if (result == DialogResult.OK)
+            if (Herramientas.IsNumeric(txtNumDoc.Text))
             {
-                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                    "@Cliente_Id", cliente.ClienteId,
-                    "@Cliente_Nombre", txtNombre.Text,
-                    "@Cliente_Apellido", txtApellido.Text,
-                    "@Cliente_Tipodoc_Id", ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key,
-                    "@Cliente_Doc_Nro", txtNumDoc.Text,
-                    "@Cliente_Dom_Calle", txtCalle.Text,
-                    "@Cliente_Dom_Numero", txtCalleNum.Text,
-                    "@Cliente_Dom_Piso", txtPiso.Text,
-                    "@Cliente_Dom_Depto", txtDepto.Text,
-                    "@Cliente_Mail", txtMail.Text,
-                    "@Cliente_Pais_Id", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
-                    "@Cliente_Fecha_Nacimiento", dtpFechaNac.Value.ToShortDateString(),
-                    "@Cliente_Habilitado", chkEstado.Checked);
+                docNumeroOK = true;
+                lblNroDocumento.ForeColor = Color.Black;   
+            }
+            else 
+            {
+                docNumeroOK = false;
+                lblNroDocumento.ForeColor = Color.Red;
+            }
 
-                Herramientas.EjecutarStoredProcedure("SARASA.modificar_cliente", lista);
+            if (Herramientas.IsNumeric(txtCalleNum.Text))
+            {
+                domNumeroOK = true;
+                lblDomNum.ForeColor = Color.Black;
+            }
+            else
+            {
+                domNumeroOK = false;
+                lblDomNum.ForeColor = Color.Red;
+            }
 
-                this.Dispose();
-                this.formPadre.Show();
+            if (Herramientas.IsNumeric(txtPiso.Text))
+            {
+                domPisoOK = true;
+                lblDomPiso.ForeColor = Color.Black;
+            }
+            else
+            {
+                domPisoOK = false;
+                lblDomPiso.ForeColor = Color.Red;
+            }
+
+            if (docNumeroOK && domNumeroOK && domPisoOK)
+            {
+                var result = MessageBox.Show(msj, "Modificar cliente",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
+
+                if (result == DialogResult.OK)
+                {
+                    List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                        "@Cliente_Id", cliente.ClienteId,
+                        "@Cliente_Nombre", txtNombre.Text,
+                        "@Cliente_Apellido", txtApellido.Text,
+                        "@Cliente_Tipodoc_Id", ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key,
+                        "@Cliente_Doc_Nro", txtNumDoc.Text,
+                        "@Cliente_Dom_Calle", txtCalle.Text,
+                        "@Cliente_Dom_Numero", txtCalleNum.Text,
+                        "@Cliente_Dom_Piso", txtPiso.Text,
+                        "@Cliente_Dom_Depto", txtDepto.Text,
+                        "@Cliente_Mail", txtMail.Text,
+                        "@Cliente_Pais_Id", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
+                        "@Cliente_Fecha_Nacimiento", dtpFechaNac.Value.ToShortDateString(),
+                        "@Cliente_Habilitado", chkEstado.Checked);
+
+                    Herramientas.EjecutarStoredProcedure("SARASA.modificar_cliente", lista);
+
+                    this.Dispose();
+                    this.formPadre.Show();
+                }            
             }
         }
     }

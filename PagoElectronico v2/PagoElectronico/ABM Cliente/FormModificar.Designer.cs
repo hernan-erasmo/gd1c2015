@@ -36,7 +36,7 @@
             this.txtDepto = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtPiso = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.lblNroDocumento = new System.Windows.Forms.Label();
             this.txtCalleNum = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtCalle = new System.Windows.Forms.TextBox();
@@ -44,9 +44,9 @@
             this.cbxPais = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.txtMail = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblDomNum = new System.Windows.Forms.Label();
             this.txtNumDoc = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblDomPiso = new System.Windows.Forms.Label();
             this.cbxTipoDoc = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.txtApellido = new System.Windows.Forms.TextBox();
@@ -66,7 +66,7 @@
             this.groupBox1.Controls.Add(this.txtDepto);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.txtPiso);
-            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.lblNroDocumento);
             this.groupBox1.Controls.Add(this.txtCalleNum);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtCalle);
@@ -74,9 +74,9 @@
             this.groupBox1.Controls.Add(this.cbxPais);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.txtMail);
-            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.lblDomNum);
             this.groupBox1.Controls.Add(this.txtNumDoc);
-            this.groupBox1.Controls.Add(this.label10);
+            this.groupBox1.Controls.Add(this.lblDomPiso);
             this.groupBox1.Controls.Add(this.cbxTipoDoc);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.txtApellido);
@@ -148,14 +148,14 @@
             this.txtPiso.Size = new System.Drawing.Size(169, 20);
             this.txtPiso.TabIndex = 24;
             // 
-            // label5
+            // lblNroDocumento
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(16, 127);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(85, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Nro. Documento";
+            this.lblNroDocumento.AutoSize = true;
+            this.lblNroDocumento.Location = new System.Drawing.Point(16, 127);
+            this.lblNroDocumento.Name = "lblNroDocumento";
+            this.lblNroDocumento.Size = new System.Drawing.Size(85, 13);
+            this.lblNroDocumento.TabIndex = 4;
+            this.lblNroDocumento.Text = "Nro. Documento";
             // 
             // txtCalleNum
             // 
@@ -214,14 +214,14 @@
             this.txtMail.Size = new System.Drawing.Size(168, 20);
             this.txtMail.TabIndex = 20;
             // 
-            // label9
+            // lblDomNum
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(16, 249);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(24, 13);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "Nro";
+            this.lblDomNum.AutoSize = true;
+            this.lblDomNum.Location = new System.Drawing.Point(16, 249);
+            this.lblDomNum.Name = "lblDomNum";
+            this.lblDomNum.Size = new System.Drawing.Size(24, 13);
+            this.lblDomNum.TabIndex = 8;
+            this.lblDomNum.Text = "Nro";
             // 
             // txtNumDoc
             // 
@@ -230,14 +230,14 @@
             this.txtNumDoc.Size = new System.Drawing.Size(168, 20);
             this.txtNumDoc.TabIndex = 19;
             // 
-            // label10
+            // lblDomPiso
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(16, 278);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(27, 13);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "Piso";
+            this.lblDomPiso.AutoSize = true;
+            this.lblDomPiso.Location = new System.Drawing.Point(16, 278);
+            this.lblDomPiso.Name = "lblDomPiso";
+            this.lblDomPiso.Size = new System.Drawing.Size(27, 13);
+            this.lblDomPiso.TabIndex = 9;
+            this.lblDomPiso.Text = "Piso";
             // 
             // cbxTipoDoc
             // 
@@ -329,7 +329,7 @@
         private System.Windows.Forms.TextBox txtDepto;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtPiso;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblNroDocumento;
         private System.Windows.Forms.TextBox txtCalleNum;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtCalle;
@@ -337,9 +337,9 @@
         private System.Windows.Forms.ComboBox cbxPais;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtMail;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblDomNum;
         private System.Windows.Forms.TextBox txtNumDoc;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblDomPiso;
         private System.Windows.Forms.ComboBox cbxTipoDoc;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox txtApellido;
