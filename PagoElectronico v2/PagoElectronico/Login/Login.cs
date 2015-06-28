@@ -43,6 +43,15 @@ namespace PagoElectronico.Login
             List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
                             "@datetime_app", fechaDate);
             Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
+            if (textBox1.CanFocus)
+            {
+                this.textBox1.Focus();
+            }
+            else
+            {
+                this.textBox1.Select();
+                this.ActiveControl = textBox1;
+            }
 
         }
 
