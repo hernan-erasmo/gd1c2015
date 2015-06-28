@@ -792,6 +792,34 @@ namespace PagoElectronico.Utils
 
         }
 
+        public static string comprobarDocMail(string tipodoc, string nrodoc, string mail)
+        {
+            string nombreSP = "SARASA.comprobar_doc_y_mail";
+
+            List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
+                "@tipodoc", tipodoc,
+                "@nrodoc", nrodoc,
+                "@mail", mail);
+
+            conexion cn = new conexion();
+
+            SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+            query.CommandType = CommandType.StoredProcedure;
+
+
+            //	Agregar los parametros del tipo INPUT
+            query.Parameters.AddRange(listaParametros.ToArray());
+
+            //	Definir el parametro del tipo OUTPUT
+            SqlParameter factura = new SqlParameter("@resul", 0);
+            factura.Direction = ParameterDirection.Output;
+            query.Parameters.Add(factura);
+
+            query.ExecuteNonQuery();
+
+            return (query.Parameters["@resul"].SqlValue.ToString());
+        }
+
         //Llave de la clase
     }
 }
