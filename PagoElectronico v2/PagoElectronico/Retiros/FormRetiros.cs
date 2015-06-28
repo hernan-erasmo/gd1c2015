@@ -140,7 +140,7 @@ namespace PagoElectronico.Retiros
             if (clienteOK && documentoOK && importeOK && bancoOK && monedaOK && cuentaOK)
             {
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                                            "@cliente_id", usuario.ClienteId,
+                                            "@cliente_id", clienteId,
                                             "@cliente_documento", txtDocumento.Text,
                                             "@cuenta_nro", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key,
                                             "@moneda_id", ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Key,
@@ -149,8 +149,8 @@ namespace PagoElectronico.Retiros
 
                 if (Herramientas.EjecutarStoredProcedure("SARASA.retirar_efectivo", lista) != null)
                 {
-
-                    string boleta = "CLIENTE: " + usuario.Apellido +", "+ usuario.Nombre + " (" + usuario.ClienteId + ")\n"
+                    
+                    string boleta = "CLIENTE: " + txtCliente.Text + "\n"
                                 + "CUENTA: " + ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key + "\n"
                                 + "IMPORTE: $" + txtImporte.Text + " (" + ((KeyValuePair<string, string>)cbxMoneda.SelectedItem).Value+ ")\n"
                                 + "BANCO: " + ((KeyValuePair<string, string>)cbxBanco.SelectedItem).Value + "\n";
