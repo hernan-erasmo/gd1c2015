@@ -864,7 +864,6 @@ BEGIN TRY
 
 			IF @estado_cliente = '0'
 			BEGIN
-				SET @cuenta_numero_string = CAST(@deposito_cuenta_num AS nvarchar(40))
 				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1,@cuenta_numero_string)
 			END
 
@@ -995,6 +994,18 @@ BEGIN TRY
 			DECLARE @fecha_hoy datetime
 			DECLARE @cuenta_numero_string nvarchar(40)	--Sólo para manejo de errores
 			DECLARE @importe_string nvarchar(20)		--Sólo para manejo de errores
+			DECLARE @estado_cliente integer
+			
+			--Verificamos que cliente este habilitado. Si no, salimos con RAISERROR
+			SELECT @estado_cliente = cli.Cliente_Habilitado
+			FROM SARASA.Cliente cli
+			WHERE cli.Cliente_Id = @cliente_id
+
+			IF @estado_cliente = '0'
+			BEGIN
+				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1,@cuenta_numero_string)
+			END
+			
 			
 			--Verificamos que la cuenta esté habilitada. Si no, salimos con RAISERROR
 			SELECT @estado_habilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada';
@@ -2428,6 +2439,73 @@ BEGIN TRY
 		ELSE
 			BEGIN
 				SET @resul = 0;
+			END
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
+-- Procedimiento para saber si existe un doc y mail repetido. Si devuelve 0 no existen
+-- 1 doc repetido. 2 mail repetido. 3 ambos repetidos
+CREATE PROCEDURE SARASA.comprobar_doc_y_mail (
+	@tipodoc	integer,
+	@nrodoc		numeric(18,0),
+	@mail		nvarchar(255),
+	@resul		integer OUTPUT
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		SET @resul = 0;
+		IF ( EXISTS (SELECT *
+					FROM SARASA.Cliente
+					WHERE Cliente_Tipodoc_Id = @tipodoc AND
+					Cliente_Doc_Nro = @nrodoc) 
+					AND
+					EXISTS (SELECT *
+					FROM SARASA.Cliente
+					WHERE Cliente_Mail = @mail))
+			BEGIN
+				SET @resul = 3;
+			END
+		ELSE
+			BEGIN
+				IF ( EXISTS (SELECT *
+					FROM SARASA.Cliente
+					WHERE Cliente_Tipodoc_Id = @tipodoc AND
+					Cliente_Doc_Nro = @nrodoc))
+					BEGIN
+						SET @resul = 1;
+					END
+				ELSE
+					BEGIN
+						IF ( EXISTS (SELECT *
+									FROM SARASA.Cliente
+									WHERE Cliente_Mail = @mail))
+						BEGIN
+							SET @resul = 2;
+						END
+					END
 			END
 
 	IF @starttrancount = 0
