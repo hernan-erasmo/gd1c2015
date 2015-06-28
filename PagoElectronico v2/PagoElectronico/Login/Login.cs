@@ -76,6 +76,9 @@ namespace PagoElectronico.Login
                         //  Objeto usuario, con la informacion de la sesion
                         usuario = new Utils.Usuario();
 
+                        //  Carga la fecha del sistema
+                        usuario.Fecha = fechaDate.ToShortDateString();
+
                         //  Carga la informacion en usuario
                         usuario.Username = Convert.ToString(this.textBox1.Text);
                         usuario.Password = Herramientas.sha256_hash(textBox2.Text);

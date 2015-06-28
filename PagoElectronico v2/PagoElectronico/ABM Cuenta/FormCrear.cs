@@ -14,14 +14,16 @@ namespace PagoElectronico.ABM_Cuenta
     public partial class FormCrear : Form
     {
         Form formPadre;
+        Usuario usuario;
         int pasoCrear;
         string clienteDesc;
         int clienteId;
 
-        public FormCrear(Form f, string clienteDesc, string clienteId)
+        public FormCrear(Form f, Usuario user, string clienteDesc, string clienteId)
         {
             InitializeComponent();
             formPadre = f;
+            usuario = user;
             this.clienteDesc = clienteDesc;
             this.clienteId = Int32.Parse(clienteId);
         }
@@ -30,7 +32,9 @@ namespace PagoElectronico.ABM_Cuenta
         {
             pasoCrear = 1;
             txtCliente.Text = clienteDesc;
-            dtpFechaApertura.Value = DateTime.Now;
+//            dtpFechaApertura.Value = DateTime.Now;
+            dtpFechaApertura.Value = DateTime.Parse(usuario.Fecha);
+
             Herramientas.llenarComboBoxSP(cbxPais,"SARASA.cbx_pais",null,true);
             Herramientas.llenarComboBoxSP(cbxTipoCta, "SARASA.cbx_tipocta",null,true);
             Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda",null,true);

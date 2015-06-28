@@ -135,7 +135,7 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void btnCrear_Click(object sender, EventArgs e)
         {
-            FormCrear formCrear = new FormCrear(this, txtCliente.Text, clienteId);
+            FormCrear formCrear = new FormCrear(this, usuario, txtCliente.Text, clienteId);
             formCrear.Show();
             this.Hide();
         }
@@ -315,7 +315,7 @@ namespace PagoElectronico.ABM_Cuenta
                 + dataGridView1.SelectedCells[16].Value.ToString();
 
 
-            ABM_Cuenta.FormModificar frmModificar = new ABM_Cuenta.FormModificar(this,cuenta);
+            ABM_Cuenta.FormModificar frmModificar = new ABM_Cuenta.FormModificar(this,cuenta,usuario);
             frmModificar.Show();
             this.Hide();
         }

@@ -15,12 +15,14 @@ namespace PagoElectronico.ABM_Cuenta
     {
         Cuenta cuenta;
         Form formPadre;
+        Usuario usuario;
 
-        public FormModificar(Form f, Cuenta cuenta)
+        public FormModificar(Form f, Cuenta cuenta, Usuario user)
         {
             InitializeComponent();
             formPadre = f;
             this.cuenta = cuenta;
+            this.usuario = user;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
@@ -33,10 +35,20 @@ namespace PagoElectronico.ABM_Cuenta
         {
             txtCliente.Text = cuenta.DesCliente + " (" + cuenta.IdCliente + ")";
             txtNumero.Text = cuenta.Numero;
+
+            if (usuario.RolId != "1") 
+            {
+                cbxEstado.Visible = false;
+                lblEstado.Visible = false;
+            }
+
+
             Herramientas.llenarComboBoxSP(cbxTipoCta, "SARASA.cbx_tipocta", null, true);
             cbxTipoCta.SelectedValue = cuenta.IdTipo.ToString();
+
             Herramientas.llenarComboBoxSP(cbxEstado, "SARASA.cbx_estado", null, true);
-            cbxEstado.SelectedValue = cuenta.IdEstado.ToString();
+            cbxEstado.SelectedValue = cuenta.IdEstado.ToString();            
+
 
         }
 

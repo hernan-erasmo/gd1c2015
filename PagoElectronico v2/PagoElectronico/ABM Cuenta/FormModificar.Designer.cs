@@ -31,7 +31,7 @@
             this.btnVolver = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label7 = new System.Windows.Forms.Label();
+            this.lblEstado = new System.Windows.Forms.Label();
             this.cbxEstado = new System.Windows.Forms.ComboBox();
             this.cbxTipoCta = new System.Windows.Forms.ComboBox();
             this.txtNumero = new System.Windows.Forms.TextBox();
@@ -64,7 +64,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.lblEstado);
             this.groupBox1.Controls.Add(this.cbxEstado);
             this.groupBox1.Controls.Add(this.cbxTipoCta);
             this.groupBox1.Controls.Add(this.txtNumero);
@@ -77,14 +77,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Informacion de la Cuenta";
             // 
-            // label7
+            // lblEstado
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 97);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(40, 13);
-            this.label7.TabIndex = 33;
-            this.label7.Text = "Estado";
+            this.lblEstado.AutoSize = true;
+            this.lblEstado.Location = new System.Drawing.Point(13, 97);
+            this.lblEstado.Name = "lblEstado";
+            this.lblEstado.Size = new System.Drawing.Size(40, 13);
+            this.lblEstado.TabIndex = 33;
+            this.lblEstado.Text = "Estado";
             // 
             // cbxEstado
             // 
@@ -181,7 +181,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.ComboBox cbxEstado;
     }
 }

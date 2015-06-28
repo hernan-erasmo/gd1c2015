@@ -115,6 +115,7 @@
             // dtpFechaApertura
             // 
             this.dtpFechaApertura.CustomFormat = "";
+            this.dtpFechaApertura.Enabled = false;
             this.dtpFechaApertura.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaApertura.Location = new System.Drawing.Point(121, 128);
             this.dtpFechaApertura.Name = "dtpFechaApertura";

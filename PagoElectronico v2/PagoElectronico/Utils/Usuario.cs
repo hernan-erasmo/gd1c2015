@@ -17,6 +17,7 @@ namespace PagoElectronico.Utils
         private string documento;
         private string rol;
         private string rolId;
+        private string fecha;
         private ArrayList funciones;
         private int codLogin;
         private int clienteId;
@@ -31,6 +32,7 @@ namespace PagoElectronico.Utils
             this.rol = string.Empty;
             this.nombre = string.Empty;
             this.apellido = string.Empty;
+            this.fecha = string.Empty;
             this.funciones = new ArrayList();
         }
 
@@ -61,6 +63,12 @@ namespace PagoElectronico.Utils
         {
             get { return this.rolId; }
             set { this.rolId = value; }
+        }
+
+        public string Fecha
+        {
+            get { return this.fecha; }
+            set { this.fecha = value; }
         }
 
         public ArrayList Funciones
