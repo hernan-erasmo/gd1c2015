@@ -15,18 +15,23 @@ namespace PagoElectronico.ABM_Tarjeta
     {
         Form formPadre;
         Usuario usuario;
+        string clienteId = "0";
+        string clienteDesc = "";
 
         public FormAsociar()
         {
             InitializeComponent();
         }
 
-        public FormAsociar(Form f, string cliente, Usuario user)
+//        public FormAsociar(Form f, string cliente, Usuario user)
+        public FormAsociar(Form f, string clienteId, string clienteDesc)
         {
             InitializeComponent();
             formPadre = f;
-            txtCliente.Text = cliente;
-            usuario = user;
+            this.clienteDesc = clienteDesc;
+            this.clienteId = clienteId;
+
+            //usuario = user;
         }
 
         //  Boton X
@@ -40,6 +45,8 @@ namespace PagoElectronico.ABM_Tarjeta
         private void FormAsociar_Load(object sender, EventArgs e)
         {
             txtCliente.Enabled = false;
+            txtCliente.Text = clienteDesc;
+
             dtpFechaEmision.Value = DateTime.Now;
             dtpFechaVencimiento.Value = DateTime.Now;
 
@@ -95,7 +102,7 @@ namespace PagoElectronico.ABM_Tarjeta
                 try
                 {
                     List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                        "@cliente_id", txtCliente.Text,
+                        "@cliente_id", clienteId,
                         "@tc_num", Herramientas.sha256_hash(txtNumero.Text),//Convert.ToString(txtNumero.Text),
                         "@tc_ultimoscuatro", Convert.ToString(Utils.Herramientas.stringRight(txtNumero.Text, 4)),
                         "@tc_emision", dtpFechaEmision.Value.ToShortDateString(),

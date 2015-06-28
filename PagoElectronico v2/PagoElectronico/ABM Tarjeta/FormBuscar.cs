@@ -309,9 +309,7 @@ namespace PagoElectronico.ABM_Tarjeta
         //  Asociar
         private void btnAsociar_Click(object sender, EventArgs e)
         {
-
-
-            FormAsociar formAsociar = new FormAsociar(this,clienteId,this.usuario);
+            FormAsociar formAsociar = new FormAsociar(this,clienteId,txtCliente.Text);
             formAsociar.Show();
             this.Hide();
         }
@@ -358,12 +356,6 @@ namespace PagoElectronico.ABM_Tarjeta
         {
             this.txtCliente.Text = apellido +", "+ nombre + " (" + clienteId + ")";
             this.clienteId = clienteId;
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

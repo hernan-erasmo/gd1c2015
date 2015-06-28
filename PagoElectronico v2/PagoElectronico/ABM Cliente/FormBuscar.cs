@@ -335,38 +335,13 @@ namespace PagoElectronico.ABM_Cliente
 
         private void btnAsociarTC_Click(object sender, EventArgs e)
         {
-            Cliente cliente = new Cliente();
-            cliente.ClienteId = dataGridView1.SelectedCells[0].Value.ToString();
+            string clienteId = dataGridView1.SelectedCells[0].Value.ToString();
+            string clienteDesc = dataGridView1.SelectedCells[4].Value.ToString() + ", " +
+                dataGridView1.SelectedCells[3].Value.ToString() + " ( " + clienteId + ")";
 
-            if (cliente.ClienteId != "")
-            {
-                cliente.Nombre = dataGridView1.SelectedCells[3].Value.ToString();
-                cliente.Apellido = dataGridView1.SelectedCells[4].Value.ToString();
-                cliente.Mail = dataGridView1.SelectedCells[5].Value.ToString();
-
-                cliente.TipoDocId = dataGridView1.SelectedCells[17].Value.ToString();
-                cliente.NumeroDoc = dataGridView1.SelectedCells[7].Value.ToString();
-
-                cliente.PaisId = dataGridView1.SelectedCells[16].Value.ToString();
-                cliente.DomCalle = dataGridView1.SelectedCells[18].Value.ToString();
-                cliente.DomNumero = dataGridView1.SelectedCells[19].Value.ToString();
-                cliente.DomPiso = dataGridView1.SelectedCells[20].Value.ToString();
-                cliente.DomDpto = dataGridView1.SelectedCells[21].Value.ToString();
-
-                cliente.FechaNacimiento = dataGridView1.SelectedCells[8].Value.ToString();
-                cliente.Habilitado = bool.Parse(dataGridView1.SelectedCells[11].Value.ToString());
-                Herramientas.msebox_informacion("ClienteId: " + cliente.ClienteId);
-
-
-                string infoCliente =cliente.ClienteId;
-                ABM_Tarjeta.FormAsociar frmAsociar = new ABM_Tarjeta.FormAsociar(this, infoCliente, usuario);
-                this.Hide();
-                frmAsociar.Show();
-
-            }
-            else
-                Herramientas.msebox_informacion("SIN CLIENTE ASOCIADO, ClienteId: " + cliente.ClienteId);
-
+            ABM_Tarjeta.FormAsociar frmAsociar = new ABM_Tarjeta.FormAsociar(this, clienteId, clienteDesc);
+            this.Hide();
+            frmAsociar.Show();
         }
     }
 }

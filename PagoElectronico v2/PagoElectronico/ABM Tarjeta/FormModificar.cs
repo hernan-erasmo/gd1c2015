@@ -25,17 +25,7 @@ namespace PagoElectronico.ABM_Tarjeta
         {
             InitializeComponent();
             formPadre = f;
-            txtCliente.Text = t.Apellido + ", " + t.Nombre + " (" + t.ClienteId + ")";
-
             tarjeta = t;
-
-            txtCodSeguridad.Text = tarjeta.CodigoSeguridad;
-            txtNumero.Text = tarjeta.Numero;
-            cbxEmisor.Text = tarjeta.Emisor;
-
-            dtpFechaEmision.Value = DateTime.Parse(tarjeta.FechaEmision);
-            dtpFechaVencimiento.Value = DateTime.Parse(tarjeta.FechaVencimiento);
-            
         }
 
         //  Boton X
@@ -48,6 +38,13 @@ namespace PagoElectronico.ABM_Tarjeta
         private void FormModificar_Load(object sender, EventArgs e)
         {
             txtCliente.Enabled = false;
+
+            txtCliente.Text = tarjeta.Apellido + ", " + tarjeta.Nombre + " (" + tarjeta.ClienteId + ")";
+            txtCodSeguridad.Text = tarjeta.CodigoSeguridad;
+            txtNumero.Text = tarjeta.Numero;
+
+            dtpFechaEmision.Value = DateTime.Parse(tarjeta.FechaEmision);
+            dtpFechaVencimiento.Value = DateTime.Parse(tarjeta.FechaVencimiento);
 
             //  Llena el combo de emisor
             cbxEmisor.Items.Clear();//VACIA LOS ELEMENTOS DEL COMBO
