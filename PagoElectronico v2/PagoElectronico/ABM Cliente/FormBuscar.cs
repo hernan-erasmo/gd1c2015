@@ -248,20 +248,21 @@ namespace PagoElectronico.ABM_Cliente
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            try
+            string msj = "Seguro que quiere ELIMINAR el CLIENTE \"" +
+                dataGridView1.SelectedCells[4].Value.ToString() + ", " +
+                dataGridView1.SelectedCells[3].Value.ToString() + " (" +
+                dataGridView1.SelectedCells[0].Value.ToString() + ")\"?\n";
+            msj += "SE REALIZA UNA BAJA LÓGICA";
+
+            var result = MessageBox.Show(msj, "Eliminar cliente",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
+
+            if (result == DialogResult.OK)
             {
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
                                  "@cliente_id", dataGridView1.SelectedCells[0].Value.ToString());
-
                 Herramientas.EjecutarStoredProcedure("SARASA.eliminar_cliente", lista);
-                Herramientas.msebox_informacion("EXEC SARASA.eliminar_cliente @cliente_id=" + dataGridView1.SelectedCells[0].Value.ToString());
-
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.ToString());
-            }
-
         }
 
         //  Modificar Cliente

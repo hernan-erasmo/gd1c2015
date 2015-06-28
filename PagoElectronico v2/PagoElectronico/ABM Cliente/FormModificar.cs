@@ -70,11 +70,22 @@ namespace PagoElectronico.ABM_Cliente
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            bool docNumeroOK = false, domPisoOK = false, domNumeroOK = false;
 
-            //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-            try
+            string msj = "Seguro que quiere MODIFICAR la información del CLIENTE \"" +
+                cliente.Apellido + ", " +
+                cliente.Nombre + " (" +
+                cliente.ClienteId + ")\"?";
+
+
+            if(Herramientas.IsNumeric(txtNumDoc.Text)) 
+
+
+            var result = MessageBox.Show(msj, "Modificar cliente",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
+
+            if (result == DialogResult.OK)
             {
-
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
                     "@Cliente_Id", cliente.ClienteId,
                     "@Cliente_Nombre", txtNombre.Text,
@@ -91,13 +102,10 @@ namespace PagoElectronico.ABM_Cliente
                     "@Cliente_Habilitado", chkEstado.Checked);
 
                 Herramientas.EjecutarStoredProcedure("SARASA.modificar_cliente", lista);
-                Herramientas.msebox_informacion("Cliente modificado (Cliente_Id: "+cliente.ClienteId+")");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.ToString());
-            }
 
+                this.Dispose();
+                this.formPadre.Show();
+            }
         }
     }
 }
