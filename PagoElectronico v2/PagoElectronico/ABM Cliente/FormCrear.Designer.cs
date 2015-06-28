@@ -202,6 +202,7 @@
             // 
             // cbxTipoDoc
             // 
+            this.cbxTipoDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxTipoDoc.FormattingEnabled = true;
             this.cbxTipoDoc.Location = new System.Drawing.Point(123, 90);
             this.cbxTipoDoc.Name = "cbxTipoDoc";
@@ -224,6 +225,7 @@
             // 
             // cbxPais
             // 
+            this.cbxPais.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxPais.FormattingEnabled = true;
             this.cbxPais.Location = new System.Drawing.Point(123, 184);
             this.cbxPais.Name = "cbxPais";
@@ -348,6 +350,7 @@
             // 
             // cbxRol
             // 
+            this.cbxRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbxRol.FormattingEnabled = true;
             this.cbxRol.Location = new System.Drawing.Point(19, 205);
             this.cbxRol.Name = "cbxRol";

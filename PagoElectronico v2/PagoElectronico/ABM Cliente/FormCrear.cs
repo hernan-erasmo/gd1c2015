@@ -170,7 +170,7 @@ namespace PagoElectronico.ABM_Cliente
             txtDepto.Text = "";
             cbxTipoDoc.SelectedIndex = 0;
             cbxPais.SelectedIndex = 0;
-            chkEstado.Enabled = false;
+            chkEstado.Checked = false;
 
             //Buscar Usuario
             rbBuscarUser.Checked = true;

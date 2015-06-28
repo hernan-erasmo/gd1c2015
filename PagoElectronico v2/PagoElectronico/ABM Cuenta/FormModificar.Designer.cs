@@ -106,6 +106,7 @@
             // 
             // txtNumero
             // 
+            this.txtNumero.Enabled = false;
             this.txtNumero.Location = new System.Drawing.Point(121, 26);
             this.txtNumero.MaxLength = 16;
             this.txtNumero.Name = "txtNumero";
@@ -132,9 +133,9 @@
             // 
             // txtCliente
             // 
+            this.txtCliente.Enabled = false;
             this.txtCliente.Location = new System.Drawing.Point(133, 19);
             this.txtCliente.Name = "txtCliente";
-            this.txtCliente.ReadOnly = true;
             this.txtCliente.Size = new System.Drawing.Size(162, 20);
             this.txtCliente.TabIndex = 12;
             // 
