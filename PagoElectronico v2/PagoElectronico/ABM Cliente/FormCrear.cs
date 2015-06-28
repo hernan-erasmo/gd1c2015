@@ -27,6 +27,7 @@ namespace PagoElectronico.ABM_Cliente
             InitializeComponent();
             formPadre = f;
             usuario = user;
+            labelResultado.Visible = false;
         }
 
         public FormCrear()
@@ -80,37 +81,101 @@ namespace PagoElectronico.ABM_Cliente
 
         private void txtCrear_Click(object sender, EventArgs e)
         {
+            string resultado;
+            string tipodoc = ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key;
+            resultado = Herramientas.comprobarDocMail(tipodoc, txtNumDoc.Text, txtMail.Text);
+            label4.ForeColor = Color.Black;
+            label5.ForeColor = Color.Black;
+            label6.ForeColor = Color.Black;
+
+            if(resultado == "1")
+            {
+                label4.ForeColor = Color.Red;
+                label5.ForeColor = Color.Red;
+                labelResultado.Text = "Tipo y Nro de Documento ya existentes";
+                labelResultado.ForeColor = Color.Red;
+                labelResultado.Visible = true;
+            }
+             if(resultado == "2")
+            {
+                label6.ForeColor = Color.Red;
+                labelResultado.Text = "Mail ya existente";
+                labelResultado.ForeColor = Color.Red;
+                labelResultado.Visible = true;
+            }
+             if(resultado == "3")
+            {
+                label4.ForeColor = Color.Red;
+                label5.ForeColor = Color.Red;
+                label6.ForeColor = Color.Red;
+                labelResultado.Text = "Tipo Doc, Nro de Documento y Mail ya existentes";
+                labelResultado.ForeColor = Color.Red;
+                labelResultado.Visible = true;
+            }
+            if(resultado == "0")
+            {
+            
             //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
             try
             {
+                List<SqlParameter> lista;
 
-                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                                 "@Cliente_Nombre", txtNombre.Text,
-                                 "@Cliente_Apellido", txtApellido.Text,
-                                 "@Cliente_Tipodoc_Id", ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key,
-                                 "@Cliente_Doc_Nro", txtNumDoc.Text,
-                                 "@Cliente_Dom_Calle", txtCalle.Text,
-                                 "@Cliente_Dom_Numero", txtCalleNum.Text,
-                                 "@Cliente_Dom_Piso", txtPiso.Text,
-                                 "@Cliente_Dom_Depto", txtDepto.Text,
-                                 "@Cliente_Mail", txtMail.Text,
-                                 "@Cliente_Pais_Id", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
-                                 "@Cliente_Fecha_Nacimiento", dtpFechaNac.Value.ToShortDateString(),
-                                 "@Cliente_Habilitado", chkEstado.Checked,
-                                 "@Usuario_Id", userId,
-                                 "@Usuario_Username", txtUsuario.Text,
-                                 "@Usuario_Password", Herramientas.sha256_hash(txtPassword.Text),
-                                 "@Usuario_Pregunta_Sec", txtPreguntaSec.Text,
-                                 "@Usuario_Respuesta_Sec", Herramientas.sha256_hash(txtRespuestaSec.Text),
-                                 "@Rol_Id", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
-
+                if (txtPiso.Text == "" && txtDepto.Text == "")
+                {
+                    lista = Herramientas.GenerarListaDeParametros(
+                                "@Cliente_Nombre", txtNombre.Text,
+                                "@Cliente_Apellido", txtApellido.Text,
+                                "@Cliente_Tipodoc_Id", ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key,
+                                "@Cliente_Doc_Nro", txtNumDoc.Text,
+                                "@Cliente_Dom_Calle", txtCalle.Text,
+                                "@Cliente_Dom_Numero", txtCalleNum.Text,
+                                "@Cliente_Dom_Piso", "0",
+                                "@Cliente_Dom_Depto", "0",
+                                "@Cliente_Mail", txtMail.Text,
+                                "@Cliente_Pais_Id", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
+                                "@Cliente_Fecha_Nacimiento", dtpFechaNac.Value.ToShortDateString(),
+                                "@Cliente_Habilitado", chkEstado.Checked,
+                                "@Usuario_Id", userId,
+                                "@Usuario_Username", txtUsuario.Text,
+                                "@Usuario_Password", Herramientas.sha256_hash(txtPassword.Text),
+                                "@Usuario_Pregunta_Sec", txtPreguntaSec.Text,
+                                "@Usuario_Respuesta_Sec", Herramientas.sha256_hash(txtRespuestaSec.Text),
+                                "@Rol_Id", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
+                }
+                else
+                {
+                    lista = Herramientas.GenerarListaDeParametros(
+                                     "@Cliente_Nombre", txtNombre.Text,
+                                     "@Cliente_Apellido", txtApellido.Text,
+                                     "@Cliente_Tipodoc_Id", ((KeyValuePair<string, string>)cbxTipoDoc.SelectedItem).Key,
+                                     "@Cliente_Doc_Nro", txtNumDoc.Text,
+                                     "@Cliente_Dom_Calle", txtCalle.Text,
+                                     "@Cliente_Dom_Numero", txtCalleNum.Text,
+                                     "@Cliente_Dom_Piso", txtPiso.Text,
+                                     "@Cliente_Dom_Depto", txtDepto.Text,
+                                     "@Cliente_Mail", txtMail.Text,
+                                     "@Cliente_Pais_Id", ((KeyValuePair<string, string>)cbxPais.SelectedItem).Key,
+                                     "@Cliente_Fecha_Nacimiento", dtpFechaNac.Value.ToShortDateString(),
+                                     "@Cliente_Habilitado", chkEstado.Checked,
+                                     "@Usuario_Id", userId,
+                                     "@Usuario_Username", txtUsuario.Text,
+                                     "@Usuario_Password", Herramientas.sha256_hash(txtPassword.Text),
+                                     "@Usuario_Pregunta_Sec", txtPreguntaSec.Text,
+                                     "@Usuario_Respuesta_Sec", Herramientas.sha256_hash(txtRespuestaSec.Text),
+                                     "@Rol_Id", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
+                }
+                
                 Herramientas.EjecutarStoredProcedure("SARASA.crear_cliente", lista);
                 Herramientas.msebox_informacion("Cliente nueva creada (ID_USER: "+userId+")");
+                this.Close();
+                this.formPadre.Show();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.ToString());
             }
+            }
+
         }
 
         private void txtVolver_Click(object sender, EventArgs e)

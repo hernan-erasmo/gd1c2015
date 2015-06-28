@@ -72,6 +72,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.rbBuscarUser = new System.Windows.Forms.RadioButton();
             this.rbAltaUser = new System.Windows.Forms.RadioButton();
+            this.labelResultado = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.gbAltaUser.SuspendLayout();
             this.gbBuscarUser.SuspendLayout();
@@ -178,7 +179,7 @@
             // 
             // btnVolver
             // 
-            this.btnVolver.Location = new System.Drawing.Point(17, 419);
+            this.btnVolver.Location = new System.Drawing.Point(12, 439);
             this.btnVolver.Name = "btnVolver";
             this.btnVolver.Size = new System.Drawing.Size(79, 29);
             this.btnVolver.TabIndex = 21;
@@ -273,7 +274,7 @@
             // 
             // btnCrear
             // 
-            this.btnCrear.Location = new System.Drawing.Point(534, 419);
+            this.btnCrear.Location = new System.Drawing.Point(531, 439);
             this.btnCrear.Name = "btnCrear";
             this.btnCrear.Size = new System.Drawing.Size(80, 29);
             this.btnCrear.TabIndex = 23;
@@ -283,7 +284,7 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(111, 419);
+            this.btnLimpiar.Location = new System.Drawing.Point(109, 439);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(80, 29);
             this.btnLimpiar.TabIndex = 22;
@@ -316,7 +317,7 @@
             this.groupBox1.Controls.Add(this.txtApellido);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.txtNombre);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 32);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(306, 401);
             this.groupBox1.TabIndex = 33;
@@ -345,7 +346,7 @@
             this.gbAltaUser.Controls.Add(this.label15);
             this.gbAltaUser.Controls.Add(this.label16);
             this.gbAltaUser.Controls.Add(this.label17);
-            this.gbAltaUser.Location = new System.Drawing.Point(324, 136);
+            this.gbAltaUser.Location = new System.Drawing.Point(324, 156);
             this.gbAltaUser.Name = "gbAltaUser";
             this.gbAltaUser.Size = new System.Drawing.Size(293, 277);
             this.gbAltaUser.TabIndex = 34;
@@ -440,7 +441,7 @@
             this.gbBuscarUser.Controls.Add(this.btnBuscarUsuario);
             this.gbBuscarUser.Controls.Add(this.txtUsuarioBusq);
             this.gbBuscarUser.Controls.Add(this.label1);
-            this.gbBuscarUser.Location = new System.Drawing.Point(324, 42);
+            this.gbBuscarUser.Location = new System.Drawing.Point(321, 62);
             this.gbBuscarUser.Name = "gbBuscarUser";
             this.gbBuscarUser.Size = new System.Drawing.Size(293, 71);
             this.gbBuscarUser.TabIndex = 35;
@@ -475,7 +476,7 @@
             // rbBuscarUser
             // 
             this.rbBuscarUser.AutoSize = true;
-            this.rbBuscarUser.Location = new System.Drawing.Point(324, 22);
+            this.rbBuscarUser.Location = new System.Drawing.Point(331, 39);
             this.rbBuscarUser.Name = "rbBuscarUser";
             this.rbBuscarUser.Size = new System.Drawing.Size(97, 17);
             this.rbBuscarUser.TabIndex = 12;
@@ -487,7 +488,7 @@
             // rbAltaUser
             // 
             this.rbAltaUser.AutoSize = true;
-            this.rbAltaUser.Location = new System.Drawing.Point(324, 119);
+            this.rbAltaUser.Location = new System.Drawing.Point(324, 143);
             this.rbAltaUser.Name = "rbAltaUser";
             this.rbAltaUser.Size = new System.Drawing.Size(155, 17);
             this.rbAltaUser.TabIndex = 15;
@@ -496,12 +497,22 @@
             this.rbAltaUser.UseVisualStyleBackColor = true;
             this.rbAltaUser.CheckedChanged += new System.EventHandler(this.rbAltaUser_CheckedChanged_1);
             // 
+            // labelResultado
+            // 
+            this.labelResultado.AutoSize = true;
+            this.labelResultado.Location = new System.Drawing.Point(17, 9);
+            this.labelResultado.Name = "labelResultado";
+            this.labelResultado.Size = new System.Drawing.Size(41, 13);
+            this.labelResultado.TabIndex = 36;
+            this.labelResultado.Text = "label18";
+            // 
             // FormCrear
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(627, 458);
+            this.ClientSize = new System.Drawing.Size(627, 480);
+            this.Controls.Add(this.labelResultado);
             this.Controls.Add(this.rbAltaUser);
             this.Controls.Add(this.rbBuscarUser);
             this.Controls.Add(this.gbBuscarUser);
@@ -571,5 +582,6 @@
         private System.Windows.Forms.Button btnBuscarUsuario;
         private System.Windows.Forms.RadioButton rbBuscarUser;
         private System.Windows.Forms.RadioButton rbAltaUser;
+        private System.Windows.Forms.Label labelResultado;
     }
 }
