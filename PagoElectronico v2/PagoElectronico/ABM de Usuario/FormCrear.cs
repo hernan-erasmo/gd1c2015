@@ -92,22 +92,54 @@ namespace PagoElectronico.ABM_de_Usuario
 
             if (usernameOK && passwordOK && preguntaOK && respuestaOK)
             {
+                string resul;
                 try
                 {
-                    List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
-                        "@Usuario_Username",txtUsuario.Text,
-                        "@Usuario_Password", Herramientas.sha256_hash(txtPassword.Text.ToString()),
-                        "@Usuario_Pregunta_Sec", txtPreguntaSec.Text,
-                        "@Usuario_Respuesta_Sec", Herramientas.sha256_hash(txtRespuestaSec.Text.ToString()),
-                        "@Rol_Id", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
+                    string nombreSP = "SARASA.comprobar_usuario_existente";
 
-                    if (Herramientas.EjecutarStoredProcedure("SARASA.crear_usuario", lista) == null)
-                    { 
+                    List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros(
+                        "@username", txtUsuario.Text);
+
+                    conexion cn = new conexion();
+
+                    SqlCommand query = new SqlCommand(nombreSP, cn.abrir_conexion());
+                    query.CommandType = CommandType.StoredProcedure;
+
+
+                    //	Agregar los parametros del tipo INPUT
+                    query.Parameters.AddRange(listaParametros.ToArray());
+
+                    //	Definir el parametro del tipo OUTPUT
+                    SqlParameter factura = new SqlParameter("@resul", 0);
+                    factura.Direction = ParameterDirection.Output;
+                    query.Parameters.Add(factura);
+
+                    query.ExecuteNonQuery();
+
+                    resul = (query.Parameters["@resul"].SqlValue.ToString());
+
+                    if (resul == "0")
+                    {
+                        List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                            "@Usuario_Username", txtUsuario.Text,
+                            "@Usuario_Password", Herramientas.sha256_hash(txtPassword.Text.ToString()),
+                            "@Usuario_Pregunta_Sec", txtPreguntaSec.Text,
+                            "@Usuario_Respuesta_Sec", Herramientas.sha256_hash(txtRespuestaSec.Text.ToString()),
+                            "@Rol_Id", ((KeyValuePair<string, string>)cbxRol.SelectedItem).Key);
+
+                        if (Herramientas.EjecutarStoredProcedure("SARASA.crear_usuario", lista) == null)
+                        {
+                        }
+                        else
+                        {
+                            this.Dispose();
+                            formPadre.Show();
+                        }
                     }
                     else
                     {
-                        this.Dispose();
-                        formPadre.Show();
+                        lblUsuario.ForeColor = Color.Red;
+                        Herramientas.msebox_informacion("Nombre de usuario ya existente");
                     }
                 }
                 catch (Exception ex)

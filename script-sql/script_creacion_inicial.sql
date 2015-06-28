@@ -2387,6 +2387,49 @@ BEGIN CATCH
 END CATCH
 GO
 
+--Procedimiento para comprobar si el username de un usuario ya existe en el sistema,
+-- en caso que exista devuelve 1, sino devuelve 0
+CREATE PROCEDURE SARASA.comprobar_usuario_existente (
+	@username	nvarchar(20),
+	@resul		integer OUTPUT
+)
+AS
+
+SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
+SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
+
+DECLARE @starttrancount int
+DECLARE @error_message nvarchar(4000)
+
+BEGIN TRY
+	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
+
+	IF @starttrancount = 0
+		BEGIN TRANSACTION
+
+		IF ( EXISTS (SELECT *
+					FROM SARASA.Usuario
+					WHERE Usuario_Username=@username))
+			BEGIN
+				SET @resul = 1;
+			END
+		ELSE
+			BEGIN
+				SET @resul = 0;
+			END
+
+	IF @starttrancount = 0
+		COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
+		ROLLBACK TRANSACTION
+	SELECT @error_message = ERROR_MESSAGE()
+	RAISERROR('Error en la transacción: %s',16,1, @error_message)
+END CATCH
+GO
+
+
 /***********************
 	Creamos procedures para la carga de los combos en la app
 ************************/
