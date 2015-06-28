@@ -61,7 +61,6 @@
             this.btnAsociar = new System.Windows.Forms.Button();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnVolver = new System.Windows.Forms.Button();
-            this.btnAceptar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -388,10 +387,9 @@
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.Controls.Add(this.btnVolver);
-            this.flowLayoutPanel2.Controls.Add(this.btnAceptar);
             this.flowLayoutPanel2.Location = new System.Drawing.Point(12, 544);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(175, 33);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(85, 33);
             this.flowLayoutPanel2.TabIndex = 12;
             // 
             // btnVolver
@@ -403,16 +401,6 @@
             this.btnVolver.Text = "Volver";
             this.btnVolver.UseVisualStyleBackColor = true;
             this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
-            // 
-            // btnAceptar
-            // 
-            this.btnAceptar.Location = new System.Drawing.Point(89, 3);
-            this.btnAceptar.Name = "btnAceptar";
-            this.btnAceptar.Size = new System.Drawing.Size(80, 28);
-            this.btnAceptar.TabIndex = 10;
-            this.btnAceptar.Text = "Aceptar";
-            this.btnAceptar.UseVisualStyleBackColor = true;
-            this.btnAceptar.Click += new System.EventHandler(this.btnAceptar_Click);
             // 
             // FormBuscar
             // 
@@ -484,6 +472,5 @@
         private System.Windows.Forms.Button btnAsociar;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Button btnVolver;
-        private System.Windows.Forms.Button btnAceptar;
     }
 }

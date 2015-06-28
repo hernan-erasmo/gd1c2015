@@ -233,8 +233,6 @@ namespace PagoElectronico.Utils
             {
                 string nombreSP = "SARASA.buscar_funciones";
 
-                MessageBox.Show("Usuario: "+user.Username+" Rol: " +user.RolId);
-
                 List<SqlParameter> listaParametros = Herramientas.GenerarListaDeParametros("@rolId", user.RolId, "@form", "Login");
 
                 conexion cn = new conexion();
@@ -255,7 +253,6 @@ namespace PagoElectronico.Utils
                 }
                 dReader.Close();
 
-                MessageBox.Show("Funciones disponibles: " + user.Funciones.Count);
             }
             catch (Exception ex)
             {

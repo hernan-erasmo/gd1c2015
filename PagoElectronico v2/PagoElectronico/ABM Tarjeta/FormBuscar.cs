@@ -54,7 +54,7 @@ namespace PagoElectronico.ABM_Tarjeta
             Herramientas.llenarComboBoxSP(cbxEmisor, "SARASA.cbx_emisor", null, false);
 
             txtCliente.Text = "";
-            clienteId = "0";
+            clienteId = "" + usuario.ClienteId;//"0";
 
             btnAsociar.Enabled = false;
             btnDesasociar.Enabled = false;
@@ -78,12 +78,6 @@ namespace PagoElectronico.ABM_Tarjeta
             else
                 btnModificar.Visible = false;
 
-
-            if (usuario.Funciones.Contains("AceptarTarjeta"))
-                btnAceptar.Visible = true;
-            else
-                btnAceptar.Visible = false;
-
             
             //  Si el usuario tiene rol de administrador
             if (usuario.Rol.Equals("Administrador"))
@@ -95,7 +89,6 @@ namespace PagoElectronico.ABM_Tarjeta
             {
                 btnBuscarClie.Visible = false;
                 txtCliente.Text = usuario.Username;
-
             }
 
             if (usuario.RolId == "1")
@@ -238,7 +231,7 @@ namespace PagoElectronico.ABM_Tarjeta
             lblEstadoBusqueda.Text = "";    //  Indica estado de la busqueda
 
             //  Si es administrador tambien limpia el campo de cliente
-            if (btnBuscarClie.Enabled == true) 
+            if (btnBuscarClie.Visible == true) 
             {
                 txtCliente.Text = "";
                 this.clienteId = "0";            
@@ -249,6 +242,9 @@ namespace PagoElectronico.ABM_Tarjeta
 
             btnDesasociar.Enabled = false;
             btnModificar.Enabled = false;
+
+            if (clienteId == "0")
+                btnAsociar.Enabled = false;
 
             //  Limpia las fechas de los filtros
             chkFechaEmision.Checked = false;
@@ -312,13 +308,6 @@ namespace PagoElectronico.ABM_Tarjeta
             FormAsociar formAsociar = new FormAsociar(this,clienteId,txtCliente.Text);
             formAsociar.Show();
             this.Hide();
-        }
-
-        //  Aceptar:
-        //  Se usa para buscar tarjetas desde otros formularios
-        private void btnAceptar_Click(object sender, EventArgs e)
-        {
-
         }
 
 
