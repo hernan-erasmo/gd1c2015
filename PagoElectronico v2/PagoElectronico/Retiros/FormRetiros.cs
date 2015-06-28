@@ -16,6 +16,7 @@ namespace PagoElectronico.Retiros
         Utils.Usuario usuario;
         Form formPadre;
         string clienteId;
+        string clienteDocumento;
 
         public FormRetiros(Form f, Utils.Usuario user)
         {
@@ -23,6 +24,7 @@ namespace PagoElectronico.Retiros
             formPadre = f;
             usuario = user;
             this.clienteId = "" + user.ClienteId;
+            this.clienteDocumento = "" + user.Documento;
         }
 
 
@@ -60,6 +62,7 @@ namespace PagoElectronico.Retiros
 
         private void btnRetirar_Click(object sender, EventArgs e)
         {
+
             bool clienteOK = false, documentoOK = false,
                 cuentaOK = false, monedaOK = false,
                 importeOK = false, bancoOK = false;
@@ -87,7 +90,7 @@ namespace PagoElectronico.Retiros
                 importeOK = false;
             }
 
-            if (usuario.Documento.Equals(txtDocumento.Text))
+            if (clienteDocumento.Equals(txtDocumento.Text))
             {
                 lblDocumento.ForeColor = Color.Black;
                 documentoOK = true;
@@ -174,10 +177,11 @@ namespace PagoElectronico.Retiros
             this.Hide();
         }
 
-        public void setClienteEncontrado(string clienteId, string nombre, string apellido)
+        public void setClienteEncontrado(string clienteId, string nombre, string apellido, string documento)
         {
             txtCliente.Text = apellido + ", " + nombre + " (" + clienteId + ")";
             this.clienteId = clienteId;
+            this.clienteDocumento = documento;
 
             cbxCuenta.DataSource = null;
 
