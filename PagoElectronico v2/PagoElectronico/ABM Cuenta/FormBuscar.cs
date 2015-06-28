@@ -177,11 +177,21 @@ namespace PagoElectronico.ABM_Cuenta
                 fechaAperturaHasta = dtpFechaAperturaHasta.Value.ToShortDateString();
             }
 
+            string queryConsulta;
 
-            //  ARMA LA QUERY A EJECUTAR BASADO EN LOS FILTROS
-            string queryConsulta = Utils.Filtros.filtroBuscarCuenta(
+            if (this.tipoFormPadre.Equals("Transferencias.FormTransferencias"))  //  Busca una cuenta destino
+            {
+                queryConsulta = Filtros.filtroBuscarCuenta(
+                        cliente, numero, tipoCuentaId, monedaId, paisId,
+                        fechaAperturaDesde, fechaAperturaHasta, true);
+            }
+            else 
+            {
+                queryConsulta = Filtros.filtroBuscarCuenta(
                 cliente, numero, tipoCuentaId, monedaId, paisId,
-                fechaAperturaDesde, fechaAperturaHasta);
+                fechaAperturaDesde, fechaAperturaHasta,false);            
+            }
+            
 
             Herramientas.msebox_informacion(queryConsulta);
 

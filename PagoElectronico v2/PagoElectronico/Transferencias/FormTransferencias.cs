@@ -50,7 +50,7 @@ namespace PagoElectronico.Transferencias
                         true);
                 Herramientas.llenarComboBoxSP(cbxCuentaDestino,
                         "SARASA.cbx_cuenta",
-                        Herramientas.GenerarListaDeParametros("@Cliente_Id", usuario.ClienteId, "@Estado_Desc", "Habilitada"),
+                        Herramientas.GenerarListaDeParametros("@Cliente_Id", usuario.ClienteId, "@Estado_Desc", "cbxTransferenciaDestino"),
                         true);
             }
 

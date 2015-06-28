@@ -191,7 +191,7 @@ namespace PagoElectronico.ABM_Tarjeta
             string msj = "Seguro que quiere DESASOCIAR la TARJETA " +
                  dataGridView1.SelectedCells[4].Value.ToString() + 
                  " (" + dataGridView1.SelectedCells[5].Value.ToString() + ")\n" +
-                 "del Cliente: " + txtCliente.Text + "?\n" +
+                 "del Cliente: " + txtCliente.Text + "?\n\n" +
                  "SE REALIZA UNA BAJA LOGICA";
 
             var result = MessageBox.Show(msj, "Desasociar tarjeta",

@@ -68,7 +68,7 @@ namespace PagoElectronico.Utils
 
         //  Genera la query de consulta del formulario buscar tarjeta
         public static string filtroBuscarCuenta(string clienteId, string numero, string tipoCuentaId,
-            string monedaId, string paisId, string fechaAperturaDesde, string fechaAperturaHasta)
+            string monedaId, string paisId, string fechaAperturaDesde, string fechaAperturaHasta, bool ctasTransferencias)
         {
             string q = "SELECT Cuenta_Cliente_Id 'Cliente Id',Cuenta_Numero 'Numero Cuenta',"
             + "Cuenta_Tipocta_Id 'TipoCta Id',Tipocta_Descripcion 'Tipo Cta',Cuenta_Estado_Id 'Estado Id',Estado_Descripcion 'Estado',"
@@ -98,7 +98,10 @@ namespace PagoElectronico.Utils
             if (fechaAperturaDesde != "" && fechaAperturaHasta != "")
                 q += " AND (Cuenta_Fecha_Creacion between '" + fechaAperturaDesde + "' AND '" + fechaAperturaHasta + "')";
 
-            
+            if (ctasTransferencias) // Filtro para los tipos de cuentas destino
+                q += " AND Estado_Descripcion IN ('Habilitada','Inhabilitada')";
+
+
             return q;
         }
 

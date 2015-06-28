@@ -2540,7 +2540,27 @@ CREATE PROCEDURE [SARASA].[cbx_cuenta](
 		@Estado_Desc nvarchar(255))
 AS
 
-IF(@Cliente_Id =0 AND @Estado_Desc='')
+
+IF(@Cliente_Id =0 AND @Estado_Desc='cbxTransferenciaDestino')
+BEGIN
+
+	SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'
+	FROM SARASA.Cuenta, SARASA.Tipocta, SARASA.Estado
+	WHERE Cuenta_Tipocta_Id = Tipocta_Id 
+		AND Cuenta_Estado_Id = Estado_Id
+		AND Estado_Descripcion IN ('Habilitada','Inhabilitada')
+END
+ELSE IF(@Cliente_Id != 0 AND @Estado_Desc='cbxTransferenciaDestino')
+BEGIN
+
+	SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'
+	FROM SARASA.Cuenta, SARASA.Tipocta, SARASA.Estado
+	WHERE Cuenta_Tipocta_Id = Tipocta_Id AND Cuenta_Estado_Id = Estado_Id
+		AND Estado_Descripcion IN ('Habilitada','Inhabilitada')
+		AND Cuenta_Cliente_Id = @Cliente_Id
+
+END
+ELSE IF(@Cliente_Id =0 AND @Estado_Desc='')
 BEGIN
 
 	SELECT Cuenta_Numero 'Valor', CAST(Cuenta_Numero AS VARCHAR(18)) + ' (' + Tipocta_Descripcion + ')' 'Etiqueta'
