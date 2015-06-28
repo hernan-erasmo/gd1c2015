@@ -864,7 +864,7 @@ BEGIN TRY
 
 			IF @estado_cliente = '0'
 			BEGIN
-				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1,@cuenta_numero_string)
+				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1)
 			END
 
 			--Verificamos que la cuenta esté habilitada. Si no, salimos con RAISERROR
@@ -1003,7 +1003,7 @@ BEGIN TRY
 
 			IF @estado_cliente = '0'
 			BEGIN
-				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1,@cuenta_numero_string)
+				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1)
 			END
 			
 			
@@ -1413,6 +1413,7 @@ END CATCH
 GO
 
 CREATE PROCEDURE SARASA.realizar_transferencia (
+	@cliente_id		integer,
 	@cuenta_origen numeric(18,0),
 	@cuenta_destino numeric(18,0),
 	@importe numeric(18,2)
@@ -1430,6 +1431,18 @@ BEGIN TRY
 
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
+			DECLARE @estado_cliente integer
+			
+			--Verificamos que cliente este habilitado. Si no, salimos con RAISERROR
+			SELECT @estado_cliente = cli.Cliente_Habilitado
+			FROM SARASA.Cliente cli
+			WHERE cli.Cliente_Id = @cliente_id
+
+			IF @estado_cliente = '0'
+			BEGIN
+				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1)
+			END
+			
 			DECLARE @cuenta_origen_string nvarchar(40) --solo para errores
 			DECLARE @cuenta_destino_string nvarchar(40) --solo para errores
 			

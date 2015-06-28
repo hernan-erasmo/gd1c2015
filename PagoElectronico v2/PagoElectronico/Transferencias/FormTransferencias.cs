@@ -116,6 +116,7 @@ namespace PagoElectronico.Transferencias
             if (clienteOK && ctaOrigenOK && ctaDestinoOK && importeOK)
             {
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                        "@cliente_id", this.clienteId,
                         "@cuenta_origen", ((KeyValuePair<string, string>)cbxCuenta.SelectedItem).Key,
                         "@cuenta_destino", numeroCuenta,
                         "@importe", txtImporte.Text);
