@@ -1932,7 +1932,8 @@ END CATCH
 GO
 
 
--- Procedimiento para facturar los items de una factura
+-- Procedimiento para facturar los items de una factura,
+-- y si si se factura un item de costo de apertura de cuenta, se activa dicha cuenta
 CREATE PROCEDURE SARASA.facturar_items (
 	@factura_id numeric(18,0), @cliente_id integer
 )
@@ -1949,6 +1950,16 @@ BEGIN TRY
 
 	IF @starttrancount = 0
 		BEGIN TRANSACTION
+
+		UPDATE GD1C2015.SARASA.Cuenta
+		SET Cuenta_Estado_Id=4
+		WHERE Cuenta_Numero IN (SELECT cu.Cuenta_Numero
+								FROM SARASA.Cuenta cu, SARASA.Itemfact i
+								WHERE cu.Cuenta_Cliente_Id=@cliente_id AND
+								i.Itemfact_Cuenta_Numero = cu.Cuenta_Numero AND
+								i.Itemfact_Pagado = '0' AND
+								cu.Cuenta_Estado_Id = '1'
+								)
 
 		UPDATE GD1C2015.SARASA.Itemfact
 		SET Itemfact_Factura_Numero=@factura_id,  Itemfact_Pagado='1'
@@ -1968,41 +1979,6 @@ BEGIN CATCH
 	RAISERROR('Error en la transacción: %s',16,1, @error_message)
 END CATCH
 GO
-
--- Procedimiento para cobrar de la cuenta de origen los items
-CREATE PROCEDURE SARASA.cobrar_item (
-	@cuenta_id		numeric(18,0),
-	@importe		numeric(18,0)
-)
-AS
-
-SET XACT_ABORT ON	-- Si alguna instruccion genera un error en runtime, revierte la transacción.
-SET NOCOUNT ON		-- No actualiza el número de filas afectadas. Mejora performance y reduce carga de red.
-
-DECLARE @starttrancount int
-DECLARE @error_message nvarchar(4000)
-
-BEGIN TRY
-	SELECT @starttrancount = @@TRANCOUNT	--@@TRANCOUNT lleva la cuenta de las transacciones abiertas.
-
-	IF @starttrancount = 0
-		BEGIN TRANSACTION
-
-		UPDATE GD1C2015.SARASA.Cuenta
-		SET Cuenta_Saldo=Cuenta_Saldo-@importe
-		WHERE Cuenta_Numero=@cuenta_id
-
-	IF @starttrancount = 0
-		COMMIT TRANSACTION
-END TRY
-BEGIN CATCH
-	IF XACT_STATE() <> 0 AND @starttrancount = 0	--XACT_STATE() es cero sólo cuando no hay ninguna transacción activa para este usuario.
-		ROLLBACK TRANSACTION
-	SELECT @error_message = ERROR_MESSAGE()
-	RAISERROR('Error en la transacción: %s',16,1, @error_message)
-END CATCH
-GO
-
 
 -- Procedimiento para asociar una tarjeta al cliente logueado
 CREATE PROCEDURE SARASA.Asociar_Tarjeta (

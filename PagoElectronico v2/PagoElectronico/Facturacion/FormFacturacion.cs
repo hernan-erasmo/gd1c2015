@@ -16,13 +16,24 @@ namespace PagoElectronico.Facturacion
 
         Form formPadre;
         Utils.Usuario usuario;
-        
 
         public FormFacturacion(Form f, Utils.Usuario user)
         {
             InitializeComponent();
             formPadre = f;
             usuario = user;
+            if(this.usuario.RolId=="2")
+            {
+                this.linkCliente.Visible = false;
+                this.textBox1.Text = usuario.Apellido + ", " + usuario.Nombre;
+                this.textBox1.Enabled = false;
+            }
+            if (this.usuario.RolId == "1")
+            {
+                this.linkCliente.Visible = true;
+                this.textBox1.Text = "Seleccionar un cliente";
+                this.textBox1.Enabled = false;
+            }
         }
 
         private void FormFacturacion_Load(object sender, EventArgs e)
@@ -38,14 +49,13 @@ namespace PagoElectronico.Facturacion
         
         private void buttonGenerar_Click(object sender, EventArgs e)
         {
+            if (this.textBox1.Text != "Seleccionar un cliente")
+            {
             //me fijo si hay elementos por facturar
             string comp;
             comp = Utils.Herramientas.comprobarItemsImpagos(this.usuario);
             if (Int32.Parse(comp) == 1)
             {
-                Decimal result = Utils.Herramientas.ejecutarPuedeFacturar(this.usuario);
-                if (result == 1) //valido que las cuentas puedan pagar los items antes de facturarlos
-                {
                     //genero la nueva factura
                     string factura_id;
 
@@ -74,16 +84,11 @@ namespace PagoElectronico.Facturacion
 
                     this.Hide();
                     frmGenerarFactura.Show();
-                }
-                else
-                {
-                    Utils.Herramientas.msebox_informacion("Una de las cuentas no posee saldo suficiente para facturar los items");
-                }
-
             }
             else
             {
                 Utils.Herramientas.msebox_informacion("No hay items para facturar");
+            }
             }
         }
 
@@ -94,5 +99,20 @@ namespace PagoElectronico.Facturacion
             frmFacturasPagas.Show();
         }
 
+        public void setClienteEncontrado(string clienteId, string nombre, string apellido)
+        {
+            usuario.ClienteId = Convert.ToInt32(clienteId);
+            usuario.Nombre = nombre;
+            usuario.Apellido = apellido;
+            this.textBox1.Text = usuario.Apellido + ", " + usuario.Nombre;
+        }
+
+        private void linkCliente_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ABM_Cliente.FormBuscar frmBuscarCliente = new ABM_Cliente.FormBuscar(this, usuario,
+                                    "BuscarCliente", "Facturacion.FormFacturacion");
+            frmBuscarCliente.Show();
+            this.Hide();
+        }
     }
 }
