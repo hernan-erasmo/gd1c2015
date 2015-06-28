@@ -855,6 +855,18 @@ BEGIN TRY
 			DECLARE @tarjeta_vencida nvarchar(2)
 			DECLARE @fecha_hoy datetime
 			DECLARE @fecha_venc_tarjeta datetime
+			DECLARE @estado_cliente integer
+			
+			--Verificamos que cliente este habilitado. Si no, salimos con RAISERROR
+			SELECT @estado_cliente = cli.Cliente_Habilitado
+			FROM SARASA.Cliente cli
+			WHERE cli.Cliente_Id = @cliente_id
+
+			IF @estado_cliente = '0'
+			BEGIN
+				SET @cuenta_numero_string = CAST(@deposito_cuenta_num AS nvarchar(40))
+				RAISERROR('El cliente no está habilitado. No se puede procesar el depósito.',16,1,@cuenta_numero_string)
+			END
 
 			--Verificamos que la cuenta esté habilitada. Si no, salimos con RAISERROR
 			SELECT @estado_habilitada = est.Estado_Id FROM SARASA.Estado est WHERE est.Estado_Descripcion = 'Habilitada';
