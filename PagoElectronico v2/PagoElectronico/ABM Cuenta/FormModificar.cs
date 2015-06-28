@@ -42,15 +42,25 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
+            string msj = "Seguro que quiere MODIFICAR la información de la CUENTA " + txtNumero.Text + "\n" +
+                "del Cliente: " + txtCliente.Text + "?";
+
+            var result = MessageBox.Show(msj, "Modificar cuenta",
+            MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
+
+            if (result == DialogResult.OK)
+            {
                 List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                    "@cliente_id",cuenta.IdCliente,
-                    "@cuenta_numero",cuenta.Numero,
+                    "@cliente_id", cuenta.IdCliente,
+                    "@cuenta_numero", cuenta.Numero,
                     "@tipo_cuenta_deseado", ((KeyValuePair<string, string>)cbxTipoCta.SelectedItem).Key,
                     "@estado_deseado", ((KeyValuePair<string, string>)cbxEstado.SelectedItem).Key);
 
                 Herramientas.EjecutarStoredProcedure("SARASA.modificar_cuenta", lista);
 
-                Utils.Herramientas.msebox_informacion("Cuenta modificada con éxito");
+                this.Dispose();
+                this.formPadre.Show();
+            }
         }
     }
 }

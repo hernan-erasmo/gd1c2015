@@ -232,7 +232,10 @@ namespace PagoElectronico.ABM_Cuenta
         private void btnBaja_Click(object sender, EventArgs e)
         {
 
-            string msj = "Seguro que quiere CERRAR la CUENTA \"" + dataGridView1.SelectedCells[1].Value.ToString() + "\"?\n";
+            string msj = "Seguro que quiere CERRAR la CUENTA \"" + dataGridView1.SelectedCells[1].Value.ToString() + "\"\n" +
+                "del Cliente: " + dataGridView1.SelectedCells[17].Value.ToString() + ", "
+                + dataGridView1.SelectedCells[16].Value.ToString() + 
+                " (" + dataGridView1.SelectedCells[0].Value.ToString() + ") ?\n\n";
             msj += "UNA CUENTA CERRADA NO PUEDE VOLVER A ACTIVARSE";
 
             var result = MessageBox.Show(msj, "Cerrar cuenta",
@@ -319,21 +322,22 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void btnRenovar_Click(object sender, EventArgs e)
         {
+            string msj = "Seguro que quiere RENOVAR la CUENTA \"" + dataGridView1.SelectedCells[1].Value.ToString() + "\"\n" +
+                "del Cliente: " + dataGridView1.SelectedCells[17].Value.ToString() + ", "
+                + dataGridView1.SelectedCells[16].Value.ToString() +
+                " (" + dataGridView1.SelectedCells[0].Value.ToString() + ") ?\n\n";
+            msj += "LA RENOVACIÓN PUEDE GENERAR UN GASTO";
 
-            try
+            var result = MessageBox.Show(msj, "Renovar cuenta",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
+
+            if (result == DialogResult.OK) 
             {
-
                 List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
                                  "@cuenta_numero", dataGridView1.SelectedCells[1].Value.ToString());
 
                 Herramientas.EjecutarStoredProcedure("SARASA.renovar_suscripcion", lista);
-                Herramientas.msebox_informacion("EXEC SARASA.renovar_suscripcion @cuenta_numero=" + dataGridView1.SelectedCells[0].Value.ToString());
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.ToString());
-            }
-
         }
 
         private void btnBuscarClie_Click(object sender, EventArgs e)

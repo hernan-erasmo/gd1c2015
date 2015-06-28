@@ -30,6 +30,7 @@ namespace PagoElectronico.ABM_Cuenta
         {
             pasoCrear = 1;
             txtCliente.Text = clienteDesc;
+            dtpFechaApertura.Value = DateTime.Now;
             Herramientas.llenarComboBoxSP(cbxPais,"SARASA.cbx_pais",null,true);
             Herramientas.llenarComboBoxSP(cbxTipoCta, "SARASA.cbx_tipocta",null,true);
             Herramientas.llenarComboBoxSP(cbxMoneda, "SARASA.cbx_moneda",null,true);
@@ -77,6 +78,7 @@ namespace PagoElectronico.ABM_Cuenta
                 btnCrear.Text = "Crear";
                 txtNumero.Text = "";
                 pasoCrear = 1;
+                dtpFechaApertura.Value = DateTime.Now;
             }
 
         }
