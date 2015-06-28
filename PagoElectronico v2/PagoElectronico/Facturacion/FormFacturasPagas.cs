@@ -35,10 +35,18 @@ namespace PagoElectronico.Facturacion
 
         private void buttonDetalles_Click(object sender, EventArgs e)
         {
+
+            try
+            {
             int id = Convert.ToInt32(this.TablaDatos.CurrentRow.Cells[0].Value);
             Facturacion.FormVerFactura frmDetalles = new Facturacion.FormVerFactura(this, usuario, id);
             this.Hide();
             frmDetalles.Show();
+            }
+            catch
+            {
+                Utils.Herramientas.msebox_informacion("Debe seleccionar una factura");
+            }
         }
 
         private void TablaDatos_CellContentClick(object sender, DataGridViewCellEventArgs e)
