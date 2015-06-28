@@ -20,11 +20,12 @@ namespace PagoElectronico.Utils
                 + "[Cliente_Nombre] 'Nombre',"
                 + "[Cliente_Apellido] 'Apellido',"
                 + "[Tc_Num_Tarjeta] 'Numero',"
+                + "'XXXX XXXX XXXX ' + [Tc_Ultimos_Cuatro] 'TC',"
+                + "[Tc_Emisor_Desc] 'Emisor', "
                 + "[Tc_Fecha_Emision] 'Fecha Emision',"
                 + "[Tc_Fecha_Vencimiento] 'Fecha Vencimiento',"
                 + "[Tc_Codigo_Seg] 'Codigo',"
-                + "[Tc_Emisor_Desc] 'Emisor' ";
-//                + "[Tc_Ultimos_Cuatro] 'Ultimos Cuatro'";
+                + "[Tc_Ultimos_Cuatro] 'Ultimos Cuatro'";
             q += "FROM [SARASA].[Tc] LEFT JOIN [SARASA].[Cliente] ON ([Tc_Cliente_Id] = [Cliente_Id]) ";
             q += "WHERE [SARASA].[Tc].[Tc_Asociada]='1'";
 

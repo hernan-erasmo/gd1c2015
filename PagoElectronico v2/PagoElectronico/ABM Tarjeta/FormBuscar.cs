@@ -168,6 +168,7 @@ namespace PagoElectronico.ABM_Tarjeta
                 dataGridView1.Columns["Cliente Id"].Visible = false;
                 dataGridView1.Columns["Nombre"].Visible = false;
                 dataGridView1.Columns["Apellido"].Visible = false;
+                dataGridView1.Columns["TC"].Visible = false;
 
                 lblEstadoBusqueda.Text = "Se encontraron " + dataGridView1.RowCount + " filas";
 
@@ -184,35 +185,24 @@ namespace PagoElectronico.ABM_Tarjeta
             }
         }
 
-
         //  Desasociar (LO ELIMINA DE LA BASE)
         private void btnDesasociar_Click(object sender, EventArgs e)
         {
+            string msj = "Seguro que quiere DESASOCIAR la TARJETA " +
+                 dataGridView1.SelectedCells[4].Value.ToString() + 
+                 " (" + dataGridView1.SelectedCells[5].Value.ToString() + ")\n" +
+                 "del Cliente: " + txtCliente.Text + "?\n" +
+                 "SE REALIZA UNA BAJA LOGICA";
 
-            //  EJECUTA EL STORE PROCEDURE QUE GRABA LOS DATOS EN LA TABLA
-            string nombreSP = "SARASA.Desasociar_Tarjeta";
-            
+            var result = MessageBox.Show(msj, "Desasociar tarjeta",
+                MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);//, MessageBoxDefaultButton.Button2);
 
-            //Utils.Herramientas.msebox_informacion(idTarjeta);
-            if (this.dataGridView1.CurrentRow != null) //Valida que se haya seleccionado una fila del DataGridView
+            if (result == DialogResult.OK)
             {
-                string idTarjeta = this.dataGridView1.CurrentRow.Cells[3].Value.ToString();
-                try
-                {
-                    List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                       "@cliente_id", Convert.ToInt32(this.usuario.ClienteId), "@tc_num", idTarjeta);
-
-                    Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
-                    Utils.Herramientas.msebox_informacion("Tarjeta (ID:" + idTarjeta + ") desasociada");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.ToString());
-                }
-            }
-            else
-            {
-                Utils.Herramientas.msebox_informacion("Por favor, selecciona una fila de tarjeta");
+                List<SqlParameter> lista = Herramientas.GenerarListaDeParametros(
+                   "@cliente_id", dataGridView1.SelectedCells[0].Value.ToString(),
+                   "@tc_num", dataGridView1.SelectedCells[3].Value.ToString());
+                Herramientas.EjecutarStoredProcedure("SARASA.Desasociar_Tarjeta", lista);
             }
         }
 
@@ -278,10 +268,10 @@ namespace PagoElectronico.ABM_Tarjeta
             tarjeta.Apellido = dataGridView1.SelectedCells[2].Value.ToString();//Apellido
 
             tarjeta.Numero = dataGridView1.SelectedCells[3].Value.ToString();
-            tarjeta.FechaEmision = dataGridView1.SelectedCells[4].Value.ToString();
-            tarjeta.FechaVencimiento = dataGridView1.SelectedCells[5].Value.ToString();
-            tarjeta.CodigoSeguridad = dataGridView1.SelectedCells[6].Value.ToString();
-            tarjeta.Emisor = dataGridView1.SelectedCells[7].Value.ToString();
+            tarjeta.FechaEmision = dataGridView1.SelectedCells[6].Value.ToString();
+            tarjeta.FechaVencimiento = dataGridView1.SelectedCells[7].Value.ToString();
+            tarjeta.CodigoSeguridad = dataGridView1.SelectedCells[8].Value.ToString();
+            tarjeta.Emisor = dataGridView1.SelectedCells[5].Value.ToString();
 
 
             //  Con la tarjeta seleccionada
