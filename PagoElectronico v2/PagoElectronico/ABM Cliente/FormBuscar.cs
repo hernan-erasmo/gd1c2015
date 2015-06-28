@@ -241,6 +241,13 @@ namespace PagoElectronico.ABM_Cliente
                                                                         dataGridView1.SelectedCells[3].Value.ToString(),
                                                                         dataGridView1.SelectedCells[4].Value.ToString());
             }
+            else if (tipoFormPadre.Equals("Facturacion.FormFacturacion"))
+            {
+                ((Facturacion.FormFacturacion)formPadre).setClienteEncontrado(dataGridView1.SelectedCells[0].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[3].Value.ToString(),
+                                                                        dataGridView1.SelectedCells[4].Value.ToString());
+            }
+
 
             formPadre.Show();
             this.Dispose();

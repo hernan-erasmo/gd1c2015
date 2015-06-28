@@ -42,20 +42,6 @@ namespace PagoElectronico.Facturacion
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            //cobro los items de su respectiva cuenta
-            for (int i = 0; i < TablaDatos.Rows.Count-1; i++)
-            {
-                Decimal cuenta = Convert.ToDecimal(TablaDatos.Rows[i].Cells[1].Value);
-                Decimal importe = Convert.ToDecimal(TablaDatos.Rows[i].Cells[3].Value);
-
-                string nombreSP = "SARASA.cobrar_item";    //  Nombre del StoreProcedure
-                List<SqlParameter> lista = Utils.Herramientas.GenerarListaDeParametros(
-                "@cuenta_id", cuenta,
-                "@importe", importe);
-
-                Utils.Herramientas.EjecutarStoredProcedure(nombreSP, lista);
-
-            }
             this.Close();
             formPadre.Show();
         }
