@@ -87,7 +87,7 @@ namespace PagoElectronico.Listados
                 }
 
 
-                List<SqlParameter> parametros = Herramientas.GenerarListaDeParametros("@fecha_desde","","@fecha_hasta","");
+                List<SqlParameter> parametros = Herramientas.GenerarListaDeParametros("@fecha_desde",fechaDesde,"@fecha_hasta",fechaHasta);
 
                 switch (idConsulta)
                 {
